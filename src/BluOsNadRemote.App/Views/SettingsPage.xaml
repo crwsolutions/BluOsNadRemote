@@ -5,4 +5,23 @@
 			 x:Class="BluOsNadRemote.App.Views.SettingsPage"
 			 x:DataType="vm:SettingsViewModel">
 
+    <ContentPage.Content>
+        <Grid ColumnDefinitions="100, *" RowDefinitions="56, 56, 52, 52, 52, 52, *" Margin="12">
+            <Label Text="Host" VerticalTextAlignment="Center" />
+            <Entry Grid.Column="1" Text="{Binding Host}" VerticalTextAlignment="Center" />
+
+            <Label Text="End point" Grid.Row="1" VerticalTextAlignment="Center" />
+            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Endpoint, Mode=OneWay}" VerticalTextAlignment="Center" Margin="12,0,0,0" TextColor="Gray" />
+
+            <Button Grid.Column="1" Grid.Row="2" Text="Reset" Command="{Binding ResetCommand}" Margin="6" WidthRequest="300" />
+            <Button Grid.Column="1" Grid.Row="3" Text="Ping (BluOS => Get Status)" Command="{Binding BluOsPingCommand}" Margin="6" WidthRequest="300"/>
+            <Button Grid.Column="1" Grid.Row="4" Text="Ping (Advanced RS232 => telnet)" Command="{Binding TelnetPingCommand}" Margin="6" WidthRequest="300"/>
+            <Button Grid.Column="1" Grid.Row="5" Text="Discover" Command="{Binding DiscoverCommand}" Margin="6" WidthRequest="300"/>
+            <ActivityIndicator Grid.ColumnSpan="2" IsRunning="{Binding IsBusy}" Grid.Row="6" Color="{DynamicResource TextColor}" VerticalOptions="Center" />
+            <ScrollView Grid.Row="6" Grid.ColumnSpan="2" Margin="6">
+                <Label FontFamily="CrwMedia" VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+
 </ContentPage>

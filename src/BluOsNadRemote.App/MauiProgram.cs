@@ -1,4 +1,6 @@
-﻿namespace BluOsNadRemote.App;
+﻿using BluOsNadRemote.App.Services;
+
+namespace BluOsNadRemote.App;
 
 public static class MauiProgram
 {
@@ -33,7 +35,9 @@ public static class MauiProgram
 		builder.Services.AddSingleton<SettingsViewModel>();
 
 		builder.Services.AddSingleton<SettingsPage>();
+		
+		builder.Services.AddSingleton<BluPlayerService>();
 
-		return builder.Build();
+        return builder.Build();
 	}
 }

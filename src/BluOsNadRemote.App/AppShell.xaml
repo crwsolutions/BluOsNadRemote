@@ -21,7 +21,7 @@
 			ContentTemplate="{DataTemplate views:BrowsePage}" />
 		<ShellContent
 			Title="Advanced"
-			Icon="iconblank.png"
+			Icon="iconnad.png"
 			ContentTemplate="{DataTemplate views:AdvancedPage}" />
 		<ShellContent
 			Title="Settings"

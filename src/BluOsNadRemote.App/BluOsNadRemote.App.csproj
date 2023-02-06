@@ -46,6 +46,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\CrwMedia.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Blu4Net" Version="1.0.6" />
 	  <PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
 	  <PackageReference Include="CommunityToolkit.MVVM" Version="8.1.0" />
@@ -54,6 +58,12 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\BluOsNadRemote.Nad4Net\BluOsNadRemote.Nad4Net.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="ContentViews\RemoteStepper.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<PropertyGroup Label="MauiAppAccelerator">

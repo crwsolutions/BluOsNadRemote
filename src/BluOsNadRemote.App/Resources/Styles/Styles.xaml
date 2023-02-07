@@ -352,7 +352,7 @@
 
 	<Style TargetType="Page" ApplyToDerivedTypes="True">
 		<Setter Property="Padding" Value="0"/>
-		<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}" />
 	</Style>
 
 	<Style TargetType="Shell" ApplyToDerivedTypes="True">
@@ -401,10 +401,10 @@
         <Setter Property="FontFamily" Value="CrwMedia"/>
         <Setter Property="BackgroundColor" Value="{StaticResource Black}" />
         <Setter Property="BorderColor" Value="#FF202020" />
+        <Setter Property="FontSize" Value="22"/>
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="Padding" Value="0,18,0,17" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="HorizontalOptions" Value="Center" />
     </Style>
-
 </ResourceDictionary>

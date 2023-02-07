@@ -5,8 +5,7 @@
              xmlns:contentviews="clr-namespace:BluOsNadRemote.App.ContentViews"
 			 x:Class="BluOsNadRemote.App.Views.AdvancedPage"
 			 x:DataType="vm:AdvancedViewModel"
-             Title="{Binding Title}"
-             BackgroundColor="{StaticResource Gray900}">
+             Title="{Binding Title}">
     
     <RefreshView Command="{Binding LoadDataCommand}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}" 

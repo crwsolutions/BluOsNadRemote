@@ -45,38 +45,38 @@ namespace Nad4Net
         private async Task WriteCommand(string command, string value)
         {
             await CheckConnection();
-            await _client.WriteLine($"{command}={value}");
+            await _client.WriteLineAsync($"{command}={value}");
         }
 
         private async Task WritePlusCommand(string speaker)
         {
             await CheckConnection();
-            await _client.WriteLine($"Main.Trim.{speaker}+");
+            await _client.WriteLineAsync($"Main.Trim.{speaker}+");
         }
 
         public async Task<CommandList> GetCommandListAsync()
         {
             await CheckConnection();
-            await _client.WriteLine("Main.Model?");
-            await _client.WriteLine("Main.Source?");
-            await _client.WriteLine("Main.Audio.CODEC?");
-            await _client.WriteLine("Main.Audio.Channels?");
-            await _client.WriteLine("Main.Audio.Rate?");
-            await _client.WriteLine("Main.Video.ARC?");
-            await _client.WriteLine("Main.ListeningMode?");
-            await _client.WriteLine("Dirac1.State?");
-            await _client.WriteLine("Dirac1.Name?");
-            await _client.WriteLine("Dirac2.State?");
-            await _client.WriteLine("Dirac2.Name?");
-            await _client.WriteLine("Dirac3.State?");
-            await _client.WriteLine("Dirac3.Name?");
-            await _client.WriteLine("Main.Dirac?");
-            await _client.WriteLine("Main.Trim.Sub?");
-            await _client.WriteLine("Main.Trim.Surround?");
-            await _client.WriteLine("Main.Trim.Center?");
-            await _client.WriteLine("Main.Dimmer?");
-            await _client.WriteLine("Main.Power?");
-            await _client.WriteLine("Main.Dolby.DRC ?");
+            await _client.WriteLineAsync("Main.Model?");
+            await _client.WriteLineAsync("Main.Source?");
+            await _client.WriteLineAsync("Main.Audio.CODEC?");
+            await _client.WriteLineAsync("Main.Audio.Channels?");
+            await _client.WriteLineAsync("Main.Audio.Rate?");
+            await _client.WriteLineAsync("Main.Video.ARC?");
+            await _client.WriteLineAsync("Main.ListeningMode?");
+            await _client.WriteLineAsync("Dirac1.State?");
+            await _client.WriteLineAsync("Dirac1.Name?");
+            await _client.WriteLineAsync("Dirac2.State?");
+            await _client.WriteLineAsync("Dirac2.Name?");
+            await _client.WriteLineAsync("Dirac3.State?");
+            await _client.WriteLineAsync("Dirac3.Name?");
+            await _client.WriteLineAsync("Main.Dirac?");
+            await _client.WriteLineAsync("Main.Trim.Sub?");
+            await _client.WriteLineAsync("Main.Trim.Surround?");
+            await _client.WriteLineAsync("Main.Trim.Center?");
+            await _client.WriteLineAsync("Main.Dimmer?");
+            await _client.WriteLineAsync("Main.Power?");
+            await _client.WriteLineAsync("Main.Dolby.DRC ?");
             Parse(await _client.ReadAsync());
             return _model;
         }
@@ -84,7 +84,7 @@ namespace Nad4Net
         private async Task WriteMinusCommand(string speaker)
         {
             await CheckConnection();
-            await _client.WriteLine($"Main.Trim.{speaker}-");
+            await _client.WriteLineAsync($"Main.Trim.{speaker}-");
         }
 
         public async Task DoSurroundPlus() => await WritePlusCommand("Surround");
@@ -134,9 +134,8 @@ namespace Nad4Net
 
             Dispose();
             _tokenSource = new CancellationTokenSource();
-            var token = _tokenSource.Token;
-            _client = new Client(_host, Port, token);
-            await _client.ReadAsync();
+            _client = new Client(_host, Port, _tokenSource.Token);
+            Parse(await _client.ReadAsync());
         }
         private IObservable<CommandList> SetupChangeDetectionLoop()
         {
@@ -176,7 +175,7 @@ namespace Nad4Net
         public async Task ForceSourceNameUpdateAsync(string value)
         {
             await CheckConnection();
-            await _client.WriteLine($"Source{value}.Name?");
+            await _client.WriteLineAsync($"Source{value}.Name?");
         }
 
         private async Task CheckConnection()

@@ -102,9 +102,6 @@ public partial class AdvancedViewModel : BaseRefreshViewModel
     public string[] ListeningModes => new[] { "None", "NeuralX", "EnhancedStereo", "DolbySurround", "EARS" };
 
     [ObservableProperty]
-    private string _title;
-
-    [ObservableProperty]
     private string _mainSource;
     partial void OnMainSourceChanging(string value)
     {

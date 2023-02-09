@@ -2,9 +2,16 @@
 
 public partial class PresetsPage : ContentPage
 {
-	public PresetsPage(PresetsViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    [Dependency(nameof(BindingContext))]
+    private PresetsViewModel ViewModel => BindingContext as PresetsViewModel;
+
+    partial void PreConstruct() => InitializeComponent();
+
+    protected override void OnAppearing()
+    {
+        if (ViewModel?.IsBusy == false)
+        {
+            ViewModel.IsBusy = true;
+        }
+    }
 }

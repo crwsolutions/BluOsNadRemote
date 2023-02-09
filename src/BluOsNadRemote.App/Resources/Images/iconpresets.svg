@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="48"
+   height="48"
+   viewBox="0 0 48 48"
+   version="1.1"
+   id="svg2405"
+   sodipodi:docname="iconpresets.svg"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2409" />
+  <sodipodi:namedview
+     id="namedview2407"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="21.457627"
+     inkscape:cy="37.322034"
+     inkscape:window-width="3440"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2405" />
+  <path
+     sodipodi:type="star"
+     style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:4.54623;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:5.3;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke;stop-color:#000000"
+     id="path2524"
+     inkscape:flatsided="false"
+     sodipodi:sides="5"
+     sodipodi:cx="8.8983049"
+     sodipodi:cy="10.016949"
+     sodipodi:r1="20.782433"
+     sodipodi:r2="8.8092356"
+     sodipodi:arg1="0.68314732"
+     sodipodi:arg2="1.3287522"
+     inkscape:rounded="0"
+     inkscape:randomized="0"
+     d="M 25.016949,23.135593 11.00977,18.569396 1.4026679,29.400574 1.4169233,14.667923 -11.852897,8.8780439 2.1630917,4.3389619 3.5689936,-10.070558 12.217096,1.8567858 26.355812,-1.2589087 17.684644,10.651677 Z"
+     inkscape:transform-center-x="-0.061075068"
+     inkscape:transform-center-y="-1.7622769"
+     transform="matrix(0.83836605,0.227602,-0.23226158,0.86032958,18.796446,15.653366)" />
+</svg>

@@ -2,7 +2,36 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
+             xmlns:model="clr-namespace:BluOsNadRemote.App.Models"
+             xmlns:local="clr-namespace:BluOsNadRemote.App.ViewModels"
 			 x:Class="BluOsNadRemote.App.Views.PresetsPage"
-			 x:DataType="vm:PresetsViewModel">
+			 x:DataType="vm:PresetsViewModel"
+             Title="{Binding Title}">
 
+    <RefreshView Command="{Binding LoadDataCommand}"
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <ScrollView>
+            <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Presets, Mode=OneWay}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="12,8,8,2" ColumnDefinitions="Auto,*,Auto" x:DataType="model:Favorite">
+                            <Grid WidthRequest="75" HeightRequest="75">
+                                <Image Source="{Binding ImageUri, Mode=OneTime}" />
+                            </Grid>
+                            <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" VerticalTextAlignment="Center" Padding="12,0,0,0" FontSize="Large" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:PresetsViewModel}}, Path=PresetTappedCommand}"		
+                                CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>

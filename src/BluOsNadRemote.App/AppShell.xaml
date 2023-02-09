@@ -9,11 +9,12 @@
 	<TabBar>
 		<ShellContent
 			Title="Player"
+            Route="PlayerPage"
 			Icon="iconblank.png"
 			ContentTemplate="{DataTemplate views:PlayerPage}" />
 		<ShellContent
 			Title="Presets"
-			Icon="iconblank.png"
+			Icon="iconpresets.png"
 			ContentTemplate="{DataTemplate views:PresetsPage}" />
 		<ShellContent
 			Title="Browse"

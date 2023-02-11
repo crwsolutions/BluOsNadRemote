@@ -10,7 +10,7 @@
 		<ShellContent
 			Title="Player"
             Route="PlayerPage"
-			Icon="iconblank.png"
+			Icon="iconplayer.png"
 			ContentTemplate="{DataTemplate views:PlayerPage}" />
 		<ShellContent
 			Title="Presets"
@@ -18,7 +18,7 @@
 			ContentTemplate="{DataTemplate views:PresetsPage}" />
 		<ShellContent
 			Title="Browse"
-			Icon="iconblank.png"
+			Icon="iconbrowse.png"
 			ContentTemplate="{DataTemplate views:BrowsePage}" />
 		<ShellContent
 			Title="Advanced"

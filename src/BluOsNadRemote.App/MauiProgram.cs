@@ -18,27 +18,20 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<PlayerViewModel>();
-
 		builder.Services.AddSingleton<PlayerPage>();
-
 		builder.Services.AddSingleton<PresetsViewModel>();
-
 		builder.Services.AddSingleton<PresetsPage>();
-
 		builder.Services.AddSingleton<BrowseViewModel>();
-
 		builder.Services.AddSingleton<BrowsePage>();
-
 		builder.Services.AddSingleton<AdvancedViewModel>();
-
 		builder.Services.AddSingleton<AdvancedPage>();
-
 		builder.Services.AddSingleton<SettingsViewModel>();
-
 		builder.Services.AddSingleton<SettingsPage>();
-		
-		builder.Services.AddSingleton<BluPlayerService>();
 
+        builder.Services.AddTransient<QueueViewModel>();
+        builder.Services.AddTransient<QueuePage>();
+
+		builder.Services.AddSingleton<BluPlayerService>();
         return builder.Build();
 	}
 }

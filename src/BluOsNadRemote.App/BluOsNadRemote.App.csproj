@@ -32,7 +32,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#004C39" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#535454" BaseSize="256,256" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#004C39" BaseSize="225,225" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -51,7 +51,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Blu4Net" Version="1.0.6" />
-	  <PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
+	  <PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
 	  <PackageReference Include="CommunityToolkit.MVVM" Version="8.1.0" />
 	  <PackageReference Include="SourceDepend" Version="0.1.0" />
 	</ItemGroup>

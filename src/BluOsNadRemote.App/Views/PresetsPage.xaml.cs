@@ -1,17 +1,9 @@
 ﻿namespace BluOsNadRemote.App.Views;
 
-public partial class PresetsPage : ContentPage
+public partial class PresetsPage : BaseContentPage
 {
     [Dependency(nameof(BindingContext))]
     private PresetsViewModel ViewModel => BindingContext as PresetsViewModel;
 
     partial void PreConstruct() => InitializeComponent();
-
-    protected override void OnAppearing()
-    {
-        if (ViewModel?.IsBusy == false)
-        {
-            ViewModel.IsBusy = true;
-        }
-    }
 }

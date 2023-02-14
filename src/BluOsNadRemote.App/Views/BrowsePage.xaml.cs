@@ -1,10 +1,9 @@
 ﻿namespace BluOsNadRemote.App.Views;
 
-public partial class BrowsePage : ContentPage
+public partial class BrowsePage : BaseContentPage
 {
-	public BrowsePage(BrowseViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    [Dependency(nameof(BindingContext))]
+    private BrowseViewModel ViewModel => BindingContext as BrowseViewModel;
+
+    partial void PreConstruct() => InitializeComponent();
 }

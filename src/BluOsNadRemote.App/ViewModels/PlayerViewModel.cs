@@ -3,7 +3,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
-public partial class PlayerViewModel : BaseRefreshViewModel
+public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 {
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
@@ -56,7 +56,6 @@ public partial class PlayerViewModel : BaseRefreshViewModel
 
     [ObservableProperty]
     private string _state;
-
 
     private string _quality;
     public string Quality
@@ -142,7 +141,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel
 
             var bluPlayer = _bluPlayerService.BluPlayer;
 
-            Unsubscribe();
+            Dispose();
 
             // subscribe to volume changes
             _volumeChangesSubscriber = bluPlayer.VolumeChanges.Subscribe(volume =>
@@ -269,7 +268,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel
         await SetVolume(Volume + 2);
     }
 
-    public void Unsubscribe()
+    public void Dispose()
     {
         _mediaChangesSubscriber?.Dispose();
         _mediaChangesSubscriber = null;

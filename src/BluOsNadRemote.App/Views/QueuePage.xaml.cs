@@ -1,9 +1,9 @@
 namespace BluOsNadRemote.App.Views;
 
-public partial class QueuePage : ContentPage
+public partial class QueuePage : BaseContentPage
 {
-	public QueuePage()
-	{
-		InitializeComponent();
-	}
+    [Dependency(nameof(BindingContext))]
+    private QueueViewModel ViewModel => BindingContext as QueueViewModel;
+
+    partial void PreConstruct() => InitializeComponent();
 }

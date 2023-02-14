@@ -2,9 +2,8 @@
 
 public partial class SettingsPage : ContentPage
 {
-	public SettingsPage(SettingsViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    [Dependency(nameof(BindingContext))]
+    private SettingsViewModel ViewModel => BindingContext as SettingsViewModel;
+
+    partial void PreConstruct() => InitializeComponent();
 }

@@ -3,7 +3,7 @@ using Nad4Net;
 
 namespace BluOsNadRemote.App.ViewModels;
 
-public partial class AdvancedViewModel : BaseRefreshViewModel
+public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 {
     private NadRemote _nadRemote;
     private IDisposable _commandChangesSubscriber;
@@ -256,7 +256,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel
     [ObservableProperty]
     private string _mainDolbyDRC;
 
-    internal void Dispose()
+    public void Dispose()
     {
         try
         {
@@ -265,13 +265,8 @@ public partial class AdvancedViewModel : BaseRefreshViewModel
             _commandChangesSubscriber = null;
             _nadRemote?.Dispose();
             _nadRemote = null;
-            //_mainDimmer = null;
-            //_mainPower = null;
-            //_mainSource = null;
-            //_mainVideoARC = null;
-            _mainDirac = -1;
+            MainDirac = -1;
             IsBusy = false;
-            //_mainListeningMode = null;
             _isReceiving = false;
         }
         catch { };

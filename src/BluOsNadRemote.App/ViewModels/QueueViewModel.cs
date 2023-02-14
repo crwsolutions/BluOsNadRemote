@@ -3,7 +3,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels
 {
-    public partial class QueueViewModel : BaseRefreshViewModel
+    public partial class QueueViewModel : BaseRefreshViewModel, IDisposable
     {
         [Dependency]
         private readonly BluPlayerService _bluPlayerService;
@@ -133,7 +133,7 @@ namespace BluOsNadRemote.App.ViewModels
             }
         }
 
-        internal void Clear()
+        public void Dispose()
         {
             Songs.Clear();
             _iterator?.DisposeAsync();

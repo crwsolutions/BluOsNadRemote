@@ -1,6 +1,6 @@
 ﻿namespace BluOsNadRemote.App.Views;
 
-public partial class PlayerPage : ContentPage
+public partial class PlayerPage : BaseContentPage
 {
     [Dependency(nameof(BindingContext))]
     private PlayerViewModel ViewModel => BindingContext as PlayerViewModel;
@@ -12,11 +12,6 @@ public partial class PlayerPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (!ViewModel.IsBusy)
-        {
-            ViewModel.IsBusy = true;
-        }
 
         run = true;
         Device.StartTimer(new TimeSpan(0, 0, 1), () =>
@@ -32,17 +27,12 @@ public partial class PlayerPage : ContentPage
                 return false;
             }
         });
-
-        Debug.WriteLine("OnAppearing --> PlayerViewModel found");
     }
 
     protected override void OnDisappearing()
     {
         run = false;
-        ViewModel?.Unsubscribe();
-
         base.OnDisappearing();
-
     }
     protected override void OnSizeAllocated(double width, double height)
     {

@@ -7,7 +7,7 @@
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="round_view_list_black_48dp.png" Command="{Binding NavigateToQueueCommand}" />
+        <ToolbarItem IconImageSource="iconqueue.png" Command="{Binding NavigateToQueueCommand}" />
     </ContentPage.ToolbarItems>
 
     <RefreshView Command="{Binding LoadDataCommand}"

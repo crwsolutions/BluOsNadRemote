@@ -3,6 +3,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels
 {
+    [QueryProperty(nameof(CurrentSong), nameof(CurrentSong))]
     public partial class QueueViewModel : BaseRefreshViewModel, IDisposable
     {
         [Dependency]
@@ -11,10 +12,6 @@ namespace BluOsNadRemote.App.ViewModels
         private bool _isGettingMore = false;
         private const int _numberOfItemsPerPage = 25;
         private IAsyncEnumerator<IReadOnlyCollection<PlayQueueSong>> _iterator;
-  //      public QueueViewModel()
-  //      {
-//            Title = "Queue";
-  //      }
 
         [RelayCommand]
         private async Task LoadDataAsync()
@@ -25,7 +22,8 @@ namespace BluOsNadRemote.App.ViewModels
             {
 
                 //var x = await _bluPlayerService.BluPlayer.PlayQueue.GetInfo();
-                int.TryParse(CurrentSong, out int currentIndex);
+                //int.TryParse(CurrentSong, out int currentIndex);
+                int currentIndex = CurrentSong;
 
                 var pageIndex = (int)(currentIndex / (double)_numberOfItemsPerPage);
 
@@ -50,7 +48,7 @@ namespace BluOsNadRemote.App.ViewModels
                     {
                         Songs.Add(song);
 
-                        if (currentIndex == i && CurrentSong != null)
+                        if (currentIndex == i)
                         {
                             SelectedItem = song;
                         }
@@ -115,7 +113,7 @@ namespace BluOsNadRemote.App.ViewModels
         public ObservableCollection<PlayQueueSong> Songs { get; } = new ObservableCollection<PlayQueueSong>();
 
         [ObservableProperty]
-        private string _currentSong; // = navigation parameter
+        private int _currentSong; // = navigation parameter
 
         PlayQueueSong _selectedItem;
         public PlayQueueSong SelectedItem
@@ -131,6 +129,12 @@ namespace BluOsNadRemote.App.ViewModels
                     var x = t.Result;
                 }
             }
+        }
+
+        public async Task RemoveFromListAsync(int id)
+        {
+            await _bluPlayerService.BluPlayer.PlayQueue.Remove(id);
+            IsBusy = true;
         }
 
         public void Dispose()

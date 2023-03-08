@@ -3,11 +3,45 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BluOsNadRemote.App.Views.QueuePage"
-             Title="QueuePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:model="clr-namespace:Blu4Net;assembly=Blu4Net"
+             Title="{Binding Title}">
+    <RefreshView Command="{Binding LoadDataCommand}" IsEnabled="False"
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <ScrollView>
+            <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Songs}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedItem}"
+                RemainingItemsThreshold="5"
+                RemainingItemsThresholdReached="ItemsListView_RemainingItemsThresholdReached">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="12,8,8,2" RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" x:DataType="model:PlayQueueSong">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Transparent" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="DarkSlateGray" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Label Text="{Binding Title, Mode=OneTime}" Style="{StaticResource ListItemTextStyle}" />
+                            <Label Grid.Row="1" Text="{Binding Artist, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
+                            <ImageButton Grid.Column="1" Grid.RowSpan="2" Clicked="More_Clicked"  BackgroundColor="Transparent">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="CrwMedia" Glyph="h" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </RefreshView>
 </views:BaseContentPage>

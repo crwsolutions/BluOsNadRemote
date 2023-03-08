@@ -313,18 +313,8 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task NavigateToQueueAsync()
     {
-        //if (State == nameof(PlayerState.Streaming))
-        //{
-        //    await Shell.Current.GoToAsync(nameof(QueuePage));
-        //}
-        //else
-        //{
-        //    await Shell.Current.GoToAsync($"{nameof(QueuePage)}?{nameof(QueueViewModel.CurrentSong)}={_currentSong}");
-        //}
-
-        await Shell.Current.GoToAsync(nameof(QueuePage), true, new Dictionary<string, object>
-            {
-                { "CurrentSong", State == nameof(PlayerState.Streaming) ? null : _currentSong }
-            });
+        var song = State == nameof(PlayerState.Streaming) ? -1 : _currentSong;
+        
+        await Shell.Current.GoToAsync($"{nameof(QueuePage)}?{nameof(QueueViewModel.CurrentSong)}={song}");
     }
 }

@@ -18,12 +18,7 @@
                           ColumnDefinitions="2*,*"
                           RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto">
                         <Label Text="Power" TextColor="{DynamicResource Tertiary}"/>
-                        <Ellipse Fill="Green" Grid.Column="1"  IsVisible="{Binding MainPower}"
-                             Stroke="Black"
-         StrokeThickness="1"
-         WidthRequest="12"
-         HeightRequest="12"
-         HorizontalOptions="Start" VerticalOptions="Center" />
+                        <Ellipse Fill="Green" Grid.Column="1"  IsVisible="{Binding MainPower}" Stroke="Black" StrokeThickness="1" WidthRequest="12" HeightRequest="12" HorizontalOptions="Start" VerticalOptions="Center" />
                         <Label Grid.Row="1" Grid.Column="0" Text="Source" TextColor="{DynamicResource Tertiary}" />
                         <Label Grid.Row="1" Grid.Column="1" Text="{Binding MainSourceName}" TextColor="{DynamicResource Tertiary}"/>
                         <BoxView Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="Fill" VerticalOptions="Center" HeightRequest="1" Color="Gray"/>
@@ -38,7 +33,7 @@
                         <Label Grid.Row="7" Grid.Column="1" Text="{Binding MainVideoARC}" TextColor="{DynamicResource Tertiary}"/>
                     </Grid>
                 </Frame>
-                <Grid RowSpacing="6" Padding="18,0,18,0" HorizontalOptions="Fill" 
+                <Grid RowSpacing="5" Padding="16,0,16,0" HorizontalOptions="Fill" Margin="0,-6,0,0"
                       ColumnDefinitions="*,*,Auto"
                       RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
 

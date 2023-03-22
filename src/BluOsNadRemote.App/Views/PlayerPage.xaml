@@ -13,9 +13,9 @@
 
     <RefreshView Command="{Binding LoadDataCommand}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}" 
-                 IsClippedToBounds="True"
+                 
                  >
-        <ScrollView IsClippedToBounds="True">
+        <ScrollView>
             <Grid RowSpacing="2" ColumnSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -106,13 +106,13 @@
                 <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="8" VerticalOptions="Center" Margin="0,6,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="42"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Button Command="{Binding ToggleMuteCommand}" Text="{Binding MuteImage}" Style="{StaticResource CircleButton}"/>
-                    <Label Grid.Column="1" Text="{Binding Volume}" FontSize="14" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Column="1" Text="{Binding Volume}" FontSize="13" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
                     <Slider Grid.Column="2" Maximum="100" Value="{Binding Volume}" Margin="-12,0,0,0" ThumbColor="Black" />
                     <Button Grid.Column="3" Command="{Binding VolumeDownCommand}" Text="m" Style="{StaticResource CircleButton}"/>
                     <Button Grid.Column="4" Command="{Binding VolumeUpCommand}" Text="n" Style="{StaticResource CircleButton}"/>

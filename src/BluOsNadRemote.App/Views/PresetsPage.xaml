@@ -11,17 +11,16 @@
 
     <RefreshView Command="{Binding LoadDataCommand}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <ScrollView>
+        <ScrollView IsClippedToBounds="True">
             <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Presets, Mode=OneWay}"
-                SelectionMode="None">
+                SelectionMode="None"
+            >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="12,8,8,2" ColumnDefinitions="Auto,*,Auto" x:DataType="model:Favorite">
-                            <Grid WidthRequest="75" HeightRequest="75">
-                                <Image Source="{Binding ImageUri, Mode=OneTime}" />
-                            </Grid>
-                            <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" VerticalTextAlignment="Center" Padding="12,0,0,0" FontSize="Large" />
+                        <Grid Padding="12,8,8,2" ColumnDefinitions="Auto,*" x:DataType="model:Favorite">
+                            <Image Source="{Binding ImageUri, Mode=OneTime}" WidthRequest="75" HeightRequest="75" />
+                            <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" VerticalTextAlignment="Start" Padding="12,0,0,0" FontSize="Large"  />
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"

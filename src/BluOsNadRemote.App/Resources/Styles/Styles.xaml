@@ -389,6 +389,8 @@
     <Style x:Key="ListItemSubTextStyle" TargetType="Label">
         <Setter Property="TextColor" Value="Gray" />
         <Setter Property="FontSize" Value="11"/>
+        <Setter Property="LineBreakMode" Value="WordWrap"/>
+        <Setter Property="MaxLines" Value="2"/>
     </Style>
 
     <Style x:Key="MediaButton" TargetType="ImageButton">

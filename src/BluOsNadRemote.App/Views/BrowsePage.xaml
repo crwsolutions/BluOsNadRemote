@@ -3,7 +3,137 @@
 			 xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
-			 x:Class="BluOsNadRemote.App.Views.BrowsePage"
-			 x:DataType="vm:BrowseViewModel">
+             xmlns:controls="clr-namespace:BluOsNadRemote.App.Controls"
+             xmlns:local="clr-namespace:BluOsNadRemote.App.ViewModels"
+             x:Class="BluOsNadRemote.App.Views.BrowsePage"
+             Title="{Binding Title}"
+             NavigationPage.HasNavigationBar="False">
+
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto" RowDefinitions="60">
+            <ImageButton
+                Source="{AppThemeBinding Light=back_light.png, Dark=back_dark.png}"
+                HeightRequest="28" WidthRequest="28"
+                BackgroundColor="Transparent"
+                IsVisible="{Binding HasParent}" 
+                Command="{Binding GoBackCommand}" />
+            <Image Margin="10" Grid.Column="1" Source="{Binding ServiceIconUri}" IsVisible="{Binding HasParent}" />
+            <Label IsVisible="{Binding IsNotSearching}" TextColor="White" Grid.Column="2" Text="{Binding Title}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+            <ImageButton 
+                Grid.Column="3" Margin="0,0,12,0"
+                HeightRequest="26" WidthRequest="26"
+                Source="{AppThemeBinding Light=home_light.png, Dark=home_dark.png}"
+                BackgroundColor="Transparent"
+                Command="{Binding GoHomeCommand}" 
+                IsVisible="{Binding IsNotSearching}"/>
+            <!-- glass -->
+            <ImageButton 
+                Grid.Column="4" Margin="0,8,8,0"
+                HeightRequest="48" WidthRequest="48"
+                VerticalOptions="Center"
+                BackgroundColor="Transparent"
+                Command="{Binding ShowSearchCommand}"
+                IsVisible="{Binding IsNotSearching}">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="CrwMedia" Glyph="q" />
+                </ImageButton.Source>
+            </ImageButton>
+            <!-- cross -->
+            <ImageButton 
+                Grid.Column="4" Margin="0,2,8,0"
+                HeightRequest="28" WidthRequest="28"
+                BackgroundColor="Transparent"
+                Command="{Binding HideSearchCommand}"
+                IsVisible="{Binding IsSearching}">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="CrwMedia" Glyph="l" />
+                </ImageButton.Source>
+
+            </ImageButton>
+
+            <SearchBar Grid.Column="2" Grid.ColumnSpan="2" IsVisible="{Binding IsSearching}" x:Name="searchBar" 
+                           TextChanged="SearchBar_TextChanged"
+                           SearchCommand="{Binding SearchCommand}"
+                           SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="SinglelineTemplate">
+
+            <Grid Padding="12,8,8,2" x:DataType="vm:MusicContentEntryViewModel" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+                <Grid  VerticalOptions="Start" ColumnDefinitions="Auto,*, Auto" RowDefinitions="Auto">
+                    <Image IsVisible="{Binding HasImage, Mode=OneTime}" WidthRequest="75" HeightRequest="75" Source="{Binding Entry.ImageUri, Mode=OneTime}" VerticalOptions="Start" Margin="0,0,8,0" />
+                    <Label Grid.Column="1" Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" VerticalTextAlignment="Center" Padding="0,0,0,0" FontSize="Large" />
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:BrowseViewModel}}, Path=PresetTappedCommand}"		
+                                CommandParameter="{Binding .}">
+                        </TapGestureRecognizer>
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type local:BrowseViewModel}}, Path=PlayCommand}" CommandParameter="{Binding Entry}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable}" VerticalOptions="Center" />
+                <!--<Button Grid.Column="1" Clicked="More_Clicked" IsVisible="{Binding HasContextMenu, Mode=OneTime}" WidthRequest="25" HeightRequest="75" BackgroundColor="Transparent" BorderColor="Transparent" ImageSource="more_vert.png" VerticalOptions="Start" Margin="0,0,8,0" />-->
+                <Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Clicked="More_Clicked" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
+            </Grid>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="MultilineTemplate">
+            <Grid Padding="12,8,8,2" x:DataType="vm:MusicContentEntryViewModel" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+                <Grid VerticalOptions="Start" ColumnDefinitions="Auto,*, Auto" RowDefinitions="Auto">
+                    <Image IsVisible="{Binding HasImage, Mode=OneTime}" WidthRequest="75" HeightRequest="75" Source="{Binding Entry.ImageUri, Mode=OneTime}" VerticalOptions="Start" Margin="0,0,8,0" />
+                    <StackLayout Grid.Column="1">
+                        <Label Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}"  />
+                        <Label Text="{Binding Entry.Text2, Mode=OneTime}" Style="{DynamicResource ListItemSubTextStyle}" />
+                    </StackLayout>
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:BrowseViewModel}}, Path=PresetTappedCommand}"		
+                                CommandParameter="{Binding .}">
+                        </TapGestureRecognizer>
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type local:BrowseViewModel}}, Path=PlayCommand}" CommandParameter="{Binding Entry}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable}" VerticalOptions="Start" />
+                <Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Clicked="More_Clicked" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
+            </Grid>
+        </DataTemplate>
+
+        <controls:ItemsListViewMultilineTemplateSelector 
+            x:Key="MultilineSelector"
+            Singleline="{StaticResource SinglelineTemplate}"
+            Multiline="{StaticResource MultilineTemplate}" />
+    </ContentPage.Resources>
+
+    <RefreshView Command="{Binding LoadDataCommand}"
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+
+        <ScrollView x:Name="svScrollView" Padding="0,0,0,12">
+            <StackLayout>
+                <CollectionView IsVisible="{Binding HasCategories}"
+                    ItemsSource="{Binding Categories}"
+                    SelectionMode="None" IsGrouped="True" 
+                    ItemTemplate="{StaticResource MultilineSelector}">
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Name}" Style="{DynamicResource ListHeaderTextStyle}" />
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+                </CollectionView>
+                <CollectionView 
+                    ItemsSource="{Binding Entries}"
+                    IsVisible="{Binding HasEntries}"
+                    SelectionMode="None"
+                    RemainingItemsThreshold="5"
+                    RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}"
+                    ItemTemplate="{StaticResource MultilineSelector}">
+                </CollectionView>
+
+            </StackLayout>
+        </ScrollView>
+    </RefreshView>
 
 </views:BaseContentPage>

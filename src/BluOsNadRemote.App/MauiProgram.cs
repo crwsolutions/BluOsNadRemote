@@ -1,5 +1,7 @@
 ﻿using BluOsNadRemote.App.Services;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+
 namespace BluOsNadRemote.App;
 
 public static class MauiProgram

@@ -4,8 +4,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
 			 xmlns:controls="clr-namespace:BluOsNadRemote.App.Controls"
-			 xmlns:local="clr-namespace:BluOsNadRemote.App.ViewModels"
 			 x:Class="BluOsNadRemote.App.Views.BrowsePage"
+			 x:DataType="vm:BrowseViewModel"
 			 Title="{Binding Title}"
 			 NavigationPage.HasNavigationBar="False">
 
@@ -58,26 +58,26 @@
 	</Shell.TitleView>
 
 	<ContentPage.Resources>
-		<DataTemplate x:Key="SinglelineTemplate">
-			<Grid Padding="12,8,8,2" x:DataType="vm:MusicContentEntryViewModel" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+        <DataTemplate x:Key="SinglelineTemplate" x:DataType="vm:MusicContentEntryViewModel">
+			<Grid Padding="12,8,8,2" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
 				<Grid VerticalOptions="Start" ColumnDefinitions="Auto,*, Auto" RowDefinitions="Auto">
 					<Image IsVisible="{Binding HasImage, Mode=OneTime}" WidthRequest="75" HeightRequest="75" Source="{Binding Entry.ImageUri, Mode=OneTime}" VerticalOptions="Start" Margin="0,0,8,0" />
 					<Label Grid.Column="1" Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" VerticalTextAlignment="Center" Padding="0,0,0,0" FontSize="Large" />
 					<Grid.GestureRecognizers>
 						<TapGestureRecognizer 
 								NumberOfTapsRequired="1"
-								Command="{Binding Source={RelativeSource AncestorType={x:Type local:BrowseViewModel}}, Path=PresetTappedCommand}"		
+								Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand}"
 								CommandParameter="{Binding .}">
 						</TapGestureRecognizer>
 					</Grid.GestureRecognizers>
 				</Grid>
-				<Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type local:BrowseViewModel}}, Path=PlayCommand}" CommandParameter="{Binding Entry}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable}" VerticalOptions="Center" />
+				<Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand}" CommandParameter="{Binding Entry}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable}" VerticalOptions="Center" />
 				<Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Clicked="More_Clicked" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
 			</Grid>
 		</DataTemplate>
 
-		<DataTemplate x:Key="MultilineTemplate">
-			<Grid Padding="12,8,8,2" x:DataType="vm:MusicContentEntryViewModel" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+        <DataTemplate x:Key="MultilineTemplate" x:DataType="vm:MusicContentEntryViewModel">
+			<Grid Padding="12,8,8,2" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
 				<Grid VerticalOptions="Start" ColumnDefinitions="Auto,*, Auto" RowDefinitions="Auto">
 					<Image IsVisible="{Binding HasImage, Mode=OneTime}" WidthRequest="75" HeightRequest="75" Source="{Binding Entry.ImageUri, Mode=OneTime}" VerticalOptions="Start" Margin="0,0,8,0" />
 					<StackLayout Grid.Column="1">
@@ -88,47 +88,40 @@
 					<Grid.GestureRecognizers>
 						<TapGestureRecognizer 
 								NumberOfTapsRequired="1"
-								Command="{Binding Source={RelativeSource AncestorType={x:Type local:BrowseViewModel}}, Path=PresetTappedCommand}"		
+								Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand}"
 								CommandParameter="{Binding .}">
 						</TapGestureRecognizer>
 					</Grid.GestureRecognizers>
 				</Grid>
-				<Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type local:BrowseViewModel}}, Path=PlayCommand}" CommandParameter="{Binding Entry}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable}" VerticalOptions="Start" />
+				<Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand}" CommandParameter="{Binding Entry}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable}" VerticalOptions="Start" />
 				<Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Clicked="More_Clicked" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
 			</Grid>
 		</DataTemplate>
 
-		<controls:ItemsListViewMultilineTemplateSelector 
-			x:Key="MultilineSelector"
-			Singleline="{StaticResource SinglelineTemplate}"
-			Multiline="{StaticResource MultilineTemplate}" />
+		<controls:ItemsListViewMultilineTemplateSelector x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
 	</ContentPage.Resources>
 
-	<RefreshView Command="{Binding LoadDataCommand}"
-				 IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
-				 x:DataType="vm:BrowseViewModel">
+	<RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" x:DataType="vm:BrowseViewModel">
 		<ScrollView x:Name="svScrollView" Padding="0,0,0,12">
 			<StackLayout>
-				<CollectionView IsVisible="{Binding HasCategories}"
-					ItemsSource="{Binding Categories}"
+                <CollectionView IsVisible="{Binding HasCategories}"
+					ItemsSource="{Binding Categories, Mode=OneWay}"
 					SelectionMode="None" IsGrouped="True" 
-					ItemTemplate="{StaticResource MultilineSelector}"
-								>
-					<CollectionView.GroupHeaderTemplate>
-						<DataTemplate>
-							<Label x:DataType="vm:MusicContentCategoryViewModel" Text="{Binding Name}" Style="{DynamicResource ListHeaderTextStyle}" />
+					ItemTemplate="{StaticResource MultilineSelector}">
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
+							<Label Text="{Binding Name}" Style="{DynamicResource ListHeaderTextStyle}" />
 						</DataTemplate>
 					</CollectionView.GroupHeaderTemplate>
 				</CollectionView>
 				<CollectionView 
-					ItemsSource="{Binding Entries}"
+					ItemsSource="{Binding Entries,Mode=OneWay}"
 					IsVisible="{Binding HasEntries}"
 					SelectionMode="None"
 					RemainingItemsThreshold="5"
 					RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}"
 					ItemTemplate="{StaticResource MultilineSelector}">
 				</CollectionView>
-
 			</StackLayout>
 		</ScrollView>
 	</RefreshView>

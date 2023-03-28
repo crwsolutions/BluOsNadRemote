@@ -13,12 +13,13 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private IDisposable _mediaChangesSubscriber;
     private IDisposable _positionChangesSubscriber;
     private int? _currentSong;
+    private IDispatcherTimer _timer;
 
     internal void UpdateProgress()
     {
         if (State == "Streaming" || State == "Playing")
         {
-            Device.BeginInvokeOnMainThread(() =>
+            MainThread.BeginInvokeOnMainThread(() =>
             {
                 // interact with UI elements
                 Elapsed = Elapsed.Add(TimeSpan.FromSeconds(1));
@@ -36,60 +37,37 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     private TimeSpan _elapsed;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(MuteImage))]
+    [NotifyPropertyChangedFor(nameof(IsMuted))]
     int _volume = 0;
-    public int Volume
+
+    partial void OnVolumeChanging(int value)
     {
-        get { return _volume; }
-        set
-        {
-            if (_volume != value)
-            {
-                _ = SetVolume(value);
-            }
-            if (SetProperty(ref _volume, value))
-            {
-                OnPropertyChanged(nameof(MuteImage));
-                OnPropertyChanged(nameof(IsMuted));
-            }
-        }
+        _ = SetVolume(value);
     }
 
     [ObservableProperty]
     private string _state;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(QualityImageIcon))]
+    [NotifyPropertyChangedFor(nameof(QualityKbs))]
+    [NotifyPropertyChangedFor(nameof(QualityKbsVisible))]
     private string _quality;
-    public string Quality
+
+    partial void OnQualityChanged(string value)
     {
-        get { return _quality; }
-        set
+        _qualityKbs = null;
+        if (int.TryParse(value, out var kbs))
         {
-            if (SetProperty(ref _quality, value))
-            {
-                string image;
-
-                if (int.TryParse(value, out var kbs))
-                {
-                    _qualityKbs = kbs;
-                    image = "none";
-                }
-                else
-                {
-                    _qualityKbs = null;
-                    image = _quality;
-                }
-                var postFix = AppInfo.RequestedTheme == AppTheme.Dark ? "white" : "black";
-                _qualityImageIcon = $"{image}_{postFix}";
-
-                OnPropertyChanged(nameof(QualityImageIcon));
-                OnPropertyChanged(nameof(QualityKbs));
-                OnPropertyChanged(nameof(QualityKbsVisible));
-            }
+            _qualityKbs = kbs;
         }
     }
 
+    public string QualityImageIcon => $"{Quality ?? "none"}_{ThemePostfix}";
 
-    private string _qualityImageIcon;
-    public string QualityImageIcon => _qualityImageIcon;
+    private string ThemePostfix => AppInfo.RequestedTheme == AppTheme.Dark ? "white" : "black";
 
     private int? _qualityKbs;
     public string QualityKbs => _qualityKbs != null ? $"{_qualityKbs / 1000} kb/s" : null;
@@ -182,6 +160,17 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
             Debug.WriteLine($"Media: {media.Titles.FirstOrDefault()}");
 
+            if (_timer == null)
+            {
+                _timer = Application.Current.Dispatcher.CreateTimer();
+                _timer.Interval = TimeSpan.FromSeconds(1);
+                _timer.Tick += (s, e) => UpdateProgress();
+            }
+
+            if (!_timer.IsRunning)
+            {
+                _timer.Start();
+            }
         }
         catch (Exception exception)
         {
@@ -278,6 +267,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         _stateChangesSubscriber = null;
         _volumeChangesSubscriber?.Dispose();
         _volumeChangesSubscriber = null;
+        _timer?.Stop();
     }
 
     [RelayCommand]
@@ -314,7 +304,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private async Task NavigateToQueueAsync()
     {
         var song = State == nameof(PlayerState.Streaming) ? -1 : _currentSong;
-        
+
         await Shell.Current.GoToAsync($"{nameof(QueuePage)}?{nameof(QueueViewModel.CurrentSong)}={song}");
     }
 }

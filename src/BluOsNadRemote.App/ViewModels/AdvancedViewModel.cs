@@ -266,6 +266,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
             _nadRemote?.Dispose();
             _nadRemote = null;
             MainDirac = -1;
+            MainSourceName = null;
             IsBusy = false;
             _isReceiving = false;
         }

@@ -267,6 +267,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         _stateChangesSubscriber = null;
         _volumeChangesSubscriber?.Dispose();
         _volumeChangesSubscriber = null;
+        MediaImageUri = null;
         _timer?.Stop();
     }
 

@@ -19,7 +19,8 @@
 		<ShellContent
 			Title="Browse"
 			Icon="iconbrowse.png"
-			ContentTemplate="{DataTemplate views:BrowsePage}" />
+			ContentTemplate="{DataTemplate views:BrowsePage}"
+            Route="browse" />
 		<ShellContent
 			Title="Advanced"
 			Icon="iconnad.png"

@@ -57,16 +57,12 @@ public partial class QueuePage : BaseContentPage
                     await Shell.Current.GoToAsync("..");
                     break;
                 case MenuAction.GoToAlbum:
-                    //await Shell.Current.GoToAsync("..", false );
-                    await Shell.Current.Navigation.PopToRootAsync(false);
-                    //await Shell.Current.Navigation.PopAsync();
-                    await Shell.Current.GoToAsync($"//{nameof(BrowsePage)}?{nameof(entry.Service)}={entry.Service}&{nameof(entry.AlbumID)}={entry.AlbumID}");
+                    await Shell.Current.Navigation.PopToRootAsync(false); //navigate back to player
+                    await Shell.Current.GoToAsync($"//browse?{nameof(entry.Service)}={entry.Service}&{nameof(entry.AlbumID)}={entry.AlbumID}");
                     break;
                 case MenuAction.GoToArtist:
-                    //await Shell.Current.GoToAsync("..", false);
-                    await Shell.Current.Navigation.PopToRootAsync(false);
-                    //await Shell.Current.Navigation.PopAsync();
-                    await Shell.Current.GoToAsync($"//{nameof(BrowsePage)}?{nameof(entry.Service)}={entry.Service}&{nameof(entry.ArtistID)}={entry.ArtistID}");
+                    await Shell.Current.Navigation.PopToRootAsync(false); //navigate back to player
+                    await Shell.Current.GoToAsync($"//browse?{nameof(entry.Service)}={entry.Service}&{nameof(entry.ArtistID)}={entry.ArtistID}");
                     break;
                 case MenuAction.AddToFavorites:
                     break;

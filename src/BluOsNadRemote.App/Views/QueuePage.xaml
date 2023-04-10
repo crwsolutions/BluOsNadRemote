@@ -33,11 +33,7 @@
                             </VisualStateManager.VisualStateGroups>
                             <Label Text="{Binding Title, Mode=OneTime}" Style="{StaticResource ListItemTextStyle}" />
                             <Label Grid.Row="1" Text="{Binding Artist, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
-                            <ImageButton Grid.Column="1" Grid.RowSpan="2" Clicked="More_Clicked"  BackgroundColor="Transparent">
-                                <ImageButton.Source>
-                                    <FontImageSource FontFamily="CrwMedia" Glyph="h" />
-                                </ImageButton.Source>
-                            </ImageButton>
+                            <Button FontFamily="CrwMedia" Text="h" FontSize="Large" Grid.Column="1" Grid.RowSpan="2" Clicked="More_Clicked"  BackgroundColor="Transparent"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

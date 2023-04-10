@@ -111,7 +111,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             {
                 foreach (var entry in _bluPlayerService.MusicContentNode.Entries)
                 {
-                    Debug.WriteLine($"**** Added: {entry.Name}");
+                    //Debug.WriteLine($"**** Added: {entry.Name}");
                     Entries.Add(new MusicContentEntryViewModel(entry));
                 }
 
@@ -154,6 +154,8 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task GetMoreItemsAsync()
     {
+        return;
+
         if (_isGettingMore || IsBusy)
         {
             return;

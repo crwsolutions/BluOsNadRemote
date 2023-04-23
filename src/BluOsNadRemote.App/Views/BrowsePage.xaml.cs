@@ -7,11 +7,11 @@ public partial class BrowsePage : BaseContentPage
 
     partial void PreConstruct() => InitializeComponent();
 
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
+        //If navigated to here from another page, QueryProperties are not set when you remove the next line:
+        await Task.Yield(); //https://github.com/xamarin/Xamarin.Forms/issues/11549
         base.OnAppearing();
-
-        //await Task.Yield(); //https://github.com/xamarin/Xamarin.Forms/issues/11549
         ViewModel.OnAfterListWasUpdated += ViewModel_OnAfterListWasUpdated;
     }
 

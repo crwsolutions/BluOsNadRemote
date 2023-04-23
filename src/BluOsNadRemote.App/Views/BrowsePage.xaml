@@ -64,14 +64,11 @@
 					<Image IsVisible="{Binding HasImage, Mode=OneTime}" WidthRequest="75" HeightRequest="75" Source="{Binding Entry.ImageUri, Mode=OneTime}" VerticalOptions="Start" Margin="0,0,8,0" />
 					<Label Grid.Column="1" Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" VerticalTextAlignment="Center" Padding="0,0,0,0" FontSize="Large" />
 					<Grid.GestureRecognizers>
-						<TapGestureRecognizer 
-								NumberOfTapsRequired="1"
-								Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand}"
-								CommandParameter="{Binding .}">
-						</TapGestureRecognizer>
-					</Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime}"
+								              CommandParameter="{Binding ., Mode=OneTime}"/>
+                    </Grid.GestureRecognizers>
 				</Grid>
-				<Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand}" CommandParameter="{Binding Entry}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable}" VerticalOptions="Center" />
+                <Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" VerticalOptions="Center" />
 				<Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Clicked="More_Clicked" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
 			</Grid>
 		</DataTemplate>
@@ -84,45 +81,30 @@
 						<Label Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}"  />
 						<Label Text="{Binding Entry.Text2, Mode=OneTime}" Style="{DynamicResource ListItemSubTextStyle}" />
 					</StackLayout>
-
 					<Grid.GestureRecognizers>
-						<TapGestureRecognizer 
-								NumberOfTapsRequired="1"
-								Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand}"
-								CommandParameter="{Binding .}">
-						</TapGestureRecognizer>
-					</Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime}"
+								              CommandParameter="{Binding ., Mode=OneTime}"/>
+                    </Grid.GestureRecognizers>
 				</Grid>
-				<Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand}" CommandParameter="{Binding Entry}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable}" VerticalOptions="Start" />
+                <Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" VerticalOptions="Start" />
 				<Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Clicked="More_Clicked" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
 			</Grid>
 		</DataTemplate>
-
 		<controls:ItemsListViewMultilineTemplateSelector x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
 	</ContentPage.Resources>
 
 	<RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" x:DataType="vm:BrowseViewModel">
 		<ScrollView x:Name="svScrollView" Padding="0,0,0,12">
-			<StackLayout>
-                <CollectionView IsVisible="{Binding HasCategories}"
-					ItemsSource="{Binding Categories, Mode=OneWay}"
-					SelectionMode="None" IsGrouped="True" 
-					ItemTemplate="{StaticResource MultilineSelector}">
+			<FlexLayout Wrap="NoWrap">
+                <CollectionView IsVisible="{Binding HasCategories, Mode=OneWay}" ItemsSource="{Binding Categories, Mode=OneTime}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}">
                     <CollectionView.GroupHeaderTemplate>
                         <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
-							<Label Text="{Binding Name}" Style="{DynamicResource ListHeaderTextStyle}" />
+							<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" />
 						</DataTemplate>
 					</CollectionView.GroupHeaderTemplate>
 				</CollectionView>
-				<CollectionView 
-					ItemsSource="{Binding Entries,Mode=OneWay}"
-					IsVisible="{Binding HasEntries}"
-					SelectionMode="None"
-					RemainingItemsThreshold="5"
-					RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}"
-					ItemTemplate="{StaticResource MultilineSelector}">
-				</CollectionView>
-			</StackLayout>
+                <CollectionView ItemsSource="{Binding Entries, Mode=OneTime}" IsVisible="{Binding HasEntries, Mode=OneWay}" SelectionMode="None" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}" ItemTemplate="{StaticResource MultilineSelector}"/>
+            </FlexLayout>
 		</ScrollView>
 	</RefreshView>
 </views:BaseContentPage>

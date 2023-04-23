@@ -154,7 +154,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task GetMoreItemsAsync()
     {
-        return;
+        //return;
 
         if (_isGettingMore || IsBusy)
         {

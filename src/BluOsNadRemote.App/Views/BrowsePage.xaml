@@ -15,40 +15,38 @@
 				Source="{AppThemeBinding Light=back_light.png, Dark=back_dark.png}"
 				HeightRequest="28" WidthRequest="28"
 				BackgroundColor="Transparent"
-				IsVisible="{Binding HasParent}" 
-				Command="{Binding GoBackCommand}" />
-			<Image Margin="10" Grid.Column="1" Source="{Binding ServiceIconUri}" IsVisible="{Binding HasParent}" />
-			<Label IsVisible="{Binding IsNotSearching}" TextColor="White" Grid.Column="2" Text="{Binding Title}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+				IsVisible="{Binding HasParent, Mode=OneWay}" 
+				Command="{Binding GoBackCommand, Mode=OneTime}" />
+            <Image Margin="10" Grid.Column="1" Source="{Binding ServiceIconUri, Mode=OneWay}" IsVisible="{Binding HasParent, Mode=OneWay}" />
+            <Label IsVisible="{Binding IsNotSearching, Mode=OneWay}" TextColor="White" Grid.Column="2" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
 			<ImageButton 
 				Grid.Column="3" Margin="0,0,12,0"
 				HeightRequest="26" WidthRequest="26"
 				Source="{AppThemeBinding Light=home_light.png, Dark=home_dark.png}"
 				BackgroundColor="Transparent"
-				Command="{Binding GoHomeCommand}" 
-				IsVisible="{Binding IsNotSearching}"/>
+				Command="{Binding GoHomeCommand, Mode=OneTime}" 
+				IsVisible="{Binding CanGoHome, Mode=OneWay}"/>
 			<!-- glass -->
-			<ImageButton 
-				Grid.Column="4" Margin="0,8,8,0"
-				HeightRequest="48" WidthRequest="48"
+			<Button 
+                FontFamily="CrwMedia" Text="q"
+                FontSize="42" TextColor="White"
+				Grid.Column="4" Margin="0,6,8,0"
+				HeightRequest="48" WidthRequest="50"
 				VerticalOptions="Center"
 				BackgroundColor="Transparent"
-				Command="{Binding ShowSearchCommand}"
-				IsVisible="{Binding IsNotSearching}">
-				<ImageButton.Source>
-					<FontImageSource FontFamily="CrwMedia" Glyph="q" />
-				</ImageButton.Source>
-			</ImageButton>
+				Command="{Binding ShowSearchCommand, Mode=OneTime}"
+				IsVisible="{Binding CanSearch, Mode=OneWay}">
+			</Button>
 			<!-- cross -->
-			<ImageButton 
+			<Button 
+                FontFamily="CrwMedia" Text="l"
+                FontSize="42" TextColor="White"
 				Grid.Column="4" Margin="0,2,8,0"
-				HeightRequest="28" WidthRequest="28"
+				HeightRequest="48" WidthRequest="50"
 				BackgroundColor="Transparent"
-				Command="{Binding HideSearchCommand}"
-				IsVisible="{Binding IsSearching}">
-				<ImageButton.Source>
-					<FontImageSource FontFamily="CrwMedia" Glyph="l" />
-				</ImageButton.Source>
-			</ImageButton>
+				Command="{Binding HideSearchCommand, Mode=OneTime}"
+				IsVisible="{Binding IsSearching, Mode=OneWay}">
+			</Button>
 
 			<SearchBar Grid.Column="2" Grid.ColumnSpan="2" IsVisible="{Binding IsSearching}" x:Name="searchBar" 
 						SearchCommand="{Binding SearchCommand}"

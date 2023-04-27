@@ -29,18 +29,23 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     private string _title;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanGoHome))]
     private bool _hasParent = false;
 
     public bool IsNotSearching => !IsSearching;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasParent))]
-    [NotifyPropertyChangedFor(nameof(IsSearchable))]
     [NotifyPropertyChangedFor(nameof(IsNotSearching))]
+    [NotifyPropertyChangedFor(nameof(CanGoHome))]
+    [NotifyPropertyChangedFor(nameof(CanSearch))]
     private bool _isSearching = false;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanSearch))]
     private bool _isSearchable = false;
+
+    public bool CanGoHome => !IsSearching && HasParent;
+    public bool CanSearch => IsSearchable && !IsSearching;
 
     [ObservableProperty]
     private Uri _serviceIconUri;

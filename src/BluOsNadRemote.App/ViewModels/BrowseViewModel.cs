@@ -19,8 +19,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     private bool _isGettingMore;
     private MusicContentNode _moreNode;
 
-    public event EventHandler OnAfterListWasUpdated;
-
     public string Service { get; set; } // = navigation parameter
     public string AlbumID { get; set; } // = navigation parameter
     public string ArtistID { get; set; } // = navigation parameter
@@ -117,7 +115,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
                     _moreNode = _bluPlayerService.MusicContentNode;
                 }
             }
-            OnAfterListWasUpdated?.Invoke(this, EventArgs.Empty);
 
             Title = _bluPlayerService.MusicContentNode?.ServiceName ?? "Available services";
             ServiceIconUri = _bluPlayerService.MusicContentNode?.ServiceIconUri;

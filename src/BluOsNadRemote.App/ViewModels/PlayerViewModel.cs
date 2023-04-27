@@ -12,6 +12,8 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private IDisposable _stateChangesSubscriber;
     private IDisposable _mediaChangesSubscriber;
     private IDisposable _positionChangesSubscriber;
+    private IDisposable _shuffleChangesSubscriber;
+    private IDisposable _repeatChangesSubscriber;
     private int? _currentSong;
     private IDispatcherTimer _timer;
 
@@ -103,6 +105,27 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     private Uri _serviceIconUri;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ShuffleModeColor))]
+    private ShuffleMode _shuffleMode;
+
+    public Color ShuffleModeColor => 
+                ShuffleMode == ShuffleMode.ShuffleOff
+                ? Colors.Gray
+                : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.Black : Colors.White;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(RepeatModeColor))]
+    [NotifyPropertyChangedFor(nameof(RepeatModeSymbol))]
+    private RepeatMode _repeatMode = RepeatMode.RepeatOff;
+
+    public Color RepeatModeColor => 
+                RepeatMode == RepeatMode.RepeatOff
+                ? Colors.Gray
+                : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.Black : Colors.White;
+
+    public string RepeatModeSymbol => RepeatMode == RepeatMode.RepeatOne ? "s" : "d";
+
     [RelayCommand]
     private async Task LoadDataAsync()
     {
@@ -135,6 +158,18 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
                 State = playerState.ToString();
             });
 
+            _repeatChangesSubscriber = bluPlayer.RepeatModeChanges.Subscribe(repeatMode =>
+            {
+                Debug.WriteLine($"RepeatMode: {repeatMode}");
+                RepeatMode = repeatMode;
+            });
+
+            _shuffleChangesSubscriber = bluPlayer.ShuffleModeChanges.Subscribe(shuffleMode =>
+            {
+                Debug.WriteLine($"ShuffleMode: {shuffleMode}");
+                ShuffleMode = shuffleMode;
+            });
+
             _mediaChangesSubscriber = bluPlayer.MediaChanges.Subscribe(SetMedia);
 
             _positionChangesSubscriber = bluPlayer.PositionChanges.Subscribe(SetPosition);
@@ -157,6 +192,9 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
             var position = await bluPlayer.GetPosition();
             SetPosition(position);
+
+            ShuffleMode = await bluPlayer.GetShuffleMode();
+            RepeatMode = await bluPlayer.GetRepeatMode();
 
             Debug.WriteLine($"Media: {media.Titles.FirstOrDefault()}");
 
@@ -267,6 +305,10 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         _stateChangesSubscriber = null;
         _volumeChangesSubscriber?.Dispose();
         _volumeChangesSubscriber = null;
+        _shuffleChangesSubscriber?.Dispose();
+        _shuffleChangesSubscriber = null;
+        _repeatChangesSubscriber?.Dispose();
+        _repeatChangesSubscriber = null;
         MediaImageUri = null;
         _timer?.Stop();
     }
@@ -296,10 +338,36 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private async Task BackAsync() => await _bluPlayerService.BluPlayer?.Back();
 
     [RelayCommand]
-    private async Task ToggleShuffleAsync() => Debug.WriteLine("Toggle shuffle");
+    private async Task ToggleShuffleAsync()
+    {
+        if (ShuffleMode == ShuffleMode.ShuffleOff)
+        {
+            ShuffleMode = ShuffleMode.ShuffleOn;
+        }
+        else
+        {
+            ShuffleMode = ShuffleMode.ShuffleOff;
+        }
+        await _bluPlayerService.BluPlayer.SetShuffleMode(ShuffleMode);
+    }
 
     [RelayCommand]
-    private async Task ToggleRepeatAsync() => Debug.WriteLine("Toggle repeat");
+    private async Task ToggleRepeatAsync()
+    {
+        if (RepeatMode == RepeatMode.RepeatOff)
+        {
+            RepeatMode = RepeatMode.RepeatOne;
+        }
+        else if (RepeatMode == RepeatMode.RepeatOne)
+        {
+            RepeatMode = RepeatMode.RepeatAll;
+        }
+        else
+        {
+            RepeatMode = RepeatMode.RepeatOff;
+        }
+        await _bluPlayerService.BluPlayer.SetRepeatMode(RepeatMode);
+    }
 
     [RelayCommand]
     private async Task NavigateToQueueAsync()

@@ -41,16 +41,10 @@
 
                 <!-- repeat/ shuffle  -->
                 <StackLayout Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" VerticalOptions="End" HorizontalOptions="Center" >
-                    <ImageButton Grid.Column="1" Command="{Binding ToggleRepeatCommand}" BackgroundColor="Transparent" BorderWidth="0">
-                        <ImageButton.Source>
-                            <FontImageSource FontFamily="CrwMedia" Glyph="d" Color="Gray" />
-                        </ImageButton.Source>
-                    </ImageButton>
-                    <ImageButton Grid.Column="1" Command="{Binding ToggleShuffleCommand}" Margin="0,18,0,0" BackgroundColor="Transparent" BorderWidth="0">
-                        <ImageButton.Source>
-                            <FontImageSource FontFamily="CrwMedia" Glyph="a" Color="Gray" />
-                        </ImageButton.Source>
-                    </ImageButton>
+                    <Button FontFamily="CrwMedia" Text="{Binding RepeatModeSymbol, Mode=OneWay}" FontSize="30" TextColor="{Binding RepeatModeColor, Mode=OneWay}"
+                            Command="{Binding ToggleRepeatCommand, Mode=OneTime}" BackgroundColor="Transparent" BorderWidth="0"/>
+                    <Button FontFamily="CrwMedia" Text="a" FontSize="30" TextColor="{Binding ShuffleModeColor, Mode=OneWay}"
+                            Command="{Binding ToggleShuffleCommand}" Margin="0,18,0,0" BackgroundColor="Transparent" BorderWidth="0"/>
                 </StackLayout>
 
                 <Image Grid.Column="3" Grid.Row="2" Grid.RowSpan="2" VerticalOptions="Start"  x:Name="AlbumImage" Source="{Binding MediaImageUri}" Margin="0" />

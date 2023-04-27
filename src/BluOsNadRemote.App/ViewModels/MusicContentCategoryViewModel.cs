@@ -2,8 +2,7 @@
 
 namespace BluOsNadRemote.App.ViewModels;
 
-[ObservableObject]
-public partial class MusicContentCategoryViewModel : List<MusicContentEntryViewModel>
+public partial class MusicContentCategoryViewModel : ObservableCollection<MusicContentEntryViewModel>
 {
     public MusicContentCategoryViewModel(MusicContentCategory category)
     {
@@ -11,6 +10,19 @@ public partial class MusicContentCategoryViewModel : List<MusicContentEntryViewM
         Name = $"{category.Name} ({Count} items)";
     }
 
-    [ObservableProperty]
-    private string _name;
+    public void AddRange(IEnumerable<MusicContentEntryViewModel> items)
+    {
+        foreach (var item in items)
+        {
+            Add(item);
+        }
+    }
+
+    public MusicContentCategoryViewModel(bool hasNext, IReadOnlyCollection<MusicContentEntry> entries)
+    {
+        AddRange(entries.Select(e => new MusicContentEntryViewModel(e)));
+        Name = hasNext ? $"More than {Count} items..." : $"{Count} items";
+    }
+
+    public string Name { get; set; }
 }

@@ -51,7 +51,6 @@
 			</ImageButton>
 
 			<SearchBar Grid.Column="2" Grid.ColumnSpan="2" IsVisible="{Binding IsSearching}" x:Name="searchBar" 
-						TextChanged="SearchBar_TextChanged"
 						SearchCommand="{Binding SearchCommand}"
 						SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
 		</Grid>
@@ -94,17 +93,12 @@
 	</ContentPage.Resources>
 
 	<RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" x:DataType="vm:BrowseViewModel">
-		<ScrollView x:Name="svScrollView" Padding="0,0,0,12">
-			<FlexLayout Wrap="NoWrap">
-                <CollectionView IsVisible="{Binding HasCategories, Mode=OneWay}" ItemsSource="{Binding Categories, Mode=OneTime}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}">
-                    <CollectionView.GroupHeaderTemplate>
-                        <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
-							<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" />
-						</DataTemplate>
-					</CollectionView.GroupHeaderTemplate>
-				</CollectionView>
-                <CollectionView ItemsSource="{Binding Entries, Mode=OneTime}" IsVisible="{Binding HasEntries, Mode=OneWay}" SelectionMode="None" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}" ItemTemplate="{StaticResource MultilineSelector}"/>
-            </FlexLayout>
-		</ScrollView>
+        <CollectionView ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
+					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" Padding="12,6,0,6" BackgroundColor="Silver" />
+				</DataTemplate>
+			</CollectionView.GroupHeaderTemplate>
+		</CollectionView>
 	</RefreshView>
 </views:BaseContentPage>

@@ -12,18 +12,6 @@ public partial class BrowsePage : BaseContentPage
         //If navigated to here from another page, QueryProperties are not set when you remove the next line:
         await Task.Yield(); //https://github.com/xamarin/Xamarin.Forms/issues/11549
         base.OnAppearing();
-        ViewModel.OnAfterListWasUpdated += ViewModel_OnAfterListWasUpdated;
-    }
-
-    protected override void OnDisappearing()
-    {
-        base.OnDisappearing();
-        ViewModel.OnAfterListWasUpdated -= ViewModel_OnAfterListWasUpdated;
-    }
-
-    private void ViewModel_OnAfterListWasUpdated(object sender, EventArgs e)
-    {
-        svScrollView.ScrollToAsync(0, 0, false);
     }
 
     protected override bool OnBackButtonPressed()
@@ -35,20 +23,12 @@ public partial class BrowsePage : BaseContentPage
 
         if (ViewModel.HasParent && ViewModel.GoBackCommand.CanExecute(null))
         {
-            //BluPlayerSingleton.MusicContentNode = BluPlayerSingleton.MusicContentNode.Parent;
-
             ViewModel.GoBackCommand.Execute(null);
 
             return true;
         }
 
-
         return base.OnBackButtonPressed();
-    }
-
-    private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
     }
 
     private async void More_Clicked(object sender, EventArgs e)

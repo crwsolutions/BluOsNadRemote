@@ -46,12 +46,8 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     private Uri _serviceIconUri;
 
     public ObservableCollection<MusicContentCategoryViewModel> Categories { get; } = new ObservableCollection<MusicContentCategoryViewModel>();
-    public ObservableCollection<MusicContentEntryViewModel> Entries { get; } = new ObservableCollection<MusicContentEntryViewModel>();
+
     public string ActionURL { set => _actionURL = value; }
-
-    public bool HasEntries => Entries.Any();
-
-    public bool HasCategories => Categories.Any();
 
     [RelayCommand]
     private async Task LoadDataAsync()
@@ -109,19 +105,13 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             }
             if (_bluPlayerService.MusicContentNode.Entries.Any())
             {
-                foreach (var entry in _bluPlayerService.MusicContentNode.Entries)
-                {
-                    //Debug.WriteLine($"**** Added: {entry.Name}");
-                    Entries.Add(new MusicContentEntryViewModel(entry));
-                }
+                Categories.Add(new MusicContentCategoryViewModel(_bluPlayerService.MusicContentNode.HasNext, _bluPlayerService.MusicContentNode.Entries));
 
                 if (_bluPlayerService.MusicContentNode.HasNext)
                 {
                     _moreNode = _bluPlayerService.MusicContentNode;
                 }
             }
-            OnPropertyChanged(nameof(HasCategories));
-            OnPropertyChanged(nameof(HasEntries));
             OnAfterListWasUpdated?.Invoke(this, EventArgs.Empty);
 
             Title = _bluPlayerService.MusicContentNode?.ServiceName ?? "Available services";
@@ -169,11 +159,10 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
 
                 var node = await _bluPlayerService.MusicContentNode.ResolveNext();
 
-                foreach (var entry in node.Entries)
-                {
-                    Debug.WriteLine($"**** Added extra: {entry.Name}");
-                    Entries.Add(new MusicContentEntryViewModel(entry));
-                }
+                Debug.WriteLine($"Loading {node.Entries.Count} more items !!!");
+
+                var lastCategory = Categories.Last();
+                lastCategory.AddRange(node.Entries.Select(e => new MusicContentEntryViewModel(e)));
 
                 if (node.HasNext)
                 {
@@ -257,7 +246,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     public void Dispose()
     {
         Categories.Clear();
-        Entries.Clear();
         _moreNode = null;
     }
 }

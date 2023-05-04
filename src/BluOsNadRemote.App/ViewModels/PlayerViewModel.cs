@@ -311,6 +311,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         _repeatChangesSubscriber = null;
         MediaImageUri = null;
         _timer?.Stop();
+        _timer = null;
     }
 
     [RelayCommand]

@@ -9,12 +9,6 @@ public partial class QueuePage : BaseContentPage
 
     partial void PreConstruct() => InitializeComponent();
 
-    private async void ItemsListView_RemainingItemsThresholdReached(object sender, EventArgs e)
-    {
-        Debug.WriteLine("Get next data please!");
-        await ViewModel.LoadMoreDataAsync();
-    }
-
     enum MenuAction
     {
         TrackStation,

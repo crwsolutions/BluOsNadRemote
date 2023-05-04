@@ -13,7 +13,7 @@
                 SelectionMode="Single"
                 SelectedItem="{Binding SelectedItem}"
                 RemainingItemsThreshold="5"
-                RemainingItemsThresholdReached="ItemsListView_RemainingItemsThresholdReached">
+                RemainingItemsThresholdReachedCommand="{Binding LoadMoreDataCommand, Mode=OneTime}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="12,8,8,2" RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" x:DataType="model:PlayQueueSong">

@@ -69,7 +69,8 @@ namespace BluOsNadRemote.App.ViewModels
             }
         }
 
-        public async Task LoadMoreDataAsync()
+        [RelayCommand]
+        private async Task LoadMoreDataAsync()
         {
             if (_isGettingMore || IsBusy)
             {

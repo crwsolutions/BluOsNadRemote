@@ -12,9 +12,8 @@
     </ContentPage.ToolbarItems>
 
     <RefreshView Command="{Binding LoadDataCommand}"
-                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}" 
-                 
-                 >
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <Grid>
         <ScrollView>
             <Grid RowSpacing="2" ColumnSpacing="0">
                 <Grid.RowDefinitions>
@@ -113,5 +112,6 @@
                 </Grid>
             </Grid>
         </ScrollView>
+        </Grid>
     </RefreshView>
 </views:BaseContentPage>

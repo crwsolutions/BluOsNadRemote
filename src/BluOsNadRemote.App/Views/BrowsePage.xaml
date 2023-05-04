@@ -91,6 +91,7 @@
 	</ContentPage.Resources>
 
 	<RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" x:DataType="vm:BrowseViewModel">
+        <Grid>
         <CollectionView ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
@@ -98,5 +99,6 @@
 				</DataTemplate>
 			</CollectionView.GroupHeaderTemplate>
 		</CollectionView>
+        </Grid>
 	</RefreshView>
 </views:BaseContentPage>

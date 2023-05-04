@@ -7,7 +7,7 @@
              Title="{Binding Title}">
     <RefreshView Command="{Binding LoadDataCommand}" IsEnabled="False"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <ScrollView>
+        <Grid>
             <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Songs}"
                 SelectionMode="Single"
@@ -38,6 +38,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </ScrollView>
+        </Grid>
     </RefreshView>
 </views:BaseContentPage>

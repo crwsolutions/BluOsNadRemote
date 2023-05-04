@@ -11,11 +11,10 @@
 
     <RefreshView Command="{Binding LoadDataCommand}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <ScrollView IsClippedToBounds="True">
+        <Grid>
             <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Presets, Mode=OneWay}"
-                SelectionMode="None"
-            >
+                SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="12,8,8,2" ColumnDefinitions="Auto,*" x:DataType="model:Favorite">
@@ -32,6 +31,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </ScrollView>
+        </Grid>
     </RefreshView>
 </views:BaseContentPage>

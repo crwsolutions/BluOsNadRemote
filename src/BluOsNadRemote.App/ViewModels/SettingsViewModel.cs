@@ -10,7 +10,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel
     private readonly BluPlayerService _bluPlayerService;
 
     [ObservableProperty]
-    private string _result = "zxcvbnmasdfghjklmnopq";
+    private string _result = "";
 
     public string Endpoint => Preferences.Endpoint;
 

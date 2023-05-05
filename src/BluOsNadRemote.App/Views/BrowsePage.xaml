@@ -17,20 +17,18 @@
 				BackgroundColor="Transparent"
 				IsVisible="{Binding HasParent, Mode=OneWay}" 
 				Command="{Binding GoBackCommand, Mode=OneTime}" />
-            <Image Margin="10" Grid.Column="1" Source="{Binding ServiceIconUri, Mode=OneWay}" IsVisible="{Binding HasParent, Mode=OneWay}" />
-            <Label IsVisible="{Binding IsNotSearching, Mode=OneWay}" TextColor="White" Grid.Column="2" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
-			<ImageButton 
-				Grid.Column="3" Margin="0,0,12,0"
+            <Image Grid.Column="1" Margin="10" Source="{Binding ServiceIconUri, Mode=OneWay}" IsVisible="{Binding HasParent, Mode=OneWay}" />
+            <Label Grid.Column="2" IsVisible="{Binding IsNotSearching, Mode=OneWay}" TextColor="White" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+            <ImageButton Grid.Column="3" Margin="0,0,12,0"
 				HeightRequest="26" WidthRequest="26"
 				Source="{AppThemeBinding Light=home_light.png, Dark=home_dark.png}"
 				BackgroundColor="Transparent"
 				Command="{Binding GoHomeCommand, Mode=OneTime}" 
 				IsVisible="{Binding CanGoHome, Mode=OneWay}"/>
 			<!-- glass -->
-			<Button 
+            <Button Grid.Column="4" Margin="0,6,8,0"
                 FontFamily="CrwMedia" Text="q"
                 FontSize="42" TextColor="White"
-				Grid.Column="4" Margin="0,6,8,0"
 				HeightRequest="48" WidthRequest="50"
 				VerticalOptions="Center"
 				BackgroundColor="Transparent"
@@ -38,17 +36,16 @@
 				IsVisible="{Binding CanSearch, Mode=OneWay}">
 			</Button>
 			<!-- cross -->
-			<Button 
+            <Button Grid.Column="4" Margin="0,2,8,0"
                 FontFamily="CrwMedia" Text="l"
                 FontSize="42" TextColor="White"
-				Grid.Column="4" Margin="0,2,8,0"
 				HeightRequest="48" WidthRequest="50"
 				BackgroundColor="Transparent"
 				Command="{Binding HideSearchCommand, Mode=OneTime}"
 				IsVisible="{Binding IsSearching, Mode=OneWay}">
 			</Button>
 
-			<SearchBar Grid.Column="2" Grid.ColumnSpan="2" IsVisible="{Binding IsSearching}" x:Name="searchBar" 
+			<SearchBar Grid.Column="2" IsVisible="{Binding IsSearching}" x:Name="searchBar" 
 						SearchCommand="{Binding SearchCommand}"
 						SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
 		</Grid>

@@ -102,6 +102,9 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
 
             Dispose();
             Debug.WriteLine($"**** Cleared...");
+#if IOS
+            await Task.Delay(300);  //HACK: //https://github.com/dotnet/maui/issues/10163
+#endif
             foreach (var category in _bluPlayerService.MusicContentNode.Categories)
             {
                 Categories.Add(new MusicContentCategoryViewModel(category));

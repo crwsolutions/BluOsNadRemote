@@ -67,7 +67,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         }
     }
 
-    public string QualityImageIcon => $"{Quality ?? "none"}_{ThemePostfix}";
+    public string QualityImageIcon => _qualityKbs != null || Quality == null ? $"none_{ThemePostfix}" : $"{Quality}_{ThemePostfix}";
 
     private string ThemePostfix => AppInfo.RequestedTheme == AppTheme.Dark ? "white" : "black";
 
@@ -310,6 +310,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         _repeatChangesSubscriber?.Dispose();
         _repeatChangesSubscriber = null;
         MediaImageUri = null;
+        Quality = null;
         _timer?.Stop();
         _timer = null;
     }

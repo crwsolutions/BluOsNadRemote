@@ -72,16 +72,16 @@
                 <Label Grid.Column="3" Grid.Row="5" Text="{Binding Title1}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16"/>
 
                 <!-- control buttons -->
-                <Grid Grid.Column="3" Grid.Row="6" Margin="0,0,0,6" RowSpacing="4" RowDefinitions="Auto, Auto" ColumnDefinitions="*,Auto,Auto,Auto">
-                    <Button Grid.Column="1" Command="{Binding BackCommand}" Text="z" Style="{StaticResource CircleButton}"/>
-                    <Button Grid.Column="2" IsVisible="{Binding IsStartVisible}" Command="{Binding PlayCommand}" Text="x" Style="{StaticResource CircleButton}"/>
-                    <Button Grid.Column="2" IsVisible="{Binding IsPauseVisible}" Command="{Binding PauseCommand}" Text="b" Style="{StaticResource CircleButton}"/>
-                    <Button Grid.Column="3" Command="{Binding SkipCommand}" Text="c" Style="{StaticResource CircleButton}"/>
-                    <Button Grid.Column="3" Grid.Row="1" Command="{Binding StopCommand}" Text="v" BackgroundColor="{StaticResource NadAccent}" Style="{StaticResource CircleButton}"/>
+                    <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="6" Margin="0,6,0,6" RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
+                    <Button Grid.Column="0" Command="{Binding BackCommand}" Text="z" Style="{StaticResource CircleButton}"/>
+                    <Button Grid.Column="1" IsVisible="{Binding IsStartVisible}" Command="{Binding PlayCommand}" Text="x" Style="{StaticResource CircleButton}"/>
+                    <Button Grid.Column="1" IsVisible="{Binding IsPauseVisible}" Command="{Binding PauseCommand}" Text="b" Style="{StaticResource CircleButton}"/>
+                    <Button Grid.Column="2" Command="{Binding SkipCommand}" Text="c" Style="{StaticResource CircleButton}"/>
+                    <Button Grid.Column="4" Command="{Binding StopCommand}" Text="v" BackgroundColor="{StaticResource NadAccent}" Style="{StaticResource CircleButton}"/>
                 </Grid>
 
                 <!-- state -->
-                <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" RowDefinitions="1, Auto, 1" VerticalOptions="Center">
+                    <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7" Margin="0,12,0,12" RowDefinitions="1, Auto, 1" VerticalOptions="Center">
                     <BoxView HorizontalOptions="Fill" HeightRequest="1" Color="Gray"/>
                     <Label HorizontalTextAlignment="Center" FontSize="14" VerticalOptions="Center" Grid.Row="1">
                         <Label.FormattedText>
@@ -99,16 +99,17 @@
                 <Grid Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="8" VerticalOptions="Center" Margin="0,6,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="42"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Button Command="{Binding ToggleMuteCommand}" Text="{Binding MuteImage}" Style="{StaticResource CircleButton}"/>
-                    <Label Grid.Column="1" Text="{Binding Volume}" FontSize="13" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                    <Slider Grid.Column="2" Maximum="100" Value="{Binding Volume}" Margin="-12,0,0,0" ThumbColor="Black" />
-                    <Button Grid.Column="3" Command="{Binding VolumeDownCommand}" Text="m" Style="{StaticResource CircleButton}"/>
-                    <Button Grid.Column="4" Command="{Binding VolumeUpCommand}" Text="n" Style="{StaticResource CircleButton}"/>
+                    <Button Grid.Column="1" Command="{Binding VolumeDownCommand}" Text="m" Style="{StaticResource CircleButton}"/>
+                    <Button Grid.Column="2" Command="{Binding VolumeUpCommand}" Text="n" Style="{StaticResource CircleButton}"/>
+                    <VerticalStackLayout Grid.Column="3" Margin="12,0,0,0" VerticalOptions="Center">
+                        <Slider Maximum="100" Value="{Binding Volume}" Margin="-16,0,0,0" ThumbColor="Black" />
+                        <Label  Text="{Binding Volume}" FontSize="13" />
+                    </VerticalStackLayout>
                 </Grid>
             </Grid>
         </ScrollView>

@@ -1,10 +1,13 @@
 ﻿using Blu4Net;
+using BluOsNadRemote.App.Extensions;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
 public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 {
+    private static readonly TimeSpan _estimateProgressTimespan = TimeSpan.FromSeconds(1);
+
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
 
@@ -17,15 +20,15 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private int? _currentSong;
     private IDispatcherTimer _timer;
 
-    internal void UpdateProgress()
+    internal void EstimateProgress()
     {
         if (State == "Streaming" || State == "Playing")
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 // interact with UI elements
-                Elapsed = Elapsed.Add(TimeSpan.FromSeconds(1));
-                RecalculateProgress();
+                Elapsed = Elapsed.Add(_estimateProgressTimespan);
+                UpdateProgress();
             });
         }
     }
@@ -46,7 +49,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     partial void OnVolumeChanging(int value)
     {
-        _ = SetVolume(value);
+        _ = SetAndClampVolumeAsync(value);
     }
 
     [ObservableProperty]
@@ -109,7 +112,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(ShuffleModeColor))]
     private ShuffleMode _shuffleMode;
 
-    public Color ShuffleModeColor => 
+    public Color ShuffleModeColor =>
                 ShuffleMode == ShuffleMode.ShuffleOff
                 ? Colors.Gray
                 : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.Black : Colors.White;
@@ -119,7 +122,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(RepeatModeSymbol))]
     private RepeatMode _repeatMode = RepeatMode.RepeatOff;
 
-    public Color RepeatModeColor => 
+    public Color RepeatModeColor =>
                 RepeatMode == RepeatMode.RepeatOff
                 ? Colors.Gray
                 : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.Black : Colors.White;
@@ -154,7 +157,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             _stateChangesSubscriber = bluPlayer.StateChanges.Subscribe(playerState =>
             {
                 Debug.WriteLine($"State: {playerState}");
-                SetState(playerState);
+                UpdatePlayerState(playerState);
                 State = playerState.ToString();
             });
 
@@ -170,9 +173,9 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
                 ShuffleMode = shuffleMode;
             });
 
-            _mediaChangesSubscriber = bluPlayer.MediaChanges.Subscribe(SetMedia);
+            _mediaChangesSubscriber = bluPlayer.MediaChanges.Subscribe(UpdatePlayerMedia);
 
-            _positionChangesSubscriber = bluPlayer.PositionChanges.Subscribe(SetPosition);
+            _positionChangesSubscriber = bluPlayer.PositionChanges.Subscribe(UpdatePlayPosition);
 
             Title = bluPlayer.ToString();
 
@@ -180,7 +183,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             var state2 = await bluPlayer.GetState();
             State = state2.ToString();
             Debug.WriteLine($"State: {state2}");
-            SetState(state2);
+            UpdatePlayerState(state2);
 
             // get the volume
             var playerVolume = await bluPlayer.GetVolume();
@@ -188,10 +191,10 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
             // get the current playing media
             var media = await bluPlayer.GetMedia();
-            SetMedia(media);
+            UpdatePlayerMedia(media);
 
             var position = await bluPlayer.GetPosition();
-            SetPosition(position);
+            UpdatePlayPosition(position);
 
             ShuffleMode = await bluPlayer.GetShuffleMode();
             RepeatMode = await bluPlayer.GetRepeatMode();
@@ -201,8 +204,8 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             if (_timer == null)
             {
                 _timer = Application.Current.Dispatcher.CreateTimer();
-                _timer.Interval = TimeSpan.FromSeconds(1);
-                _timer.Tick += (s, e) => UpdateProgress();
+                _timer.Interval = _estimateProgressTimespan;
+                _timer.Tick += (s, e) => EstimateProgress();
             }
 
             if (!_timer.IsRunning)
@@ -221,7 +224,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         }
     }
 
-    private void SetPosition(PlayPosition position)
+    private void UpdatePlayPosition(PlayPosition position)
     {
         Debug.WriteLine($"Elapsed: {position.Elapsed}, Position: {position.Length}");
 
@@ -229,7 +232,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         {
             Elapsed = position.Elapsed;
             Length = position.Length.Value;
-            RecalculateProgress();
+            UpdateProgress();
         }
         else
         {
@@ -239,24 +242,17 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         }
     }
 
-    private void RecalculateProgress()
+    private void UpdateProgress()
     {
         Progress = Elapsed.Ticks / (double)Length.Ticks;
     }
 
-    private void SetState(PlayerState playerState)
+    private void UpdatePlayerState(PlayerState playerState)
     {
-        if (playerState == PlayerState.Playing || playerState == PlayerState.Streaming)
-        {
-            IsStartVisible = false;
-        }
-        else
-        {
-            IsStartVisible = true;
-        }
+        IsStartVisible = playerState.ToPlayerCanBeStarted();
     }
 
-    private void SetMedia(PlayerMedia media)
+    private void UpdatePlayerMedia(PlayerMedia media)
     {
         Title1 = media.Titles.Count > 0 ? media.Titles[0] : string.Empty;
         Title2 = media.Titles.Count > 1 ? media.Titles[1] : string.Empty;
@@ -268,31 +264,9 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         StreamFormat = media.StreamFormat;
     }
 
-    private async Task ToggleMute()
+    private async Task SetAndClampVolumeAsync(int percentage)
     {
-        var isMUted = await _bluPlayerService.BluPlayer?.Mute(!IsMuted);
-        IsMuted = isMUted == 1;
-    }
-
-    private async Task VolumeDown()
-    {
-        await SetVolume(Volume - 2);
-    }
-
-    private async Task SetVolume(int percentage)
-    {
-        if (percentage > 100)
-            percentage = 100;
-
-        if (percentage < 0)
-            percentage = 0;
-
-        await _bluPlayerService.BluPlayer.SetVolume(percentage);
-    }
-
-    private async Task VolumeUp()
-    {
-        await SetVolume(Volume + 2);
+        await _bluPlayerService.BluPlayer.SetVolume(Math.Clamp(percentage, 0, 100));
     }
 
     public void Dispose()
@@ -316,13 +290,17 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [RelayCommand]
-    private async Task ToggleMuteAsync() => await ToggleMute();
+    private async Task ToggleMuteAsync()
+    {
+        var isMUted = await _bluPlayerService.BluPlayer?.Mute(!IsMuted);
+        IsMuted = isMUted == 1;
+    }
 
     [RelayCommand]
-    private async Task VolumeUpAsync() => await VolumeUp();
+    private async Task VolumeUpAsync() => await SetAndClampVolumeAsync(Volume + 2);
 
     [RelayCommand]
-    private async Task VolumeDownAsync() => await VolumeDown();
+    private async Task VolumeDownAsync() => await SetAndClampVolumeAsync(Volume - 2);
 
     [RelayCommand]
     private async Task StopAsync() => await _bluPlayerService.BluPlayer?.Stop();
@@ -342,32 +320,14 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task ToggleShuffleAsync()
     {
-        if (ShuffleMode == ShuffleMode.ShuffleOff)
-        {
-            ShuffleMode = ShuffleMode.ShuffleOn;
-        }
-        else
-        {
-            ShuffleMode = ShuffleMode.ShuffleOff;
-        }
+        ShuffleMode = ShuffleMode.ToNextShuffleMode();
         await _bluPlayerService.BluPlayer.SetShuffleMode(ShuffleMode);
     }
 
     [RelayCommand]
     private async Task ToggleRepeatAsync()
     {
-        if (RepeatMode == RepeatMode.RepeatOff)
-        {
-            RepeatMode = RepeatMode.RepeatOne;
-        }
-        else if (RepeatMode == RepeatMode.RepeatOne)
-        {
-            RepeatMode = RepeatMode.RepeatAll;
-        }
-        else
-        {
-            RepeatMode = RepeatMode.RepeatOff;
-        }
+        RepeatMode = RepeatMode.ToNextRepeatMode();
         await _bluPlayerService.BluPlayer.SetRepeatMode(RepeatMode);
     }
 

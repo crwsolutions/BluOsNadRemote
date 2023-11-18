@@ -1,0 +1,114 @@
+@base_url=http://192.168.107.199:11000
+@service=Tidal
+
+###GET FAVORITE ARTISTS
+GET {{base_url}}/Artists?service={{service}}&category=FAVOURITES&sort=name
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET FAVORITE ALBUMS
+GET {{base_url}}/Albums?service={{service}}&category=FAVOURITES&sort=name
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET FAVORITE RECENT ALBUMS
+GET {{base_url}}/Albums?service={{service}}&category=FAVOURITES&inline=1&sort=recent
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET FAVORITE PLAYLISTS
+GET {{base_url}}/Playlists?service={{service}}&category=FAVOURITES&sort=name
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET mymix PLAYLISTS
+GET {{base_url}}/Playlists?service={{service}}&category=mymix
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET FAVORITE SONGS
+GET {{base_url}}/Songs?service={{service}}&category=FAVOURITES&sort=name
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET service PLAYLISTS
+GET {{base_url}}/Playlists?service={{service}}&sort=name
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET ui Home
+GET {{base_url}}/ui/Home
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET ui Home
+GET {{base_url}}/ui/Home?playnum=1
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET ui Sources
+GET {{base_url}}/ui/Sources?playnum=1
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET Syncstatus
+GET {{base_url}}/SyncStatus
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET Syncstatus
+GET {{base_url}}/SyncStatus?etag=207&timeout=10
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET Status?etag=e939e85c9ea71e364762eef483be512a&timeout=100
+GET {{base_url}}/Status
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET PLAYLIST
+GET {{base_url}}/Playlist?start=1&end=1
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1

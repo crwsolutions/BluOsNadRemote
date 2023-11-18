@@ -137,7 +137,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     {
         if (!IsBusy && !_isReceiving)
         {
-            _ = _nadRemote.SetMainDiracAsync(value);
+            _ = _nadRemote?.SetMainDiracAsync(value);
         }
     }
 

@@ -1,12 +1,13 @@
 ﻿using Blu4Net;
+using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
 public partial class MusicContentCategoryViewModel : ObservableCollection<MusicContentEntryViewModel>
 {
-    public MusicContentCategoryViewModel(MusicContentCategory category)
+    public MusicContentCategoryViewModel(MusicContentCategory category, BluPlayerService bluPlayerService)
     {
-        AddRange(category.Entries.Select(e => new MusicContentEntryViewModel(e)));
+        AddRange(category.Entries.Select(e => new MusicContentEntryViewModel(e, bluPlayerService)));
         Name = $"{category.Name} ({Count} items)";
     }
 
@@ -18,9 +19,9 @@ public partial class MusicContentCategoryViewModel : ObservableCollection<MusicC
         }
     }
 
-    public MusicContentCategoryViewModel(bool hasNext, IReadOnlyCollection<MusicContentEntry> entries)
+    public MusicContentCategoryViewModel(bool hasNext, IReadOnlyCollection<MusicContentEntry> entries, BluPlayerService bluPlayerService)
     {
-        AddRange(entries.Select(e => new MusicContentEntryViewModel(e)));
+        AddRange(entries.Select(e => new MusicContentEntryViewModel(e, bluPlayerService)));
         Name = hasNext ? $"More than {Count} items..." : $"{Count} items";
     }
 

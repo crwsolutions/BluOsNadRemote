@@ -14,6 +14,6 @@
             </Grid.GestureRecognizers>
         </Grid>
         <Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" VerticalOptions="Center" />
-        <Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Clicked="More_Clicked" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
+        <Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
     </Grid>
 </ContentView>

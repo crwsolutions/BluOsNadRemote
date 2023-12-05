@@ -14,7 +14,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     private readonly BluPlayerService _bluPlayerService;
 
     private string _playURL;
-    private string _actionURL;
     private string _searchTerm;
     private bool _isGettingMore;
     private MusicContentNode _moreNode;
@@ -50,8 +49,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
 
     public ObservableCollection<MusicContentCategoryViewModel> Categories { get; } = new ObservableCollection<MusicContentCategoryViewModel>();
 
-    public string ActionURL { set => _actionURL = value; }
-
     [RelayCommand]
     private async Task LoadDataAsync()
     {
@@ -64,10 +61,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
                 await _bluPlayerService.BluPlayer.MusicBrowser.PlayURL(_playURL);
                 await Shell.Current.GoToAsync($"//{nameof(PlayerPage)}");
                 return;
-            }
-            if (_actionURL != null)
-            {
-                await _bluPlayerService.BluPlayer.MusicBrowser.PlayURL(_actionURL);
             }
             else if (_searchTerm != null)
             {
@@ -107,11 +100,11 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
 #endif
             foreach (var category in _bluPlayerService.MusicContentNode.Categories)
             {
-                Categories.Add(new MusicContentCategoryViewModel(category));
+                Categories.Add(new MusicContentCategoryViewModel(category, _bluPlayerService));
             }
             if (_bluPlayerService.MusicContentNode.Entries.Any())
             {
-                Categories.Add(new MusicContentCategoryViewModel(_bluPlayerService.MusicContentNode.HasNext, _bluPlayerService.MusicContentNode.Entries));
+                Categories.Add(new MusicContentCategoryViewModel(_bluPlayerService.MusicContentNode.HasNext, _bluPlayerService.MusicContentNode.Entries, _bluPlayerService));
 
                 if (_bluPlayerService.MusicContentNode.HasNext)
                 {
@@ -132,7 +125,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             IsBusy = false;
             _playURL = null;
             _searchTerm = null;
-            _actionURL = null;
             Service = null;
             AlbumID = null;
             ArtistID = null;
@@ -167,7 +159,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
                 Debug.WriteLine($"Loading {node.Entries.Count} more items !!!");
 
                 var lastCategory = Categories.Last();
-                lastCategory.AddRange(node.Entries.Select(e => new MusicContentEntryViewModel(e)));
+                lastCategory.AddRange(node.Entries.Select(e => new MusicContentEntryViewModel(e, _bluPlayerService)));
 
                 if (node.HasNext)
                 {

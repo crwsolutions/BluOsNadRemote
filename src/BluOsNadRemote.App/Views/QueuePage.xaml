@@ -2,8 +2,9 @@
 <views:BaseContentPage xmlns:views="clr-namespace:BluOsNadRemote.App.Views"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BluOsNadRemote.App.Views.QueuePage"
+             xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
              xmlns:model="clr-namespace:Blu4Net;assembly=Blu4Net"
+             x:Class="BluOsNadRemote.App.Views.QueuePage"
              Title="{Binding Title}">
     <RefreshView Command="{Binding LoadDataCommand}" IsEnabled="False"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
@@ -33,7 +34,7 @@
                             </VisualStateManager.VisualStateGroups>
                             <Label Text="{Binding Title, Mode=OneTime}" Style="{StaticResource ListItemTextStyle}" />
                             <Label Grid.Row="1" Text="{Binding Artist, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
-                            <Button FontFamily="CrwMedia" Text="h" FontSize="Large" Grid.Column="1" Grid.RowSpan="2" Clicked="More_Clicked"  BackgroundColor="Transparent"/>
+                            <Button FontFamily="CrwMedia" Text="h" FontSize="Large" Grid.Column="1" Grid.RowSpan="2" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}"  BackgroundColor="Transparent"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

@@ -13,6 +13,16 @@ namespace BluOsNadRemote.App.ViewModels
         private const int _numberOfItemsPerPage = 25;
         private IAsyncEnumerator<IReadOnlyCollection<PlayQueueSong>> _iterator;
 
+        enum MenuAction
+        {
+            TrackStation,
+            SimilarStation,
+            GoToAlbum,
+            GoToArtist,
+            AddToFavorites,
+            RemoveFromList
+        }
+
         [RelayCommand]
         private async Task LoadDataAsync()
         {
@@ -66,6 +76,58 @@ namespace BluOsNadRemote.App.ViewModels
             finally
             {
                 IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task DisplayActionSheetAsync(PlayQueueSong entry)
+        {
+            Debug.WriteLine(entry.Title);
+
+            var menu = new Dictionary<MenuAction, string>
+            {
+                { MenuAction.TrackStation, "Play trackstation" },
+                { MenuAction.SimilarStation, "Play similarstation" },
+                { MenuAction.GoToAlbum, "Browse album" },
+                { MenuAction.GoToArtist, "Browse artist" },
+                { MenuAction.AddToFavorites, "Add to favorites" },
+                { MenuAction.RemoveFromList, "Remove from list" }
+            };
+
+            var page = Shell.Current.CurrentPage;
+
+            var action = await page.DisplayActionSheet("Actions", "Cancel", null, menu.Select(e => e.Value).ToArray());
+
+            var actionEntry = menu.FirstOrDefault(e => e.Value == action);
+
+            if (!actionEntry.Equals(default(KeyValuePair<MenuAction, string>)))
+            {
+                switch (actionEntry.Key)
+                {
+                    case MenuAction.TrackStation:
+                        await Shell.Current.GoToAsync("..");
+                        break;
+                    case MenuAction.SimilarStation:
+                        await Shell.Current.GoToAsync("..");
+                        break;
+                    case MenuAction.GoToAlbum:
+                        await Shell.Current.Navigation.PopToRootAsync(false); //navigate back to player
+                        await Shell.Current.GoToAsync($"//browse?{nameof(entry.Service)}={entry.Service}&{nameof(entry.AlbumID)}={entry.AlbumID}");
+                        break;
+                    case MenuAction.GoToArtist:
+                        await Shell.Current.Navigation.PopToRootAsync(false); //navigate back to player
+                        await Shell.Current.GoToAsync($"//browse?{nameof(entry.Service)}={entry.Service}&{nameof(entry.ArtistID)}={entry.ArtistID}");
+                        break;
+                    case MenuAction.AddToFavorites:
+                        break;
+                    case MenuAction.RemoveFromList:
+                        await RemoveFromListAsync(entry.ID);
+                        break;
+                    default:
+                        break;
+                }
+
+                Debug.WriteLine($"Action clicked: {actionEntry.Key} {entry.ID}");
             }
         }
 
@@ -132,7 +194,7 @@ namespace BluOsNadRemote.App.ViewModels
             }
         }
 
-        public async Task RemoveFromListAsync(int id)
+        private async Task RemoveFromListAsync(int id)
         {
             await _bluPlayerService.BluPlayer.PlayQueue.Remove(id);
             IsBusy = true;

@@ -9,11 +9,12 @@ public partial class PlayerPage : BaseContentPage
 
     protected override void OnSizeAllocated(double width, double height)
     {
+        var min = Math.Min(width, height);
         base.OnSizeAllocated(width, height);
-        const double margin = 16 + 44 + 16 + 16;
-        AlbumImage.WidthRequest = width - margin;
-        AlbumImage.MaximumWidthRequest = width - margin;
-        AlbumImage.HeightRequest = width - margin;
-        AlbumImage.MaximumHeightRequest = width - margin;
+        const double margin = 6 + 44 + 16 + 6;
+        AlbumImage.WidthRequest = min - margin;
+        AlbumImage.MaximumWidthRequest = min - margin;
+        AlbumImage.HeightRequest = min - margin;
+        AlbumImage.MaximumHeightRequest = min - margin;
     }
 }

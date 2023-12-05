@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
+             x:Class="BluOsNadRemote.App.ContentViews.SinglelineMusicContentEntry"
+             x:DataType="vm:MusicContentEntryViewModel">
+    <Grid Padding="12,8,8,2" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+        <Grid VerticalOptions="Start" ColumnDefinitions="Auto,*, Auto" RowDefinitions="Auto">
+            <Image IsVisible="{Binding HasImage, Mode=OneTime}" WidthRequest="75" HeightRequest="75" Source="{Binding Entry.ImageUri, Mode=OneTime}" VerticalOptions="Start" Margin="0,0,8,0" />
+            <Label Grid.Column="1" Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" VerticalTextAlignment="Center" Padding="0,0,0,0" FontSize="Large" />
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime}"
+				              CommandParameter="{Binding ., Mode=OneTime}"/>
+            </Grid.GestureRecognizers>
+        </Grid>
+        <Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" VerticalOptions="Center" />
+        <Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Clicked="More_Clicked" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
+    </Grid>
+</ContentView>

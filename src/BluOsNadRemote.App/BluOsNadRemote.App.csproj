@@ -52,11 +52,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\..\..\Users\colin\source\repos\Blu4Net\src\Blu4Net\Blu4Net.csproj" />
 	  <ProjectReference Include="..\BluOsNadRemote.Nad4Net\BluOsNadRemote.Nad4Net.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="ContentViews\MultilineMusicContentEntry.xaml.cs">
+	    <DependentUpon>MultilineMusicContentEntry.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="ContentViews\RemoteStepper.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ContentViews\MultilineMusicContentEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ContentViews\SinglelineMusicContentEntry.xaml">

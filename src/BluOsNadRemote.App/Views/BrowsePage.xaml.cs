@@ -3,7 +3,7 @@
 public partial class BrowsePage : BaseContentPage
 {
     [Dependency(nameof(BindingContext))]
-    private BrowseViewModel ViewModel => BindingContext as BrowseViewModel;
+    internal BrowseViewModel ViewModel => BindingContext as BrowseViewModel;
 
     partial void PreConstruct() => InitializeComponent();
 
@@ -31,30 +31,30 @@ public partial class BrowsePage : BaseContentPage
         return base.OnBackButtonPressed();
     }
 
-    private async void More_Clicked(object sender, EventArgs e)
-    {
-        var btn = (BindableObject)sender;
-        var entry = (MusicContentEntryViewModel)btn.BindingContext;
+    //private async void More_Clicked(object sender, EventArgs e)
+    //{
+    //    var btn = (BindableObject)sender;
+    //    var entry = (MusicContentEntryViewModel)btn.BindingContext;
 
-        Debug.WriteLine(entry.Entry.Name);
+    //    Debug.WriteLine(entry.Entry.Name);
 
-        var contextMenu = await entry.Entry.ResolveContextMenu();
+    //    var contextMenu = await entry.Entry.ResolveContextMenu();
 
-        Debug.WriteLine(contextMenu.Entries.Count);
-        var options = contextMenu.Entries.Select(t => t.Name).ToArray();
+    //    Debug.WriteLine(contextMenu.Entries.Count);
+    //    var options = contextMenu.Entries.Select(t => t.Name).ToArray();
 
-        string action = await DisplayActionSheet("Actions", "Cancel", null, options);
+    //    string action = await DisplayActionSheet("Actions", "Cancel", null, options);
 
-        var actionEntry = contextMenu.Entries.FirstOrDefault(e => e.Name == action);
+    //    var actionEntry = contextMenu.Entries.FirstOrDefault(e => e.Name == action);
 
-        Debug.WriteLine("Action clicked: " + actionEntry?.ActionURL);
+    //    Debug.WriteLine("Action clicked: " + actionEntry?.ActionURL);
 
-        if (actionEntry == null)
-        {
-            return;
-        }
+    //    if (actionEntry == null)
+    //    {
+    //        return;
+    //    }
 
-        ViewModel.ActionURL = actionEntry.ActionURL;
-        ViewModel.IsBusy = true;
-    }
+    //    ViewModel.ActionURL = actionEntry.ActionURL;
+    //    ViewModel.IsBusy = true;
+    //}
 }

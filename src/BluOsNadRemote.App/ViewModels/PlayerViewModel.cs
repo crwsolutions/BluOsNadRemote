@@ -53,7 +53,14 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DisplayState))]
     private string _state;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DisplayState))]
+    private string _streamFormat;
+
+    public string DisplayState => StreamFormat?.Length > 0 ? $"{StreamFormat} - {State}" : State;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(QualityImageIcon))]
@@ -78,9 +85,6 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     public string QualityKbs => _qualityKbs != null ? $"{_qualityKbs / 1000} kb/s" : null;
 
     public bool QualityKbsVisible => _qualityKbs != null;
-
-    [ObservableProperty]
-    private string _streamFormat;
 
     public string MuteImage => IsMuted || Volume == 0 ? "f" : "g";
 

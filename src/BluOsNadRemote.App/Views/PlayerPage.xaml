@@ -56,13 +56,13 @@
                         <Label Grid.Row="1" Grid.Column="1" Text="{Binding Length, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="0, -2,0,0" HorizontalTextAlignment="End" />
                     </Grid>
 
+
+                    <!-- Quality / Song title -->
                     <Grid Grid.Row="3" RowDefinitions="Auto,Auto" VerticalOptions="Center">
                         <Image Source="{Binding QualityImageIcon, Mode=OneWay}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="22" HeightRequest="22" />
                         <Label IsVisible="{Binding QualityKbsVisible, Mode=OneWay}" Grid.Row="1" Text="{Binding QualityKbs, Mode=OneWay}" FontSize="7" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                     </Grid>
-
-                    <!-- song title -->
-                    <Label Grid.Row="3" Grid.Column="1" Margin="0,8,0,0" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
+                    <Label Grid.Row="3" Grid.Column="1" Margin="0,8,0,0" VerticalOptions="Center" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
 
                     <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="Auto,Auto,Auto" VerticalOptions="Center">
                         <!-- control buttons -->
@@ -75,19 +75,9 @@
                         </Grid>
 
                         <!-- state -->
-                        <Grid Grid.Row="1" Margin="0,12,0,12" RowDefinitions="1,Auto,1" VerticalOptions="Center">
-                            <BoxView HorizontalOptions="Fill" HeightRequest="1" Color="Gray"/>
-                            <Label HorizontalTextAlignment="Center" FontSize="14" VerticalOptions="Center" Grid.Row="1">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding StreamFormat, Mode=OneWay}" />
-                                        <Span Text=" - " />
-                                        <Span Text="{Binding State, Mode=OneWay}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <BoxView HorizontalOptions="Fill" HeightRequest="1" Color="Gray" Grid.Row="2"/>
-                        </Grid>
+                        <Frame Grid.Row="1" CornerRadius="6" Margin="4,8,4,8" Padding="0" HeightRequest="32" BorderColor="#1E1E1E" BackgroundColor="#2C2C2C">
+                            <Label HorizontalTextAlignment="Center" FontSize="14" VerticalOptions="Center" TextColor="LightGrey" Text="{Binding DisplayState, Mode=OneWay}"/>
+                        </Frame>
 
                         <!-- Volume -->
                         <Grid Grid.Row="2" RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,Auto,*">

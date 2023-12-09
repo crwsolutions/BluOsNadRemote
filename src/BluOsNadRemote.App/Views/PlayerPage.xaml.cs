@@ -11,7 +11,7 @@ public partial class PlayerPage : BaseContentPage
     {
         var min = Math.Min(width, height);
         base.OnSizeAllocated(width, height);
-        const double margin = 6 + 44 + 16 + 6;
+        const double margin = 8 + 66 + 8;
         AlbumImage.WidthRequest = min - margin;
         AlbumImage.MaximumWidthRequest = min - margin;
         AlbumImage.HeightRequest = min - margin;

@@ -47,10 +47,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
             var commandList = await _nadRemote.GetCommandListAsync();
             UpdateCommandlist(commandList);
-            _commandChangesSubscriber = _nadRemote.CommandChanges.Subscribe(commandList =>
-            {
-                UpdateCommandlist(commandList);
-            });
+            _commandChangesSubscriber = _nadRemote.CommandChanges.Subscribe(UpdateCommandlist);
             IsBusy = false;
 
         }
@@ -251,10 +248,14 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     private bool _mainPower;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsMainVideoARC))]
     private string _mainVideoARC;
+
+    public bool IsMainVideoARC => MainVideoARC?.ToLower() == "yes";
 
     [ObservableProperty]
     private string _mainDolbyDRC;
+
 
     public void Dispose()
     {

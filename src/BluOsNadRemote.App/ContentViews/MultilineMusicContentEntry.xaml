@@ -4,21 +4,18 @@
              xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
              x:Class="BluOsNadRemote.App.ContentViews.MultilineMusicContentEntry"
              x:DataType="vm:MusicContentEntryViewModel">
-    <Grid Padding="12,8,8,2" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
-        <Grid Padding="12,8,8,2" ColumnDefinitions="*,Auto" RowDefinitions="Auto">
-            <Grid VerticalOptions="Start" ColumnDefinitions="Auto,*, Auto" RowDefinitions="Auto">
-                <Image IsVisible="{Binding HasImage, Mode=OneTime}" WidthRequest="75" HeightRequest="75" Source="{Binding Entry.ImageUri, Mode=OneTime}" VerticalOptions="Start" Margin="0,0,8,0" />
-                <StackLayout Grid.Column="1">
-                    <Label Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}"  />
-                    <Label Text="{Binding Entry.Text2, Mode=OneTime}" Style="{DynamicResource ListItemSubTextStyle}" />
-                </StackLayout>
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime}"
-					              CommandParameter="{Binding ., Mode=OneTime}"/>
-                </Grid.GestureRecognizers>
-            </Grid>
-            <Button HorizontalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" BackgroundColor="Transparent" HeightRequest="75" WidthRequest="75" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" VerticalOptions="Start" />
-            <Button FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" HeightRequest="75" WidthRequest="50" BackgroundColor="Transparent"/>
+    <Grid Padding="8,0,0,0" ColumnDefinitions="*,Auto">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <Image  WidthRequest="60" HeightRequest="60" VerticalOptions="Start" IsVisible="{Binding HasImage, Mode=OneTime}" Source="{Binding Entry.ImageUri, Mode=OneTime}" Margin="0,8,8,0" />
+            <Button HeightRequest="60" WidthRequest="60" VerticalOptions="Start" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" BackgroundColor="Transparent" BorderColor="Transparent" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}"/>
+            <StackLayout Grid.Column="1" Margin="0,8,0,0">
+                <Label Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}"  />
+                <Label Text="{Binding Entry.Text2, Mode=OneTime}" Style="{DynamicResource ListItemSubTextStyle}" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}"/>
+            </Grid.GestureRecognizers>
         </Grid>
+        <Button HeightRequest="60" WidthRequest="60" FontFamily="CrwMedia" Text="h" FontSize="48" Grid.Column="1" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" BackgroundColor="Transparent"/>
     </Grid>
 </ContentView>

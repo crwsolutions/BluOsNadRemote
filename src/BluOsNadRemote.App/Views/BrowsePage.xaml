@@ -11,64 +11,60 @@
 			 NavigationPage.HasNavigationBar="False">
 
     <Shell.TitleView>
-		<Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto" RowDefinitions="60">
+		<Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
 			<ImageButton
 				Source="{AppThemeBinding Light=back_light.png, Dark=back_dark.png}"
-				HeightRequest="28" WidthRequest="28"
+				HeightRequest="22" WidthRequest="22"
 				BackgroundColor="Transparent"
 				IsVisible="{Binding HasParent, Mode=OneWay}" 
 				Command="{Binding GoBackCommand, Mode=OneTime}" />
             <Image Grid.Column="1" Margin="10" Source="{Binding ServiceIconUri, Mode=OneWay}" IsVisible="{Binding HasParent, Mode=OneWay}" />
-            <Label Grid.Column="2" IsVisible="{Binding IsNotSearching, Mode=OneWay}" TextColor="White" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
-            <ImageButton Grid.Column="3" Margin="0,0,12,0"
-				HeightRequest="26" WidthRequest="26"
+            <Label Grid.Column="2" TextColor="White" FontSize="Large" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+            <ImageButton Grid.Column="3" 
+				HeightRequest="20" WidthRequest="20"
 				Source="{AppThemeBinding Light=home_light.png, Dark=home_dark.png}"
 				BackgroundColor="Transparent"
-				Command="{Binding GoHomeCommand, Mode=OneTime}" 
-				IsVisible="{Binding CanGoHome, Mode=OneWay}"/>
+				Command="{Binding GoHomeCommand, Mode=OneTime}" />
 			<!-- glass -->
-            <Button Grid.Column="4" Margin="0,6,8,0"
+            <Button Grid.Column="4" Margin="0,6,0,0" 
                 FontFamily="CrwMedia" Text="q"
-                FontSize="42" TextColor="White"
-				HeightRequest="48" WidthRequest="50"
+                FontSize="32" TextColor="White"
 				VerticalOptions="Center"
 				BackgroundColor="Transparent"
 				Command="{Binding ShowSearchCommand, Mode=OneTime}"
 				IsVisible="{Binding CanSearch, Mode=OneWay}">
 			</Button>
-			<!-- cross -->
-            <Button Grid.Column="4" Margin="0,2,8,0"
-                FontFamily="CrwMedia" Text="l"
-                FontSize="42" TextColor="White"
-				HeightRequest="48" WidthRequest="50"
-				BackgroundColor="Transparent"
-				Command="{Binding HideSearchCommand, Mode=OneTime}"
-				IsVisible="{Binding IsSearching, Mode=OneWay}">
-			</Button>
-
-			<SearchBar Grid.Column="2" IsVisible="{Binding IsSearching}" x:Name="searchBar" 
-						SearchCommand="{Binding SearchCommand}"
-						SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
-		</Grid>
+    	</Grid>
 	</Shell.TitleView>
 
 	<ContentPage.Resources>
         <DataTemplate x:Key="SinglelineTemplate" x:DataType="vm:MusicContentEntryViewModel">
-            <contentViews:SinglelineMusicContentEntry />
+            <contentViews:SinglelineMusicContentEntry HorizontalOptions="Fill" />
 		</DataTemplate>
 
         <DataTemplate x:Key="MultilineTemplate" x:DataType="vm:MusicContentEntryViewModel">
-            <contentViews:MultilineMusicContentEntry />
+            <contentViews:MultilineMusicContentEntry HorizontalOptions="Fill"/>
         </DataTemplate>
 		<controls:ItemsListViewMultilineTemplateSelector x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
 	</ContentPage.Resources>
 
 	<RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" x:DataType="vm:BrowseViewModel">
-        <Grid>
-        <CollectionView ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}">
+        <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" BackgroundColor="Black">
+            <SearchBar IsVisible="{Binding IsSearching}" x:Name="searchBar" Margin="0,0,0,4"
+						SearchCommand="{Binding SearchCommand}"
+						SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+            <!-- cross -->
+            <Button Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center"
+					FontFamily="CrwMedia" Text="l"
+					FontSize="28" TextColor="White"
+					BackgroundColor="Transparent"
+					Command="{Binding HideSearchCommand, Mode=OneTime}"
+					IsVisible="{Binding IsSearching, Mode=OneWay}">
+            </Button>
+            <CollectionView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
-					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" Padding="12,6,0,6" BackgroundColor="Silver" />
+					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" Padding="12,6,0,6" Margin="0,0,0,8" BackgroundColor="Silver" />
 				</DataTemplate>
 			</CollectionView.GroupHeaderTemplate>
 		</CollectionView>

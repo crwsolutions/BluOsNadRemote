@@ -381,9 +381,37 @@
 		<Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
 	</Style>
 
+    <Style x:Key="ListItemImageStyle" TargetType="Image">
+        <Setter Property="WidthRequest" Value="64" />
+        <Setter Property="HeightRequest" Value="64"/>
+        <Setter Property="VerticalOptions" Value="Start"/>
+        <Setter Property="Margin" Value="0,8,8,0"/>
+    </Style>
+
+    <Style x:Key="ListItemImageOverlayButtonStyle" TargetType="Button">
+        <Setter Property="WidthRequest" Value="30" />
+        <Setter Property="HeightRequest" Value="30"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="Margin" Value="0,8,8,0"/>
+        <Setter Property="BackgroundColor" Value="#2E2E2E"/>
+        <Setter Property="BorderColor" Value="Silver"/>
+        <Setter Property="CornerRadius" Value="15" />
+    </Style>
+
     <Style x:Key="ListItemTextStyle" TargetType="Label">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="LineBreakMode" Value="WordWrap"/>
+        <Setter Property="MaxLines" Value="2"/>
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="VerticalTextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="ListItemTitleTextStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="FontSize" Value="16"/>
+        <Setter Property="LineBreakMode" Value="WordWrap"/>
+        <Setter Property="MaxLines" Value="1"/>
     </Style>
 
     <Style x:Key="ListItemSubTextStyle" TargetType="Label">
@@ -391,6 +419,15 @@
         <Setter Property="FontSize" Value="11"/>
         <Setter Property="LineBreakMode" Value="WordWrap"/>
         <Setter Property="MaxLines" Value="2"/>
+    </Style>
+
+    <Style x:Key="ListItemActionSheetButtonStyle" TargetType="Button">
+        <Setter Property="WidthRequest" Value="60" />
+        <Setter Property="HeightRequest" Value="44"/>
+        <Setter Property="FontFamily" Value="CrwMedia"/>
+        <Setter Property="FontSize" Value="48"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
     <Style x:Key="MediaButton" TargetType="ImageButton">

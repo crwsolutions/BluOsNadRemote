@@ -17,14 +17,14 @@
                 SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="12,8,8,2" ColumnDefinitions="Auto,*" x:DataType="model:Favorite">
-                            <Image Source="{Binding ImageUri, Mode=OneTime}" WidthRequest="75" HeightRequest="75" />
-                            <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" VerticalTextAlignment="Start" Padding="12,0,0,0" FontSize="Large"  />
+                        <Grid ColumnDefinitions="Auto,*" Margin="8,0,8,0" x:DataType="model:Favorite">
+                            <Image Source="{Binding ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}" />
+                            <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" />
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:PresetsViewModel}}, Path=PresetTappedCommand}"		
-                                CommandParameter="{Binding .}">
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:PresetsViewModel}}, Path=PresetTappedCommand, Mode=OneTime}"		
+                                CommandParameter="{Binding ., Mode=OneTime}">
                                 </TapGestureRecognizer>
                             </Grid.GestureRecognizers>
                         </Grid>

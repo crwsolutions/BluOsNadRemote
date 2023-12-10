@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
              xmlns:model="clr-namespace:Blu4Net;assembly=Blu4Net"
              x:Class="BluOsNadRemote.App.Views.QueuePage"
+             x:DataType="vm:QueueViewModel"
              Title="{Binding Title}">
     <RefreshView Command="{Binding LoadDataCommand}" IsEnabled="False"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
@@ -17,7 +18,7 @@
                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreDataCommand, Mode=OneTime}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="12,8,8,2" RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" x:DataType="model:PlayQueueSong">
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Margin="8,0,8,0" x:DataType="model:PlayQueueSong">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualState Name="Normal">
@@ -32,9 +33,11 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Label Text="{Binding Title, Mode=OneTime}" Style="{StaticResource ListItemTextStyle}" />
-                            <Label Grid.Row="1" Text="{Binding Artist, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
-                            <Button FontFamily="CrwMedia" Text="h" FontSize="Large" Grid.Column="1" Grid.RowSpan="2" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}"  BackgroundColor="Transparent"/>
+                            <StackLayout Padding="8,0,0,0" VerticalOptions="Center">
+                                <Label Text="{Binding Title, Mode=OneTime}" Style="{StaticResource ListItemTitleTextStyle}" />
+                                <Label Text="{Binding Artist, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
+                            </StackLayout>
+                            <Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}" Text="h" Style="{DynamicResource ListItemActionSheetButtonStyle}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

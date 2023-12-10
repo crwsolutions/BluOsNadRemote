@@ -39,11 +39,11 @@
 
 	<ContentPage.Resources>
         <DataTemplate x:Key="SinglelineTemplate" x:DataType="vm:MusicContentEntryViewModel">
-            <contentViews:SinglelineMusicContentEntry HorizontalOptions="Fill" />
+            <contentViews:SinglelineMusicContentEntry />
 		</DataTemplate>
 
         <DataTemplate x:Key="MultilineTemplate" x:DataType="vm:MusicContentEntryViewModel">
-            <contentViews:MultilineMusicContentEntry HorizontalOptions="Fill"/>
+            <contentViews:MultilineMusicContentEntry />
         </DataTemplate>
 		<controls:ItemsListViewMultilineTemplateSelector x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
 	</ContentPage.Resources>
@@ -61,10 +61,10 @@
 					Command="{Binding HideSearchCommand, Mode=OneTime}"
 					IsVisible="{Binding IsSearching, Mode=OneWay}">
             </Button>
-            <CollectionView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand}">
+            <CollectionView Margin="8,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
-					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" Padding="12,6,0,6" Margin="0,0,0,8" BackgroundColor="Silver" />
+					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" Padding="12,6,0,6" Margin="0,8,0,0" BackgroundColor="DimGray" />
 				</DataTemplate>
 			</CollectionView.GroupHeaderTemplate>
 		</CollectionView>

@@ -288,6 +288,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         _repeatChangesSubscriber?.Dispose();
         _repeatChangesSubscriber = null;
         MediaImageUri = null;
+        ServiceIconUri = null;
         Quality = null;
         _timer?.Stop();
         _timer = null;

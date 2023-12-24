@@ -15,14 +15,7 @@
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <Grid>
             <ScrollView Margin="8,0,8,0">
-                <Grid ColumnDefinitions="66,*">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <Grid ColumnDefinitions="66,*" RowDefinitions="Auto, Auto, Auto, Auto, *">
 
                     <!-- service / song title  -->
                     <Image Source="{Binding ServiceIconUri, Mode=OneWay}" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="32" HeightRequest="32" />
@@ -56,17 +49,16 @@
                         <Label Grid.Row="1" Grid.Column="1" Text="{Binding Length, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="0, -2,0,0" HorizontalTextAlignment="End" />
                     </Grid>
 
-
                     <!-- Quality / Song title -->
-                    <Grid Grid.Row="3" RowDefinitions="Auto,Auto" VerticalOptions="Center">
-                        <Image Source="{Binding QualityImageIcon, Mode=OneWay}" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="22" HeightRequest="22" />
-                        <Label IsVisible="{Binding QualityKbsVisible, Mode=OneWay}" Grid.Row="1" Text="{Binding QualityKbs, Mode=OneWay}" FontSize="7" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
-                    </Grid>
-                    <Label Grid.Row="3" Grid.Column="1" Margin="0,8,0,0" VerticalOptions="Center" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
+                    <VerticalStackLayout Grid.Row="3" Margin="0,8,0,0" VerticalOptions="Center">
+                        <Image Source="{Binding QualityImageIcon, Mode=OneWay}" WidthRequest="22"  />
+                        <Label IsVisible="{Binding QualityKbsVisible, Mode=OneWay}" Text="{Binding QualityKbs, Mode=OneWay}" FontSize="7" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
+                    </VerticalStackLayout>
+                    <Label Grid.Row="3" Grid.Column="1" VerticalOptions="Center" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
 
-                    <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="Auto,Auto,Auto" VerticalOptions="Center">
+                    <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="*,Auto,*,Auto,*,Auto,*" Margin="0,12,0,12">
                         <!-- control buttons -->
-                        <Grid  RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
+                        <Grid Grid.Row="1" RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
                             <Button Grid.Column="0" Command="{Binding BackCommand, Mode=OneTime}" Text="z" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" IsVisible="{Binding IsStartVisible}" Command="{Binding PlayCommand, Mode=OneTime}" Text="x" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" IsVisible="{Binding IsPauseVisible}" Command="{Binding PauseCommand, Mode=OneTime}" Text="b" Style="{StaticResource CircleButton}"/>
@@ -75,16 +67,26 @@
                         </Grid>
 
                         <!-- state -->
-                        <Frame Grid.Row="1" CornerRadius="6" Margin="4,8,4,8" Padding="0" HeightRequest="32" BorderColor="#1E1E1E" BackgroundColor="#2C2C2C">
-                            <Label HorizontalTextAlignment="Center" FontSize="14" VerticalOptions="Center" TextColor="LightGrey" Text="{Binding DisplayState, Mode=OneWay}"/>
-                        </Frame>
+                        <Border Grid.Row="3" StrokeShape="RoundRectangle 6" Margin="4,8,4,8" Padding="8" Stroke="DimGray" BackgroundColor="#2C2C2C">
+                            <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+                                <Label Margin="8,0,0,0" FontSize="14" TextColor="LightGrey" Text="{Binding StreamFormat, Mode=OneWay}"/>
+                                <Label Grid.Column="1" HorizontalTextAlignment="Center" FontSize="14" TextColor="LightGrey" Text="{Binding State, Mode=OneWay}"/>
+                                <Label Grid.Column="2" HorizontalTextAlignment="End" Margin="0,0,8,0" FontSize="14" TextColor="LightGrey">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Volume, Mode=OneWay}"/>
+                                            <Span Text=" %"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+                        </Border>
 
                         <!-- Volume -->
-                        <Grid Grid.Row="2" RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,Auto,*">
+                        <Grid Grid.Row="5" RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,Auto,*">
                             <Button Command="{Binding ToggleMuteCommand, Mode=OneTime}" Text="{Binding MuteImage, Mode=OneWay}" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" Command="{Binding VolumeDownCommand, Mode=OneTime}" Text="m" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="2" Command="{Binding VolumeUpCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}"/>
-                            <Label  Grid.Column="3" Margin="6,0,6,0" VerticalTextAlignment="Center" Text="{Binding Volume, Mode=OneWay}" FontSize="13" />
                             <Slider Grid.Column="4" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" ThumbColor="Black" />
                         </Grid>
                     </Grid>

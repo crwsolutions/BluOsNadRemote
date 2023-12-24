@@ -18,7 +18,13 @@ public partial class App : Application
 
     protected override void OnStart()
     {
-        
+        if (Preferences.Endpoint == null)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
+            });
+        }
     }
 
     protected override void OnSleep()

@@ -21,12 +21,12 @@ public partial class PresetsViewModel : BaseRefreshViewModel
     [RelayCommand]
     private async Task LoadDataAsync()
     {
-        Title = "Loading...";
-
         try
         {
-            if (!_bluPlayerService.IsInitialized) { 
-                Title = await _bluPlayerService.InitializeAsync();
+            Title = "Loading...";
+
+            if (!_bluPlayerService.IsConnected) {
+                await Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
             }
 
             var presets = await _bluPlayerService.BluPlayer.PresetList.GetPresets();

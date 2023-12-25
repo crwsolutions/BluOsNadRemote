@@ -52,10 +52,16 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task LoadDataAsync()
     {
-        Title = "Loading...";
 
         try
         {
+            Title = "Loading...";
+
+            if (!_bluPlayerService.IsConnected)
+            {
+                await Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
+            }
+
             if (_playURL != null)
             {
                 await _bluPlayerService.BluPlayer.MusicBrowser.PlayURL(_playURL);

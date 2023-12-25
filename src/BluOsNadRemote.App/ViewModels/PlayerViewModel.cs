@@ -141,11 +141,13 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         try
         {
             // yes, so create and connect the player
-            Title = await _bluPlayerService.InitializeAsync();
-            if (!_bluPlayerService.IsInitialized)
+            var result = await _bluPlayerService.ConnectAsync();
+            if (result.IsConnected == false)
             {
+                await Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
                 return;
             }
+            Title = result.Message;
 
             var bluPlayer = _bluPlayerService.BluPlayer;
 

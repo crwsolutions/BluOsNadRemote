@@ -30,7 +30,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel
             {
                 uri = $"http://{value}:{BluEnvironment.DefaultEndpointPort}/";
             }
-            if (_configurationService.SelectedEndpoint.Uri?.ToString() != uri)
+            if (_configurationService.SelectedEndpoint?.Uri?.ToString() != uri)
             {
                 _configurationService.SetEndpoint(uri);
                 OnPropertyChanged(nameof(Endpoint));
@@ -102,7 +102,13 @@ public partial class SettingsViewModel : BaseRefreshViewModel
         {
             IsBusy = true;
             Reset();
-            Result = await _bluPlayerService.InitializeAsync();
+            var discoverResult = await _bluPlayerService.DiscoverAsync();
+            Result = discoverResult.Message;
+            if (discoverResult.HasDiscovered)
+            {
+                Debug.WriteLine("HasSuccesfully discovered");
+                await _bluPlayerService.ConnectAsync();
+            }
             OnPropertyChanged(nameof(Host));
             OnPropertyChanged(nameof(Endpoint));
         }
@@ -121,6 +127,6 @@ public partial class SettingsViewModel : BaseRefreshViewModel
     {
         Host = null;
         Result = null;
-        _bluPlayerService.IsInitialized = false;
+        _bluPlayerService.IsConnected = false;
     }
 }

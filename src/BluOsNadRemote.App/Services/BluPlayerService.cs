@@ -1,52 +1,61 @@
 ﻿using Blu4Net;
+using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Utils;
 using System.Reactive.Linq;
 
-namespace BluOsNadRemote.App.Services
+namespace BluOsNadRemote.App.Services;
+
+public partial class BluPlayerService
 {
-    public partial class BluPlayerService
+    [Dependency]
+    private readonly ConfigurationService _configurationService;
+
+    public bool IsConnected { get; set; }
+
+    public async Task<BluPlayerConnectResult> ConnectAsync()
     {
-        private BluPlayer _player;
-
-        [Dependency]
-        private readonly ConfigurationService _configurationService;
-
-        public bool IsInitialized { get; set; }
-
-        public async Task<string> InitializeAsync()
+        if (_configurationService.SelectedEndpoint == null)
         {
-            Uri uri;
-            if (_configurationService.SelectedEndpoint == null)
-            {
-                uri = await BluEnvironment.ResolveEndpoints().FirstOrDefaultAsync();
-
-                if (uri == null)
-                {
-                    return "Player not found";
-                }
-
-                _configurationService.SetEndpoint(uri);
-            }
-            else
-            {
-                uri = _configurationService.SelectedEndpoint.Uri;
-            }
-
-            _player = await BluPlayer.Connect(uri);
-            Console.WriteLine($"Player: {_player}");
-
-#if DEBUG            
-            _player.Log = new DebugTextWriter();
-#endif
-            IsInitialized = true;
-
-            return _player.ToString();
+            return new BluPlayerConnectResult("No connection", false);
         }
 
-        public BluPlayer BluPlayer => _player;
+        try
+        {
+            var uri = _configurationService.SelectedEndpoint.Uri;
+            BluPlayer = await BluPlayer.Connect(uri);
+            Console.WriteLine($"Player: {BluPlayer}");
+        }
+        catch (Exception exception)
+        {
+            return new BluPlayerConnectResult($"Could not connect: {exception.Message}", false);
+        }
 
-        public MusicContentEntry MusicContentEntry { get; set; }
-        public MusicContentNode MusicContentNode { get; set; }
+#if DEBUG            
+        BluPlayer.Log = new DebugTextWriter();
+#endif
+        IsConnected = true;
 
+        return new BluPlayerConnectResult(BluPlayer.ToString(), true);
     }
+
+    public async Task<BluPlayerDiscoverResult> DiscoverAsync()
+    {
+        var uri = await BluEnvironment.ResolveEndpoints().FirstOrDefaultAsync();
+
+        if (uri == null)
+        {
+            return new BluPlayerDiscoverResult("Player not found", false);
+        }
+
+        _configurationService.SetEndpoint(uri);
+
+        var connectResult = await ConnectAsync();
+
+        return new BluPlayerDiscoverResult(connectResult.Message, true);
+    }
+
+    public BluPlayer BluPlayer { get; private set; }
+
+    public MusicContentEntry MusicContentEntry { get; set; }
+    public MusicContentNode MusicContentNode { get; set; }
 }

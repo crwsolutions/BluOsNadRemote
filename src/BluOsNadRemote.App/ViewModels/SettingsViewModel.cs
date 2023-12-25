@@ -10,18 +10,18 @@ public partial class SettingsViewModel : BaseRefreshViewModel
     private readonly BluPlayerService _bluPlayerService;
 
     [Dependency]
-    private readonly PreferencesRepository _preferencesRepository;
+    private readonly ConfigurationService _configurationService;
 
     [ObservableProperty]
     private string _result = "";
 
-    public string Endpoint => _preferencesRepository.SelectedEndpoint?.Uri?.ToString();
+    public string Endpoint => _configurationService.SelectedEndpoint?.Uri?.ToString();
 
     public string Host
     {
         get
         {
-            return _preferencesRepository.SelectedEndpoint?.Uri?.Host;
+            return _configurationService.SelectedEndpoint?.Uri?.Host;
         }
         set
         {
@@ -30,9 +30,9 @@ public partial class SettingsViewModel : BaseRefreshViewModel
             {
                 uri = $"http://{value}:{BluEnvironment.DefaultEndpointPort}/";
             }
-            if (_preferencesRepository.SelectedEndpoint.Uri?.ToString() != uri)
+            if (_configurationService.SelectedEndpoint.Uri?.ToString() != uri)
             {
-                _preferencesRepository.SetEndpoint(uri);
+                _configurationService.SetEndpoint(uri);
                 OnPropertyChanged(nameof(Endpoint));
             }
         }
@@ -43,7 +43,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel
     {
         try
         {
-            var uri = _preferencesRepository.SelectedEndpoint.Uri;
+            var uri = _configurationService.SelectedEndpoint.Uri;
             var nadRemote = new NadRemote(uri);
             var result = await nadRemote.PingAsync();
             Result = $"Success {DateTime.Now}: {result}";

@@ -2,7 +2,7 @@
 
 namespace BluOsNadRemote.App.Services;
 
-public sealed class PreferencesRepository
+public sealed class ConfigurationService
 {
     private const string ENDPOINT = "endpoint";
     public Endpoint SelectedEndpoint
@@ -17,9 +17,10 @@ public sealed class PreferencesRepository
     public void SetEndpoint(string uri)
     {
         if (uri != null)
-        { 
+        {
             _ = new Uri(uri);
         }
+
         Preferences.Default.Set(ENDPOINT, uri);
     }
 

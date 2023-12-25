@@ -11,7 +11,7 @@ public partial class App : Application
     private readonly PlayerViewModel _playerViewModel;
 
     [Dependency]
-    private readonly PreferencesRepository _preferencesRepository;
+    private readonly ConfigurationService _configurationService;
 
     partial void PreConstruct() 
     {
@@ -21,7 +21,7 @@ public partial class App : Application
 
     protected override void OnStart()
     {
-        if (_preferencesRepository.SelectedEndpoint == null)
+        if (_configurationService.SelectedEndpoint == null)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {

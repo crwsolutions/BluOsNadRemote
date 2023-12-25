@@ -6,7 +6,7 @@ namespace BluOsNadRemote.App.Services;
 public partial class NadTelnetService
 {
     [Dependency]
-    private readonly PreferencesRepository _preferencesRepository;
+    private readonly ConfigurationService _configurationService;
 
     internal NadRemote NadRemote { get; private set; }
 
@@ -14,12 +14,12 @@ public partial class NadTelnetService
     {
         Disconnect();
 
-        if (_preferencesRepository.SelectedEndpoint == null)
+        if (_configurationService.SelectedEndpoint == null)
         {
             return new NadTelnetConnectResult("There is no endpoint. Go to settings");
         }
 
-        NadRemote = new(_preferencesRepository.SelectedEndpoint.Uri);
+        NadRemote = new(_configurationService.SelectedEndpoint.Uri);
 
         return NadTelnetConnectResult.Connected;
     }

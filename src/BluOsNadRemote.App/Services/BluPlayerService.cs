@@ -9,30 +9,30 @@ namespace BluOsNadRemote.App.Services
         private BluPlayer _player;
 
         [Dependency]
-        private readonly PreferencesRepository _preferencesRepository;
+        private readonly ConfigurationService _configurationService;
 
         public bool IsInitialized { get; set; }
 
         public async Task<string> InitializeAsync()
         {
-            Uri endpoint;
-            if (_preferencesRepository.SelectedEndpoint == null)
+            Uri uri;
+            if (_configurationService.SelectedEndpoint == null)
             {
-                endpoint = await BluEnvironment.ResolveEndpoints().FirstOrDefaultAsync();
+                uri = await BluEnvironment.ResolveEndpoints().FirstOrDefaultAsync();
 
-                if (endpoint == null)
+                if (uri == null)
                 {
                     return "Player not found";
                 }
 
-                _preferencesRepository.SetEndpoint(endpoint);
+                _configurationService.SetEndpoint(uri);
             }
             else
             {
-                endpoint = _preferencesRepository.SelectedEndpoint.Uri;
+                uri = _configurationService.SelectedEndpoint.Uri;
             }
 
-            _player = await BluPlayer.Connect(endpoint);
+            _player = await BluPlayer.Connect(uri);
             Console.WriteLine($"Player: {_player}");
 
 #if DEBUG            

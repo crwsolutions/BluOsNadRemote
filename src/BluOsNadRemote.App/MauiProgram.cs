@@ -32,7 +32,10 @@ public static class MauiProgram
         builder.Services.AddTransient<QueueViewModel>();
         builder.Services.AddTransient<QueuePage>();
 
+		builder.Services.AddSingleton<PreferencesRepository>();
+
 		builder.Services.AddSingleton<BluPlayerService>();
+		builder.Services.AddSingleton<NadTelnetService>();
         return builder.Build();
 	}
 }

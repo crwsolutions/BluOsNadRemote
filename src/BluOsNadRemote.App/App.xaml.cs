@@ -10,6 +10,9 @@ public partial class App : Application
     [Dependency]
     private readonly PlayerViewModel _playerViewModel;
 
+    [Dependency]
+    private readonly PreferencesRepository _preferencesRepository;
+
     partial void PreConstruct() 
     {
         InitializeComponent(); 
@@ -18,11 +21,11 @@ public partial class App : Application
 
     protected override void OnStart()
     {
-        if (Preferences.Endpoint == null)
+        if (_preferencesRepository.SelectedEndpoint == null)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
+                Shell.Current.GoToAsync($"/{nameof(SettingsPage)}");
             });
         }
     }

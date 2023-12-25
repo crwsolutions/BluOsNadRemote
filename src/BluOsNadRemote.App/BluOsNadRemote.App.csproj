@@ -46,6 +46,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Blu4Net" Version="1.0.6" />
 	  <PackageReference Include="CommunityToolkit.MVVM" Version="8.2.0" />
 	  <PackageReference Include="SourceDepend" Version="0.1.0" />

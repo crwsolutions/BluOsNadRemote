@@ -4,16 +4,19 @@ using System.Reactive.Linq;
 
 namespace BluOsNadRemote.App.Services
 {
-    public class BluPlayerService
+    public partial class BluPlayerService
     {
         private BluPlayer _player;
+
+        [Dependency]
+        private readonly PreferencesRepository _preferencesRepository;
 
         public bool IsInitialized { get; set; }
 
         public async Task<string> InitializeAsync()
         {
             Uri endpoint;
-            if (Preferences.Endpoint == null)
+            if (_preferencesRepository.SelectedEndpoint == null)
             {
                 endpoint = await BluEnvironment.ResolveEndpoints().FirstOrDefaultAsync();
 
@@ -22,11 +25,11 @@ namespace BluOsNadRemote.App.Services
                     return "Player not found";
                 }
 
-                Preferences.Endpoint = endpoint.ToString();
+                _preferencesRepository.SetEndpoint(endpoint);
             }
             else
             {
-                endpoint = new Uri(Preferences.Endpoint, UriKind.RelativeOrAbsolute);
+                endpoint = _preferencesRepository.SelectedEndpoint.Uri;
             }
 
             _player = await BluPlayer.Connect(endpoint);

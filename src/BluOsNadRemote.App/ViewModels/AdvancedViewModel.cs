@@ -1,59 +1,41 @@
-﻿using Nad4Net.Model;
-using Nad4Net;
+﻿using BluOsNadRemote.App.Services;
+using Nad4Net.Model;
 
 namespace BluOsNadRemote.App.ViewModels;
 
 public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 {
-    private NadRemote _nadRemote;
+    [Dependency]
+    private readonly NadTelnetService _service;
+
     private IDisposable _commandChangesSubscriber;
     private bool _isReceiving = false;
 
     [RelayCommand]
-    private async Task ToggleOnOffAsync()
-    {
-        await _nadRemote.ToggleOnOffAsync();
-    }
+    private async Task ToggleOnOffAsync() => await _service.NadRemote.ToggleOnOffAsync();
 
     [RelayCommand(AllowConcurrentExecutions = true)] //Bug: https://github.com/CommunityToolkit/dotnet/issues/150#issuecomment-1069660045
     private async Task LoadDataAsync()
     {
         Title = "Loading...";
 
-        if (Preferences.Endpoint == null)
-        {
-            Title = "There is no endpoint. Go to settings";
-        }
-
-        Uri uri;
         try
         {
-            uri = new Uri(Preferences.Endpoint);
-        }
-        catch (Exception)
-        {
-            Title = "Unable to determine endpoint. Go to settings";
-            return;
-        }
+            var result = _service.Connect();
+            if (result.IsConnected == false)
+            {
+                Title = result.Message;
+                return;
+            }
 
-        if (_nadRemote != null)
-        {
-            Dispose();
-        }
-
-        try
-        {
-            _nadRemote = new NadRemote(uri);
-
-            var commandList = await _nadRemote.GetCommandListAsync();
+            var commandList = await _service.NadRemote.GetCommandListAsync();
             UpdateCommandlist(commandList);
-            _commandChangesSubscriber = _nadRemote.CommandChanges.Subscribe(UpdateCommandlist);
-            IsBusy = false;
+            _commandChangesSubscriber = _service.NadRemote.CommandChanges.Subscribe(UpdateCommandlist);
 
         }
         catch (InvalidOperationException exception)
         {
-            Title = $"No connect to: {uri}";
+            Title = "Could not connect.";
             Debug.WriteLine(exception);
         }
         catch (Exception exception)
@@ -70,29 +52,29 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     {
         //Device.BeginInvokeOnMainThread(() =>
         //{
-            _isReceiving = true;
-            Title = commandList.MainModel;
-            MainSource = commandList.MainSource;
-            MainAudioCODEC = commandList.MainAudioCODEC;
-            MainAudioChannels = commandList.MainAudioChannels;
-            MainAudioRate = commandList.MainAudioRate;
-            MainVideoARC = commandList.MainVideoARC;
-            MainListeningMode = commandList.MainListeningMode;
-            Dirac1State = commandList.Dirac1State;
-            Dirac1Name = commandList.Dirac1Name;
-            Dirac2State = commandList.Dirac2State;
-            Dirac2Name = commandList.Dirac2Name;
-            Dirac3State = commandList.Dirac3State;
-            Dirac3Name = commandList.Dirac3Name;
-            MainDirac = commandList.MainDirac;
-            MainTrimSub = commandList.MainTrimSub;
-            MainTrimSurround = commandList.MainTrimSurround;
-            MainTrimCenter = commandList.MainTrimCenter;
-            MainDimmer = commandList.MainDimmer;
-            MainPower = commandList.MainPower;
-            MainDolbyDRC = commandList.MainDolbyDRC;
-            MainSourceName = commandList.MainSourceName;
-            _isReceiving = false;
+        _isReceiving = true;
+        Title = commandList.MainModel;
+        MainSource = commandList.MainSource;
+        MainAudioCODEC = commandList.MainAudioCODEC;
+        MainAudioChannels = commandList.MainAudioChannels;
+        MainAudioRate = commandList.MainAudioRate;
+        MainVideoARC = commandList.MainVideoARC;
+        MainListeningMode = commandList.MainListeningMode;
+        Dirac1State = commandList.Dirac1State;
+        Dirac1Name = commandList.Dirac1Name;
+        Dirac2State = commandList.Dirac2State;
+        Dirac2Name = commandList.Dirac2Name;
+        Dirac3State = commandList.Dirac3State;
+        Dirac3Name = commandList.Dirac3Name;
+        MainDirac = commandList.MainDirac;
+        MainTrimSub = commandList.MainTrimSub;
+        MainTrimSurround = commandList.MainTrimSurround;
+        MainTrimCenter = commandList.MainTrimCenter;
+        MainDimmer = commandList.MainDimmer;
+        MainPower = commandList.MainPower;
+        MainDolbyDRC = commandList.MainDolbyDRC;
+        MainSourceName = commandList.MainSourceName;
+        _isReceiving = false;
         //});
     }
 
@@ -102,7 +84,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     private string _mainSource;
     partial void OnMainSourceChanging(string value)
     {
-        _ = _nadRemote.ForceSourceNameUpdateAsync(value);
+        _ = _service.NadRemote.ForceSourceNameUpdateAsync(value);
     }
 
     [ObservableProperty]
@@ -123,7 +105,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     {
         if (!IsBusy && !_isReceiving)
         {
-            _ = _nadRemote.SetListeningModeAsync(value);
+            _ = _service.NadRemote.SetListeningModeAsync(value);
         }
     }
 
@@ -134,7 +116,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     {
         if (!IsBusy && !_isReceiving)
         {
-            _ = _nadRemote?.SetMainDiracAsync(value);
+            _ = _service.NadRemote?.SetMainDiracAsync(value);
         }
     }
 
@@ -145,9 +127,9 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     private string _dirac1Name;
     partial void OnDirac1NameChanging(string value)
     {
-        if (!_diracs.Any(d => d == value))
+        if (!Diracs.Any(d => d == value))
         {
-            _diracs.Add(value);
+            Diracs.Add(value);
         }
     }
 
@@ -158,9 +140,9 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     private string _dirac2Name;
     partial void OnDirac2NameChanging(string value)
     {
-        if (!_diracs.Any(d => d == value))
+        if (!Diracs.Any(d => d == value))
         {
-            _diracs.Add(value);
+            Diracs.Add(value);
         }
     }
 
@@ -171,14 +153,13 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     private string _dirac3Name;
     partial void OnDirac3NameChanging(string value)
     {
-        if (!_diracs.Any(d => d == value))
+        if (!Diracs.Any(d => d == value))
         {
-            _diracs.Add(value);
+            Diracs.Add(value);
         }
     }
 
-    private readonly ObservableCollection<string> _diracs = new();
-    public ObservableCollection<string> Diracs => _diracs;
+    public ObservableCollection<string> Diracs { get; } = [];
 
     [ObservableProperty]
     private int _mainTrimSub;
@@ -189,11 +170,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimSub < value)
             {
-                _ = _nadRemote.DoSubPlus();
+                _ = _service.NadRemote.DoSubPlus();
             }
+
             if (MainTrimSub > value)
             {
-                _ = _nadRemote.DoSubMinus();
+                _ = _service.NadRemote.DoSubMinus();
             }
         }
     }
@@ -206,11 +188,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimSurround < value)
             {
-                _ = _nadRemote.DoSurroundPlus();
+                _ = _service.NadRemote.DoSurroundPlus();
             }
+
             if (MainTrimSurround > value)
             {
-                _ = _nadRemote.DoSurroundMinus();
+                _ = _service.NadRemote.DoSurroundMinus();
             }
         }
     }
@@ -224,11 +207,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimCenter < value)
             {
-                _ = _nadRemote.DoCenterPlus();
+                _ = _service.NadRemote.DoCenterPlus();
             }
+
             if (MainTrimCenter > value)
             {
-                _ = _nadRemote.DoCenterMinus();
+                _ = _service.NadRemote.DoCenterMinus();
             }
         }
     }
@@ -240,7 +224,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         Debug.WriteLine($"Setting dimmer to {value}");
         if (!IsBusy && !_isReceiving)
         {
-            _ = _nadRemote.ToggleDimmerAsync();
+            _ = _service.NadRemote.ToggleDimmerAsync();
         }
     }
 
@@ -256,7 +240,6 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     private string _mainDolbyDRC;
 
-
     public void Dispose()
     {
         try
@@ -264,10 +247,10 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
             Debug.WriteLine("Disposing telnet shizzle");
             _commandChangesSubscriber?.Dispose();
             _commandChangesSubscriber = null;
-            _nadRemote?.Dispose();
-            _nadRemote = null;
+            _service.Disconnect();
             MainDirac = -1;
-            MainSourceName = null;
+            //MainSourceName = null;
+            //MainSource = null;
             IsBusy = false;
             _isReceiving = false;
         }

@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluOsNadRemote.App", "BluOs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BluOsNadRemote.Nad4Net", "BluOsNadRemote.Nad4Net\BluOsNadRemote.Nad4Net.csproj", "{D9D10E58-6A00-46BD-ACCA-4E74F7C7C281}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B2EB107F-4B5E-4C2F-B847-FE1792F72BCA}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

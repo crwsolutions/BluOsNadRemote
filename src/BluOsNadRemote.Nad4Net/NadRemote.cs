@@ -21,7 +21,7 @@ namespace Nad4Net
         private TimeSpan RetryDelay { get; } = TimeSpan.FromSeconds(5);
         public IObservable<CommandList> CommandChanges { get; }
 
-        private readonly CommandList _model = new CommandList();
+        private readonly CommandList _model = new();
         public Uri Endpoint { get; }
 
         public async Task<string> PingAsync()

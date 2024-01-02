@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 
 namespace BluOsNadRemote.App.Services;
 
-public partial class BluPlayerService
+public sealed partial class BluPlayerService
 {
     [Dependency]
     private readonly ConfigurationService _configurationService;
@@ -36,6 +36,12 @@ public partial class BluPlayerService
         IsConnected = true;
 
         return new BluPlayerConnectResult(BluPlayer.ToString(), true);
+    }
+
+    public void Disconnect()
+    {
+        BluPlayer = null;
+        IsConnected = false;
     }
 
     public async Task<BluPlayerDiscoverResult> DiscoverAsync()

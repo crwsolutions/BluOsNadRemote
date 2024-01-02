@@ -11,7 +11,7 @@ public partial class App : Application
     private readonly PlayerViewModel _playerViewModel;
 
     [Dependency]
-    private readonly ConfigurationService _configurationService;
+    private readonly BluPlayerService _bluPlayerService;
 
     partial void PreConstruct() 
     {
@@ -28,6 +28,7 @@ public partial class App : Application
     {
         _playerViewModel.Dispose();
         _advancedViewModel.Dispose();
+        _bluPlayerService.Disconnect();
     }
 
     protected override void OnResume()

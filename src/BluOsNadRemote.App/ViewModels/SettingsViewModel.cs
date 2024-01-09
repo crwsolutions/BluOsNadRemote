@@ -79,6 +79,6 @@ public partial class SettingsViewModel : BaseRefreshViewModel
         Result = null;
         _bluPlayerService.IsConnected = false;
         _configurationService.Clear();
-        EndPoints.Clear();
+        EndPoints?.Clear();
     }
 }

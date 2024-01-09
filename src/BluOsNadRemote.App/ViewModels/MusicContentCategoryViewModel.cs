@@ -1,4 +1,5 @@
 ﻿using Blu4Net;
+using BluOsNadRemote.App.Resources.Localizations;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -22,7 +23,7 @@ public partial class MusicContentCategoryViewModel : ObservableCollection<MusicC
     public MusicContentCategoryViewModel(bool hasNext, IReadOnlyCollection<MusicContentEntry> entries, BluPlayerService bluPlayerService)
     {
         AddRange(entries.Select(e => new MusicContentEntryViewModel(e, bluPlayerService)));
-        Name = hasNext ? $"More than {Count} items..." : $"{Count} items";
+        Name = hasNext ? string.Format(AppResources.NumMoreItems, Count) : string.Format(AppResources.NumItems, Count);
     }
 
     public string Name { get; set; }

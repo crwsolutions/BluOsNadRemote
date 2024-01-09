@@ -1,5 +1,6 @@
 ﻿using Blu4Net;
 using BluOsNadRemote.App.Extensions;
+using BluOsNadRemote.App.Resources.Localizations;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -55,7 +56,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
 
         try
         {
-            Title = "Loading...";
+            Title = AppResources.Loading;
 
             var result = await _bluPlayerService.ConnectAsync();
             Title = result.Message;
@@ -120,12 +121,12 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
                 }
             }
 
-            Title = _bluPlayerService.MusicContentNode?.ServiceName ?? "Available services";
+            Title = _bluPlayerService.MusicContentNode?.ServiceName ?? AppResources.AvailableServices;
             ServiceIconUri = _bluPlayerService.MusicContentNode?.ServiceIconUri;
         }
         catch (Exception exception)
         {
-            Title = "Could not retrieve browsers";
+            Title = AppResources.NoBrowsers;
             Debug.WriteLine(exception);
         }
         finally
@@ -180,7 +181,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             }
             catch (Exception exception)
             {
-                Title = "Could not retrieve more";
+                Title = AppResources.NoMore;
                 Debug.WriteLine(exception);
             }
             finally

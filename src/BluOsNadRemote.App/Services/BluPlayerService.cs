@@ -1,5 +1,6 @@
 ﻿using Blu4Net;
 using BluOsNadRemote.App.Models;
+using BluOsNadRemote.App.Resources.Localizations;
 using BluOsNadRemote.App.Utils;
 using System.Reactive.Linq;
 
@@ -16,7 +17,7 @@ public sealed partial class BluPlayerService
     {
         if (_configurationService.SelectedEndpoint == null)
         {
-            return new BluPlayerConnectResult("No connection", false);
+            return new BluPlayerConnectResult(AppResources.NoConnection, false);
         }
 
         try
@@ -27,7 +28,7 @@ public sealed partial class BluPlayerService
         }
         catch (Exception exception)
         {
-            return new BluPlayerConnectResult($"Could not connect: {exception.Message}", false);
+            return new BluPlayerConnectResult(string.Format(AppResources.CouldNotConnectResult, exception.Message), false);
         }
 
 #if DEBUG            
@@ -50,7 +51,7 @@ public sealed partial class BluPlayerService
 
         if (uris == null || uris.Length == 0)
         {
-            return new BluPlayerDiscoverResult("Discover: No players found", false);
+            return new BluPlayerDiscoverResult(AppResources.DiscoverNoPlayersFound, false);
         }
 
         EndPoint[] endpoints = new EndPoint[uris.Length];

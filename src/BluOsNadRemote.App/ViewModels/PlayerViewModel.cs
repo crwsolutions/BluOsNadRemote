@@ -1,5 +1,6 @@
 ﻿using Blu4Net;
 using BluOsNadRemote.App.Extensions;
+using BluOsNadRemote.App.Resources.Localizations;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -136,7 +137,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task LoadDataAsync()
     {
-        Title = "Loading...";
+        Title = AppResources.Loading;
 
         try
         {
@@ -220,7 +221,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         }
         catch (Exception exception)
         {
-            Title = "Connection failed";
+            Title = AppResources.NoConnect;
             Debug.WriteLine(exception);
         }
         finally

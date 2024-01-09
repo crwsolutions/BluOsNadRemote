@@ -12,7 +12,7 @@
             <Button Command="{Binding NavigateToAddCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}" HorizontalOptions="End" BackgroundColor="{StaticResource NadAccent}" />
 
             <CollectionView Grid.Row="1" x:Name="ItemsListView"
-                            EmptyView="No players found"
+                            EmptyView="No players configured. Discover or add a player."
                             ItemsSource="{Binding EndPoints}"
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedItem}"

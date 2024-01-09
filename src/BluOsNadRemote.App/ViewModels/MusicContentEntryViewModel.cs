@@ -1,4 +1,5 @@
 ﻿using Blu4Net;
+using BluOsNadRemote.App.Resources.Localizations;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -31,7 +32,7 @@ public partial class MusicContentEntryViewModel
 
         var page = Shell.Current.CurrentPage;// as BrowsePage;
 
-        string action = await page.DisplayActionSheet("Actions", "Cancel", null, options);
+        string action = await page.DisplayActionSheet(AppResources.Actions, AppResources.Cancel, null, options);
 
         var actionEntry = contextMenu.Entries.FirstOrDefault(e => e.Name == action);
 

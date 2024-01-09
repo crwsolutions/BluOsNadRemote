@@ -1,4 +1,5 @@
-﻿using BluOsNadRemote.App.Services;
+﻿using BluOsNadRemote.App.Resources.Localizations;
+using BluOsNadRemote.App.Services;
 using Nad4Net.Model;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -17,7 +18,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand(AllowConcurrentExecutions = true)] //Bug: https://github.com/CommunityToolkit/dotnet/issues/150#issuecomment-1069660045
     private async Task LoadDataAsync()
     {
-        Title = "Loading...";
+        Title = AppResources.Loading;
 
         try
         {
@@ -35,7 +36,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         }
         catch (InvalidOperationException exception)
         {
-            Title = "Could not connect.";
+            Title = AppResources.NoConnect;
             Debug.WriteLine(exception);
         }
         catch (Exception exception)

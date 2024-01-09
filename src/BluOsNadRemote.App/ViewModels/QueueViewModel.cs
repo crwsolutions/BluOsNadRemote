@@ -1,4 +1,5 @@
 ﻿using Blu4Net;
+using BluOsNadRemote.App.Resources.Localizations;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels
@@ -26,7 +27,7 @@ namespace BluOsNadRemote.App.ViewModels
         [RelayCommand]
         private async Task LoadDataAsync()
         {
-            Title = "Loading...";
+            Title = AppResources.Loading;
             // https://dev.to/dotnet/infinite-scrolling-with-incremental-data-loading-in-xamarin-forms-18b5
             try
             {
@@ -66,11 +67,11 @@ namespace BluOsNadRemote.App.ViewModels
                     }
                 }
 
-                Title = "Queueu";
+                Title = AppResources.Queue;
             }
             catch (Exception exception)
             {
-                Title = "Could not retrieve queue items";
+                Title = AppResources.NoQueue;
                 Debug.WriteLine(exception);
             }
             finally
@@ -86,17 +87,17 @@ namespace BluOsNadRemote.App.ViewModels
 
             var menu = new Dictionary<MenuAction, string>
             {
-                { MenuAction.TrackStation, "Play trackstation" },
-                { MenuAction.SimilarStation, "Play similarstation" },
-                { MenuAction.GoToAlbum, "Browse album" },
-                { MenuAction.GoToArtist, "Browse artist" },
-                { MenuAction.AddToFavorites, "Add to favorites" },
-                { MenuAction.RemoveFromList, "Remove from list" }
+                { MenuAction.TrackStation, AppResources.PlayTrackstation },
+                { MenuAction.SimilarStation, AppResources.PlaySimilarstation },
+                { MenuAction.GoToAlbum, AppResources.BrowseAlbum },
+                { MenuAction.GoToArtist, AppResources.BrowseArtist },
+                { MenuAction.AddToFavorites, AppResources.AddToFavorites },
+                { MenuAction.RemoveFromList, AppResources.RemoveFromList }
             };
 
             var page = Shell.Current.CurrentPage;
 
-            var action = await page.DisplayActionSheet("Actions", "Cancel", null, menu.Select(e => e.Value).ToArray());
+            var action = await page.DisplayActionSheet(AppResources.Actions, AppResources.Cancel, null, menu.Select(e => e.Value).ToArray());
 
             var actionEntry = menu.FirstOrDefault(e => e.Value == action);
 
@@ -165,7 +166,7 @@ namespace BluOsNadRemote.App.ViewModels
             }
             catch (Exception exception)
             {
-                Title = "Could not retrieve more";
+                Title = AppResources.NoMore;
                 Debug.WriteLine(exception);
             }
             finally

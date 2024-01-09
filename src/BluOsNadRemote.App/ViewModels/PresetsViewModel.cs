@@ -1,4 +1,5 @@
 ﻿using BluOsNadRemote.App.Models;
+using BluOsNadRemote.App.Resources.Localizations;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -23,7 +24,7 @@ public partial class PresetsViewModel : BaseRefreshViewModel
     {
         try
         {
-            Title = "Loading...";
+            Title = AppResources.Loading;
 
             var result = await _bluPlayerService.ConnectAsync();
             Title = result.Message;
@@ -34,11 +35,11 @@ public partial class PresetsViewModel : BaseRefreshViewModel
 
             var presets = await _bluPlayerService.BluPlayer.PresetList.GetPresets();
             Presets = presets.Select(preset => new Favorite(preset));
-            Title = $"{presets.Count} Presets";
+            Title = string.Format(AppResources.NumPresets, presets.Count);
         }
         catch (Exception exception)
         {
-            Title = "Could not retrieve favorites";
+            Title = AppResources.NoPresets;
             Debug.WriteLine(exception);
         }
         finally

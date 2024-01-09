@@ -91,6 +91,7 @@ public sealed partial class ConfigurationService
     private void UpdateSelecteEndpoint(int i)
     {
         _preferences.Set(ENDPOINT_SELECTED, i);
+        _selectedEndpoint = null;
     }
 
     private void SetEndPoints(EndPoint[] endPoints)

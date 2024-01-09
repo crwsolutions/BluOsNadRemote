@@ -57,9 +57,11 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
         {
             Title = "Loading...";
 
-            if (!_bluPlayerService.IsConnected)
+            var result = await _bluPlayerService.ConnectAsync();
+            Title = result.Message;
+            if (result.IsConnected == false)
             {
-                await Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
+                return;
             }
 
             if (_playURL != null)

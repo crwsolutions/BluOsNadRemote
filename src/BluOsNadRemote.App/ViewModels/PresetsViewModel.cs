@@ -25,8 +25,11 @@ public partial class PresetsViewModel : BaseRefreshViewModel
         {
             Title = "Loading...";
 
-            if (!_bluPlayerService.IsConnected) {
-                await Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
+            var result = await _bluPlayerService.ConnectAsync();
+            Title = result.Message;
+            if (result.IsConnected == false)
+            {
+                return;
             }
 
             var presets = await _bluPlayerService.BluPlayer.PresetList.GetPresets();

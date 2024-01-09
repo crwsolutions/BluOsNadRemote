@@ -23,7 +23,7 @@ public sealed partial class BluPlayerService
         {
             var uri = _configurationService.SelectedEndpoint.Uri;
             BluPlayer = await BluPlayer.Connect(uri);
-            Console.WriteLine($"Player: {BluPlayer}");
+            Debug.WriteLine($"Player: {BluPlayer}");
         }
         catch (Exception exception)
         {

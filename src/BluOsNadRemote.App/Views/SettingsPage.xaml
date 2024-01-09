@@ -51,7 +51,7 @@
                 <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
             </ScrollView>
 
-            <Grid ColumnDefinitions="*,*" Grid.Row="3" ColumnSpacing="8">
+            <Grid ColumnDefinitions="*,*" Grid.Row="3" ColumnSpacing="8" Margin="8">
                 <Button Text="Discover" Command="{Binding DiscoverCommand}" />
                 <Button Grid.Column="1" Text="Reset" Command="{Binding ResetCommand}" />
             </Grid>

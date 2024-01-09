@@ -26,13 +26,15 @@ public static class MauiProgram
 		builder.Services.AddSingleton<BrowsePage>();
 		builder.Services.AddSingleton<AdvancedViewModel>();
 		builder.Services.AddSingleton<AdvancedPage>();
-		builder.Services.AddSingleton<SettingsViewModel>();
+		builder.Services.AddTransient<SettingsViewModel>();
 		builder.Services.AddSingleton<SettingsPage>();
-
+		builder.Services.AddSingleton<SettingsPlayerPage>();
+		builder.Services.AddTransient<SettingsPlayerViewModel>();
         builder.Services.AddTransient<QueueViewModel>();
         builder.Services.AddTransient<QueuePage>();
 
-		builder.Services.AddSingleton<ConfigurationService>();
+		builder.Services.AddSingleton(Preferences.Default);
+        builder.Services.AddSingleton<ConfigurationService>();
 
 		builder.Services.AddSingleton<BluPlayerService>();
 		builder.Services.AddSingleton<NadTelnetService>();

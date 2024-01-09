@@ -1,6 +1,5 @@
-﻿using Blu4Net;
+﻿using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Services;
-using Nad4Net;
 
 namespace BluOsNadRemote.App.ViewModels;
 
@@ -15,42 +14,27 @@ public partial class SettingsViewModel : BaseRefreshViewModel
     [ObservableProperty]
     private string _result = "";
 
-    public string Endpoint => _configurationService.SelectedEndpoint?.Uri?.ToString();
+    [ObservableProperty]
+    private EndPoint _selectedItem;
 
-    public string Host
+    partial void OnSelectedItemChanged(EndPoint value)
     {
-        get
-        {
-            return _configurationService.SelectedEndpoint?.Uri?.Host;
-        }
-        set
-        {
-            string uri = null;
-            if (value != null)
-            {
-                uri = $"http://{value}:{BluEnvironment.DefaultEndpointPort}/";
-            }
-            if (_configurationService.SelectedEndpoint?.Uri?.ToString() != uri)
-            {
-                _configurationService.SetEndpoint(uri);
-                OnPropertyChanged(nameof(Endpoint));
-            }
-        }
+        _configurationService.SelectedEndpoint = value;
     }
 
-    [RelayCommand]
-    private async Task TelnetPingAsync()
+    public override void IsLoading()
     {
         try
         {
-            var uri = _configurationService.SelectedEndpoint.Uri;
-            var nadRemote = new NadRemote(uri);
-            var result = await nadRemote.PingAsync();
-            Result = $"Success {DateTime.Now}: {result}";
-        }
-        catch (Exception ex)
-        {
-            Result = $"Failed {DateTime.Now}: {ex}";
+            var endPoints = _configurationService.GetEndPoints();
+            if (endPoints is null || endPoints.Length == 0)
+            {
+                return;
+            }
+
+            EndPoints = new ObservableCollection<EndPoint>(endPoints);
+            SelectedItem = _configurationService.SelectedEndpoint;
+            OnPropertyChanged(nameof(EndPoints));
         }
         finally
         {
@@ -58,42 +42,10 @@ public partial class SettingsViewModel : BaseRefreshViewModel
         }
     }
 
-    [RelayCommand]
-    private async Task BluOsPingAsync()
-    {
-        if (Endpoint == null)
-        {
-            Result = "No host, first discover";
-            return;
-        }
+    public ObservableCollection<EndPoint> EndPoints { get; set; }
 
-        try
-        {
-            Result = string.Empty;
-            IsBusy = true;
-            using var client = new HttpClient();
-            client.Timeout = TimeSpan.FromSeconds(5);
-            var response = await client.GetAsync($"{Endpoint}Status");
-            string result;
-            if (response.IsSuccessStatusCode)
-            {
-                result = await response.Content.ReadAsStringAsync();
-            }
-            else
-            {
-                result = response.StatusCode.ToString();
-            }
-            Result = $"Success {DateTime.Now}: {result}";
-        }
-        catch (Exception ex)
-        {
-            Result = $"Failed {DateTime.Now}: {ex}";
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
+    [RelayCommand]
+    private async Task NavigateToAddAsync() => await Shell.Current.GoToAsync(nameof(SettingsPlayerPage));
 
     [RelayCommand]
     private async Task DiscoverAsync()
@@ -107,10 +59,9 @@ public partial class SettingsViewModel : BaseRefreshViewModel
             if (discoverResult.HasDiscovered)
             {
                 Debug.WriteLine("HasSuccesfully discovered");
-                await _bluPlayerService.ConnectAsync();
+                SelectedItem = _configurationService.SelectedEndpoint;
+                _ = await _bluPlayerService.ConnectAsync();
             }
-            OnPropertyChanged(nameof(Host));
-            OnPropertyChanged(nameof(Endpoint));
         }
         catch (Exception exception)
         {
@@ -125,8 +76,9 @@ public partial class SettingsViewModel : BaseRefreshViewModel
     [RelayCommand]
     private void Reset()
     {
-        Host = null;
         Result = null;
         _bluPlayerService.IsConnected = false;
+        _configurationService.Clear();
+        EndPoints.Clear();
     }
 }

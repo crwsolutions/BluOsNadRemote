@@ -1,27 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<views:BaseContentPage xmlns:views="clr-namespace:BluOsNadRemote.App.Views"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
+             xmlns:model="clr-namespace:BluOsNadRemote.App.Models"
 			 x:Class="BluOsNadRemote.App.Views.SettingsPage"
 			 x:DataType="vm:SettingsViewModel">
 
     <ContentPage.Content>
-        <Grid RowSpacing="6" HorizontalOptions="Center" ColumnDefinitions="100, 243" RowDefinitions="56, 56, 44, 44, 44, 44, *" Margin="14">
-            <Label Text="Host" VerticalTextAlignment="Center" />
-            <Entry Grid.Column="1" Text="{Binding Host, Mode=TwoWay}" VerticalTextAlignment="Center" />
+        <Grid RowDefinitions="auto, *, *, auto" Margin="8" MaximumWidthRequest="400">
+            <Button Command="{Binding NavigateToAddCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}" HorizontalOptions="End" BackgroundColor="{StaticResource NadAccent}" />
 
-            <Label Text="End point" Grid.Row="1" VerticalTextAlignment="Center" />
-            <Label Grid.Column="1" Grid.Row="1" Text="{Binding Endpoint, Mode=OneWay}" VerticalTextAlignment="Center" Margin="12,0,0,0" TextColor="Gray" />
+            <CollectionView Grid.Row="1" x:Name="ItemsListView"
+                            EmptyView="No players found"
+                            ItemsSource="{Binding EndPoints}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedItem}"
+                            Margin="0,8,0,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeShape="RoundRectangle 6" Padding="8" Margin="0,4,0,8">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Transparent" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="DarkSlateGray" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Margin="8,0,8,0" x:DataType="model:EndPoint">
+                                <StackLayout VerticalOptions="Center">
+                                    <Label Text="{Binding LastKnowName, Mode=OneTime}" Style="{StaticResource ListItemTitleTextStyle}" />
+                                    <Label Text="{Binding Uri, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
+                                </StackLayout>
+                                <!--<Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}" Text="h" Style="{DynamicResource ListItemActionSheetButtonStyle}"/>-->
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-            <Button Grid.Column="1" Grid.Row="2" Text="Discover" Command="{Binding DiscoverCommand}" />
-            <Button Grid.Column="1" Grid.Row="3" Text="Reset" Command="{Binding ResetCommand}" />
-            <Button Grid.Column="1" Grid.Row="4" Text="Ping (BluOS => Get Status)" Command="{Binding BluOsPingCommand}" />
-            <Button Grid.Column="1" Grid.Row="5" Text="Ping (Advanced RS232 => telnet)" Command="{Binding TelnetPingCommand}" />
-            <ActivityIndicator Grid.ColumnSpan="2" IsRunning="{Binding IsBusy}" Grid.Row="6" Color="{DynamicResource TextColor}" VerticalOptions="Center" />
-            <ScrollView Grid.Row="6" Grid.ColumnSpan="2" Margin="12">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" Grid.Row="2" Color="{DynamicResource TextColor}" VerticalOptions="Center" />
+            <ScrollView Grid.Row="2" Margin="12">
                 <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
             </ScrollView>
+
+            <Grid ColumnDefinitions="*,*" Grid.Row="3" ColumnSpacing="8">
+                <Button Text="Discover" Command="{Binding DiscoverCommand}" />
+                <Button Grid.Column="1" Text="Reset" Command="{Binding ResetCommand}" />
+            </Grid>
         </Grid>
     </ContentPage.Content>
-
-</ContentPage>
+</views:BaseContentPage>

@@ -46,14 +46,22 @@ public sealed partial class BluPlayerService
 
     public async Task<BluPlayerDiscoverResult> DiscoverAsync()
     {
-        var uri = await BluEnvironment.ResolveEndpoints().FirstOrDefaultAsync();
+        var uris = await BluEnvironment.ResolveEndpoints().ToArray();
 
-        if (uri == null)
+        if (uris == null || uris.Length == 0)
         {
-            return new BluPlayerDiscoverResult("Player not found", false);
+            return new BluPlayerDiscoverResult("Discover: No players found", false);
         }
 
-        _configurationService.SetEndpoint(uri);
+        EndPoint[] endpoints = new EndPoint[uris.Length];
+        for (var i = 0; i < uris.Length; i++) 
+        {
+            var uri = uris[i];
+            var bluPlayer = await BluPlayer.Connect(uri);
+            endpoints[i] = new EndPoint(uri, bluPlayer.Name);
+        }
+
+        _configurationService.MergeEndpoints(endpoints);
 
         var connectResult = await ConnectAsync();
 

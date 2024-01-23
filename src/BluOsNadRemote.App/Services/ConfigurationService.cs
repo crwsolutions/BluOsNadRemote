@@ -24,7 +24,7 @@ public sealed partial class ConfigurationService
             }
 
             var selected = _preferences.Get(ENDPOINT_SELECTED, 0);
-            return _selectedEndpoint ??= GetEndPoint(selected, selected);
+            return _selectedEndpoint ??= GetEndPoint(selected);
         }
         set
         {
@@ -48,7 +48,7 @@ public sealed partial class ConfigurationService
         var endpoints = new EndPoint[length];
         for (var i = 0; i < length; i++)
         {
-            endpoints[i] = GetEndPoint(i, selected);
+            endpoints[i] = GetEndPoint(i);
         }
 
         return endpoints;
@@ -106,7 +106,7 @@ public sealed partial class ConfigurationService
         }
     }
 
-    private EndPoint GetEndPoint(int index, int selected)
+    private EndPoint GetEndPoint(int index)
     {
         var uri = _preferences.Get<string>(ENDPOINT_URL + index, null);
 

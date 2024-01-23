@@ -5,7 +5,7 @@ using BluOsNadRemote.App.Services;
 namespace BluOsNadRemote.App.ViewModels;
 
 [QueryProperty(nameof(CurrentSong), nameof(CurrentSong))]
-public partial class QueueViewModel : BaseRefreshViewModel, IDisposable
+public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
 {
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
@@ -201,9 +201,12 @@ public partial class QueueViewModel : BaseRefreshViewModel, IDisposable
         IsBusy = true;
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         Songs.Clear();
-        _iterator?.DisposeAsync();
+        if (_iterator is not null)
+        {
+            await _iterator.DisposeAsync();
+        }
     }
 }

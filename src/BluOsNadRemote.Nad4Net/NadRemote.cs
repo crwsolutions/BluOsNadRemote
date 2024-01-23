@@ -24,6 +24,8 @@ public class NadRemote : IDisposable
     private readonly CommandList _model = new();
     public Uri Endpoint { get; }
 
+    private static readonly char[] _equalsSeparator = ['='];
+
     public async Task<string> PingAsync()
     {
         await ReConnectAsync();
@@ -198,7 +200,7 @@ public class NadRemote : IDisposable
         while ((line = strReader.ReadLine()) != null)
         {
             Debug.WriteLine(line);
-            var parts = line.Split(new char[] { '=' });
+            var parts = line.Split(_equalsSeparator);
             switch (parts[0])
             {
                 case "Main.Model":

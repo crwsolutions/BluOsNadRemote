@@ -48,7 +48,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     private Uri _serviceIconUri;
 
-    public ObservableCollection<MusicContentCategoryViewModel> Categories { get; } = new ObservableCollection<MusicContentCategoryViewModel>();
+    public ObservableCollection<MusicContentCategoryViewModel> Categories { get; } = [];
 
     [RelayCommand]
     private async Task LoadDataAsync()
@@ -104,14 +104,14 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
 
             Dispose();
             Debug.WriteLine($"**** Cleared...");
-//#if IOS
-//            await Task.Delay(300);  //HACK: //https://github.com/dotnet/maui/issues/10163
-//#endif
+            //#if IOS
+            //            await Task.Delay(300);  //HACK: //https://github.com/dotnet/maui/issues/10163
+            //#endif
             foreach (var category in _bluPlayerService.MusicContentNode.Categories)
             {
                 Categories.Add(new MusicContentCategoryViewModel(category, _bluPlayerService));
             }
-            if (_bluPlayerService.MusicContentNode.Entries.Any())
+            if (_bluPlayerService.MusicContentNode.Entries.Count != 0)
             {
                 Categories.Add(new MusicContentCategoryViewModel(_bluPlayerService.MusicContentNode.HasNext, _bluPlayerService.MusicContentNode.Entries, _bluPlayerService));
 

@@ -14,7 +14,7 @@ public partial class BaseRefreshViewModel : BaseViewModel
     }
 
     public virtual void IsLoading()
-    { 
+    {
     }
 
     [ObservableProperty]

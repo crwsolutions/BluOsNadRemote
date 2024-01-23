@@ -54,8 +54,8 @@ public sealed partial class BluPlayerService
             return new BluPlayerDiscoverResult(AppResources.DiscoverNoPlayersFound, false);
         }
 
-        EndPoint[] endpoints = new EndPoint[uris.Length];
-        for (var i = 0; i < uris.Length; i++) 
+        var endpoints = new EndPoint[uris.Length];
+        for (var i = 0; i < uris.Length; i++)
         {
             var uri = uris[i];
             var bluPlayer = await BluPlayer.Connect(uri);

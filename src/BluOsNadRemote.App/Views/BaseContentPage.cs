@@ -21,7 +21,7 @@ public class BaseContentPage : ContentPage
         viewmodel?.Dispose();
 
         if (viewmodel != null)
-        { 
+        {
             Debug.WriteLine("protected override void OnDisappearing");
         }
 

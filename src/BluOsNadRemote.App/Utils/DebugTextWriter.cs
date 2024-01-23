@@ -208,5 +208,4 @@ internal class DebugTextWriter : TextWriter
     {
         Debug.WriteLine(string.Format(format, arg0, arg1, arg2));
     }
-
 } // Ends class TextWriterDebug 

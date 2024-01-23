@@ -13,10 +13,10 @@ public partial class App : Application
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
 
-    partial void PreConstruct() 
+    partial void PreConstruct()
     {
-        InitializeComponent(); 
-		MainPage = new AppShell();
+        InitializeComponent();
+        MainPage = new AppShell();
     }
 
     protected override void OnStart()

@@ -26,7 +26,7 @@ public sealed partial class ConfigurationService
             var selected = _preferences.Get(ENDPOINT_SELECTED, 0);
             return _selectedEndpoint ??= GetEndPoint(selected, selected);
         }
-        set 
+        set
         {
             var endPoints = GetEndPoints();
             for (var i = 0; endPoints.Length > 0; i++)

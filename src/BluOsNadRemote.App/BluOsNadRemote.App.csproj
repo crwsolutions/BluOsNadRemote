@@ -66,9 +66,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="ContentViews\MultilineMusicContentEntry.xaml.cs">
-	    <DependentUpon>MultilineMusicContentEntry.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Resources\Localizations\AppResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>

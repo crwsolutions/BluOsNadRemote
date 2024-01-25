@@ -16,7 +16,7 @@
 				Source="{AppThemeBinding Light=back_light.png, Dark=back_dark.png}"
 				HeightRequest="22" WidthRequest="22"
 				BackgroundColor="Transparent"
-				IsVisible="{Binding HasParent, Mode=OneWay}" 
+				IsVisible="{Binding HasParent, Mode=OneWay}"
 				Command="{Binding GoBackCommand, Mode=OneTime}" />
             <Image Grid.Column="1" Margin="10" Source="{Binding ServiceIconUri, Mode=OneWay}" IsVisible="{Binding HasParent, Mode=OneWay}" />
             <Label Grid.Column="2" TextColor="White" FontSize="Large" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
@@ -65,7 +65,7 @@
             <CollectionView Margin="8,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
-					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" Padding="12,6,0,6" Margin="0,8,0,0" BackgroundColor="DimGray" />
+					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" Padding="12,6,0,6" Margin="0,8,8,0" BackgroundColor="DimGray" />
 				</DataTemplate>
 			</CollectionView.GroupHeaderTemplate>
 		</CollectionView>

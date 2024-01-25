@@ -23,6 +23,7 @@
             <ImageButton Grid.Column="3" 
 				HeightRequest="20" WidthRequest="20"
 				Source="{AppThemeBinding Light=home_light.png, Dark=home_dark.png}"
+				IsVisible="{Binding HasParent, Mode=OneWay}"
 				BackgroundColor="Transparent"
 				Command="{Binding GoHomeCommand, Mode=OneTime}" />
 			<!-- glass -->

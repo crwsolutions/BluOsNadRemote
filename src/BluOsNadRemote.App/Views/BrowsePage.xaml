@@ -11,7 +11,7 @@
 			 NavigationPage.HasNavigationBar="False">
 
     <Shell.TitleView>
-		<Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+		<Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto, 8">
 			<ImageButton
 				Source="{AppThemeBinding Light=back_light.png, Dark=back_dark.png}"
 				HeightRequest="22" WidthRequest="22"
@@ -20,14 +20,14 @@
 				Command="{Binding GoBackCommand, Mode=OneTime}" />
             <Image Grid.Column="1" Margin="10" Source="{Binding ServiceIconUri, Mode=OneWay}" IsVisible="{Binding HasParent, Mode=OneWay}" />
             <Label Grid.Column="2" TextColor="White" FontSize="Large" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
-            <ImageButton Grid.Column="3" 
+            <ImageButton Grid.Column="3" Margin="0,0,12,0"
 				HeightRequest="20" WidthRequest="20"
 				Source="{AppThemeBinding Light=home_light.png, Dark=home_dark.png}"
 				IsVisible="{Binding HasParent, Mode=OneWay}"
 				BackgroundColor="Transparent"
 				Command="{Binding GoHomeCommand, Mode=OneTime}" />
 			<!-- glass -->
-            <Button Grid.Column="4" Margin="0,6,0,0" 
+            <Button Grid.Column="4" Margin="0,6,0,0" WidthRequest="48"
                 FontFamily="CrwMedia" Text="q"
                 FontSize="32" TextColor="White"
 				VerticalOptions="Center"

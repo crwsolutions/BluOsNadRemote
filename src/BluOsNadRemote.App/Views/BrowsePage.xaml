@@ -13,7 +13,7 @@
     <Shell.TitleView>
 		<Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto, 8">
             <Button 
-				WidthRequest="22" Padding="0"
+				WidthRequest="28" Padding="0"
 				FontFamily="CrwMedia" Text="r" FontSize="36" TextColor="White"
 				VerticalOptions="Center"
                 HorizontalOptions="Center"

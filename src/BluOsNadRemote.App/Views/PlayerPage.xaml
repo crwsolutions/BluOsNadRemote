@@ -7,23 +7,13 @@
 			 x:DataType="vm:PlayerViewModel"
              Title="{Binding Title, Mode=OneWay}">
 
-    <Shell.TitleView>
-        <Grid ColumnDefinitions="*,Auto">
-            <Label TextColor="White" FontSize="Large" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
-            <!-- glass -->
-            <Button Grid.Column="1" Margin="0,0,2,0" WidthRequest="60"
-                FontFamily="CrwMedia" Text="w"
-                FontSize="38" TextColor="White"
-				VerticalOptions="Center"
-				BackgroundColor="Transparent"
-				Command="{Binding NavigateToQueueCommand, Mode=OneTime}">
-            </Button>
-        </Grid>
-    </Shell.TitleView>
-
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="iconqueue.png" Command="{Binding NavigateToQueueCommand, Mode=OneTime}" />
-    </ContentPage.ToolbarItems>-->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding NavigateToQueueCommand, Mode=OneTime}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="CrwMedia" Glyph="w"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
 
     <RefreshView Command="{Binding LoadDataCommand, Mode=OneTime}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">

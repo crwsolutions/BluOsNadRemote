@@ -16,7 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "art", "art", "{F8752690-76D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "font", "font", "{9C3DA5B4-06F1-4E70-BB6F-11B5A03A5A52}"
 	ProjectSection(SolutionItems) = preProject
-		..\art\font\CrwMedia.sfd = ..\art\font\CrwMedia.sfd
 		..\art\font\media_font.svg = ..\art\font\media_font.svg
 		..\art\font\readme.txt = ..\art\font\readme.txt
 	EndProjectSection

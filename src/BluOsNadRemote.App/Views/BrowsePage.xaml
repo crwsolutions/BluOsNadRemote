@@ -12,25 +12,30 @@
 
     <Shell.TitleView>
 		<Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto, 8">
-			<ImageButton
-				Source="{AppThemeBinding Light=back_light.png, Dark=back_dark.png}"
-				HeightRequest="22" WidthRequest="22"
+            <Button 
+				WidthRequest="22" Padding="0"
+				FontFamily="CrwMedia" Text="r" FontSize="36" TextColor="White"
+				VerticalOptions="Center"
+                HorizontalOptions="Center"
 				BackgroundColor="Transparent"
 				IsVisible="{Binding HasParent, Mode=OneWay}"
 				Command="{Binding GoBackCommand, Mode=OneTime}" />
             <Image Grid.Column="1" Margin="10" Source="{Binding ServiceIconUri, Mode=OneWay}" IsVisible="{Binding HasParent, Mode=OneWay}" />
             <Label Grid.Column="2" TextColor="White" FontSize="Large" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
-            <ImageButton Grid.Column="3" Margin="0,0,12,0"
-				HeightRequest="20" WidthRequest="20"
-				Source="{AppThemeBinding Light=home_light.png, Dark=home_dark.png}"
-				IsVisible="{Binding HasParent, Mode=OneWay}"
+            <Button Grid.Column="3"
+				WidthRequest="44" Padding="0"
+				FontFamily="CrwMedia" Text="e" FontSize="42" TextColor="White"
+				VerticalOptions="Center"
+                HorizontalOptions="Center"
+                IsVisible="{Binding HasParent, Mode=OneWay}"
 				BackgroundColor="Transparent"
 				Command="{Binding GoHomeCommand, Mode=OneTime}" />
 			<!-- glass -->
-            <Button Grid.Column="4" Margin="0,6,0,0" WidthRequest="48"
+            <Button Grid.Column="4" WidthRequest="44" Padding="0"
                 FontFamily="CrwMedia" Text="q"
-                FontSize="32" TextColor="White"
+                FontSize="42" TextColor="White"
 				VerticalOptions="Center"
+                HorizontalOptions="Center"
 				BackgroundColor="Transparent"
 				Command="{Binding ShowSearchCommand, Mode=OneTime}"
 				IsVisible="{Binding CanSearch, Mode=OneWay}">

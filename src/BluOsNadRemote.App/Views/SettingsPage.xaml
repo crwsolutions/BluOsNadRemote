@@ -8,7 +8,7 @@
 			 x:DataType="vm:SettingsViewModel">
 
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, *, *, auto" Margin="8" MaximumWidthRequest="400">
+        <Grid RowDefinitions="auto, *, *, auto" Margin="8" MaximumWidthRequest="440" Padding="16">
             <Button Command="{Binding NavigateToAddCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}" HorizontalOptions="End" BackgroundColor="{StaticResource NadAccent}" />
 
             <CollectionView Grid.Row="1" x:Name="ItemsListView"
@@ -46,8 +46,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}" Grid.Row="2" Color="{DynamicResource TextColor}" VerticalOptions="Center" />
-            <ScrollView Grid.Row="2" Margin="12">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Grid.Row="2" Color="{DynamicResource TextColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+            <ScrollView Grid.Row="2" Margin="12" VerticalScrollBarVisibility="Default">
                 <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
             </ScrollView>
 

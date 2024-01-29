@@ -3,7 +3,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
-public partial class SettingsViewModel : BaseRefreshViewModel
+public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
 {
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
@@ -33,8 +33,8 @@ public partial class SettingsViewModel : BaseRefreshViewModel
             }
 
             EndPoints = new ObservableCollection<EndPoint>(endPoints);
-            SelectedItem = _configurationService.SelectedEndpoint;
             OnPropertyChanged(nameof(EndPoints));
+            SelectedItem = _configurationService.SelectedEndpoint;
         }
         finally
         {
@@ -55,11 +55,9 @@ public partial class SettingsViewModel : BaseRefreshViewModel
             IsBusy = true;
             Reset();
             var discoverResult = await _bluPlayerService.DiscoverAsync();
-            Result = discoverResult.Message;
             if (discoverResult.HasDiscovered)
             {
                 Debug.WriteLine("HasSuccesfully discovered");
-                SelectedItem = _configurationService.SelectedEndpoint;
                 _ = await _bluPlayerService.ConnectAsync();
             }
         }
@@ -69,7 +67,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel
         }
         finally
         {
-            IsBusy = false;
+            IsLoading();
         }
     }
 
@@ -79,6 +77,12 @@ public partial class SettingsViewModel : BaseRefreshViewModel
         Result = null;
         _bluPlayerService.IsConnected = false;
         _configurationService.Clear();
+        Dispose();
+    }
+
+    public void Dispose()
+    {
         EndPoints?.Clear();
+        SelectedItem = null;
     }
 }

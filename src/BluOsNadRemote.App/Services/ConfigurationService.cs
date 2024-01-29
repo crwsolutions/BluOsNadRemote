@@ -29,7 +29,7 @@ public sealed partial class ConfigurationService
         set
         {
             var endPoints = GetEndPoints();
-            for (var i = 0; endPoints.Length > 0; i++)
+            for (var i = 0; i < endPoints.Length; i++)
             {
                 if (endPoints[i].Equals(value))
                 {

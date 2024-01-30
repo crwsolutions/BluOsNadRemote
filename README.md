@@ -21,7 +21,7 @@ This app is build very straight forward. So it should not be to hard to contribu
 
 I would kindly ask you to continue applying the features of these packages in your contributions.
 
-# My test setup
+# Test setup
 This app has been thoroughly tested with the following things:
 - NAD T758 V3
 - BLUESOUND PULSE M (P230)

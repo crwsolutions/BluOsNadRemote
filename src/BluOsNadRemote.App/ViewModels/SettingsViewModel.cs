@@ -12,6 +12,9 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     private readonly ConfigurationService _configurationService;
 
     [ObservableProperty]
+    private bool _isDiscovering = false;
+
+    [ObservableProperty]
     private string _result = "";
 
     [ObservableProperty]
@@ -52,12 +55,14 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     {
         try
         {
-            IsBusy = true;
             Reset();
+            IsDiscovering = true;
             var discoverResult = await _bluPlayerService.DiscoverAsync();
+            Debug.WriteLine(discoverResult.Message);
+            Result = discoverResult.Message;
             if (discoverResult.HasDiscovered)
             {
-                Debug.WriteLine("HasSuccesfully discovered");
+                IsLoading();
                 _ = await _bluPlayerService.ConnectAsync();
             }
         }
@@ -67,14 +72,13 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
         }
         finally
         {
-            IsLoading();
+            IsDiscovering = false;
         }
     }
 
     [RelayCommand]
     private void Reset()
     {
-        Result = null;
         _bluPlayerService.IsConnected = false;
         _configurationService.Clear();
         Dispose();
@@ -82,6 +86,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
 
     public void Dispose()
     {
+        Result = null;
         EndPoints?.Clear();
         SelectedItem = null;
     }

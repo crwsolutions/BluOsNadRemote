@@ -66,7 +66,7 @@ public sealed partial class BluPlayerService
 
         var connectResult = await ConnectAsync();
 
-        return new BluPlayerDiscoverResult(connectResult.Message, true);
+        return new BluPlayerDiscoverResult(string.Format(AppResources.DiscoverPlayersFound, endpoints.Length), true);
     }
 
     public BluPlayer BluPlayer { get; private set; }

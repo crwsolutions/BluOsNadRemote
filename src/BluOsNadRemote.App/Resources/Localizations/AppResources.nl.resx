@@ -183,4 +183,7 @@
   <data name="DiscoverNoPlayersFound" xml:space="preserve">
     <value>Ontdekken: Geen spelers gevonden</value>
   </data>
+  <data name="DiscoverPlayersFound" xml:space="preserve">
+    <value>Ontdekken: Succes! We hebben {0} speler(s) gevonden</value>
+  </data>
 </root>

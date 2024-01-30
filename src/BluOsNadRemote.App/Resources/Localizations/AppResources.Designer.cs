@@ -133,6 +133,15 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discover: Found {0} player(s) succesfully.
+        /// </summary>
+        internal static string DiscoverPlayersFound {
+            get {
+                return ResourceManager.GetString("DiscoverPlayersFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         internal static string Loading {

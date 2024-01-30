@@ -8,8 +8,8 @@
 			 x:DataType="vm:SettingsViewModel">
 
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, *, *, auto" Margin="8" MaximumWidthRequest="440" Padding="16">
-            <Button Command="{Binding NavigateToAddCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}" HorizontalOptions="End" BackgroundColor="{StaticResource NadAccent}" />
+        <Grid RowDefinitions="auto, auto, auto, *" Margin="8" MaximumWidthRequest="540">
+            <Button Command="{Binding NavigateToAddCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}" HorizontalOptions="End" BackgroundColor="{StaticResource NadAccent}"  />
 
             <CollectionView Grid.Row="1" x:Name="ItemsListView"
                             EmptyView="No players configured. Discover or add a player."
@@ -46,12 +46,14 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Grid.Row="2" Color="{DynamicResource TextColor}" VerticalOptions="Center" HorizontalOptions="Center" />
-            <ScrollView Grid.Row="2" Margin="12" VerticalScrollBarVisibility="Default">
-                <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
+            <ScrollView Grid.Row="3" Margin="12" VerticalScrollBarVisibility="Never">
+                <VerticalStackLayout>
+                    <ActivityIndicator IsRunning="{Binding IsDiscovering, Mode=OneWay}" Color="{DynamicResource TextColor}" VerticalOptions="Center" HorizontalOptions="Center" />
+                    <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
+                </VerticalStackLayout>
             </ScrollView>
 
-            <Grid ColumnDefinitions="*,*" Grid.Row="3" ColumnSpacing="8" Margin="8">
+            <Grid ColumnDefinitions="*,*" Grid.Row="2" ColumnSpacing="8" Margin="8">
                 <Button Text="Discover" Command="{Binding DiscoverCommand}" />
                 <Button Grid.Column="1" Text="Reset" Command="{Binding ResetCommand}" />
             </Grid>

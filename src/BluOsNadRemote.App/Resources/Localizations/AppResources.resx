@@ -183,4 +183,7 @@
   <data name="DiscoverNoPlayersFound" xml:space="preserve">
     <value>Discover: No players found</value>
   </data>
+  <data name="DiscoverPlayersFound" xml:space="preserve">
+    <value>Discover: Found {0} player(s) succesfully</value>
+  </data>
 </root>

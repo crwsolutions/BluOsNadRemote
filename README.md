@@ -18,8 +18,8 @@ This app is build very straight forward. So it should not be to hard to contribu
 > [Dependency]
 > private readonly AnotherService anotherService;
 > ```
->
->I would kindly ask you to continue applying the features of these packages in your contributions.
+
+I would kindly ask you to continue applying the features of these packages in your contributions.
 
 # My test setup
 This app has been thoroughly tested with the following things:

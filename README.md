@@ -11,15 +11,15 @@ Make sure you have your Visual Studio and .NET 8 environment set up for .NET MAU
 This app is build very straight forward. So it should not be to hard to contribute. However it's heavily dependent on the following packages:
 - [Blu4Net](https://github.com/roblans/Blu4Net), managing the layer between the app and the players
 - CommunityToolkit.Mvvm, that helps greatly reduce boilerplate.
-- [SourceDepend](https://github.com/crwsolutions/sourcedepend), that helps greatly reduce dependency injection (DI) boilerplate[^1].
+- [SourceDepend](https://github.com/crwsolutions/sourcedepend), that helps greatly reduce dependency injection (DI) boilerplate*.
 
-[^1] This is a somewhat experimental package. You will encounter this [Dependency] attributes all over the place, these fields will be injected via a generated constructor.
-```csharp
-[Dependency]
-private readonly AnotherService anotherService;
-```
-
-I would kindly ask you to continue applying the features of these packages in your contributions.
+> *This is a somewhat experimental package. You will encounter this [Dependency] attributes all over the place, these fields will be injected via a generated constructor.
+> ```csharp
+> [Dependency]
+> private readonly AnotherService anotherService;
+> ```
+>
+>I would kindly ask you to continue applying the features of these packages in your contributions.
 
 # My test setup
 This app has been thoroughly tested with the following things:

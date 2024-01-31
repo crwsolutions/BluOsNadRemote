@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-	<application android:allowBackup="true" android:supportsRtl="true" android:icon="@mipmap/appicon"></application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="nl.crwsolutions.bluosnadremote" android:versionCode="1" android:versionName="first">
+	<application android:allowBackup="true" android:supportsRtl="true" android:icon="@mipmap/appicon" android:label="BluOS NAD remote"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-sdk />
+	<uses-sdk android:minSdkVersion="34" android:targetSdkVersion="34" />
 </manifest>

@@ -1,4 +1,4 @@
-@base_url=http://192.168.107.199:11000
+@base_url=http://192.168.107.241:11000
 @service=Tidal
 
 ###GET FAVORITE ARTISTS
@@ -107,6 +107,46 @@ x-sovi-ui-autofill: 1
 
 ###GET PLAYLIST
 GET {{base_url}}/Playlist?start=1&end=1
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET BROWSE TRACKS VIA SONGS
+GET {{base_url}}/Songs?service=Tidal&amp;browseIsFavouritesContext=1&amp;category=FAVOURITES
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET BROWSE TRACKS VIA BROWSE
+GET {{base_url}}/Browse?key=%2FSongs%3Fservice%3DTidal%26amp%3BbrowseIsFavouritesContext%3D1%26amp%3Bcategory%3DFAVOURITES
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET SONG INFO
+GET {{base_url}}/Songs?service=Tidal&songid=139297747
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET ALBUM INFO
+GET {{base_url}}/Albums?service=Tidal&albumid=139297738
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET ARTIST INFO
+GET {{base_url}}/Artists?service=Tidal&artistid=19325945
 Accept-Language: nl-NL
 User-Agent: Bluesound/4.0.3
 x-sovi-schema-version: 34

@@ -21,6 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "font", "font", "{9C3DA5B4-0
 		..\art\font\readme.txt = ..\art\font\readme.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "http", "http", "{D2D68F86-55A0-40D6-9067-646EF7BCABBF}"
+	ProjectSection(SolutionItems) = preProject
+		..\http\bluos_app\browse.http = ..\http\bluos_app\browse.http
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +49,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F8752690-76D3-475B-A43B-C7AD61CF7559} = {B2EB107F-4B5E-4C2F-B847-FE1792F72BCA}
 		{9C3DA5B4-06F1-4E70-BB6F-11B5A03A5A52} = {F8752690-76D3-475B-A43B-C7AD61CF7559}
+		{D2D68F86-55A0-40D6-9067-646EF7BCABBF} = {B2EB107F-4B5E-4C2F-B847-FE1792F72BCA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5AA33A5-8665-446F-8B03-576526DB3A21}

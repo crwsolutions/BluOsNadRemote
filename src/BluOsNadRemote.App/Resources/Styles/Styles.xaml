@@ -423,6 +423,7 @@
 
     <Style x:Key="ListItemActionSheetButtonStyle" TargetType="Button">
         <Setter Property="WidthRequest" Value="60" />
+        <Setter Property="Padding" Value="10,0,10,2" />
         <Setter Property="HeightRequest" Value="44"/>
         <Setter Property="FontFamily" Value="CrwMedia"/>
         <Setter Property="FontSize" Value="48"/>

@@ -154,9 +154,4 @@
 	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios'">
-	  <CodesignKey>Apple Development: Colin Wilmans (7SXWM2FMQC)</CodesignKey>
-	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
-	</PropertyGroup>
-
 </Project>

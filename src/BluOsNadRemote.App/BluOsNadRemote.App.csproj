@@ -109,49 +109,57 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
 	  <ApplicationTitle>BluOS NAD remote</ApplicationTitle>
 	  <ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
 	  <ApplicationTitle>BluOS NAD remote</ApplicationTitle>
 	  <ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
 	  <ApplicationTitle>BluOS NAD remote</ApplicationTitle>
 	  <ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
 	  <ApplicationTitle>BluOS NAD remote</ApplicationTitle>
 	  <ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
 	  <ApplicationTitle>BluOS NAD remote</ApplicationTitle>
 	  <ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
 	  <ApplicationTitle>BluOS NAD remote</ApplicationTitle>
 	  <ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationTitle>BluOS NAD remote</ApplicationTitle>
 	  <ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationTitle>BluOS NAD remote</ApplicationTitle>
 	  <ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-	  <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>0.1.1</ApplicationDisplayVersion>
+	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
 </Project>

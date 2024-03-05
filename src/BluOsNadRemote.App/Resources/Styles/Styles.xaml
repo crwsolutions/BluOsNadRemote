@@ -381,6 +381,12 @@
 		<Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
 	</Style>
 
+    <Style x:Key="ListHeaderTextStyle" TargetType="Label">
+        <Setter Property="Padding" Value="12,6,0,6" />
+        <Setter Property="Margin" Value="0,8,8,0"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}"/>
+    </Style>
+
     <Style x:Key="ListItemImageStyle" TargetType="Image">
         <Setter Property="WidthRequest" Value="64" />
         <Setter Property="HeightRequest" Value="64"/>

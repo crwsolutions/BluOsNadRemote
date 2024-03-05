@@ -55,7 +55,7 @@
 	</ContentPage.Resources>
 
 	<RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" x:DataType="vm:BrowseViewModel">
-        <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" BackgroundColor="Black">
+        <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
             <SearchBar IsVisible="{Binding IsSearching}" x:Name="searchBar" Margin="0,0,0,4"
 						SearchCommand="{Binding SearchCommand}"
 						SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>

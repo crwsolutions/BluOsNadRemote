@@ -28,7 +28,7 @@
                                     </VisualState>
                                     <VisualState Name="Selected">
                                         <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="DarkSlateGray" />
+                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Select}, Dark={StaticResource NadAccent}}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>

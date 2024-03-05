@@ -19,21 +19,7 @@
                             Margin="0,8,0,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border StrokeShape="RoundRectangle 6" Padding="8" Margin="0,4,0,8">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualState Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="Transparent" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="DarkSlateGray" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                        <Border Style="{StaticResource DeviceContainer}">
                             <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Margin="8,0,8,0" x:DataType="model:EndPoint">
                                 <StackLayout VerticalOptions="Center">
                                     <Label Text="{Binding LastKnowName, Mode=OneTime}" Style="{StaticResource ListItemTitleTextStyle}" />

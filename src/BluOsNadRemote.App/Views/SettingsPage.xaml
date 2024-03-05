@@ -39,7 +39,6 @@
                                     <Label Text="{Binding LastKnowName, Mode=OneTime}" Style="{StaticResource ListItemTitleTextStyle}" />
                                     <Label Text="{Binding Uri, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
                                 </StackLayout>
-                                <!--<Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}" Text="h" Style="{DynamicResource ListItemActionSheetButtonStyle}"/>-->
                             </Grid>
                         </Border>
                     </DataTemplate>

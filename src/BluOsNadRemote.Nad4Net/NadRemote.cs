@@ -56,7 +56,7 @@ public class NadRemote : IDisposable
         await _client.WriteLineAsync($"Main.Trim.{speaker}+");
     }
 
-    public async Task<CommandList> GetCommandListAsync()
+    public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {
         await CheckConnection();
         await _client.WriteLineAsync("Main.Model?");
@@ -80,7 +80,7 @@ public class NadRemote : IDisposable
         await _client.WriteLineAsync("Main.Power?");
         await _client.WriteLineAsync("Main.Dolby.DRC ?");
         Parse(await _client.ReadAsync());
-        return _model;
+        resultHandler.Invoke(_model);
     }
 
     private async Task WriteMinusCommand(string speaker)

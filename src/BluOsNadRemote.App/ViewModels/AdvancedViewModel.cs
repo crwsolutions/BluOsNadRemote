@@ -29,10 +29,8 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
                 return;
             }
 
-            var commandList = await _service.NadRemote.GetCommandListAsync();
-            UpdateCommandlist(commandList);
+            await _service.NadRemote.GetCommandListAsync(UpdateCommandlist);
             _commandChangesSubscriber = _service.NadRemote.CommandChanges.Subscribe(UpdateCommandlist);
-
         }
         catch (InvalidOperationException exception)
         {

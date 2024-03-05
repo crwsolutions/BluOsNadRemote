@@ -10,7 +10,6 @@
         <Button x:Name="btnMinus" Text="m" Clicked="btnMinus_Clicked" Style="{StaticResource CircleButton}"/>
 
         <Label x:Name="lblValue"
-               TextColor="{Binding LabelColor}"
                WidthRequest="25"
                Text="{Binding Text}"
                VerticalOptions="Center"

@@ -162,4 +162,10 @@
 	  <ApplicationVersion>3</ApplicationVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios'">
+	  <CodesignKey>iPhone Distribution</CodesignKey>
+	  <CodesignProvision></CodesignProvision>
+	  <ProvisioningType>manual</ProvisioningType>
+	</PropertyGroup>
+
 </Project>

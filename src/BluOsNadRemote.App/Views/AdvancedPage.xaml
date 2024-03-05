@@ -9,27 +9,27 @@
              Title="{Binding Title}">
     
     <RefreshView Command="{Binding LoadDataCommand}"
-                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}" 
-                 >
-        <ScrollView>
-            <StackLayout Orientation="Vertical" Spacing="2">
-                <Frame CornerRadius="18" Margin="12,12,12,0" Padding="16,4,16,8" BackgroundColor="Black" BorderColor="DimGray">
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <Grid>
+        <ScrollView Margin="8,0,8,0">
+            <StackLayout Orientation="Vertical">
+                <Border Style="{StaticResource DisplayContainer}">
                     <Grid RowSpacing="6" ColumnDefinitions="3*,2*" RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto">
-                        <Label Grid.Row="1" Grid.Column="0" Text="Source" TextColor="{DynamicResource Tertiary}" />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding MainSourceName, Mode=OneWay}" TextColor="{DynamicResource Tertiary}"/>
-                        <BoxView Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="Fill" VerticalOptions="Center" HeightRequest="1" Color="Gray"/>
-                        <Label Grid.Row="3" Grid.Column="0" Text="Codec" TextColor="{DynamicResource Tertiary}"/>
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding MainAudioCODEC, Mode=OneWay}" TextColor="{DynamicResource Tertiary}"/>
-                        <Label Grid.Row="4" Grid.Column="0" Text="Channels" TextColor="{DynamicResource Tertiary}"/>
-                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding MainAudioChannels, Mode=OneWay}" TextColor="{DynamicResource Tertiary}"/>
-                        <Label Grid.Row="5" Grid.Column="0" Text="Rate" TextColor="{DynamicResource Tertiary}"/>
-                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding MainAudioRate, Mode=OneWay}" TextColor="{DynamicResource Tertiary}"/>
-                        <BoxView Grid.Row="6" Grid.ColumnSpan="2" HorizontalOptions="Fill" VerticalOptions="Center" HeightRequest="1" Color="Gray"/>
-                        <Label Grid.Row="7" Grid.Column="0" Text="Audio return channel" TextColor="{DynamicResource Tertiary}"/>
+                        <Label Grid.Row="1" Grid.Column="0" Text="Source" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding MainSourceName, Mode=OneWay}" />
+                        <BoxView Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource DisplaySeparator}"/>
+                        <Label Grid.Row="3" Grid.Column="0" Text="Codec" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding MainAudioCODEC, Mode=OneWay}" />
+                        <Label Grid.Row="4" Grid.Column="0" Text="Channels" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding MainAudioChannels, Mode=OneWay}" />
+                        <Label Grid.Row="5" Grid.Column="0" Text="Rate" />
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding MainAudioRate, Mode=OneWay}" />
+                        <BoxView Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource DisplaySeparator}"/>
+                        <Label Grid.Row="7" Grid.Column="0" Text="Audio return channel" />
                         <Ellipse Fill="Green" Grid.Row="7" Grid.Column="1"  IsVisible="{Binding IsMainVideoARC, Mode=OneWay}" Stroke="Black" StrokeThickness="1" WidthRequest="12" HeightRequest="12" HorizontalOptions="Start" VerticalOptions="Center" />
                     </Grid>
-                </Frame>
-                <Grid RowSpacing="5" Padding="16,0,16,0" HorizontalOptions="Fill" Margin="0,-6,0,0"
+                </Border>
+                <Grid RowSpacing="5" Padding="8,0,8,0" HorizontalOptions="Fill" Margin="0,-6,0,0"
                       ColumnDefinitions="*,*,Auto"
                       RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
 
@@ -64,5 +64,6 @@
                 </Grid>
             </StackLayout>
         </ScrollView>
+        </Grid>
     </RefreshView>
 </views:BaseContentPage>

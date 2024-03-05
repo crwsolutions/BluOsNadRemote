@@ -71,11 +71,11 @@
                         </Grid>
 
                         <!-- state -->
-                        <Border Grid.Row="3" StrokeShape="RoundRectangle 6" Margin="4,8,4,8" Padding="8" Stroke="DimGray" BackgroundColor="#2C2C2C">
-                            <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
-                                <Label Margin="8,0,0,0" FontSize="14" TextColor="LightGrey" Text="{Binding StreamFormat, Mode=OneWay}"/>
-                                <Label Grid.Column="1" HorizontalTextAlignment="Center" FontSize="14" TextColor="LightGrey" Text="{Binding State, Mode=OneWay}"/>
-                                <Label Grid.Column="2" HorizontalTextAlignment="End" Margin="0,0,8,0" FontSize="14" TextColor="LightGrey">
+                        <Border Grid.Row="3" Style="{StaticResource DisplayContainer}">
+                            <Grid RowSpacing="6" ColumnDefinitions="*,*,*" VerticalOptions="Center">
+                                <Label Text="{Binding StreamFormat, Mode=OneWay}"/>
+                                <Label Grid.Column="1" HorizontalTextAlignment="Center"  Text="{Binding State, Mode=OneWay}"/>
+                                <Label Grid.Column="2" HorizontalTextAlignment="End" >
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{Binding Volume, Mode=OneWay}"/>

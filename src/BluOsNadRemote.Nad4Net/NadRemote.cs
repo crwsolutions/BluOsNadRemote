@@ -58,7 +58,6 @@ public class NadRemote : IDisposable
 
     public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {
-        return;
         await CheckConnection();
         await _client.WriteLineAsync("Main.Model?");
         await _client.WriteLineAsync("Main.Source?");

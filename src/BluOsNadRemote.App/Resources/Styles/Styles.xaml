@@ -452,14 +452,15 @@
     <Style x:Key="CircleButton" TargetType="Button">
         <Setter Property="WidthRequest" Value="56"/>
         <Setter Property="HeightRequest" Value="56" />
-        <Setter Property="CornerRadius" Value="30" />
+        <Setter Property="CornerRadius" Value="28" />
         <Setter Property="BorderWidth" Value="2"/>
         <Setter Property="FontFamily" Value="CrwMedia"/>
-        <Setter Property="BackgroundColor" Value="{StaticResource Black}" />
-        <Setter Property="BorderColor" Value="#FF202020" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Black}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray900}}" />
         <Setter Property="FontSize" Value="22"/>
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="Padding" Value="0,18,0,17" />
+        <Setter Property="Margin" Value="2" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="HorizontalOptions" Value="Center" />
     </Style>

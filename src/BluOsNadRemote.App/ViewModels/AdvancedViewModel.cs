@@ -77,7 +77,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         //});
     }
 
-    public string[] ListeningModes => new[] { "None", "NeuralX", "EnhancedStereo", "DolbySurround", "EARS" };
+    public string[] ListeningModes => ["None", "NeuralX", "EnhancedStereo", "DolbySurround", "EARS"];
 
     [ObservableProperty]
     private string _mainSource;

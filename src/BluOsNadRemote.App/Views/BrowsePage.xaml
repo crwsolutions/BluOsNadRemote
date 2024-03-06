@@ -55,7 +55,7 @@
 	</ContentPage.Resources>
 
 	<RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" x:DataType="vm:BrowseViewModel">
-        <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
+        <Grid Style="{StaticResource Body}" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
             <SearchBar IsVisible="{Binding IsSearching}" x:Name="searchBar" Margin="0,0,0,4"
 						SearchCommand="{Binding SearchCommand}"
 						SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
@@ -67,7 +67,7 @@
 					Command="{Binding HideSearchCommand, Mode=OneTime}"
 					IsVisible="{Binding IsSearching, Mode=OneWay}">
             </Button>
-            <CollectionView Margin="8,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
+            <CollectionView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
 					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" />

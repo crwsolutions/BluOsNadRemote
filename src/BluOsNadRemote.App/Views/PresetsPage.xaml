@@ -11,13 +11,13 @@
 
     <RefreshView Command="{Binding LoadDataCommand}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <Grid>
+        <Grid Style="{StaticResource Body}">
             <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Presets, Mode=OneWay}"
                 SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="Auto,*" Margin="8,0,8,0" x:DataType="model:Favorite">
+                        <Grid ColumnDefinitions="Auto,*" x:DataType="model:Favorite">
                             <Image Source="{Binding ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}" />
                             <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" />
                             <Grid.GestureRecognizers>

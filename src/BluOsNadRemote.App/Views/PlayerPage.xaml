@@ -17,8 +17,8 @@
 
     <RefreshView Command="{Binding LoadDataCommand, Mode=OneTime}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <Grid>
-            <ScrollView Margin="8,0,8,0">
+        <Grid Style="{StaticResource Body}">
+            <ScrollView>
                 <Grid ColumnDefinitions="66,*" RowDefinitions="Auto, Auto, Auto, Auto, *">
 
                     <!-- service / song title  -->

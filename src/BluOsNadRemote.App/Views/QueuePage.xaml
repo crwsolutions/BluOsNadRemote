@@ -9,7 +9,7 @@
              Title="{Binding Title}">
     <RefreshView Command="{Binding LoadDataCommand}" IsEnabled="False"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <Grid>
+        <Grid Style="{StaticResource Body}">
             <CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Songs}"
                 SelectionMode="Single"
@@ -33,7 +33,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <StackLayout Padding="8,0,0,0" VerticalOptions="Center">
+                            <StackLayout VerticalOptions="Center">
                                 <Label Text="{Binding Title, Mode=OneTime}" Style="{StaticResource ListItemTitleTextStyle}" />
                                 <Label Text="{Binding Artist, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
                             </StackLayout>

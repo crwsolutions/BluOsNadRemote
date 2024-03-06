@@ -10,8 +10,8 @@
     
     <RefreshView Command="{Binding LoadDataCommand}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <Grid>
-        <ScrollView Margin="8,0,8,0">
+        <Grid Style="{StaticResource Body}">
+        <ScrollView>
             <StackLayout Orientation="Vertical">
                 <Border Style="{StaticResource DisplayContainer}">
                     <Grid RowSpacing="6" ColumnDefinitions="3*,2*" RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto">

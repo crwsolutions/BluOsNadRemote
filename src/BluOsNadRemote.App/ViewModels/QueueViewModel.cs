@@ -24,6 +24,24 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
         RemoveFromList
     }
 
+    public ObservableCollection<PlayQueueSong> Songs { get; } = [];
+
+    [ObservableProperty]
+    private int _currentSong; // = navigation parameter
+
+    [ObservableProperty]
+    private PlayQueueSong _selectedItem;
+
+    partial void OnSelectedItemChanged(PlayQueueSong value)
+    {
+        Debug.WriteLine("Selected:" + value);
+        if (value != null && !IsBusy)
+        {
+            var t = _bluPlayerService.BluPlayer.Play(value.ID);
+            var x = t.Result;
+        }
+    }
+
     [RelayCommand]
     private async Task LoadDataAsync()
     {
@@ -31,14 +49,9 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
         // https://dev.to/dotnet/infinite-scrolling-with-incremental-data-loading-in-xamarin-forms-18b5
         try
         {
-
-            //var x = await _bluPlayerService.BluPlayer.PlayQueue.GetInfo();
-            //int.TryParse(CurrentSong, out int currentIndex);
             var currentIndex = CurrentSong;
-
             var pageIndex = (int)(currentIndex / (double)_numberOfItemsPerPage);
 
-            //var presets = await _bluPlayerService.BluPlayer.PresetList.GetPresets();
             Songs.Clear();
             var asyncPages = _bluPlayerService.BluPlayer.PlayQueue.GetSongs(_numberOfItemsPerPage);
             _iterator = asyncPages.GetAsyncEnumerator();
@@ -87,11 +100,11 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
 
         var menu = new Dictionary<MenuAction, string>
         {
-            { MenuAction.TrackStation, AppResources.PlayTrackstation },
-            { MenuAction.SimilarStation, AppResources.PlaySimilarstation },
+            //{ MenuAction.TrackStation, AppResources.PlayTrackstation },
+            //{ MenuAction.SimilarStation, AppResources.PlaySimilarstation },
             { MenuAction.GoToAlbum, AppResources.BrowseAlbum },
             { MenuAction.GoToArtist, AppResources.BrowseArtist },
-            { MenuAction.AddToFavorites, AppResources.AddToFavorites },
+            //{ MenuAction.AddToFavorites, AppResources.AddToFavorites },
             { MenuAction.RemoveFromList, AppResources.RemoveFromList }
         };
 
@@ -172,26 +185,6 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
         finally
         {
             _isGettingMore = false;
-        }
-    }
-    public ObservableCollection<PlayQueueSong> Songs { get; } = [];
-
-    [ObservableProperty]
-    private int _currentSong; // = navigation parameter
-
-    PlayQueueSong _selectedItem;
-    public PlayQueueSong SelectedItem
-    {
-        get { return _selectedItem; }
-        set
-        {
-            Debug.WriteLine("Selected:" + value);
-            SetProperty(ref _selectedItem, value);
-            if (value != null && !IsBusy)
-            {
-                var t = _bluPlayerService.BluPlayer.Play(value.ID);
-                var x = t.Result;
-            }
         }
     }
 

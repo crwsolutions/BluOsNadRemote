@@ -10,6 +10,9 @@ public partial class PlayerPage : BaseContentPage
     protected override void OnSizeAllocated(double width, double height)
     {
         var min = Math.Min(width, height);
+#if WINDOWS
+        min = Math.Min(min, 540);
+#endif
         base.OnSizeAllocated(width, height);
         const double margin = 8 + 66 + 8;
         AlbumImage.WidthRequest = min - margin;

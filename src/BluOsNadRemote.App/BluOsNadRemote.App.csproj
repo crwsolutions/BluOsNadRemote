@@ -63,6 +63,7 @@
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\BluOsNadRemote.Nad4Net\BluOsNadRemote.Nad4Net.csproj" />
+	  <ProjectReference Include="..\ZeroconfTemp\ZeroConfTemp.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

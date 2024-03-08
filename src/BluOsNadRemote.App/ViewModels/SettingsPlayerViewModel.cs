@@ -8,9 +8,6 @@ namespace BluOsNadRemote.App.ViewModels;
 public partial class SettingsPlayerViewModel : BaseRefreshViewModel
 {
     [Dependency]
-    private readonly BluPlayerService _bluPlayerService;
-
-    [Dependency]
     private readonly ConfigurationService _configurationService;
 
     [ObservableProperty]

@@ -47,19 +47,31 @@ public sealed partial class BluPlayerService
 
     public async Task<BluPlayerDiscoverResult> DiscoverAsync()
     {
-        var uris = await BluEnvironment.ResolveEndpoints().ToArray();
+        var timeout = TimeSpan.FromSeconds(5);
+        var protocol = "_musc._tcp.local.";
+        var services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
 
-        if (uris == null || uris.Length == 0)
+        if (services == null || services.Count == 0)
+        { 
+            services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
+        }
+
+        if (services == null || services.Count == 0)
+        { 
+            services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
+        }
+
+        if (services == null || services.Count == 0)
         {
             return new BluPlayerDiscoverResult(AppResources.DiscoverNoPlayersFound, false);
         }
 
-        var endpoints = new EndPoint[uris.Length];
-        for (var i = 0; i < uris.Length; i++)
+        var endpoints = new EndPoint[services.Count];
+        for (var i = 0; i < services.Count; i++)
         {
-            var uri = uris[i];
-            var bluPlayer = await BluPlayer.Connect(uri);
-            endpoints[i] = new EndPoint(uri, bluPlayer.Name);
+            var service = services[i];
+            var bluPlayer = await BluPlayer.Connect(service.IPAddress);
+            endpoints[i] = new EndPoint($"http://{service.IPAddress}:{BluEnvironment.DefaultEndpointPort}/", bluPlayer.Name);
         }
 
         _configurationService.MergeEndpoints(endpoints);

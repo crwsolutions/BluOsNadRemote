@@ -50,5 +50,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Local BluOS services</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_musc._tcp.</string>
+		<string>_musc._tcp.local.</string>
+	</array>
 </dict>
 </plist>

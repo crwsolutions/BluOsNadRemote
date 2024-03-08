@@ -1,0 +1,1 @@
+﻿This is here because Blu4Net uses Zeroconf. But it alwats uses the netstandard version. But we need the specific iOs version.

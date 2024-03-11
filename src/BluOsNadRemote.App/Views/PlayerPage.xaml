@@ -60,9 +60,9 @@
                     </VerticalStackLayout>
                     <Label Grid.Row="3" Grid.Column="1" VerticalOptions="Center" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
 
-                    <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="*,Auto,*,Auto,*,Auto,*" Margin="0,12,0,12">
+                    <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="*,auto,*">
                         <!-- control buttons -->
-                        <Grid Grid.Row="1" RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
+                        <Grid RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
                             <Button Grid.Column="0" Command="{Binding BackCommand, Mode=OneTime}" Text="z" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" IsVisible="{Binding IsStartVisible}" Command="{Binding PlayCommand, Mode=OneTime}" Text="x" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" IsVisible="{Binding IsPauseVisible}" Command="{Binding PauseCommand, Mode=OneTime}" Text="b" Style="{StaticResource CircleButton}"/>
@@ -71,7 +71,7 @@
                         </Grid>
 
                         <!-- state -->
-                        <Border Grid.Row="3" Style="{StaticResource DisplayContainer}">
+                        <Border Grid.Row="1" Style="{StaticResource DisplayContainer}">
                             <Grid RowSpacing="6" ColumnDefinitions="*,*,*" VerticalOptions="Center">
                                 <Label Text="{Binding StreamFormat, Mode=OneWay}"/>
                                 <Label Grid.Column="1" HorizontalTextAlignment="Center"  Text="{Binding State, Mode=OneWay}"/>
@@ -87,7 +87,7 @@
                         </Border>
 
                         <!-- Volume -->
-                        <Grid Grid.Row="5" RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,Auto,*">
+                        <Grid Grid.Row="2" RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,Auto,*">
                             <Button Command="{Binding ToggleMuteCommand, Mode=OneTime}" Text="{Binding MuteImage, Mode=OneWay}" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" Command="{Binding VolumeDownCommand, Mode=OneTime}" Text="m" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="2" Command="{Binding VolumeUpCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}"/>

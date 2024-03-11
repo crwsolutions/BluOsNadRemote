@@ -63,10 +63,10 @@
                     <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="*,auto,*">
                         <!-- control buttons -->
                         <Grid RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
-                            <Button Grid.Column="0" Command="{Binding BackCommand, Mode=OneTime}" Text="z" Style="{StaticResource CircleButton}"/>
-                            <Button Grid.Column="1" IsVisible="{Binding IsStartVisible}" Command="{Binding PlayCommand, Mode=OneTime}" Text="x" Style="{StaticResource CircleButton}"/>
-                            <Button Grid.Column="1" IsVisible="{Binding IsPauseVisible}" Command="{Binding PauseCommand, Mode=OneTime}" Text="b" Style="{StaticResource CircleButton}"/>
-                            <Button Grid.Column="2" Command="{Binding SkipCommand, Mode=OneTime}" Text="c" Style="{StaticResource CircleButton}"/>
+                            <Button Grid.Column="0" IsVisible="{Binding IsBackVisible, Mode=OneWay}" Command="{Binding BackCommand, Mode=OneTime}" Text="z" Style="{StaticResource CircleButton}"/>
+                            <Button Grid.Column="1" IsVisible="{Binding IsStartVisible, Mode=OneWay}" Command="{Binding PlayCommand, Mode=OneTime}" Text="x" Style="{StaticResource CircleButton}"/>
+                            <Button Grid.Column="1" IsVisible="{Binding IsPauseVisible, Mode=OneWay}" Command="{Binding PauseCommand, Mode=OneTime}" Text="b" Style="{StaticResource CircleButton}"/>
+                            <Button Grid.Column="2" IsVisible="{Binding IsSkipVisible, Mode=OneWay}" Command="{Binding SkipCommand, Mode=OneTime}" Text="c" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="4" Command="{Binding StopCommand, Mode=OneTime}" Text="v" BackgroundColor="{StaticResource NadAccent}" Style="{StaticResource CircleButton}"/>
                         </Grid>
 

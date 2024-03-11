@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="nl.crwsolutions.bluosnadremote" android:versionName="first">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="nl.crwsolutions.bluosnadremote">
 	<application android:allowBackup="true" android:supportsRtl="true" android:icon="@mipmap/appicon" android:label="BluOS NAD"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />

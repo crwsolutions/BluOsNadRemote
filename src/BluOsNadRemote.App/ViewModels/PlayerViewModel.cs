@@ -9,6 +9,9 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 {
     private static readonly TimeSpan _estimateProgressTimespan = TimeSpan.FromSeconds(1);
 
+    private string _skipAction;
+    private string _backAction;
+
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
 
@@ -95,6 +98,12 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsPauseVisible))]
     private bool _isStartVisible;
+
+    [ObservableProperty]
+    private bool _isBackVisible;
+
+    [ObservableProperty]
+    private bool _isSkipVisible;
 
     public bool IsPauseVisible => !IsStartVisible;
 
@@ -268,6 +277,40 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         ServiceIconUri = media.ServiceIconUri;
         Quality = media.Quality;
         StreamFormat = media.StreamFormat;
+
+        SetControls(media);
+    }
+
+    private void SetControls(PlayerMedia media)
+    {
+        _backAction = null;
+        _skipAction = null;
+
+        if (media.PlayerState == PlayerState.Streaming)
+        {
+            var backButtonVisibility = false;
+            var skipButtonVisibility = false;
+            foreach (var action in media.Actions)
+            {
+                if (action.Action == PlayerAction.Back && action.Url != null)
+                {
+                    _backAction = action.Url;
+                    backButtonVisibility = true;
+                }
+                if (action.Action == PlayerAction.Skip && action.Url != null)
+                {
+                    _skipAction = action.Url;
+                    skipButtonVisibility = true;
+                }
+            }
+            IsBackVisible = backButtonVisibility;
+            IsSkipVisible = skipButtonVisibility;
+        }
+        else if (media.PlayerState == PlayerState.Playing)
+        {
+            IsBackVisible = true;
+            IsSkipVisible = true;
+        }
     }
 
     private async Task SetAndClampVolumeAsync(int percentage)
@@ -319,10 +362,30 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private async Task PauseAsync() => await _bluPlayerService.BluPlayer?.Pause();
 
     [RelayCommand]
-    private async Task SkipAsync() => await _bluPlayerService.BluPlayer?.Skip();
+    private async Task SkipAsync()
+    {
+        if (_skipAction == null)
+        {
+            await _bluPlayerService.BluPlayer?.Skip();
+        }
+        else
+        {
+            await _bluPlayerService.BluPlayer?.Action(_skipAction);
+        }
+    }
 
     [RelayCommand]
-    private async Task BackAsync() => await _bluPlayerService.BluPlayer?.Back();
+    private async Task BackAsync() 
+    {
+        if (_backAction == null)
+        {
+            await _bluPlayerService.BluPlayer?.Back();
+        }
+        else
+        {
+            await _bluPlayerService.BluPlayer?.Action(_backAction);
+        }
+    }
 
     [RelayCommand]
     private async Task ToggleShuffleAsync()

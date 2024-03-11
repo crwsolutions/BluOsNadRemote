@@ -20,6 +20,8 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     private EndPoint _selectedItem;
 
+    public string Version => $"{AppInfo.Current.Name} [v{AppInfo.Current.VersionString}] build {AppInfo.Current.BuildString}";
+
     partial void OnSelectedItemChanged(EndPoint value)
     {
         _configurationService.SelectedEndpoint = value;

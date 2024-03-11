@@ -8,7 +8,7 @@
 			 x:DataType="vm:SettingsViewModel">
 
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, *, auto, *" Style="{StaticResource Body}">
+        <Grid RowDefinitions="auto, *, auto, *, auto" Style="{StaticResource Body}">
             <Button Command="{Binding NavigateToAddCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}" HorizontalOptions="End" BackgroundColor="{StaticResource NadAccent}"  />
 
             <CollectionView Grid.Row="1" x:Name="ItemsListView"
@@ -42,6 +42,9 @@
                     <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
                 </VerticalStackLayout>
             </ScrollView>
+            <Border Grid.Row="4" StrokeShape="RoundRectangle 14" Padding="6" Background="Silver" Margin="24, 12,24,12" Stroke="Gray">
+                <Label Text="{Binding Version, Mode=OneTime}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
+            </Border>
         </Grid>
     </ContentPage.Content>
 </views:BaseContentPage>

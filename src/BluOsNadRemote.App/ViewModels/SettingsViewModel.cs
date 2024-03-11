@@ -35,8 +35,10 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
                 return;
             }
 
-            EndPoints = new ObservableCollection<EndPoint>(endPoints);
-            OnPropertyChanged(nameof(EndPoints));
+            foreach (EndPoint endPoint in endPoints) 
+            {
+                EndPoints.Add(endPoint);
+            }
             SelectedItem = _configurationService.SelectedEndpoint;
         }
         finally
@@ -45,7 +47,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
         }
     }
 
-    public ObservableCollection<EndPoint> EndPoints { get; set; }
+    public ObservableCollection<EndPoint> EndPoints { get; } = [];
 
     [RelayCommand]
     private async Task NavigateToAddAsync() => await Shell.Current.GoToAsync(nameof(SettingsPlayerPage));

@@ -6,11 +6,17 @@
              xmlns:model="clr-namespace:BluOsNadRemote.App.Models"
 			 x:Class="BluOsNadRemote.App.Views.SettingsPage"
 			 x:DataType="vm:SettingsViewModel">
-
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding NavigateToAddCommand, Mode=OneTime}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="CrwMedia" Glyph="n" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <Grid RowDefinitions="auto, *, auto, *, auto" Style="{StaticResource Body}">
-            <Button Command="{Binding NavigateToAddCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}" HorizontalOptions="End" BackgroundColor="{StaticResource NadAccent}"  />
-
             <CollectionView Grid.Row="1" x:Name="ItemsListView"
                             EmptyView="No players configured. Discover or add a player."
                             ItemsSource="{Binding EndPoints}"

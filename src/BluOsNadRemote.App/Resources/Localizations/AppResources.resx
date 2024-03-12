@@ -186,4 +186,10 @@
   <data name="DiscoverPlayersFound" xml:space="preserve">
     <value>Discover: Found {0} player(s) succesfully</value>
   </data>
+  <data name="AddPlayerIntro" xml:space="preserve">
+    <value>If you failed to discover a player, you can manually enter an ip address or host here. Click 'Ping BluOS' to see if a connection can be made. If some xml appears down here, then it succeeded. Then click 'Save' to save the player.</value>
+  </data>
+  <data name="AddPlayerTitle" xml:space="preserve">
+    <value>Manually add player</value>
+  </data>
 </root>

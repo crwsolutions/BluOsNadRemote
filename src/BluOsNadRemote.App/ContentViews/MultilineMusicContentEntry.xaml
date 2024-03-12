@@ -6,7 +6,7 @@
              x:DataType="vm:MusicContentEntryViewModel">
     <Grid ColumnDefinitions="Auto,*,Auto">
         <Image IsVisible="{Binding HasImage, Mode=OneTime}" Source="{Binding Entry.ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}"/>
-        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" Style="{DynamicResource ListItemImageOverlayButtonStyle}" />
+        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" Text="x" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" Style="{DynamicResource ListItemGlyphOverlayButtonStyle}" />
         <StackLayout Grid.Column="1" VerticalOptions="Center">
             <Label Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTitleTextStyle}"  />
             <Label Text="{Binding Entry.Text2, Mode=OneTime}" Style="{DynamicResource ListItemSubTextStyle}" />

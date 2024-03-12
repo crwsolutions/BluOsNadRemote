@@ -4,6 +4,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
+[DebuggerDisplay("MusicContentEntryViewModel: '{Entry.Name}'")]
 public partial class MusicContentEntryViewModel
 {
     [Dependency]

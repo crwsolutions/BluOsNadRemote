@@ -4,6 +4,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
+[DebuggerDisplay("MusicContentCategoryViewModel: '{Name}' {Count} Items")]
 public sealed class MusicContentCategoryViewModel : List<MusicContentEntryViewModel>
 {
     public MusicContentCategoryViewModel(MusicContentCategory category, BluPlayerService bluPlayerService)
@@ -19,4 +20,6 @@ public sealed class MusicContentCategoryViewModel : List<MusicContentEntryViewMo
     }
 
     public string Name { get; }
+
+    public override string ToString() => Name;
 }

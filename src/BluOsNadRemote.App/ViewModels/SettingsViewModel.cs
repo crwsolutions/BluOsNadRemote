@@ -84,7 +84,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     private void Reset()
     {
         _bluPlayerService.IsConnected = false;
-        _configurationService.Clear();
+        _configurationService.ClearEndpoints();
         Dispose();
     }
 

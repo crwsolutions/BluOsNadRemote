@@ -96,14 +96,14 @@ public sealed partial class ConfigurationService
 
     private void SetEndPoints(EndPoint[] endPoints)
     {
-        Clear();
-        _preferences.Set(ENDPOINTS_LENGTH, endPoints.Length);
+        ClearEndpoints();
         for (var i = 0; i < endPoints.Length; i++)
         {
             var endpoint = endPoints[i];
             _preferences.Set(ENDPOINT_URL + i, endpoint.Uri.ToString());
             _preferences.Set(ENDPOINT_NAME + i, endpoint.LastKnowName);
         }
+        _preferences.Set(ENDPOINTS_LENGTH, endPoints.Length);
     }
 
     private EndPoint GetEndPoint(int index)
@@ -119,5 +119,16 @@ public sealed partial class ConfigurationService
         return new EndPoint(uri, name);
     }
 
-    internal void Clear() => _preferences.Clear();
+    internal void ClearEndpoints()
+    {
+        var length = _preferences.Get(ENDPOINTS_LENGTH, 0);
+        for (var i = 0; i < length; i++)
+        {
+            _preferences.Remove(ENDPOINT_URL + i);
+            _preferences.Remove(ENDPOINT_NAME + i);
+            Debug.WriteLine($"Removed '{ENDPOINT_URL + i}' and '{ENDPOINT_NAME + i}'");
+        }
+        _preferences.Remove(ENDPOINTS_LENGTH);
+        _preferences.Remove(ENDPOINT_SELECTED);
+    }
 }

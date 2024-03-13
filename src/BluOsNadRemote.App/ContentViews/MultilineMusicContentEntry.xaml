@@ -4,14 +4,23 @@
              xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
              x:Class="BluOsNadRemote.App.ContentViews.MultilineMusicContentEntry"
              x:DataType="vm:MusicContentEntryViewModel">
-    <Grid ColumnDefinitions="Auto,*,Auto">
+    <Grid ColumnDefinitions="Auto,*,Auto" Style="{StaticResource ListItemContainer}">
+
+        <!-- Thumbnail -->
         <Image IsVisible="{Binding HasImage, Mode=OneTime}" Source="{Binding Entry.ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}"/>
         <Button Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" Text="x" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" Style="{DynamicResource ListItemGlyphOverlayButtonStyle}" />
-        <StackLayout Grid.Column="1" VerticalOptions="Center">
+        
+        <!-- Text -->
+        <StackLayout Grid.Column="1" Style="{StaticResource ListItemMultilineContainerStyle}">
             <Label Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTitleTextStyle}"  />
             <Label Text="{Binding Entry.Text2, Mode=OneTime}" Style="{DynamicResource ListItemSubTextStyle}" />
         </StackLayout>
-        <Button Grid.Column="2" IsVisible="{Binding HasContextMenu, Mode=OneTime}" Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" Text="h" Style="{DynamicResource ListItemActionSheetButtonStyle}" />
+
+        <!-- More... -->
+        <Button Grid.Column="2" Text="h" IsVisible="{Binding HasContextMenu, Mode=OneTime}"
+                Command="{Binding DisplayActionSheetCommand, Mode=OneTime}"
+                Style="{DynamicResource ListItemActionSheetButtonStyle}" />
+        
         <Grid.GestureRecognizers>
             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}"/>
         </Grid.GestureRecognizers>

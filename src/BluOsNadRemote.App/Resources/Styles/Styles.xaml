@@ -423,8 +423,7 @@
         <Setter Property="HeightRequest" Value="30"/>
         <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="HorizontalOptions" Value="Center"/>
-        <Setter Property="Padding" Value="8"/>
-        <Setter Property="Margin" Value="0,8,8,0"/> 
+        <Setter Property="Padding" Value="7,6,8,8"/>
         <Setter Property="BackgroundColor" Value="#AA2E2E2E"/>
         <Setter Property="BorderColor" Value="Silver"/>
         <Setter Property="CornerRadius" Value="15" />

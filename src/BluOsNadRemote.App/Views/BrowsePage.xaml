@@ -54,20 +54,25 @@
 		<controls:ItemsListViewMultilineTemplateSelector x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
 	</ContentPage.Resources>
 
-	<RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" x:DataType="vm:BrowseViewModel">
-        <Grid Style="{StaticResource Body}" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto">
-            <SearchBar IsVisible="{Binding IsSearching}" x:Name="searchBar" Margin="0,0,0,4"
-						SearchCommand="{Binding SearchCommand}"
-						SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
-            <!-- cross -->
-            <Button Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center"
-					FontFamily="CrwMedia" Text="l"
-					FontSize="28" TextColor="White"
-					BackgroundColor="Transparent"
-					Command="{Binding HideSearchCommand, Mode=OneTime}"
-					IsVisible="{Binding IsSearching, Mode=OneWay}">
-            </Button>
-            <CollectionView Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Categories, Mode=OneWay}" SelectionMode="None" IsGrouped="True" ItemTemplate="{StaticResource MultilineSelector}" RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
+	<RefreshView Command="{Binding LoadDataCommand, Mode=OneTime}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <Grid Style="{StaticResource Body}" RowDefinitions="Auto,*">
+            <!-- search -->
+            <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsSearching, Mode=OneWay}">
+				<SearchBar x:Name="searchBar" Margin="0,0,0,4"
+						   SearchCommand="{Binding SearchCommand, Mode=OneTime}"
+						   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+                <Button Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center"
+						FontFamily="CrwMedia" Text="l"
+						FontSize="28" TextColor="White"
+						BackgroundColor="Transparent"
+						Command="{Binding HideSearchCommand, Mode=OneTime}"/>
+            </Grid>
+            <!-- browse -->
+            <CollectionView Grid.Row="1" ItemsSource="{Binding Categories, Mode=OneWay}"
+                            SelectionMode="None" IsGrouped="True" 
+                            ItemTemplate="{StaticResource MultilineSelector}" 
+                            RemainingItemsThreshold="5" 
+                            RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
 					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" />

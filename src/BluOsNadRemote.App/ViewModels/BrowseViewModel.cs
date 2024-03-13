@@ -103,23 +103,27 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             IsSearchable = _bluPlayerService.MusicContentNode.IsSearchable;
 
             Dispose();
-            Debug.WriteLine($"**** Cleared...");
-            //#if IOS
-            //            await Task.Delay(300);  //HACK: //https://github.com/dotnet/maui/issues/10163
-            //#endif
+            
+            var incomingList = new List<MusicContentCategoryViewModel>();
             foreach (var category in _bluPlayerService.MusicContentNode.Categories)
             {
-                Categories.Add(new MusicContentCategoryViewModel(category, _bluPlayerService));
+                incomingList.Add(new MusicContentCategoryViewModel(category, _bluPlayerService));
             }
             if (_bluPlayerService.MusicContentNode.Entries.Count != 0)
             {
-                Categories.Add(new MusicContentCategoryViewModel(_bluPlayerService.MusicContentNode.HasNext, _bluPlayerService.MusicContentNode.Entries, _bluPlayerService));
+                incomingList.Add(new MusicContentCategoryViewModel(_bluPlayerService.MusicContentNode.HasNext, _bluPlayerService.MusicContentNode.Entries, _bluPlayerService));
 
                 if (_bluPlayerService.MusicContentNode.HasNext)
                 {
                     _moreNode = _bluPlayerService.MusicContentNode;
                 }
             }
+#if ANDROID
+            //Fusing does not work in Android, but just clearing and adding does not work in iOs :(.
+            Categories.Clear();
+            Debug.WriteLine($"**** Cleared...");
+#endif
+            Categories.Fuse(incomingList);
 
             Title = _bluPlayerService.MusicContentNode?.ServiceName ?? AppResources.AvailableServices;
             ServiceIconUri = _bluPlayerService.MusicContentNode?.ServiceIconUri;
@@ -150,8 +154,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task GetMoreItemsAsync()
     {
-        //return;
-
         if (_isGettingMore || IsBusy)
         {
             return;
@@ -251,7 +253,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
 
     public void Dispose()
     {
-        Categories.Clear();
         _moreNode = null;
     }
 }

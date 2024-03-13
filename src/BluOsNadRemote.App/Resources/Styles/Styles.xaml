@@ -418,13 +418,18 @@
         <Setter Property="VerticalOptions" Value="Center"/>
     </Style>
 
-    <Style x:Key="ListItemImageOverlayButtonStyle" TargetType="Button">
+    <Style x:Key="ListItemGlyphOverlayButtonStyle" TargetType="Button">
         <Setter Property="WidthRequest" Value="30" />
         <Setter Property="HeightRequest" Value="30"/>
         <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="BackgroundColor" Value="#2E2E2E"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="Padding" Value="7,6,8,8"/>
+        <Setter Property="BackgroundColor" Value="#AA2E2E2E"/>
         <Setter Property="BorderColor" Value="Silver"/>
         <Setter Property="CornerRadius" Value="15" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontFamily" Value="CrwMedia" />
+        <Setter Property="FontSize" Value="18" />
     </Style>
 
     <Style x:Key="ListItemMultilineContainerStyle" TargetType="StackLayout">

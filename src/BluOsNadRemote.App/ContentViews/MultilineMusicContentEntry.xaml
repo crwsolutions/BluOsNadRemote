@@ -8,7 +8,7 @@
 
         <!-- Thumbnail -->
         <Image IsVisible="{Binding HasImage, Mode=OneTime}" Source="{Binding Entry.ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}"/>
-        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" ImageSource="play.png" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" Style="{DynamicResource ListItemImageOverlayButtonStyle}" />
+        <Button Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" Text="x" IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" Style="{DynamicResource ListItemGlyphOverlayButtonStyle}" />
         
         <!-- Text -->
         <StackLayout Grid.Column="1" Style="{StaticResource ListItemMultilineContainerStyle}">

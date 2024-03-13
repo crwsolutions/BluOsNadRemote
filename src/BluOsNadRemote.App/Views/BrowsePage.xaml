@@ -7,7 +7,6 @@
 			 xmlns:contentViews="clr-namespace:BluOsNadRemote.App.ContentViews"
 			 x:Class="BluOsNadRemote.App.Views.BrowsePage"
 			 x:DataType="vm:BrowseViewModel"
-			 Title="{Binding Title}"
 			 NavigationPage.HasNavigationBar="False">
 
     <Shell.TitleView>

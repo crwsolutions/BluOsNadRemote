@@ -22,7 +22,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AppResources {
+    public class AppResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BluOsNadRemote.App.Resources.Localizations.AppResources", typeof(AppResources).Assembly);
@@ -51,7 +51,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,34 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
-        internal static string Actions {
+        public static string Actions {
             get {
                 return ResourceManager.GetString("Actions", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you failed to discover a player, you can manually enter an ip address or host here. Click &apos;Ping BluOS&apos; to see if a connection can be made. If some xml appears down here, then it succeeded. Then click &apos;Save&apos; to save the player..
+        /// </summary>
+        public static string AddPlayerIntro {
+            get {
+                return ResourceManager.GetString("AddPlayerIntro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manually add player.
+        /// </summary>
+        public static string AddPlayerTitle {
+            get {
+                return ResourceManager.GetString("AddPlayerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add to favorites.
         /// </summary>
-        internal static string AddToFavorites {
+        public static string AddToFavorites {
             get {
                 return ResourceManager.GetString("AddToFavorites", resourceCulture);
             }
@@ -81,7 +99,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Available services.
         /// </summary>
-        internal static string AvailableServices {
+        public static string AvailableServices {
             get {
                 return ResourceManager.GetString("AvailableServices", resourceCulture);
             }
@@ -90,7 +108,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Browse album.
         /// </summary>
-        internal static string BrowseAlbum {
+        public static string BrowseAlbum {
             get {
                 return ResourceManager.GetString("BrowseAlbum", resourceCulture);
             }
@@ -99,7 +117,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Browse artist.
         /// </summary>
-        internal static string BrowseArtist {
+        public static string BrowseArtist {
             get {
                 return ResourceManager.GetString("BrowseArtist", resourceCulture);
             }
@@ -108,7 +126,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string Cancel {
+        public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
@@ -117,7 +135,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Could not connect: {0}.
         /// </summary>
-        internal static string CouldNotConnectResult {
+        public static string CouldNotConnectResult {
             get {
                 return ResourceManager.GetString("CouldNotConnectResult", resourceCulture);
             }
@@ -126,7 +144,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Discover: No players found.
         /// </summary>
-        internal static string DiscoverNoPlayersFound {
+        public static string DiscoverNoPlayersFound {
             get {
                 return ResourceManager.GetString("DiscoverNoPlayersFound", resourceCulture);
             }
@@ -135,7 +153,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Discover: Found {0} player(s) succesfully.
         /// </summary>
-        internal static string DiscoverPlayersFound {
+        public static string DiscoverPlayersFound {
             get {
                 return ResourceManager.GetString("DiscoverPlayersFound", resourceCulture);
             }
@@ -144,7 +162,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
-        internal static string Loading {
+        public static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
             }
@@ -153,7 +171,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Could not retrieve browsers.
         /// </summary>
-        internal static string NoBrowsers {
+        public static string NoBrowsers {
             get {
                 return ResourceManager.GetString("NoBrowsers", resourceCulture);
             }
@@ -162,7 +180,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Could not connect.
         /// </summary>
-        internal static string NoConnect {
+        public static string NoConnect {
             get {
                 return ResourceManager.GetString("NoConnect", resourceCulture);
             }
@@ -171,7 +189,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to No connection.
         /// </summary>
-        internal static string NoConnection {
+        public static string NoConnection {
             get {
                 return ResourceManager.GetString("NoConnection", resourceCulture);
             }
@@ -180,7 +198,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Could not retrieve more.
         /// </summary>
-        internal static string NoMore {
+        public static string NoMore {
             get {
                 return ResourceManager.GetString("NoMore", resourceCulture);
             }
@@ -189,7 +207,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Could not retrieve favorites.
         /// </summary>
-        internal static string NoPresets {
+        public static string NoPresets {
             get {
                 return ResourceManager.GetString("NoPresets", resourceCulture);
             }
@@ -198,7 +216,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Could not retrieve playlist items.
         /// </summary>
-        internal static string NoQueue {
+        public static string NoQueue {
             get {
                 return ResourceManager.GetString("NoQueue", resourceCulture);
             }
@@ -207,7 +225,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to {0} items.
         /// </summary>
-        internal static string NumItems {
+        public static string NumItems {
             get {
                 return ResourceManager.GetString("NumItems", resourceCulture);
             }
@@ -216,7 +234,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to More than {0} items....
         /// </summary>
-        internal static string NumMoreItems {
+        public static string NumMoreItems {
             get {
                 return ResourceManager.GetString("NumMoreItems", resourceCulture);
             }
@@ -225,7 +243,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to {0} Presets.
         /// </summary>
-        internal static string NumPresets {
+        public static string NumPresets {
             get {
                 return ResourceManager.GetString("NumPresets", resourceCulture);
             }
@@ -234,7 +252,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Play similarstation.
         /// </summary>
-        internal static string PlaySimilarstation {
+        public static string PlaySimilarstation {
             get {
                 return ResourceManager.GetString("PlaySimilarstation", resourceCulture);
             }
@@ -243,7 +261,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Play track station.
         /// </summary>
-        internal static string PlayTrackstation {
+        public static string PlayTrackstation {
             get {
                 return ResourceManager.GetString("PlayTrackstation", resourceCulture);
             }
@@ -252,7 +270,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Playlist.
         /// </summary>
-        internal static string Queue {
+        public static string Queue {
             get {
                 return ResourceManager.GetString("Queue", resourceCulture);
             }
@@ -261,7 +279,7 @@ namespace BluOsNadRemote.App.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Remove from list.
         /// </summary>
-        internal static string RemoveFromList {
+        public static string RemoveFromList {
             get {
                 return ResourceManager.GetString("RemoveFromList", resourceCulture);
             }

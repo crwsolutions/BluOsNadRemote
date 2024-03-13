@@ -186,4 +186,10 @@
   <data name="DiscoverPlayersFound" xml:space="preserve">
     <value>Ontdekken: Succes! We hebben {0} speler(s) gevonden</value>
   </data>
+  <data name="AddPlayerIntro" xml:space="preserve">
+    <value>Als het je niet gelukt is om een speler te ontdekken, dan kan je hier handmatig een ipadres of host invullen. Klik op 'Ping BluOS' om te zien of er verbinding gemaakt kan worden. Als er wat xml verschijnt hier beneden, dan is het gelukt. Klik dan op 'Opslaan' om de speler op te slaan.</value>
+  </data>
+  <data name="AddPlayerTitle" xml:space="preserve">
+    <value>Handmatig speler toevoegen</value>
+  </data>
 </root>

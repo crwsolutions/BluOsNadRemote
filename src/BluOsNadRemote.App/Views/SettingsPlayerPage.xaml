@@ -2,24 +2,27 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
+             xmlns:localization="clr-namespace:BluOsNadRemote.App.Resources.Localizations"
              x:Class="BluOsNadRemote.App.Views.SettingsPlayerPage"
-             Title="Add player"
+             Title="{x:Static localization:AppResources.AddPlayerTitle}"
              x:DataType="vm:SettingsPlayerViewModel">
-    <Grid ColumnDefinitions="100, 243" RowDefinitions="auto, auto, auto, *" Margin="8" HorizontalOptions="Center">
-        <Label Text="Host" VerticalTextAlignment="Center" />
-        <Entry Grid.Column="1" Text="{Binding Host, Mode=TwoWay}" VerticalTextAlignment="Center" />
+    <Grid ColumnDefinitions="100, 243" RowDefinitions="auto, auto, auto, auto, *" Margin="8" HorizontalOptions="Center">
+        <Label Text="{x:Static localization:AppResources.AddPlayerIntro}" Grid.ColumnSpan="2" Margin="12" HorizontalTextAlignment="Center" TextColor="Silver" />
 
-        <Label Grid.Row="1" Text="End point" VerticalTextAlignment="Center" />
-        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Uri, Mode=OneWay}" VerticalTextAlignment="Center" Margin="8,0,0,0" TextColor="Gray" />
+        <Label Grid.Row="1" Text="Host" VerticalTextAlignment="Center" />
+        <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Host, Mode=TwoWay}" VerticalTextAlignment="Center" />
 
-        <Grid Grid.ColumnSpan="2" Grid.Row="2" ColumnDefinitions="*,*,*" Margin="0,24,0,0" ColumnSpacing="8">
+        <Label Grid.Row="2" Text="End point" VerticalTextAlignment="Center" />
+        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Uri, Mode=OneWay}" VerticalTextAlignment="Center" Margin="8,0,0,0" TextColor="Gray" />
+
+        <Grid Grid.ColumnSpan="2" Grid.Row="3" ColumnDefinitions="*,*,*" Margin="0,24,0,0" ColumnSpacing="8">
             <Button Text="Ping BluOS" Command="{Binding BluOsPingCommand}" />
             <Button Grid.Column="1" Text="Ping Telnet" Command="{Binding TelnetPingCommand}"  />
             <Button Grid.Column="2" Text="Save" HorizontalOptions="Fill" Command="{Binding SaveCommand}" />
         </Grid>
 
-        <ActivityIndicator Grid.ColumnSpan="2" IsRunning="{Binding IsBusy}" Grid.Row="3" Color="{DynamicResource TextColor}" VerticalOptions="Center" />
-        <ScrollView Grid.Row="3" Grid.ColumnSpan="2" Margin="12">
+        <ActivityIndicator Grid.ColumnSpan="2" IsRunning="{Binding IsBusy}" Grid.Row="4" Color="{DynamicResource TextColor}" VerticalOptions="Center" />
+        <ScrollView Grid.Row="4" Grid.ColumnSpan="2" Margin="12">
             <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
         </ScrollView>
     </Grid>

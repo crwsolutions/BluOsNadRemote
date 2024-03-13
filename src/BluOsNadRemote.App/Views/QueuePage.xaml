@@ -10,34 +10,23 @@
     <RefreshView Command="{Binding LoadDataCommand}" IsEnabled="False"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <Grid Style="{StaticResource Body}">
-            <CollectionView x:Name="ItemsListView"
-                ItemsSource="{Binding Songs}"
-                SelectionMode="Single"
-                SelectedItem="{Binding SelectedItem}"
-                RemainingItemsThreshold="5"
-                RemainingItemsThresholdReachedCommand="{Binding LoadMoreDataCommand, Mode=OneTime}">
+            <CollectionView x:Name="ItemsListView" ItemsSource="{Binding Songs}"
+                            SelectionMode="Single" SelectedItem="{Binding SelectedItem}"
+                            RemainingItemsThreshold="5" RemainingItemsThresholdReachedCommand="{Binding LoadMoreDataCommand, Mode=OneTime}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Margin="8,0,8,0" x:DataType="model:PlayQueueSong">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualState Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="Transparent" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Select}, Dark={StaticResource NadAccent}}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <StackLayout VerticalOptions="Center">
+                        <Grid ColumnDefinitions="*,Auto" x:DataType="model:PlayQueueSong" Style="{StaticResource ListItemContainer}">
+
+                            <!-- Text -->
+                            <StackLayout Style="{StaticResource ListItemMultilineContainerStyle}">
                                 <Label Text="{Binding Title, Mode=OneTime}" Style="{StaticResource ListItemTitleTextStyle}" />
                                 <Label Text="{Binding Artist, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
                             </StackLayout>
-                            <Button Grid.Column="1" Grid.RowSpan="2" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}" Text="h" Style="{DynamicResource ListItemActionSheetButtonStyle}"/>
+
+                            <!-- More... -->
+                            <Button Grid.Column="1" Text="h" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}"
+                                    Style="{DynamicResource ListItemActionSheetButtonStyle}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

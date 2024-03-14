@@ -4,28 +4,25 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
              xmlns:model="clr-namespace:BluOsNadRemote.App.Models"
-             xmlns:local="clr-namespace:BluOsNadRemote.App.ViewModels"
 			 x:Class="BluOsNadRemote.App.Views.PresetsPage"
 			 x:DataType="vm:PresetsViewModel"
              Title="{Binding Title}">
 
-    <RefreshView Command="{Binding LoadDataCommand}"
+    <RefreshView Command="{Binding LoadDataCommand, Mode=OneTime}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <Grid Style="{StaticResource Body}">
-            <CollectionView x:Name="ItemsListView"
-                ItemsSource="{Binding Presets, Mode=OneWay}"
-                SelectionMode="None">
+            <CollectionView ItemsSource="{Binding Presets, Mode=OneWay}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="Auto,*" x:DataType="model:Favorite">
+                        <Grid ColumnDefinitions="Auto,*" x:DataType="model:Favorite" Style="{StaticResource ListItemContainer}">
+
+                            <!-- Thumbnail -->
                             <Image Source="{Binding ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}" />
+
+                            <!-- Text -->
                             <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" />
                             <Grid.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                NumberOfTapsRequired="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:PresetsViewModel}}, Path=PresetTappedCommand, Mode=OneTime}"		
-                                CommandParameter="{Binding ., Mode=OneTime}">
-                                </TapGestureRecognizer>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PresetsViewModel}}, Path=PresetTappedCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}" />
                             </Grid.GestureRecognizers>
                         </Grid>
                     </DataTemplate>

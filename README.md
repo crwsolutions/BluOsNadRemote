@@ -1,5 +1,9 @@
 ﻿# OPEN BLUOS NAD REMOTE
-Opensource and nicely featured remote control for Bluesound products. 
+Unofficial open source and nicely featured remote control for Bluesound products.
+
+[![GitHub License](https://img.shields.io/github/license/crwsolutions/BluOsNadRemote)](https://github.com/crwsolutions/BluOsNadRemote/LICENSE.txt)
+[![App store](https://img.shields.io/badge/App_Store-0D96F6?style=flat&logo=app-store&logoColor=white&label=Get%20it%20on)](https://apps.apple.com/nl/app/bluos-nad-remote/id6478688417)
+[![Play Store](https://img.shields.io/badge/Google_Play-414141?style=flat&logo=google-play&logoColor=white&label=Get%20it%20on)](https://play.google.com/store/apps/details?id=nl.crwsolutions.bluosnadremote)
 
 Like the official BluOS Controller this app serves as a universal remote for all BluOS-enabled wireless hi-res music systems, including Bluesound, NAD Electronics, PSB Speakers, Bluesound Professional, DALI Speakers, Monitor Audio and Cyrus Audio.
 

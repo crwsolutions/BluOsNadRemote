@@ -97,6 +97,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Audio return channel.
+        /// </summary>
+        internal static string AudioReturnChannel {
+            get {
+                return ResourceManager.GetString("AudioReturnChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available services.
         /// </summary>
         internal static string AvailableServices {
@@ -133,11 +142,56 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Center.
+        /// </summary>
+        internal static string Center {
+            get {
+                return ResourceManager.GetString("Center", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channels.
+        /// </summary>
+        internal static string Channels {
+            get {
+                return ResourceManager.GetString("Channels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Codec.
+        /// </summary>
+        internal static string Codec {
+            get {
+                return ResourceManager.GetString("Codec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not connect: {0}.
         /// </summary>
         internal static string CouldNotConnectResult {
             get {
                 return ResourceManager.GetString("CouldNotConnectResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dirac.
+        /// </summary>
+        internal static string Dirac {
+            get {
+                return ResourceManager.GetString("Dirac", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discover.
+        /// </summary>
+        internal static string Discover {
+            get {
+                return ResourceManager.GetString("Discover", resourceCulture);
             }
         }
         
@@ -156,6 +210,42 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string DiscoverPlayersFound {
             get {
                 return ResourceManager.GetString("DiscoverPlayersFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display is dimmed.
+        /// </summary>
+        internal static string DisplayIsDimmed {
+            get {
+                return ResourceManager.GetString("DisplayIsDimmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End point.
+        /// </summary>
+        internal static string EndPoint {
+            get {
+                return ResourceManager.GetString("EndPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Host.
+        /// </summary>
+        internal static string Host {
+            get {
+                return ResourceManager.GetString("Host", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listening mode.
+        /// </summary>
+        internal static string ListeningMode {
+            get {
+                return ResourceManager.GetString("ListeningMode", resourceCulture);
             }
         }
         
@@ -250,6 +340,24 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ping BluOS.
+        /// </summary>
+        internal static string PingBluOS {
+            get {
+                return ResourceManager.GetString("PingBluOS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ping telnet.
+        /// </summary>
+        internal static string PingTelnet {
+            get {
+                return ResourceManager.GetString("PingTelnet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play similarstation.
         /// </summary>
         internal static string PlaySimilarstation {
@@ -277,11 +385,74 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bitrate.
+        /// </summary>
+        internal static string Rate {
+            get {
+                return ResourceManager.GetString("Rate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove from list.
         /// </summary>
         internal static string RemoveFromList {
             get {
                 return ResourceManager.GetString("RemoveFromList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        internal static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source.
+        /// </summary>
+        internal static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sub.
+        /// </summary>
+        internal static string Sub {
+            get {
+                return ResourceManager.GetString("Sub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surround.
+        /// </summary>
+        internal static string Surround {
+            get {
+                return ResourceManager.GetString("Surround", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle power.
+        /// </summary>
+        internal static string TogglePower {
+            get {
+                return ResourceManager.GetString("TogglePower", resourceCulture);
             }
         }
     }

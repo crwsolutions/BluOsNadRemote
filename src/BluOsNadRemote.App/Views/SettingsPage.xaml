@@ -3,6 +3,7 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
+             xmlns:lang="clr-namespace:BluOsNadRemote.App.Resources.Languages"
              xmlns:model="clr-namespace:BluOsNadRemote.App.Models"
 			 x:Class="BluOsNadRemote.App.Views.SettingsPage"
 			 x:DataType="vm:SettingsViewModel">
@@ -38,8 +39,8 @@
             </CollectionView>
 
             <Grid ColumnDefinitions="*,*" Grid.Row="2" ColumnSpacing="8" Margin="8">
-                <Button Text="Discover" Command="{Binding DiscoverCommand}" />
-                <Button Grid.Column="1" Text="Reset" Command="{Binding ResetCommand}" />
+                <Button Text="{lang:Text Discover}" Command="{Binding DiscoverCommand}" />
+                <Button Grid.Column="1" Text="{lang:Text Reset}" Command="{Binding ResetCommand}" />
             </Grid>            
             
             <ScrollView Grid.Row="3" Margin="12" VerticalScrollBarVisibility="Never">

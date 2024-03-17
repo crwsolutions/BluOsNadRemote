@@ -192,4 +192,61 @@
   <data name="AddPlayerTitle" xml:space="preserve">
     <value>Manually add player</value>
   </data>
+  <data name="Host" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="EndPoint" xml:space="preserve">
+    <value>End point</value>
+  </data>
+  <data name="PingBluOS" xml:space="preserve">
+    <value>Ping BluOS</value>
+  </data>
+  <data name="PingTelnet" xml:space="preserve">
+    <value>Ping telnet</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Discover" xml:space="preserve">
+    <value>Discover</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="Codec" xml:space="preserve">
+    <value>Codec</value>
+  </data>
+  <data name="Channels" xml:space="preserve">
+    <value>Channels</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Bitrate</value>
+  </data>
+  <data name="AudioReturnChannel" xml:space="preserve">
+    <value>Audio return channel</value>
+  </data>
+  <data name="Sub" xml:space="preserve">
+    <value>Sub</value>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="Surround" xml:space="preserve">
+    <value>Surround</value>
+  </data>
+  <data name="Dirac" xml:space="preserve">
+    <value>Dirac</value>
+  </data>
+  <data name="ListeningMode" xml:space="preserve">
+    <value>Listening mode</value>
+  </data>
+  <data name="DisplayIsDimmed" xml:space="preserve">
+    <value>Display is dimmed</value>
+  </data>
+  <data name="TogglePower" xml:space="preserve">
+    <value>Toggle power</value>
+  </data>
 </root>

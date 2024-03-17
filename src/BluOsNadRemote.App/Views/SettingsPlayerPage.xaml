@@ -6,7 +6,7 @@
              x:Class="BluOsNadRemote.App.Views.SettingsPlayerPage"
              x:DataType="vm:SettingsPlayerViewModel"
              Title="{lang:Text AddPlayerTitle}">
-    <Grid ColumnDefinitions="100, 243" RowDefinitions="auto, auto, auto, auto, *" Margin="8" HorizontalOptions="Center">
+    <Grid ColumnDefinitions="100, *" RowDefinitions="auto, auto, auto, auto, *" Style="{StaticResource Body}">
         <Label Text="{lang:Text AddPlayerIntro}" Grid.ColumnSpan="2" Margin="12" HorizontalTextAlignment="Center" TextColor="Silver" />
 
         <Label Grid.Row="1" Text="{lang:Text Host}" VerticalTextAlignment="Center" />

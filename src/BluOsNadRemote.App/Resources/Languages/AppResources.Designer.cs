@@ -97,6 +97,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        internal static string Advanced {
+            get {
+                return ResourceManager.GetString("Advanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Audio return channel.
         /// </summary>
         internal static string AudioReturnChannel {
@@ -111,6 +120,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string AvailableServices {
             get {
                 return ResourceManager.GetString("AvailableServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        internal static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
             }
         }
         
@@ -358,6 +376,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Player.
+        /// </summary>
+        internal static string Player {
+            get {
+                return ResourceManager.GetString("Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play similarstation.
         /// </summary>
         internal static string PlaySimilarstation {
@@ -372,6 +399,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string PlayTrackstation {
             get {
                 return ResourceManager.GetString("PlayTrackstation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Presets.
+        /// </summary>
+        internal static string Presets {
+            get {
+                return ResourceManager.GetString("Presets", resourceCulture);
             }
         }
         
@@ -417,6 +453,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         

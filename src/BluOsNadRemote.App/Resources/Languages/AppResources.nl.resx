@@ -249,4 +249,19 @@
   <data name="DisplayIsDimmed" xml:space="preserve">
     <value>Display is gedimd</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="Player" xml:space="preserve">
+    <value>Speler</value>
+  </data>
+  <data name="Presets" xml:space="preserve">
+    <value>Favorieten</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Bladeren</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Geavanceerd</value>
+  </data>
 </root>

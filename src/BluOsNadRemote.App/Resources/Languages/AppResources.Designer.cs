@@ -196,6 +196,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default language.
+        /// </summary>
+        internal static string DefaultLanguageLabel {
+            get {
+                return ResourceManager.GetString("DefaultLanguageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dirac.
         /// </summary>
         internal static string Dirac {
@@ -241,6 +250,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        internal static string en_US {
+            get {
+                return ResourceManager.GetString("en-US", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End point.
         /// </summary>
         internal static string EndPoint {
@@ -259,6 +277,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Listening mode.
         /// </summary>
         internal static string ListeningMode {
@@ -273,6 +300,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dutch.
+        /// </summary>
+        internal static string nl_NL {
+            get {
+                return ResourceManager.GetString("nl-NL", resourceCulture);
             }
         }
         
@@ -354,6 +390,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string NumPresets {
             get {
                 return ResourceManager.GetString("NumPresets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Override language.
+        /// </summary>
+        internal static string OverrideLanguage {
+            get {
+                return ResourceManager.GetString("OverrideLanguage", resourceCulture);
             }
         }
         
@@ -457,11 +502,29 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select language.
+        /// </summary>
+        internal static string SelectLanguage {
+            get {
+                return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More settings.
+        /// </summary>
+        internal static string SettingsMoreTitle {
+            get {
+                return ResourceManager.GetString("SettingsMoreTitle", resourceCulture);
             }
         }
         

@@ -14,6 +14,11 @@
                 <FontImageSource FontFamily="CrwMedia" Glyph="n" />
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
+        <ToolbarItem Command="{Binding NavigateToMoreCommand, Mode=OneTime}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="CrwMedia" Glyph="h" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>

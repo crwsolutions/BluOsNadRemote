@@ -249,6 +249,21 @@
   <data name="TogglePower" xml:space="preserve">
     <value>Toggle power</value>
   </data>
+  <data name="SettingsMoreTitle" xml:space="preserve">
+    <value>More settings</value>
+  </data>
+  <data name="OverrideLanguage" xml:space="preserve">
+    <value>Override language</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="nl-NL" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="en-US" xml:space="preserve">
+    <value>English</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -263,5 +278,11 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Select language</value>
+  </data>
+  <data name="DefaultLanguageLabel" xml:space="preserve">
+    <value>Default language</value>
   </data>
 </root>

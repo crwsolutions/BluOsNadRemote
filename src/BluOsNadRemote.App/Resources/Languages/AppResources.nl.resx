@@ -249,6 +249,21 @@
   <data name="DisplayIsDimmed" xml:space="preserve">
     <value>Display is gedimd</value>
   </data>
+  <data name="SettingsMoreTitle" xml:space="preserve">
+    <value>Meer instellingen</value>
+  </data>
+  <data name="OverrideLanguage" xml:space="preserve">
+    <value>Andere taal</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Taal</value>
+  </data>
+  <data name="nl-NL" xml:space="preserve">
+    <value>Nederlands</value>
+  </data>
+  <data name="en-US" xml:space="preserve">
+    <value>Engels</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Instellingen</value>
   </data>
@@ -263,5 +278,11 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Geavanceerd</value>
+  </data>
+  <data name="SelectLanguage" xml:space="preserve">
+    <value>Selecteer taal</value>
+  </data>
+  <data name="DefaultLanguageLabel" xml:space="preserve">
+    <value>Standaard taal</value>
   </data>
 </root>

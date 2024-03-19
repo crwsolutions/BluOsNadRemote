@@ -1,4 +1,5 @@
-﻿using BluOsNadRemote.App.Services;
+﻿using BluOsNadRemote.App.Repositories;
+using BluOsNadRemote.App.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -30,11 +31,15 @@ public static class MauiProgram
         builder.Services.AddSingleton<SettingsPage>();
         builder.Services.AddSingleton<SettingsPlayerPage>();
         builder.Services.AddTransient<SettingsPlayerViewModel>();
+        builder.Services.AddSingleton<SettingsMorePage>();
+        builder.Services.AddSingleton<SettingsMoreViewModel>();
         builder.Services.AddTransient<QueueViewModel>();
         builder.Services.AddTransient<QueuePage>();
 
         builder.Services.AddSingleton(Preferences.Default);
         builder.Services.AddSingleton<ConfigurationService>();
+        builder.Services.AddSingleton<CultureOverrideRepository>();
+        builder.Services.AddSingleton<LanguageService>();
 
         builder.Services.AddSingleton<BluPlayerService>();
         builder.Services.AddSingleton<NadTelnetService>();

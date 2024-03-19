@@ -1,4 +1,5 @@
-﻿using BluOsNadRemote.App.Services;
+﻿using BluOsNadRemote.App.Resources.Languages;
+using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App;
 
@@ -13,10 +14,18 @@ public partial class App : Application
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
 
+    [Dependency]
+    private readonly LanguageService _languageService;
+
     partial void PreConstruct()
     {
         InitializeComponent();
         MainPage = new AppShell();
+    }
+
+    partial void PostConstruct()
+    {
+        _languageService.Initialize();
     }
 
     protected override void OnStart()

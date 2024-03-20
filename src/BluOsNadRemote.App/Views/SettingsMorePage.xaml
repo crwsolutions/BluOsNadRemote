@@ -7,9 +7,12 @@
              x:DataType="vm:SettingsMoreViewModel"
              Title="{lang:Text SettingsMoreTitle}">
     <Grid Style="{StaticResource Body}">
-        <StackLayout Grid.Row="2" Grid.ColumnSpan="2">
-            <Label Text="{lang:Text SelectLanguage}" />
+        <StackLayout>
+            <Label Text="{lang:Text OverrideLanguage}" Style="{StaticResource FormHeader}" />
+            <Label Text="{lang:Text OverrideLanguageIntro}" Style="{StaticResource FormIntro}" />
+            
             <RadioButton Content="{lang:Text DefaultLanguageLabel}" Value="" IsChecked="{Binding DefaultIsChecked}" CheckedChanged="RadioButton_CheckedChanged" />
+            <Label Text="{lang:Text OverrideLanguageOr}" Style="{StaticResource FormText}" />
             <RadioButton Content="{lang:Text en-US}" Value="{Binding EN_US, Mode=OneTime}" IsChecked="{Binding EnIsChecked}" CheckedChanged="RadioButton_CheckedChanged" />
             <RadioButton Content="{lang:Text nl-NL}" Value="{Binding NL_NL, Mode=OneTime}" IsChecked="{Binding NlIsChecked}" CheckedChanged="RadioButton_CheckedChanged" />
         </StackLayout>

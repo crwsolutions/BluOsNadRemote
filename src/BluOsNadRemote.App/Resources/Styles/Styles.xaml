@@ -206,8 +206,9 @@
 	</Style>
 
 	<Style TargetType="RadioButton">
-		<Setter Property="Background" Value="Transparent"/>
-		<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Margin" Value="12,6,6,0"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
 		<Setter Property="FontFamily" Value="OpenSansRegular"/>
 		<Setter Property="FontSize" Value="14"/>
 		<Setter Property="VisualStateManager.VisualStateGroups">
@@ -406,6 +407,7 @@
         </Setter>
     </Style>
 
+    <!--   List items    -->
     <Style x:Key="ListHeaderTextStyle" TargetType="Label">
         <Setter Property="Padding" Value="12,6,0,6" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}"/>
@@ -471,6 +473,7 @@
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
+    <!--   Buttons    -->
     <Style x:Key="MediaButton" TargetType="ImageButton">
         <Setter Property="WidthRequest" Value="48"/>
         <Setter Property="HeightRequest" Value="48" />
@@ -499,6 +502,7 @@
         <Setter Property="HorizontalOptions" Value="Center" />
     </Style>
 
+    <!--   Containers    -->
     <Style x:Key="DisplayContainer" TargetType="Border">
         <Setter Property="StrokeShape" Value="RoundRectangle 6"/>
         <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray500}}" />
@@ -534,5 +538,21 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+    </Style>
+
+    <!--   Forms    -->
+    <Style x:Key="FormIntro" TargetType="Label">
+        <Setter Property="TextColor" Value="Silver"/>
+        <Setter Property="Margin" Value="12,6,12,0"/>
+        <Setter Property="HorizontalTextAlignment" Value="Start"/>
+    </Style>
+
+    <Style x:Key="FormHeader" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Margin" Value="12,12,0,0"/>
+    </Style>
+
+    <Style x:Key="FormText" TargetType="Label">
+        <Setter Property="Margin" Value="12,12,0,0"/>
     </Style>
 </ResourceDictionary>

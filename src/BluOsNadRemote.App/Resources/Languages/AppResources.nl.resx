@@ -187,10 +187,10 @@
     <value>Ontdekken: Succes! We hebben {0} speler(s) gevonden</value>
   </data>
   <data name="AddPlayerIntro" xml:space="preserve">
-    <value>Als het je niet gelukt is om een speler te ontdekken, dan kan je hier handmatig een ipadres of host invullen. Klik op 'Ping BluOS' om te zien of er verbinding gemaakt kan worden. Als er wat xml verschijnt hier beneden, dan is het gelukt. Klik dan op 'Opslaan' om de speler op te slaan.</value>
+    <value>Als het u niet gelukt is om een speler te ontdekken, dan kut u hier handmatig een ipadres of host invullen. Klik op 'Ping BluOS' om te zien of er verbinding gemaakt kan worden. Als er wat xml verschijnt hier beneden, dan is het gelukt. Klik dan op 'Opslaan' om de speler op te slaan.</value>
   </data>
   <data name="AddPlayerTitle" xml:space="preserve">
-    <value>Handmatig speler toevoegen</value>
+    <value>Speler toevoegen</value>
   </data>
   <data name="Host" xml:space="preserve">
     <value>Host</value>
@@ -282,7 +282,19 @@
   <data name="SelectLanguage" xml:space="preserve">
     <value>Selecteer taal</value>
   </data>
+  <data name="SelectLanguageTitle" xml:space="preserve">
+    <value>Andere taal</value>
+  </data>
+  <data name="AddPlayerHeader" xml:space="preserve">
+    <value>Speler handmatig toevoegen</value>
+  </data>
+  <data name="OverrideLanguageOr" xml:space="preserve">
+    <value>Ja, ik selecteer liever...</value>
+  </data>
   <data name="DefaultLanguageLabel" xml:space="preserve">
-    <value>Standaard taal</value>
+    <value>Nee, de standaard taal is prima.</value>
+  </data>
+  <data name="OverrideLanguageIntro" xml:space="preserve">
+    <value>Wilt u een andere taal gebruiken?</value>
   </data>
 </root>

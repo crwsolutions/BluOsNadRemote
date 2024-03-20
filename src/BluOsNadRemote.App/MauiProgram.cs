@@ -40,8 +40,10 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<EndpointRepository>();
         builder.Services.AddSingleton<CultureOverrideRepository>();
+        builder.Services.AddSingleton<ThemeOverrideRepository>();
 
         builder.Services.AddSingleton<LanguageService>();
+        builder.Services.AddSingleton<ThemeService>();
         builder.Services.AddSingleton<BluPlayerService>();
         builder.Services.AddSingleton<NadTelnetService>();
 

@@ -297,4 +297,22 @@
   <data name="OverrideLanguageIntro" xml:space="preserve">
     <value>Do you wish to use another language?</value>
   </data>
+  <data name="OverrideTheme" xml:space="preserve">
+    <value>Override theme</value>
+  </data>
+  <data name="OverrideThemeIntro" xml:space="preserve">
+    <value>Do you wish to use another theme?</value>
+  </data>
+  <data name="DefaultThemeLabel" xml:space="preserve">
+    <value>No, the default theme is fine.</value>
+  </data>
+  <data name="OverrideThemeOr" xml:space="preserve">
+    <value>Yes, I rather have the...</value>
+  </data>
+  <data name="DarkThemeLabel" xml:space="preserve">
+    <value>Dark theme</value>
+  </data>
+  <data name="LightThemeLabel" xml:space="preserve">
+    <value>Light theme</value>
+  </data>
 </root>

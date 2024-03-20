@@ -12,4 +12,10 @@ public partial class SettingsMorePage : ContentPage
         var radioButton = (RadioButton)sender;
         ViewModel.SetCulture((string)radioButton.Value);
     }
+
+    private void Theme_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        var radioButton = (RadioButton)sender;
+        ViewModel.SetTheme((string)radioButton.Value);
+    }
 }

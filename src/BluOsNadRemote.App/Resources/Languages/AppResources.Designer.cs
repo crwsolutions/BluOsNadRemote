@@ -205,11 +205,29 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dark theme.
+        /// </summary>
+        internal static string DarkThemeLabel {
+            get {
+                return ResourceManager.GetString("DarkThemeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No, default language is fine..
         /// </summary>
         internal static string DefaultLanguageLabel {
             get {
                 return ResourceManager.GetString("DefaultLanguageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No, the default theme is fine..
+        /// </summary>
+        internal static string DefaultThemeLabel {
+            get {
+                return ResourceManager.GetString("DefaultThemeLabel", resourceCulture);
             }
         }
         
@@ -291,6 +309,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string Language {
             get {
                 return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light theme.
+        /// </summary>
+        internal static string LightThemeLabel {
+            get {
+                return ResourceManager.GetString("LightThemeLabel", resourceCulture);
             }
         }
         
@@ -426,6 +453,33 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string OverrideLanguageOr {
             get {
                 return ResourceManager.GetString("OverrideLanguageOr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Override theme.
+        /// </summary>
+        internal static string OverrideTheme {
+            get {
+                return ResourceManager.GetString("OverrideTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you wish to use another theme?.
+        /// </summary>
+        internal static string OverrideThemeIntro {
+            get {
+                return ResourceManager.GetString("OverrideThemeIntro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, I rather have the....
+        /// </summary>
+        internal static string OverrideThemeOr {
+            get {
+                return ResourceManager.GetString("OverrideThemeOr", resourceCulture);
             }
         }
         

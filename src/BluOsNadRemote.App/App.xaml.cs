@@ -17,6 +17,9 @@ public partial class App : Application
     [Dependency]
     private readonly LanguageService _languageService;
 
+    [Dependency]
+    private readonly ThemeService _themeService;
+
     partial void PreConstruct()
     {
         InitializeComponent();
@@ -26,6 +29,7 @@ public partial class App : Application
     partial void PostConstruct()
     {
         _languageService.Initialize();
+        _themeService.Initialize();
     }
 
     protected override void OnStart()

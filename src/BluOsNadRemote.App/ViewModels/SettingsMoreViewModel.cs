@@ -19,7 +19,7 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
                 NlIsChecked = true;
                 break;
             default:
-                DefaultIsChecked = true;
+                DefaultLanguageIsChecked = true;
                 break;
         }
     }
@@ -30,7 +30,7 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
     internal void SetCulture(string value) => _languageService.SetCulture(value);
 
     [ObservableProperty]
-    private bool _defaultIsChecked;
+    private bool _defaultLanguageIsChecked;
 
     [ObservableProperty]
     private bool _enIsChecked;

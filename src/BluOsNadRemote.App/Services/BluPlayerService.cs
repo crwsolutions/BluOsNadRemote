@@ -1,8 +1,8 @@
 ﻿using Blu4Net;
+using BluOsNadRemote.App.Extensions;
 using BluOsNadRemote.App.Models;
-using BluOsNadRemote.App.Resources.Localizations;
+using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Utils;
-using System.Reactive.Linq;
 
 namespace BluOsNadRemote.App.Services;
 
@@ -28,7 +28,7 @@ public sealed partial class BluPlayerService
         }
         catch (Exception exception)
         {
-            return new BluPlayerConnectResult(string.Format(AppResources.CouldNotConnectResult, exception.Message), false);
+            return new BluPlayerConnectResult(AppResources.CouldNotConnectResult.Interpolate(exception.Message), false);
         }
 
 #if DEBUG            
@@ -52,12 +52,12 @@ public sealed partial class BluPlayerService
         var services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
 
         if (services == null || services.Count == 0)
-        { 
+        {
             services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
         }
 
         if (services == null || services.Count == 0)
-        { 
+        {
             services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
         }
 
@@ -78,7 +78,7 @@ public sealed partial class BluPlayerService
 
         var connectResult = await ConnectAsync();
 
-        return new BluPlayerDiscoverResult(string.Format(AppResources.DiscoverPlayersFound, endpoints.Length), true);
+        return new BluPlayerDiscoverResult(AppResources.DiscoverPlayersFound.Interpolate(endpoints.Length), true);
     }
 
     public BluPlayer BluPlayer { get; private set; }

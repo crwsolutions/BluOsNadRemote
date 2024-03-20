@@ -67,7 +67,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Resources\Localizations\AppResources.Designer.cs">
+	  <Compile Update="Resources\Languages\AppResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>AppResources.resx</DependentUpon>
@@ -75,11 +75,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Localizations\AppResources.nl.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  <EmbeddedResource Update="Resources\Languages\AppResources.nl.resx">
+	    <Generator></Generator>
 	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Localizations\AppResources.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  <EmbeddedResource Update="Resources\Languages\AppResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
@@ -95,6 +95,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\QueuePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SettingsMorePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SettingsPlayerPage.xaml">

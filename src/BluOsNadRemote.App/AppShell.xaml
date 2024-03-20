@@ -4,29 +4,29 @@
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:views="clr-namespace:BluOsNadRemote.App.Views"
-	xmlns:local="clr-namespace:BluOsNadRemote.App">
+	xmlns:lang="clr-namespace:BluOsNadRemote.App.Resources.Languages">
 
 	<TabBar>
 		<ShellContent
-			Title="Player"
+			Title="{lang:Text Player}"
             Route="PlayerPage"
 			Icon="iconplayer.png"
 			ContentTemplate="{DataTemplate views:PlayerPage}" />
 		<ShellContent
-			Title="Presets"
+			Title="{lang:Text Presets}"
 			Icon="iconpresets.png"
 			ContentTemplate="{DataTemplate views:PresetsPage}" />
 		<ShellContent
-			Title="Browse"
+			Title="{lang:Text Browse}"
 			Icon="iconbrowse.png"
 			ContentTemplate="{DataTemplate views:BrowsePage}"
             Route="browse" />
 		<ShellContent
-			Title="Advanced"
+			Title="{lang:Text Advanced}"
 			Icon="iconnad.png"
 			ContentTemplate="{DataTemplate views:AdvancedPage}" />
 		<ShellContent
-			Title="Settings"
+			Title="{lang:Text Settings}"
 			Icon="iconsettings.png"
 			ContentTemplate="{DataTemplate views:SettingsPage}" />
 	</TabBar>

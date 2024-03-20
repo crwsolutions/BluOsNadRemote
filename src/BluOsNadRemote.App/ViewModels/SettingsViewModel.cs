@@ -55,6 +55,10 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     private async Task NavigateToAddAsync() => await Shell.Current.GoToAsync(nameof(SettingsPlayerPage));
 
     [RelayCommand]
+    private async Task NavigateToMoreAsync() => await Shell.Current.GoToAsync(nameof(SettingsMorePage));
+
+
+    [RelayCommand]
     private async Task DiscoverAsync()
     {
         try

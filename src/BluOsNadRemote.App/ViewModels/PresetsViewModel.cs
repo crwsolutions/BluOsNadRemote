@@ -1,5 +1,6 @@
-﻿using BluOsNadRemote.App.Models;
-using BluOsNadRemote.App.Resources.Localizations;
+﻿using BluOsNadRemote.App.Extensions;
+using BluOsNadRemote.App.Models;
+using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -35,7 +36,7 @@ public partial class PresetsViewModel : BaseRefreshViewModel
 
             var presets = await _bluPlayerService.BluPlayer.PresetList.GetPresets();
             Presets = presets.Select(preset => new Favorite(preset));
-            Title = string.Format(AppResources.NumPresets, presets.Count);
+            Title = AppResources.NumPresets.Interpolate(presets.Count);
         }
         catch (Exception exception)
         {

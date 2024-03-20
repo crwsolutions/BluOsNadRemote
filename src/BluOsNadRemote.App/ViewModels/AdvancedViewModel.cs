@@ -1,4 +1,4 @@
-﻿using BluOsNadRemote.App.Resources.Localizations;
+﻿using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
 using Nad4Net.Model;
 

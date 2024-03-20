@@ -7,7 +7,7 @@ public partial class SettingsMorePage : ContentPage
 
     partial void PreConstruct() => InitializeComponent();
 
-    private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private void Language_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         var radioButton = (RadioButton)sender;
         ViewModel.SetCulture((string)radioButton.Value);

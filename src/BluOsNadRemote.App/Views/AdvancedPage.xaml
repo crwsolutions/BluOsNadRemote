@@ -8,63 +8,57 @@
 			 x:Class="BluOsNadRemote.App.Views.AdvancedPage"
 			 x:DataType="vm:AdvancedViewModel"
              Title="{Binding Title}">
-    
+
     <RefreshView Command="{Binding LoadDataCommand}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <Grid Style="{StaticResource Body}">
-        <ScrollView>
-            <StackLayout Orientation="Vertical">
-                <Border Style="{StaticResource DisplayContainer}">
-                    <Grid RowSpacing="6" ColumnDefinitions="3*,2*" RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto">
-                        <Label Grid.Row="1" Grid.Column="0" Text="{lang:Text Source}" />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding MainSourceName, Mode=OneWay}" />
-                        <BoxView Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource DisplaySeparator}"/>
-                        <Label Grid.Row="3" Grid.Column="0" Text="{lang:Text Codec}" />
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding MainAudioCODEC, Mode=OneWay}" />
-                        <Label Grid.Row="4" Grid.Column="0" Text="{lang:Text Channels}" />
-                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding MainAudioChannels, Mode=OneWay}" />
-                        <Label Grid.Row="5" Grid.Column="0" Text="{lang:Text Rate}" />
-                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding MainAudioRate, Mode=OneWay}" />
-                        <BoxView Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource DisplaySeparator}"/>
-                        <Label Grid.Row="7" Grid.Column="0" Text="{lang:Text AudioReturnChannel}" />
-                        <Ellipse Fill="Green" Grid.Row="7" Grid.Column="1"  IsVisible="{Binding IsMainVideoARC, Mode=OneWay}" Stroke="Black" StrokeThickness="1" WidthRequest="12" HeightRequest="12" HorizontalOptions="Start" VerticalOptions="Center" />
-                    </Grid>
-                </Border>
-                <Grid RowSpacing="5" Padding="8,0,8,0" HorizontalOptions="Fill" Margin="0,-6,0,0"
-                      ColumnDefinitions="*,*,Auto"
-                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+            <ScrollView>
+                <StackLayout Orientation="Vertical">
+                    <Border Style="{StaticResource DisplayContainer}">
+                        <Grid RowSpacing="6" ColumnDefinitions="3*,2*" RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto">
+                            <Label Grid.Row="1" Grid.Column="0" Text="{lang:Text Source}" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding MainSourceName, Mode=OneWay}" />
+                            <BoxView Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource DisplaySeparator}"/>
+                            <Label Grid.Row="3" Grid.Column="0" Text="{lang:Text Codec}" />
+                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding MainAudioCODEC, Mode=OneWay}" />
+                            <Label Grid.Row="4" Grid.Column="0" Text="{lang:Text Channels}" />
+                            <Label Grid.Row="4" Grid.Column="1" Text="{Binding MainAudioChannels, Mode=OneWay}" />
+                            <Label Grid.Row="5" Grid.Column="0" Text="{lang:Text Rate}" />
+                            <Label Grid.Row="5" Grid.Column="1" Text="{Binding MainAudioRate, Mode=OneWay}" />
+                            <BoxView Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource DisplaySeparator}"/>
+                            <Label Grid.Row="7" Grid.Column="0" Text="{lang:Text AudioReturnChannel}" />
+                            <Ellipse Fill="Green" Grid.Row="7" Grid.Column="1"  IsVisible="{Binding IsMainVideoARC, Mode=OneWay}" Stroke="Black" StrokeThickness="1" WidthRequest="12" HeightRequest="12" HorizontalOptions="Start" VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                    <contentviews:FormItem Label="{lang:Text Sub}">
+                        <contentviews:RemoteStepper Value="{Binding MainTrimSub}" HorizontalOptions="End" Minimum="-10" Maximum="10" Increment="1" />
+                    </contentviews:FormItem>
+                    <contentviews:FormItem Label="{lang:Text Center}">
+                        <contentviews:RemoteStepper Value="{Binding MainTrimCenter}" HorizontalOptions="End" Minimum="-10" Maximum="10" Increment="1" />
+                    </contentviews:FormItem>
+                    <contentviews:FormItem Label="{lang:Text Surround}">
+                        <contentviews:RemoteStepper Value="{Binding MainTrimSurround}" HorizontalOptions="End" Minimum="-10" Maximum="10" Increment="1" />
+                    </contentviews:FormItem>
 
-                    <Label Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center" Text="{lang:Text Sub}"/>
-                    <contentviews:RemoteStepper Grid.Row="3" Grid.Column="2" Value="{Binding MainTrimSub}" Minimum="-10" Maximum="10" Increment="1" />
-                    <Label Grid.Row="4" Grid.Column="0" VerticalTextAlignment="Center" Text="{lang:Text Center}"/>
-                    <contentviews:RemoteStepper Grid.Row="4" Grid.Column="2" Value="{Binding MainTrimCenter}" Minimum="-10" Maximum="10" Increment="1" />
-                    <Label Grid.Row="5" Grid.Column="0" VerticalTextAlignment="Center" Text="{lang:Text Surround}"/>
-                    <contentviews:RemoteStepper Grid.Row="5" Grid.Column="2" Value="{Binding MainTrimSurround}" Minimum="-10" Maximum="10" Increment="1" />
+                    <contentviews:FormItem Label="{Binding DiracLabel, Mode=OneWay}">
+                        <Picker SelectedIndex="{Binding MainDirac}" ItemsSource="{Binding Diracs}" ItemDisplayBinding="{Binding}" />
+                    </contentviews:FormItem>
+                    <contentviews:FormItem Label="{lang:Text ListeningMode}">
+                        <Picker SelectedItem="{Binding MainListeningMode}" ItemsSource="{Binding ListeningModes}" ItemDisplayBinding="{Binding}" />
+                    </contentviews:FormItem>
 
-                    <Label Grid.Row="6" Grid.Column="0" VerticalTextAlignment="Center" Text="{lang:Text Dirac}"/>
-                    <Label Grid.Row="6" Grid.Column="1" VerticalTextAlignment="Center" Text="{Binding MainDirac}"/>
-                    <Picker Grid.Row="6" Grid.Column="2" SelectedIndex="{Binding MainDirac}" ItemsSource="{Binding Diracs}" ItemDisplayBinding="{Binding}" />
+                    <contentviews:FormItem Label="{lang:Text DisplayIsDimmed}">
+                        <Switch IsToggled="{Binding MainDimmer}" ThumbColor="Black" OnColor="Silver" />
+                    </contentviews:FormItem>
+                    
+                    <contentviews:FormItem Label="{lang:Text TogglePower}">
+                        <Button Text="k" BackgroundColor="{StaticResource NadAccent}" HorizontalOptions="End"
+                                Command="{Binding ToggleOnOffCommand}" 
+                                Style="{StaticResource CircleButton}" />
+                    </contentviews:FormItem>
 
-                    <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" VerticalTextAlignment="Center" Text="{lang:Text ListeningMode}"/>
-                    <Picker Grid.Row="7" Grid.Column="2" SelectedItem="{Binding MainListeningMode}" ItemsSource="{Binding ListeningModes}" ItemDisplayBinding="{Binding}" />
-                    <!--<Label Grid.Row="7" Grid.Column="2"  Text="{Binding MainListeningMode}"/>-->
-
-                    <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" VerticalTextAlignment="Center" Text="{lang:Text DisplayIsDimmed}"/>
-                    <Switch Grid.Row="8" Grid.Column="2" IsToggled="{Binding MainDimmer}" ThumbColor="Black" OnColor="Silver" />
-
-                    <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" VerticalTextAlignment="Center" Text="{lang:Text TogglePower}"/>
-
-                    <Button 
-                        Grid.Column="2" 
-                        Grid.Row="9" 
-                        HorizontalOptions="End"
-                        Command="{Binding ToggleOnOffCommand}" 
-                        Style="{StaticResource CircleButton}" 
-                        BackgroundColor="{StaticResource NadAccent}"
-                        Text="k"/>
-                </Grid>
-            </StackLayout>
-        </ScrollView>
+                </StackLayout>
+            </ScrollView>
         </Grid>
     </RefreshView>
 </views:BaseContentPage>

@@ -109,6 +109,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DiracLabel))]
     private int _mainDirac = -1;
 
     partial void OnMainDiracChanging(int value)
@@ -118,6 +119,8 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
             _ = _service.NadRemote?.SetMainDiracAsync(value);
         }
     }
+
+    public string DiracLabel => $"{AppResources.Dirac} ({MainDirac})";
 
     [ObservableProperty]
     private string _dirac1State;

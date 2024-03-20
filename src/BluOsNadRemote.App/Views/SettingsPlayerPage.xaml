@@ -9,7 +9,8 @@
              Title="{lang:Text AddPlayerTitle}">
     <Grid RowDefinitions="auto, auto, *" Style="{StaticResource Body}">
         <VerticalStackLayout>
-            <Label Text="{lang:Text AddPlayerIntro}" Margin="12" HorizontalTextAlignment="Center" TextColor="Silver" />
+            <Label Text="{lang:Text AddPlayerHeader}" Style="{StaticResource FormHeader}" />
+            <Label Text="{lang:Text AddPlayerIntro}" Style="{StaticResource FormIntro}" />
 
             <contentviews:FormItem Label="{lang:Text Host}" Grid.Row="1" >
                 <Entry Text="{Binding Host, Mode=TwoWay}" />

@@ -70,6 +70,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add player manually.
+        /// </summary>
+        internal static string AddPlayerHeader {
+            get {
+                return ResourceManager.GetString("AddPlayerHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If you failed to discover a player, you can manually enter an ip address or host here. Click &apos;Ping BluOS&apos; to see if a connection can be made. If some xml appears down here, then it succeeded. Then click &apos;Save&apos; to save the player..
         /// </summary>
         internal static string AddPlayerIntro {
@@ -79,7 +88,7 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manually add player.
+        ///   Looks up a localized string similar to Add player.
         /// </summary>
         internal static string AddPlayerTitle {
             get {
@@ -196,7 +205,7 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default language.
+        ///   Looks up a localized string similar to No, default language is fine..
         /// </summary>
         internal static string DefaultLanguageLabel {
             get {
@@ -403,6 +412,24 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you wish to use another language?.
+        /// </summary>
+        internal static string OverrideLanguageIntro {
+            get {
+                return ResourceManager.GetString("OverrideLanguageIntro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, I rather have....
+        /// </summary>
+        internal static string OverrideLanguageOr {
+            get {
+                return ResourceManager.GetString("OverrideLanguageOr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ping BluOS.
         /// </summary>
         internal static string PingBluOS {
@@ -502,11 +529,20 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select language.
+        ///   Looks up a localized string similar to Other language.
         /// </summary>
         internal static string SelectLanguage {
             get {
                 return ResourceManager.GetString("SelectLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other language.
+        /// </summary>
+        internal static string SelectLanguageTitle {
+            get {
+                return ResourceManager.GetString("SelectLanguageTitle", resourceCulture);
             }
         }
         

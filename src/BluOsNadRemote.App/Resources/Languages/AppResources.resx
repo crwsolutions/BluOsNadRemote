@@ -190,7 +190,7 @@
     <value>If you failed to discover a player, you can manually enter an ip address or host here. Click 'Ping BluOS' to see if a connection can be made. If some xml appears down here, then it succeeded. Then click 'Save' to save the player.</value>
   </data>
   <data name="AddPlayerTitle" xml:space="preserve">
-    <value>Manually add player</value>
+    <value>Add player</value>
   </data>
   <data name="Host" xml:space="preserve">
     <value>Host</value>
@@ -280,9 +280,21 @@
     <value>Advanced</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
-    <value>Select language</value>
+    <value>Other language</value>
+  </data>
+  <data name="SelectLanguageTitle" xml:space="preserve">
+    <value>Other language</value>
+  </data>
+  <data name="AddPlayerHeader" xml:space="preserve">
+    <value>Add player manually</value>
+  </data>
+  <data name="OverrideLanguageOr" xml:space="preserve">
+    <value>Yes, I rather have...</value>
   </data>
   <data name="DefaultLanguageLabel" xml:space="preserve">
-    <value>Default language</value>
+    <value>No, default language is fine.</value>
+  </data>
+  <data name="OverrideLanguageIntro" xml:space="preserve">
+    <value>Do you wish to use another language?</value>
   </data>
 </root>

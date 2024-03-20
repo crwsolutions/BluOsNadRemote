@@ -1,5 +1,4 @@
-﻿using BluOsNadRemote.App.Resources.Languages;
-using BluOsNadRemote.App.Services;
+﻿using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App;
 

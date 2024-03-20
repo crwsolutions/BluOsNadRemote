@@ -2,7 +2,7 @@
 
 namespace BluOsNadRemote.App.Services;
 
-public sealed partial class ConfigurationService
+public sealed partial class EndpointRepository
 {
     [Dependency]
     private readonly IPreferences _preferences;

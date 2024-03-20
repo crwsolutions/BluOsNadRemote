@@ -37,12 +37,14 @@ public static class MauiProgram
         builder.Services.AddTransient<QueuePage>();
 
         builder.Services.AddSingleton(Preferences.Default);
-        builder.Services.AddSingleton<ConfigurationService>();
-        builder.Services.AddSingleton<CultureOverrideRepository>();
-        builder.Services.AddSingleton<LanguageService>();
 
+        builder.Services.AddSingleton<EndpointRepository>();
+        builder.Services.AddSingleton<CultureOverrideRepository>();
+
+        builder.Services.AddSingleton<LanguageService>();
         builder.Services.AddSingleton<BluPlayerService>();
         builder.Services.AddSingleton<NadTelnetService>();
+
         return builder.Build();
     }
 }

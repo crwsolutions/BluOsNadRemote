@@ -9,7 +9,7 @@ public sealed partial class LanguageService
     [Dependency]
     private readonly CultureOverrideRepository _cultureRepository;
 
-    private CultureInfo _deviceCulture = CultureInfo.CurrentCulture;
+    private readonly CultureInfo _deviceCulture = CultureInfo.CurrentCulture;
 
     public void Initialize()
     {

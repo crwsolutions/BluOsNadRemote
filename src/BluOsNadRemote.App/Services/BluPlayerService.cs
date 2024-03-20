@@ -9,20 +9,20 @@ namespace BluOsNadRemote.App.Services;
 public sealed partial class BluPlayerService
 {
     [Dependency]
-    private readonly ConfigurationService _configurationService;
+    private readonly EndpointRepository _endpointRepository;
 
     public bool IsConnected { get; set; }
 
     public async Task<BluPlayerConnectResult> ConnectAsync()
     {
-        if (_configurationService.SelectedEndpoint == null)
+        if (_endpointRepository.SelectedEndpoint == null)
         {
             return new BluPlayerConnectResult(AppResources.NoConnection, false);
         }
 
         try
         {
-            var uri = _configurationService.SelectedEndpoint.Uri;
+            var uri = _endpointRepository.SelectedEndpoint.Uri;
             BluPlayer = await BluPlayer.Connect(uri);
             Debug.WriteLine($"Player: {BluPlayer}");
         }
@@ -74,7 +74,7 @@ public sealed partial class BluPlayerService
             endpoints[i] = new EndPoint($"http://{service.IPAddress}:{BluEnvironment.DefaultEndpointPort}/", bluPlayer.Name);
         }
 
-        _configurationService.MergeEndpoints(endpoints);
+        _endpointRepository.MergeEndpoints(endpoints);
 
         var connectResult = await ConnectAsync();
 

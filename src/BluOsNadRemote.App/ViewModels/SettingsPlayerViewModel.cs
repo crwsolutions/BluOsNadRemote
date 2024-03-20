@@ -8,7 +8,7 @@ namespace BluOsNadRemote.App.ViewModels;
 public partial class SettingsPlayerViewModel : BaseRefreshViewModel
 {
     [Dependency]
-    private readonly ConfigurationService _configurationService;
+    private readonly EndpointRepository _endpointRepository;
 
     [ObservableProperty]
     private string _result = "";
@@ -82,7 +82,7 @@ public partial class SettingsPlayerViewModel : BaseRefreshViewModel
             var uri = new Uri(Uri, UriKind.RelativeOrAbsolute);
             var bluPlayer = await BluPlayer.Connect(uri);
             var endPoint = new EndPoint(Uri, bluPlayer.Name);
-            _configurationService.MergeEndpoints([endPoint]);
+            _endpointRepository.MergeEndpoints([endPoint]);
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)

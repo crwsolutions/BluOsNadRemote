@@ -9,7 +9,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     private readonly BluPlayerService _bluPlayerService;
 
     [Dependency]
-    private readonly ConfigurationService _configurationService;
+    private readonly EndpointRepository _endpointRepository;
 
     [ObservableProperty]
     private bool _isDiscovering = false;
@@ -24,14 +24,14 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
 
     partial void OnSelectedItemChanged(EndPoint value)
     {
-        _configurationService.SelectedEndpoint = value;
+        _endpointRepository.SelectedEndpoint = value;
     }
 
     public override void IsLoading()
     {
         try
         {
-            var endPoints = _configurationService.GetEndPoints();
+            var endPoints = _endpointRepository.GetEndPoints();
             if (endPoints is null || endPoints.Length == 0)
             {
                 return;
@@ -41,7 +41,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
             {
                 EndPoints.Add(endPoint);
             }
-            SelectedItem = _configurationService.SelectedEndpoint;
+            SelectedItem = _endpointRepository.SelectedEndpoint;
         }
         finally
         {
@@ -88,7 +88,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     private void Reset()
     {
         _bluPlayerService.IsConnected = false;
-        _configurationService.ClearEndpoints();
+        _endpointRepository.ClearEndpoints();
         Dispose();
     }
 

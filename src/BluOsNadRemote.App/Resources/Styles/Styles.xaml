@@ -542,7 +542,7 @@
 
     <!--   Forms    -->
     <Style x:Key="FormIntro" TargetType="Label">
-        <Setter Property="TextColor" Value="Silver"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray400}}"/>
         <Setter Property="Margin" Value="12,6,12,0"/>
         <Setter Property="HorizontalTextAlignment" Value="Start"/>
     </Style>
@@ -554,5 +554,11 @@
 
     <Style x:Key="FormText" TargetType="Label">
         <Setter Property="Margin" Value="12,12,0,0"/>
+    </Style>
+
+    <Style x:Key="FormSeparator" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="2"/>
+        <Setter Property="Margin" Value="6,18,6,12" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray400}}"/>
     </Style>
 </ResourceDictionary>

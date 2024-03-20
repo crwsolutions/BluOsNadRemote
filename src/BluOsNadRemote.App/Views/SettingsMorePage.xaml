@@ -6,15 +6,24 @@
              x:Class="BluOsNadRemote.App.Views.SettingsMorePage"
              x:DataType="vm:SettingsMoreViewModel"
              Title="{lang:Text SettingsMoreTitle}">
-    <Grid Style="{StaticResource Body}">
+    <Grid Style="{StaticResource Body}" RowDefinitions="auto,auto">
         <StackLayout>
             <Label Text="{lang:Text OverrideLanguage}" Style="{StaticResource FormHeader}" />
             <Label Text="{lang:Text OverrideLanguageIntro}" Style="{StaticResource FormIntro}" />
-            
-            <RadioButton Content="{lang:Text DefaultLanguageLabel}" Value="" IsChecked="{Binding DefaultIsChecked}" CheckedChanged="RadioButton_CheckedChanged" />
+            <RadioButton Content="{lang:Text DefaultLanguageLabel}" Value="" IsChecked="{Binding DefaultLanguageIsChecked}" CheckedChanged="Language_CheckedChanged" />
             <Label Text="{lang:Text OverrideLanguageOr}" Style="{StaticResource FormText}" />
-            <RadioButton Content="{lang:Text en-US}" Value="{Binding EN_US, Mode=OneTime}" IsChecked="{Binding EnIsChecked}" CheckedChanged="RadioButton_CheckedChanged" />
-            <RadioButton Content="{lang:Text nl-NL}" Value="{Binding NL_NL, Mode=OneTime}" IsChecked="{Binding NlIsChecked}" CheckedChanged="RadioButton_CheckedChanged" />
+            <RadioButton Content="{lang:Text en-US}" Value="{Binding EN_US, Mode=OneTime}" IsChecked="{Binding EnIsChecked}" CheckedChanged="Language_CheckedChanged" />
+            <RadioButton Content="{lang:Text nl-NL}" Value="{Binding NL_NL, Mode=OneTime}" IsChecked="{Binding NlIsChecked}" CheckedChanged="Language_CheckedChanged" />
+        </StackLayout>
+        <StackLayout Grid.Row="1">
+            <BoxView Style="{StaticResource FormSeparator}"/>
+            <Label Text="{lang:Text OverrideTheme}" Style="{StaticResource FormHeader}" />
+            <Label Text="{lang:Text OverrideThemeIntro}" Style="{StaticResource FormIntro}" />
+            <RadioButton Content="{lang:Text DefaultThemeLabel}" Value="" IsChecked="{Binding DefaultThemeIsChecked}" CheckedChanged="Theme_CheckedChanged" />
+            <Label Text="{lang:Text OverrideThemeOr}" Style="{StaticResource FormText}" />
+            <RadioButton Content="{lang:Text DarkThemeLabel}" Value="{Binding DARK, Mode=OneTime}" IsChecked="{Binding DarkIsChecked}" CheckedChanged="Theme_CheckedChanged" />
+            <RadioButton Content="{lang:Text LightThemeLabel}" Value="{Binding LIGHT, Mode=OneTime}" IsChecked="{Binding LightIsChecked}" CheckedChanged="Theme_CheckedChanged" />
+
         </StackLayout>
     </Grid>
 </ContentPage>

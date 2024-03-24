@@ -9,29 +9,32 @@ public sealed partial class LanguageService
     [Dependency]
     private readonly CultureOverrideRepository _cultureRepository;
 
+    [Dependency]
+    private readonly BluPlayerService _bluPlayerService;
+
     private readonly CultureInfo _deviceCulture = CultureInfo.CurrentCulture;
 
     public void Initialize()
     {
         var cultureOverride = _cultureRepository.GetCultureOverride();
-        if (cultureOverride is not null)
-        {
-            Language.Instance.SetCulture(new CultureInfo(cultureOverride));
-        }
+        SetCulture(cultureOverride);
     }
 
-    public string GetCultureOverride() => _cultureRepository.GetCultureOverride();
+     public string GetCultureOverride() => _cultureRepository.GetCultureOverride();
 
     public void SetCulture(string value)
     {
+        var cultureInfo = string.IsNullOrEmpty(value) ? _deviceCulture : new CultureInfo(value);
+        Language.Instance.SetCulture(cultureInfo);
+        _bluPlayerService.CultureInfo = cultureInfo;
+
         if (string.IsNullOrEmpty(value))
         {
-            Language.Instance.SetCulture(_deviceCulture);
             _cultureRepository.ClearCultureOverride();
-            return;
         }
-
-        Language.Instance.SetCulture(new CultureInfo(value));
-        _cultureRepository.SetCultureOverride(value);
+        else 
+        {
+            _cultureRepository.SetCultureOverride(value);
+        }
     }
 }

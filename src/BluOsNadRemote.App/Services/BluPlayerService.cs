@@ -3,13 +3,25 @@ using BluOsNadRemote.App.Extensions;
 using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Utils;
+using System.Globalization;
 
 namespace BluOsNadRemote.App.Services;
 
 public sealed partial class BluPlayerService
 {
+    private CultureInfo _cultureInfo;
+
     [Dependency]
     private readonly EndpointRepository _endpointRepository;
+
+    public CultureInfo CultureInfo { 
+        get => _cultureInfo; 
+        set 
+        {
+            _cultureInfo = value;
+            BluPlayer?.UpdateAcceptLanguage(value);
+        }
+    }
 
     public bool IsConnected { get; set; }
 
@@ -23,7 +35,7 @@ public sealed partial class BluPlayerService
         try
         {
             var uri = _endpointRepository.SelectedEndpoint.Uri;
-            BluPlayer = await BluPlayer.Connect(uri);
+            BluPlayer = await BluPlayer.Connect(uri, CultureInfo);
             Debug.WriteLine($"Player: {BluPlayer}");
         }
         catch (Exception exception)

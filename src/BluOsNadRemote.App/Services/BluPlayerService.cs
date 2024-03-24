@@ -9,18 +9,18 @@ namespace BluOsNadRemote.App.Services;
 
 public sealed partial class BluPlayerService
 {
-    private CultureInfo _cultureInfo;
-
     [Dependency]
     private readonly EndpointRepository _endpointRepository;
 
-    public CultureInfo CultureInfo { 
-        get => _cultureInfo; 
-        set 
-        {
-            _cultureInfo = value;
-            BluPlayer?.UpdateAcceptLanguage(value);
-        }
+    [Dependency]
+    private readonly LanguageService _languageService;
+
+    partial void PostConstruct() => _languageService.LanguageObservable().Subscribe(UpdateAcceptLanguage);
+
+    private void UpdateAcceptLanguage(CultureInfo info)
+    {
+        Debug.WriteLine($"Updating bluplayer language to '{info.Name}'");
+        BluPlayer?.UpdateAcceptLanguage(info);
     }
 
     public bool IsConnected { get; set; }
@@ -35,7 +35,7 @@ public sealed partial class BluPlayerService
         try
         {
             var uri = _endpointRepository.SelectedEndpoint.Uri;
-            BluPlayer = await BluPlayer.Connect(uri, CultureInfo);
+            BluPlayer = await BluPlayer.Connect(uri, _languageService.CurrentLanguage);
             Debug.WriteLine($"Player: {BluPlayer}");
         }
         catch (Exception exception)

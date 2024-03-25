@@ -1,5 +1,4 @@
-﻿using BluOsNadRemote.App.Resources.Languages;
-using BluOsNadRemote.App.Services;
+﻿using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
@@ -13,18 +12,18 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
 
     partial void PostConstruct()
     {
-        SetLanguageCheck();
-        SetThemeCheck();
+        SetLanguageChecks();
+        SetThemeChecks();
     }
 
-    private void SetLanguageCheck()
+    private void SetLanguageChecks()
     {
         switch (_languageService.CurrentLanguageOverride)
         {
-            case Language.EN_US:
+            case LanguageService.EN_US:
                 EnIsChecked = true;
                 break;
-            case Language.NL_NL:
+            case LanguageService.NL_NL:
                 NlIsChecked = true;
                 break;
             default:
@@ -33,8 +32,8 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
         }
     }
 
-    public string EN_US { get; } = Language.EN_US;
-    public string NL_NL { get; } = Language.NL_NL;
+    public string EN_US { get; } = LanguageService.EN_US;
+    public string NL_NL { get; } = LanguageService.NL_NL;
 
     internal void SetCulture(string value) => _languageService.SetCulture(value);
 
@@ -47,7 +46,7 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
     [ObservableProperty]
     private bool _nlIsChecked;
 
-    private void SetThemeCheck()
+    private void SetThemeChecks()
     {
         switch (_themeService.GetThemeOverride())
         {

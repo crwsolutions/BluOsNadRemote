@@ -11,7 +11,7 @@ public sealed class TextExtension : IMarkupExtension<BindingBase>
         {
             Mode = BindingMode.OneWay,
             Path = $"[{Name}]",
-            Source = Language.Instance
+            Source = TextBinding.Source
         };
     }
 

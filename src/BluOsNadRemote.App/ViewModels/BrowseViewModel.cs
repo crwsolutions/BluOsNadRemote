@@ -58,11 +58,14 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
         {
             Title = AppResources.Loading;
 
-            var result = await _bluPlayerService.ConnectAsync();
-            Title = result.Message;
-            if (result.IsConnected == false)
+            if (_bluPlayerService.IsConnected == false)
             {
-                return;
+                var result = await _bluPlayerService.ConnectAsync();
+                Title = result.Message;
+                if (result.IsConnected == false)
+                {
+                    return;
+                }
             }
 
             if (_playURL != null)
@@ -131,6 +134,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
         catch (Exception exception)
         {
             Title = AppResources.NoBrowsers;
+            _bluPlayerService.Disconnect();
             Debug.WriteLine(exception);
         }
         finally

@@ -1,5 +1,4 @@
 ﻿using BluOsNadRemote.App.Repositories;
-using BluOsNadRemote.App.Resources.Languages;
 using System.Globalization;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -19,7 +18,7 @@ public sealed partial class LanguageService
     public const string EN_US = "en-US";
     public const string NL_NL = "nl-NL";
 
-    public void Initialize() => NotifySubscribers(CurrentLanguageOverride);
+    public void Initialize() => DetermineCutureAndNotifySubscribers(CurrentLanguageOverride);
 
     public IObservable<CultureInfo> LanguageObservable() => _languageSubject.AsObservable();
 
@@ -34,18 +33,16 @@ public sealed partial class LanguageService
             _cultureRepository.SetCultureOverride(name);
         }
 
-        NotifySubscribers(name);
+        DetermineCutureAndNotifySubscribers(name);
     }
 
     internal CultureInfo CurrentLanguage => _languageSubject.Value;
 
     internal string CurrentLanguageOverride => _cultureRepository.GetCultureOverride();
 
-    private void NotifySubscribers(string name)
+    private void DetermineCutureAndNotifySubscribers(string name)
     {
         var cultureInfo = string.IsNullOrEmpty(name) ? _deviceCulture : new CultureInfo(name);
-
-        TextBinding.Source.OnNext(cultureInfo); //Notify xaml
-        _languageSubject.OnNext(cultureInfo);   //Notify services
+        _languageSubject.OnNext(cultureInfo);
     }
 }

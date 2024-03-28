@@ -22,7 +22,7 @@ public sealed partial class ThemeService
                 Application.Current.UserAppTheme = AppTheme.Light;
                 break;
             default:
-                Application.Current.UserAppTheme = AppTheme.Unspecified;
+                Application.Current.UserAppTheme = AppInfo.Current.RequestedTheme;
                 break;
         }
     }
@@ -59,7 +59,7 @@ public sealed partial class ThemeService
 
     private void ClearTheme()
     {
-        Application.Current.UserAppTheme = AppTheme.Unspecified;
+        Application.Current.UserAppTheme = AppInfo.Current.RequestedTheme;
         _themeRepository.ClearThemeOverride();
     }
 }

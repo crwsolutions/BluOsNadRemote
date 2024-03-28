@@ -19,16 +19,15 @@ public partial class App : Application
     [Dependency]
     private readonly ThemeService _themeService;
 
-    partial void PreConstruct()
-    {
-        InitializeComponent();
-        MainPage = new AppShell();
-    }
+    [Dependency]
+    public IServiceProvider ServiceProvider { get; }
 
     partial void PostConstruct()
     {
+        InitializeComponent();
         _languageService.Initialize();
         _themeService.Initialize();
+        MainPage = new AppShell();
     }
 
     protected override void OnStart()

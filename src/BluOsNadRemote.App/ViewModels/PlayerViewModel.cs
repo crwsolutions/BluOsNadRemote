@@ -83,7 +83,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     public string QualityImageIcon => _qualityKbs != null || Quality == null ? $"none_{ThemePostfix}" : $"{Quality}_{ThemePostfix}";
 
-    private string ThemePostfix => AppInfo.RequestedTheme == AppTheme.Dark ? "white" : "black";
+    private string ThemePostfix => Application.Current.UserAppTheme == AppTheme.Dark ? "white" : "black";
 
     private int? _qualityKbs;
     public string QualityKbs => _qualityKbs != null ? $"{_qualityKbs / 1000} kb/s" : null;

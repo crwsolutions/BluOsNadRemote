@@ -1,5 +1,6 @@
 ﻿using Blu4Net;
 using BluOsNadRemote.App.Extensions;
+using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
 
@@ -140,6 +141,25 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     public string RepeatModeSymbol => RepeatMode == RepeatMode.RepeatOne ? "s" : "d";
 
+    public int? SongID { get; set; }
+
+    public string Service { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasMoreMenu))]
+    private string _artistID;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasMoreMenu))]
+
+    private string _albumID;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasMoreMenu))]
+    private string _trackstationID;
+
+    public bool HasMoreMenu => ArtistID != null || AlbumID != null || TrackstationID != null;
+
     [RelayCommand]
     private async Task LoadDataAsync()
     {
@@ -270,6 +290,13 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         ServiceIconUri = media.ServiceIconUri;
         Quality = media.Quality;
         StreamFormat = media.StreamFormat;
+
+        Service = media.ServiceName;
+        SongID = media.Song;
+        ArtistID = media.ArtistID;
+        AlbumID = media.AlbumID;
+        TrackstationID = media.TrackstationID;
+
         SetActions(media.Actions);
         PlayerState = media.PlayerState;
     }
@@ -383,7 +410,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [RelayCommand]
-    private async Task BackAsync() 
+    private async Task BackAsync()
     {
         if (_backAction == null)
         {
@@ -415,5 +442,52 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         var song = PlayerState == PlayerState.Streaming ? -1 : _currentSong;
 
         await Shell.Current.GoToAsync($"{nameof(QueuePage)}?{nameof(QueueViewModel.CurrentSong)}={song}");
+    }
+
+    [RelayCommand]
+    private async Task DisplayActionSheetAsync()
+    {
+        Debug.WriteLine(Title);
+
+        var menu = new Dictionary<MenuAction, string>();
+        if (AlbumID != null)
+        {
+            menu.Add(MenuAction.GoToAlbum, AppResources.BrowseAlbum);
+        }
+        if (ArtistID != null)
+        {
+            menu.Add(MenuAction.GoToArtist, AppResources.BrowseArtist);
+        }
+
+        var page = Shell.Current.CurrentPage;
+
+        var action = await page.DisplayActionSheet(AppResources.Actions, AppResources.Cancel, null, menu.Select(e => e.Value).ToArray());
+
+        var actionEntry = menu.FirstOrDefault(e => e.Value == action);
+
+        if (!actionEntry.Equals(default(KeyValuePair<MenuAction, string>)))
+        {
+            switch (actionEntry.Key)
+            {
+                case MenuAction.TrackStation:
+                    await Shell.Current.GoToAsync("..");
+                    break;
+                case MenuAction.SimilarStation:
+                    await Shell.Current.GoToAsync("..");
+                    break;
+                case MenuAction.GoToAlbum:
+                    await Shell.Current.GoToAsync($"//browse?{nameof(Service)}={Service}&{nameof(AlbumID)}={AlbumID}");
+                    break;
+                case MenuAction.GoToArtist:
+                    await Shell.Current.GoToAsync($"//browse?{nameof(Service)}={Service}&{nameof(ArtistID)}={ArtistID}");
+                    break;
+                case MenuAction.AddToFavorites:
+                    break;
+                default:
+                    break;
+            }
+
+            Debug.WriteLine($"Action clicked: {actionEntry.Key} {SongID}");
+        }
     }
 }

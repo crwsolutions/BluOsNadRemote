@@ -13,4 +13,9 @@ public static class MusicBrowserExtension
     {
         return await musicBrowser.BrowseContent($"/Artists?service={service}&artistid={artistID}");
     }
+
+    public static async Task<MusicContentNode> GetNodeSongNode(this MusicBrowser musicBrowser, string service, string songID)
+    {
+        return await musicBrowser.BrowseContent($"/Songs?service={service}&songid={songID}");
+    }
 }

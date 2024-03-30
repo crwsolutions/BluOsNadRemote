@@ -55,10 +55,11 @@
 	</ContentPage.Resources>
 
 	<RefreshView Command="{Binding LoadDataCommand, Mode=OneTime}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <Grid Style="{StaticResource Body}" RowDefinitions="Auto,*">
-            <!-- search -->
-            <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsSearching, Mode=OneWay}">
-				<SearchBar x:Name="searchBar" Margin="0,0,0,4"
+        <VerticalStackLayout>
+			<!-- search -->
+            <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsSearching, Mode=OneWay}" BackgroundColor="Black" Padding="8">
+				<SearchBar x:Name="searchBar"
+                           TextColor="White"
 						   SearchCommand="{Binding SearchCommand, Mode=OneTime}"
 						   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
                 <Button Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center"
@@ -67,18 +68,20 @@
 						BackgroundColor="Transparent"
 						Command="{Binding HideSearchCommand, Mode=OneTime}"/>
             </Grid>
-            <!-- browse -->
-            <CollectionView Grid.Row="1" ItemsSource="{Binding Categories, Mode=OneWay}"
-                            SelectionMode="None" IsGrouped="True" 
-                            ItemTemplate="{StaticResource MultilineSelector}" 
-                            RemainingItemsThreshold="5" 
-                            RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
-            <CollectionView.GroupHeaderTemplate>
-                <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
-					<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" />
-				</DataTemplate>
-			</CollectionView.GroupHeaderTemplate>
-		</CollectionView>
+			<!-- browse -->
+			<Grid Style="{StaticResource Body}" RowDefinitions="Auto,*">
+				<CollectionView Grid.Row="1" ItemsSource="{Binding Categories, Mode=OneWay}"
+								SelectionMode="None" IsGrouped="True" 
+								ItemTemplate="{StaticResource MultilineSelector}" 
+								RemainingItemsThreshold="5" 
+								RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
+				<CollectionView.GroupHeaderTemplate>
+					<DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
+						<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" />
+					</DataTemplate>
+				</CollectionView.GroupHeaderTemplate>
+			</CollectionView>
         </Grid>
+        </VerticalStackLayout>
 	</RefreshView>
 </views:BaseContentPage>

@@ -196,6 +196,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to connecting.
+        /// </summary>
+        internal static string Connecting {
+            get {
+                return ResourceManager.GetString("Connecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not connect: {0}.
         /// </summary>
         internal static string CouldNotConnectResult {
@@ -484,6 +493,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to paused.
+        /// </summary>
+        internal static string Paused {
+            get {
+                return ResourceManager.GetString("Paused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ping BluOS.
         /// </summary>
         internal static string PingBluOS {
@@ -507,6 +525,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string Player {
             get {
                 return ResourceManager.GetString("Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to playing.
+        /// </summary>
+        internal static string Playing {
+            get {
+                return ResourceManager.GetString("Playing", resourceCulture);
             }
         }
         
@@ -628,6 +655,24 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to stopped.
+        /// </summary>
+        internal static string Stopped {
+            get {
+                return ResourceManager.GetString("Stopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to streaming.
+        /// </summary>
+        internal static string Streaming {
+            get {
+                return ResourceManager.GetString("Streaming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sub.
         /// </summary>
         internal static string Sub {
@@ -651,6 +696,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string TogglePower {
             get {
                 return ResourceManager.GetString("TogglePower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to unknown.
+        /// </summary>
+        internal static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
             }
         }
     }

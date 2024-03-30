@@ -315,4 +315,22 @@
   <data name="LightThemeLabel" xml:space="preserve">
     <value>Lichte thema</value>
   </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>onbekend</value>
+  </data>
+  <data name="Streaming" xml:space="preserve">
+    <value>streaming</value>
+  </data>
+  <data name="Playing" xml:space="preserve">
+    <value>speelt</value>
+  </data>
+  <data name="Paused" xml:space="preserve">
+    <value>gepauzeerd</value>
+  </data>
+  <data name="Stopped" xml:space="preserve">
+    <value>gestopt</value>
+  </data>
+  <data name="Connecting" xml:space="preserve">
+    <value>verbinden</value>
+  </data>
 </root>

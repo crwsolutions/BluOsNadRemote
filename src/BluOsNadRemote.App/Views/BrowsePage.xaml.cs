@@ -13,21 +13,4 @@ public partial class BrowsePage : BaseContentPage
         await Task.Yield(); //https://github.com/xamarin/Xamarin.Forms/issues/11549
         base.OnAppearing();
     }
-
-    protected override bool OnBackButtonPressed()
-    {
-        if (ViewModel.IsSearching && ViewModel.HideSearchCommand.CanExecute(null))
-        {
-            ViewModel.HideSearchCommand.Execute(null);
-        }
-
-        if (ViewModel.HasParent && ViewModel.GoBackCommand.CanExecute(null))
-        {
-            ViewModel.GoBackCommand.Execute(null);
-
-            return true;
-        }
-
-        return base.OnBackButtonPressed();
-    }
 }

@@ -26,7 +26,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     internal void EstimateProgress()
     {
-        if (State == "Streaming" || State == "Playing")
+        if (PlayerState == PlayerState.Streaming || PlayerState == PlayerState.Playing)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -56,15 +56,14 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         _ = SetAndClampVolumeAsync(value);
     }
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(DisplayState))]
-    private string _state;
+    public string State => AppResources.ResourceManager.GetString(PlayerState.ToString(), AppResources.Culture);
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(DisplayState))]
+    [NotifyPropertyChangedFor(nameof(State))]
+    private PlayerState _playerState;
+
+    [ObservableProperty]
     private string _streamFormat;
-
-    public string DisplayState => StreamFormat?.Length > 0 ? $"{StreamFormat} - {State}" : State;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(QualityImageIcon))]
@@ -147,6 +146,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private async Task LoadDataAsync()
     {
         Title = AppResources.Loading;
+        PlayerState = PlayerState.Unknown;
 
         try
         {
@@ -169,12 +169,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
                 Volume = volume;
             });
 
-            _stateChangesSubscriber = bluPlayer.StateChanges.Subscribe(playerState =>
-            {
-                Debug.WriteLine($"State: {playerState}");
-                UpdatePlayerState(playerState);
-                State = playerState.ToString();
-            });
+            _stateChangesSubscriber = bluPlayer.StateChanges.Subscribe(UpdatePlayerState);
 
             _repeatChangesSubscriber = bluPlayer.RepeatModeChanges.Subscribe(repeatMode =>
             {
@@ -195,10 +190,8 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             Title = bluPlayer.ToString();
 
             // get the state
-            var state2 = await bluPlayer.GetState();
-            State = state2.ToString();
-            Debug.WriteLine($"State: {state2}");
-            UpdatePlayerState(state2);
+            var state = await bluPlayer.GetState();
+            UpdatePlayerState(state);
 
             // get the volume
             var playerVolume = await bluPlayer.GetVolume();
@@ -264,7 +257,9 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     private void UpdatePlayerState(PlayerState playerState)
     {
+        Debug.WriteLine($"PlayerState: {playerState}");
         IsStartVisible = playerState.ToPlayerCanBeStarted();
+        PlayerState = playerState;
     }
 
     private void UpdatePlayerMedia(PlayerMedia media)
@@ -404,7 +399,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task NavigateToQueueAsync()
     {
-        var song = State == nameof(PlayerState.Streaming) ? -1 : _currentSong;
+        var song = PlayerState == PlayerState.Streaming ? -1 : _currentSong;
 
         await Shell.Current.GoToAsync($"{nameof(QueuePage)}?{nameof(QueueViewModel.CurrentSong)}={song}");
     }

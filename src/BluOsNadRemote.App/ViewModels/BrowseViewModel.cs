@@ -122,7 +122,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
                 }
             }
 #if ANDROID
-            //Fusing does not work in Android, but just clearing and adding does not work in iOs :(.
+            //Hack: Fusing does not work in Android, but just clearing and adding does not work in iOs :(.
             Categories.Clear();
             Debug.WriteLine($"**** Cleared...");
 #endif

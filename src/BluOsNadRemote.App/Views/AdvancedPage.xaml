@@ -27,7 +27,7 @@
                             <Label Grid.Row="5" Grid.Column="1" Text="{Binding MainAudioRate, Mode=OneWay}" />
                             <BoxView Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource DisplaySeparator}"/>
                             <Label Grid.Row="7" Grid.Column="0" Text="{lang:Text AudioReturnChannel}" />
-                            <Ellipse Fill="Green" Grid.Row="7" Grid.Column="1"  IsVisible="{Binding IsMainVideoARC, Mode=OneWay}" Stroke="Black" StrokeThickness="1" WidthRequest="12" HeightRequest="12" HorizontalOptions="Start" VerticalOptions="Center" />
+                            <Ellipse Fill="{Binding ARCColor, Mode=OneWay}" Grid.Row="7" Grid.Column="1"  Stroke="Black" StrokeThickness="1" WidthRequest="12" HeightRequest="12" HorizontalOptions="Start" VerticalOptions="Center" />
                         </Grid>
                     </Border>
                     <contentviews:FormItem Label="{lang:Text Sub}">

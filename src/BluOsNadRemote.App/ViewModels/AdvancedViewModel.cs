@@ -81,10 +81,6 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     [ObservableProperty]
     private string _mainSource;
-    partial void OnMainSourceChanging(string value)
-    {
-        _ = _service.NadRemote.ForceSourceNameUpdateAsync(value);
-    }
 
     [ObservableProperty]
     private string _mainSourceName;

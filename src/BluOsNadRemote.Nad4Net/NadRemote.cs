@@ -2,6 +2,7 @@
 using Nad4Net.Model;
 using PrimS.Telnet;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Nad4Net;
 public class NadRemote : IDisposable
 {
     private CancellationTokenSource _tokenSource;
+    private readonly string[] _sources = new string[10];
     private Client _client;
     private readonly string _host;
     private const int Port = 23;
@@ -59,26 +61,34 @@ public class NadRemote : IDisposable
     public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {
         await CheckConnection();
-        await _client.WriteLineAsync("Main.Model?");
-        await _client.WriteLineAsync("Main.Source?");
-        await _client.WriteLineAsync("Main.Audio.CODEC?");
-        await _client.WriteLineAsync("Main.Audio.Channels?");
-        await _client.WriteLineAsync("Main.Audio.Rate?");
-        await _client.WriteLineAsync("Main.Video.ARC?");
-        await _client.WriteLineAsync("Main.ListeningMode?");
-        await _client.WriteLineAsync("Dirac1.State?");
-        await _client.WriteLineAsync("Dirac1.Name?");
-        await _client.WriteLineAsync("Dirac2.State?");
-        await _client.WriteLineAsync("Dirac2.Name?");
-        await _client.WriteLineAsync("Dirac3.State?");
-        await _client.WriteLineAsync("Dirac3.Name?");
-        await _client.WriteLineAsync("Main.Dirac?");
-        await _client.WriteLineAsync("Main.Trim.Sub?");
-        await _client.WriteLineAsync("Main.Trim.Surround?");
-        await _client.WriteLineAsync("Main.Trim.Center?");
-        await _client.WriteLineAsync("Main.Dimmer?");
-        await _client.WriteLineAsync("Main.Power?");
-        await _client.WriteLineAsync("Main.Dolby.DRC ?");
+        var commands = new List<string>
+        {
+            "Main.Model?",
+            "Main.Source?",
+            "Main.Audio.CODEC?",
+            "Main.Audio.Channels?",
+            "Main.Audio.Rate?",
+            "Main.Video.ARC?",
+            "Main.ListeningMode?",
+            "Dirac1.State?",
+            "Dirac1.Name?",
+            "Dirac2.State?",
+            "Dirac2.Name?",
+            "Dirac3.State?",
+            "Dirac3.Name?",
+            "Main.Dirac?",
+            "Main.Trim.Sub?",
+            "Main.Trim.Surround?",
+            "Main.Trim.Center?",
+            "Main.Dimmer?",
+            "Main.Power?",
+            "Main.Dolby.DRC?"
+        };
+        for (int i = 0; i < _sources.Length; i++) 
+        {
+            commands.Add($"Source{i + 1}.Name?");
+        }
+        await _client.WriteAsync(string.Join('\n', commands));
         Parse(await _client.ReadAsync());
         resultHandler.Invoke(_model);
     }
@@ -152,6 +162,10 @@ public class NadRemote : IDisposable
                 {
                     try
                     {
+                        if (_client == null)
+                        {
+                            await ReConnectAsync();
+                        }
                         var s = await _client.ReadAsync(Timeout);
                         Parse(s);
                         observer.OnNext(_model);
@@ -172,12 +186,6 @@ public class NadRemote : IDisposable
 
             }, cancellationToken);
         });
-    }
-
-    public async Task ForceSourceNameUpdateAsync(string value)
-    {
-        await CheckConnection();
-        await _client.WriteLineAsync($"Source{value}.Name?");
     }
 
     private async Task CheckConnection()
@@ -268,7 +276,22 @@ public class NadRemote : IDisposable
                     {
                         _model.MainSourceName = parts[1];
                     }
+                    ParseSourceName(parts);
                     break;
+            }
+        }
+    }
+
+    private void ParseSourceName(string[] parts)
+    {
+        Debug.WriteLine($"Parsing: {parts[0]}");
+        var number = parts[0].Replace("Source", "");
+        number = number.Replace(".Name", "");
+        if (int.TryParse(number, out var result))
+        {
+            if (result is > -1 and < 11)
+            {
+                _sources[result-1] = parts[1];
             }
         }
     }

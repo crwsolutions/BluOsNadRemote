@@ -81,10 +81,6 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     [ObservableProperty]
     private string _mainSource;
-    partial void OnMainSourceChanging(string value)
-    {
-        _ = _service.NadRemote.ForceSourceNameUpdateAsync(value);
-    }
 
     [ObservableProperty]
     private string _mainSourceName;
@@ -234,10 +230,11 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     private bool _mainPower;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(IsMainVideoARC))]
+    [NotifyPropertyChangedFor(nameof(ARCColor))]
     private string _mainVideoARC;
 
-    public bool IsMainVideoARC => MainVideoARC?.ToLower() == "yes";
+    private static readonly Color disabledColor = new(53, 54, 54);
+    public Color ARCColor => MainVideoARC?.ToLower() == "yes" ? Colors.Green : disabledColor;
 
     [ObservableProperty]
     private string _mainDolbyDRC;

@@ -11,7 +11,7 @@
 		     HideSoftInputOnTapped="True">
 
     <Shell.TitleView>
-		<Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto, 8">
+        <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto, 8">
             <Button 
 				WidthRequest="28" Padding="0"
 				FontFamily="CrwMedia" Text="r" FontSize="36" TextColor="White"
@@ -30,7 +30,7 @@
                 IsVisible="{Binding HasParent, Mode=OneWay}"
 				BackgroundColor="Transparent"
 				Command="{Binding GoHomeCommand, Mode=OneTime}" />
-			<!-- glass -->
+            <!-- glass -->
             <Button Grid.Column="4" WidthRequest="44" Padding="0"
                 FontFamily="CrwMedia" Text="q"
                 FontSize="42" TextColor="White"
@@ -39,26 +39,26 @@
 				BackgroundColor="Transparent"
 				Command="{Binding ShowSearchCommand, Mode=OneTime}"
 				IsVisible="{Binding CanSearch, Mode=OneWay}">
-			</Button>
-    	</Grid>
-	</Shell.TitleView>
+            </Button>
+        </Grid>
+    </Shell.TitleView>
 
-	<ContentPage.Resources>
+    <ContentPage.Resources>
         <DataTemplate x:Key="SinglelineTemplate" x:DataType="vm:MusicContentEntryViewModel">
             <contentViews:SinglelineMusicContentEntry />
-		</DataTemplate>
+        </DataTemplate>
 
         <DataTemplate x:Key="MultilineTemplate" x:DataType="vm:MusicContentEntryViewModel">
             <contentViews:MultilineMusicContentEntry />
         </DataTemplate>
-		<controls:ItemsListViewMultilineTemplateSelector x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
-	</ContentPage.Resources>
+        <controls:ItemsListViewMultilineTemplateSelector x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
+    </ContentPage.Resources>
 
-	<RefreshView Command="{Binding LoadDataCommand, Mode=OneTime}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <VerticalStackLayout>
-			<!-- search -->
+    <RefreshView Command="{Binding LoadDataCommand, Mode=OneTime}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <Grid RowDefinitions="auto,*">
+            <!-- search -->
             <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsSearching, Mode=OneWay}" BackgroundColor="Black" Padding="8">
-				<SearchBar x:Name="searchBar"
+                <SearchBar x:Name="searchBar"
                            TextColor="White"
 						   SearchCommand="{Binding SearchCommand, Mode=OneTime}"
 						   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
@@ -68,20 +68,20 @@
 						BackgroundColor="Transparent"
 						Command="{Binding HideSearchCommand, Mode=OneTime}"/>
             </Grid>
-			<!-- browse -->
-			<Grid Style="{StaticResource Body}" RowDefinitions="Auto,*">
-				<CollectionView Grid.Row="1" ItemsSource="{Binding Categories, Mode=OneWay}"
+            <!-- browse -->
+            <Grid Grid.Row="1" Style="{StaticResource Body}" RowDefinitions="Auto,*">
+                <CollectionView Grid.Row="1" ItemsSource="{Binding Categories, Mode=OneWay}"
 								SelectionMode="None" IsGrouped="True" 
 								ItemTemplate="{StaticResource MultilineSelector}" 
 								RemainingItemsThreshold="5" 
 								RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">
-				<CollectionView.GroupHeaderTemplate>
-					<DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
-						<Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" />
-					</DataTemplate>
-				</CollectionView.GroupHeaderTemplate>
-			</CollectionView>
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate x:DataType="vm:MusicContentCategoryViewModel">
+                            <Label Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListHeaderTextStyle}" />
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+                </CollectionView>
+            </Grid>
         </Grid>
-        </VerticalStackLayout>
-	</RefreshView>
+    </RefreshView>
 </views:BaseContentPage>

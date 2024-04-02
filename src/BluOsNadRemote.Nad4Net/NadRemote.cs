@@ -2,7 +2,6 @@
 using Nad4Net.Model;
 using PrimS.Telnet;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,6 +18,32 @@ public class NadRemote : IDisposable
     private Client _client;
     private readonly string _host;
     private const int Port = 23;
+
+    private const string ON = "On";
+    private const string OFF = "Off";
+    private const string MAIN_MODEL_COMMAND = "Main.Model";
+    private const string MAIN_SOURCE_COMMAND = "Main.Source";
+    private const string MAIN_AUDIO_CODEC_COMMAND = "Main.Audio.CODEC";
+    private const string MAIN_AUDIO_CHANNELS_COMMAND = "Main.Audio.Channels";
+    private const string MAIN_AUDIO_RATE_COMMAND = "Main.Audio.Rate";
+    private const string MAIN_VIDEO_ARC_COMMAND = "Main.Video.ARC";
+    private const string MAIN_LISTENINGMODE_COMMAND = "Main.ListeningMode";
+    private const string DIRAC1_STATE_COMMAND = "Dirac1.State";
+    private const string DIRAC1_NAME_COMMAND = "Dirac1.Name";
+    private const string DIRAC2_STATE_COMMAND = "Dirac2.State";
+    private const string DIRAC2_NAME_COMMAND = "Dirac2.Name";
+    private const string DIRAC3_STATE_COMMAND = "Dirac3.State";
+    private const string DIRAC3_NAME_COMMAND = "Dirac3.Name";
+    private const string MAIN_DIRAC_COMMAND = "Main.Dirac";
+    private const string MAIN_TRIM_SUB_COMMAND = "Main.Trim.Sub";
+    private const string MAIN_TRIM_SURROUND_COMMAND = "Main.Trim.Surround";
+    private const string MAIN_TRIM_CENTER_COMMAND = "Main.Trim.Center";
+    private const string MAIN_DIMMER_COMMAND = "Main.Dimmer";
+    private const string MAIN_POWER_COMMAND = "Main.Power";
+    private const string MAIN_DOLBY_DRC_COMMAND = "Main.Dolby.DRC";
+    private const string SOURCE_PREFIX_COMMAND = "Source";
+    private const char COMMAND_END = '\n';
+
     private TimeSpan Timeout { get; } = TimeSpan.FromSeconds(30);
     private TimeSpan RetryDelay { get; } = TimeSpan.FromSeconds(5);
     public IObservable<CommandList> CommandChanges { get; }
@@ -46,71 +71,53 @@ public class NadRemote : IDisposable
         CommandChanges = SetupChangeDetectionLoop().Retry(RetryDelay).Publish().RefCount();
     }
 
-    private async Task WriteCommand(string command, string value)
-    {
-        await CheckConnection();
-        await _client.WriteLineAsync($"{command}={value}");
-    }
-
-    private async Task WritePlusCommand(string speaker)
-    {
-        await CheckConnection();
-        await _client.WriteLineAsync($"Main.Trim.{speaker}+");
-    }
-
     public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {
         await CheckConnection();
-        await _client.WriteLineAsync("Main.Model?");
-        await _client.WriteLineAsync("Main.Source?");
-        await _client.WriteLineAsync("Main.Audio.CODEC?");
-        await _client.WriteLineAsync("Main.Audio.Channels?");
-        await _client.WriteLineAsync("Main.Audio.Rate?");
-        await _client.WriteLineAsync("Main.Video.ARC?");
-        await _client.WriteLineAsync("Main.ListeningMode?");
-        await _client.WriteLineAsync("Dirac1.State?");
-        await _client.WriteLineAsync("Dirac1.Name?");
-        await _client.WriteLineAsync("Dirac2.State?");
-        await _client.WriteLineAsync("Dirac2.Name?");
-        await _client.WriteLineAsync("Dirac3.State?");
-        await _client.WriteLineAsync("Dirac3.Name?");
-        await _client.WriteLineAsync("Main.Dirac?");
-        await _client.WriteLineAsync("Main.Trim.Sub?");
-        await _client.WriteLineAsync("Main.Trim.Surround?");
-        await _client.WriteLineAsync("Main.Trim.Center?");
-        await _client.WriteLineAsync("Main.Dimmer?");
-        await _client.WriteLineAsync("Main.Power?");
-        await _client.WriteLineAsync("Main.Dolby.DRC?");
-        for (int i = 0; i < _sources.Length; i++) 
+        await WriteQueryAsync(MAIN_MODEL_COMMAND);
+        await WriteQueryAsync(MAIN_SOURCE_COMMAND);
+        await WriteQueryAsync(MAIN_AUDIO_CODEC_COMMAND);
+        await WriteQueryAsync(MAIN_AUDIO_CHANNELS_COMMAND);
+        await WriteQueryAsync(MAIN_AUDIO_RATE_COMMAND);
+        await WriteQueryAsync(MAIN_VIDEO_ARC_COMMAND);
+        await WriteQueryAsync(MAIN_LISTENINGMODE_COMMAND);
+        await WriteQueryAsync(DIRAC1_STATE_COMMAND);
+        await WriteQueryAsync(DIRAC1_NAME_COMMAND);
+        await WriteQueryAsync(DIRAC2_STATE_COMMAND);
+        await WriteQueryAsync(DIRAC2_NAME_COMMAND);
+        await WriteQueryAsync(DIRAC3_STATE_COMMAND);
+        await WriteQueryAsync(DIRAC3_NAME_COMMAND);
+        await WriteQueryAsync(MAIN_DIRAC_COMMAND);
+        await WriteQueryAsync(MAIN_TRIM_SUB_COMMAND);
+        await WriteQueryAsync(MAIN_TRIM_SURROUND_COMMAND);
+        await WriteQueryAsync(MAIN_TRIM_CENTER_COMMAND);
+        await WriteQueryAsync(MAIN_DIMMER_COMMAND);
+        await WriteQueryAsync(MAIN_POWER_COMMAND);
+        await WriteQueryAsync(MAIN_DOLBY_DRC_COMMAND);
+        for (var i = 0; i < _sources.Length; i++)
         {
-            await _client.WriteLineAsync($"Source{i + 1}.Name?");
+            await WriteQueryAsync($"{SOURCE_PREFIX_COMMAND}{i + 1}.Name");
         }
         Parse(await _client.ReadAsync());
         resultHandler.Invoke(_model);
     }
 
-    private async Task WriteMinusCommand(string speaker)
-    {
-        await CheckConnection();
-        await _client.WriteLineAsync($"Main.Trim.{speaker}-");
-    }
-
-    public async Task DoSurroundPlus() => await WritePlusCommand("Surround");
-    public async Task DoSurroundMinus() => await WriteMinusCommand("Surround");
-    public async Task DoSubPlus() => await WritePlusCommand("Sub");
-    public async Task DoSubMinus() => await WriteMinusCommand("Sub");
-    public async Task DoCenterPlus() => await WritePlusCommand("Center");
-    public async Task DoCenterMinus() => await WriteMinusCommand("Center");
+    public async Task DoSurroundPlus() => await WritePlusCommand(MAIN_TRIM_SURROUND_COMMAND);
+    public async Task DoSurroundMinus() => await WriteMinusCommand(MAIN_TRIM_SURROUND_COMMAND);
+    public async Task DoSubPlus() => await WritePlusCommand(MAIN_TRIM_SUB_COMMAND);
+    public async Task DoSubMinus() => await WriteMinusCommand(MAIN_TRIM_SUB_COMMAND);
+    public async Task DoCenterPlus() => await WritePlusCommand(MAIN_TRIM_CENTER_COMMAND);
+    public async Task DoCenterMinus() => await WriteMinusCommand(MAIN_TRIM_CENTER_COMMAND);
 
     public async Task ToggleOnOffAsync()
     {
         if (_model.MainPower == false)
         {
-            await WriteCommand("Main.Power", "On");
+            await WriteCommand(MAIN_POWER_COMMAND, ON);
         }
         else
         {
-            await WriteCommand("Main.Power", "Off");
+            await WriteCommand(MAIN_POWER_COMMAND, OFF);
         }
     }
 
@@ -118,22 +125,22 @@ public class NadRemote : IDisposable
     {
         if (_model.MainDimmer == false)
         {
-            await WriteCommand("Main.Dimmer", "On");
+            await WriteCommand(MAIN_DIMMER_COMMAND, ON);
         }
         else
         {
-            await WriteCommand("Main.Dimmer", "Off");
+            await WriteCommand(MAIN_DIMMER_COMMAND, OFF);
         }
     }
 
     public async Task SetListeningModeAsync(string value)
     {
-        await WriteCommand("Main.ListeningMode", value);
+        await WriteCommand(MAIN_LISTENINGMODE_COMMAND, value);
     }
 
     public async Task SetMainDiracAsync(int value)
     {
-        await WriteCommand("Main.Dirac", (value + 1).ToString());
+        await WriteCommand(MAIN_DIRAC_COMMAND, (value + 1).ToString());
     }
 
     private async Task ReConnectAsync()
@@ -196,7 +203,7 @@ public class NadRemote : IDisposable
     {
         var strReader = new StringReader(s);
 #if DEBUG
-        var numLines = s == string.Empty ? 0 : s.Count(c => c.Equals('\n')) + 1;
+        var numLines = s == string.Empty ? 0 : s.Count(c => c.Equals(COMMAND_END)) + 1;
         Debug.WriteLine($"{numLines} properties received");
 #endif
 
@@ -207,68 +214,68 @@ public class NadRemote : IDisposable
             var parts = line.Split(_equalsSeparator);
             switch (parts[0])
             {
-                case "Main.Model":
+                case MAIN_MODEL_COMMAND:
                     _model.MainModel = parts[1];
                     break;
-                case "Main.Source":
+                case MAIN_SOURCE_COMMAND:
                     _model.MainSource = parts[1];
                     SetMainSourceName();
                     break;
-                case "Main.Audio.CODEC":
+                case MAIN_AUDIO_CODEC_COMMAND:
                     _model.MainAudioCODEC = parts[1];
                     break;
-                case "Main.Audio.Channels":
+                case MAIN_AUDIO_CHANNELS_COMMAND:
                     _model.MainAudioChannels = parts[1];
                     break;
-                case "Main.Audio.Rate":
+                case MAIN_AUDIO_RATE_COMMAND:
                     _model.MainAudioRate = parts[1];
                     break;
-                case "Main.Video.ARC":
+                case MAIN_VIDEO_ARC_COMMAND:
                     _model.MainVideoARC = parts[1];
                     break;
-                case "Main.ListeningMode":
+                case MAIN_LISTENINGMODE_COMMAND:
                     _model.MainListeningMode = parts[1];
                     break;
-                case "Main.Dirac":
+                case MAIN_DIRAC_COMMAND:
                     _model.MainDirac = int.Parse(parts[1]) - 1;
                     break;
-                case "Dirac1.State":
+                case DIRAC1_STATE_COMMAND:
                     _model.Dirac1State = parts[1];
                     break;
-                case "Dirac1.Name":
+                case DIRAC1_NAME_COMMAND:
                     _model.Dirac1Name = parts[1];
                     break;
-                case "Dirac2.State":
+                case DIRAC2_STATE_COMMAND:
                     _model.Dirac2State = parts[1];
                     break;
-                case "Dirac2.Name":
+                case DIRAC2_NAME_COMMAND:
                     _model.Dirac2Name = parts[1];
                     break;
-                case "Dirac3.State":
+                case DIRAC3_STATE_COMMAND:
                     _model.Dirac3State = parts[1];
                     break;
-                case "Dirac3.Name":
+                case DIRAC3_NAME_COMMAND:
                     _model.Dirac3Name = parts[1];
                     break;
-                case "Main.Trim.Sub":
+                case MAIN_TRIM_SUB_COMMAND:
                     _model.MainTrimSub = int.Parse(parts[1]);
                     break;
-                case "Main.Trim.Surround":
+                case MAIN_TRIM_SURROUND_COMMAND:
                     _model.MainTrimSurround = int.Parse(parts[1]);
                     break;
-                case "Main.Trim.Center":
+                case MAIN_TRIM_CENTER_COMMAND:
                     _model.MainTrimCenter = int.Parse(parts[1]);
                     break;
-                case "Main.Dimmer":
-                    _model.MainDimmer = parts[1] == "On";
+                case MAIN_DIMMER_COMMAND:
+                    _model.MainDimmer = parts[1] == ON;
                     break;
-                case "Main.Power":
-                    _model.MainPower = parts[1] == "On";
+                case MAIN_POWER_COMMAND:
+                    _model.MainPower = parts[1] == ON;
                     break;
-                case "Main.Dolby.DRC":
+                case MAIN_DOLBY_DRC_COMMAND:
                     _model.MainDolbyDRC = parts[1];
                     break;
-                case string source when source.StartsWith("Source"):
+                case string source when source.StartsWith(SOURCE_PREFIX_COMMAND):
                     ParseSourceName(parts);
                     SetMainSourceName();
                     break;
@@ -278,11 +285,31 @@ public class NadRemote : IDisposable
         }
     }
 
+    private async Task WriteCommand(string command, string value)
+    {
+        await CheckConnection();
+        await _client.WriteLineAsync($"{command}={value}");
+    }
+
+    private async Task WritePlusCommand(string speaker)
+    {
+        await CheckConnection();
+        await _client.WriteAsync($"{speaker}+{COMMAND_END}");
+    }
+
+    private async Task WriteMinusCommand(string speaker)
+    {
+        await CheckConnection();
+        await _client.WriteAsync($"{speaker}-{COMMAND_END}");
+    }
+
+    private async Task WriteQueryAsync(string command) => await _client.WriteAsync($"{command}?{COMMAND_END}");
+
     private void SetMainSourceName()
     {
         if (int.TryParse(_model?.MainSource, out var id))
-        { 
-            var name = _sources[id-1];
+        {
+            var name = _sources[id - 1];
             if (name != null)
             {
                 Debug.WriteLine($"Setting MainSourceName to '{name}'");
@@ -294,13 +321,13 @@ public class NadRemote : IDisposable
     private void ParseSourceName(string[] parts)
     {
         Debug.WriteLine($"Parsing: {parts[0]}");
-        var number = parts[0].Replace("Source", "");
+        var number = parts[0].Replace(SOURCE_PREFIX_COMMAND, "");
         number = number.Replace(".Name", "");
         if (int.TryParse(number, out var result))
         {
             if (result is > -1 and < 11)
             {
-                _sources[result-1] = parts[1];
+                _sources[result - 1] = parts[1];
             }
         }
     }

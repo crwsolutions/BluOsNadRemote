@@ -100,7 +100,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     {
         if (!IsBusy && !_isReceiving)
         {
-            _ = _service.NadRemote.SetListeningModeAsync(value);
+            _service.NadRemote.SetListeningModeAsync(value).Wait();
         }
     }
 
@@ -112,7 +112,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     {
         if (!IsBusy && !_isReceiving)
         {
-            _ = _service.NadRemote?.SetMainDiracAsync(value);
+            _service.NadRemote?.SetMainDiracAsync(value).Wait();
         }
     }
 
@@ -168,12 +168,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimSub < value)
             {
-                _ = _service.NadRemote.DoSubPlus();
+               _service.NadRemote.DoSubPlusAsync().Wait();
             }
 
             if (MainTrimSub > value)
             {
-                _ = _service.NadRemote.DoSubMinus();
+                _service.NadRemote.DoSubMinusAsync().Wait();
             }
         }
     }
@@ -186,12 +186,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimSurround < value)
             {
-                _ = _service.NadRemote.DoSurroundPlus();
+                _service.NadRemote.DoSurroundPlusAsync().Wait();
             }
 
             if (MainTrimSurround > value)
             {
-                _ = _service.NadRemote.DoSurroundMinus();
+                _service.NadRemote.DoSurroundMinusAsync().Wait();
             }
         }
     }
@@ -205,12 +205,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimCenter < value)
             {
-                _ = _service.NadRemote.DoCenterPlus();
+                _service.NadRemote.DoCenterPlusAsync().Wait();
             }
 
             if (MainTrimCenter > value)
             {
-                _ = _service.NadRemote.DoCenterMinus();
+                _service.NadRemote.DoCenterMinusAsync().Wait();
             }
         }
     }
@@ -222,7 +222,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         Debug.WriteLine($"Setting dimmer to {value}");
         if (!IsBusy && !_isReceiving)
         {
-            _ = _service.NadRemote.ToggleDimmerAsync();
+            _service.NadRemote.ToggleDimmerAsync().Wait();
         }
     }
 
@@ -248,8 +248,6 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
             _commandChangesSubscriber = null;
             _service.Disconnect();
             MainDirac = -1;
-            //MainSourceName = null;
-            //MainSource = null;
             IsBusy = false;
             _isReceiving = false;
         }

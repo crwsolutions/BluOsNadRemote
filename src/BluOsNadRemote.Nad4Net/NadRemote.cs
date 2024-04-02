@@ -74,74 +74,44 @@ public class NadRemote : IDisposable
     public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {
         await CheckConnection();
-        await WriteQueryAsync(MAIN_MODEL_COMMAND);
-        await WriteQueryAsync(MAIN_SOURCE_COMMAND);
-        await WriteQueryAsync(MAIN_AUDIO_CODEC_COMMAND);
-        await WriteQueryAsync(MAIN_AUDIO_CHANNELS_COMMAND);
-        await WriteQueryAsync(MAIN_AUDIO_RATE_COMMAND);
-        await WriteQueryAsync(MAIN_VIDEO_ARC_COMMAND);
-        await WriteQueryAsync(MAIN_LISTENINGMODE_COMMAND);
-        await WriteQueryAsync(DIRAC1_STATE_COMMAND);
-        await WriteQueryAsync(DIRAC1_NAME_COMMAND);
-        await WriteQueryAsync(DIRAC2_STATE_COMMAND);
-        await WriteQueryAsync(DIRAC2_NAME_COMMAND);
-        await WriteQueryAsync(DIRAC3_STATE_COMMAND);
-        await WriteQueryAsync(DIRAC3_NAME_COMMAND);
-        await WriteQueryAsync(MAIN_DIRAC_COMMAND);
-        await WriteQueryAsync(MAIN_TRIM_SUB_COMMAND);
-        await WriteQueryAsync(MAIN_TRIM_SURROUND_COMMAND);
-        await WriteQueryAsync(MAIN_TRIM_CENTER_COMMAND);
-        await WriteQueryAsync(MAIN_DIMMER_COMMAND);
-        await WriteQueryAsync(MAIN_POWER_COMMAND);
-        await WriteQueryAsync(MAIN_DOLBY_DRC_COMMAND);
+        await WriteQueryCommandAsync(MAIN_MODEL_COMMAND);
+        await WriteQueryCommandAsync(MAIN_SOURCE_COMMAND);
+        await WriteQueryCommandAsync(MAIN_AUDIO_CODEC_COMMAND);
+        await WriteQueryCommandAsync(MAIN_AUDIO_CHANNELS_COMMAND);
+        await WriteQueryCommandAsync(MAIN_AUDIO_RATE_COMMAND);
+        await WriteQueryCommandAsync(MAIN_VIDEO_ARC_COMMAND);
+        await WriteQueryCommandAsync(MAIN_LISTENINGMODE_COMMAND);
+        await WriteQueryCommandAsync(DIRAC1_STATE_COMMAND);
+        await WriteQueryCommandAsync(DIRAC1_NAME_COMMAND);
+        await WriteQueryCommandAsync(DIRAC2_STATE_COMMAND);
+        await WriteQueryCommandAsync(DIRAC2_NAME_COMMAND);
+        await WriteQueryCommandAsync(DIRAC3_STATE_COMMAND);
+        await WriteQueryCommandAsync(DIRAC3_NAME_COMMAND);
+        await WriteQueryCommandAsync(MAIN_DIRAC_COMMAND);
+        await WriteQueryCommandAsync(MAIN_TRIM_SUB_COMMAND);
+        await WriteQueryCommandAsync(MAIN_TRIM_SURROUND_COMMAND);
+        await WriteQueryCommandAsync(MAIN_TRIM_CENTER_COMMAND);
+        await WriteQueryCommandAsync(MAIN_DIMMER_COMMAND);
+        await WriteQueryCommandAsync(MAIN_POWER_COMMAND);
+        await WriteQueryCommandAsync(MAIN_DOLBY_DRC_COMMAND);
         for (var i = 0; i < _sources.Length; i++)
         {
-            await WriteQueryAsync($"{SOURCE_PREFIX_COMMAND}{i + 1}.Name");
+            await WriteQueryCommandAsync($"{SOURCE_PREFIX_COMMAND}{i + 1}.Name");
         }
         Parse(await _client.ReadAsync());
         resultHandler.Invoke(_model);
     }
 
-    public async Task DoSurroundPlus() => await WritePlusCommand(MAIN_TRIM_SURROUND_COMMAND);
-    public async Task DoSurroundMinus() => await WriteMinusCommand(MAIN_TRIM_SURROUND_COMMAND);
-    public async Task DoSubPlus() => await WritePlusCommand(MAIN_TRIM_SUB_COMMAND);
-    public async Task DoSubMinus() => await WriteMinusCommand(MAIN_TRIM_SUB_COMMAND);
-    public async Task DoCenterPlus() => await WritePlusCommand(MAIN_TRIM_CENTER_COMMAND);
-    public async Task DoCenterMinus() => await WriteMinusCommand(MAIN_TRIM_CENTER_COMMAND);
-
-    public async Task ToggleOnOffAsync()
-    {
-        if (_model.MainPower == false)
-        {
-            await WriteCommand(MAIN_POWER_COMMAND, ON);
-        }
-        else
-        {
-            await WriteCommand(MAIN_POWER_COMMAND, OFF);
-        }
-    }
-
-    public async Task ToggleDimmerAsync()
-    {
-        if (_model.MainDimmer == false)
-        {
-            await WriteCommand(MAIN_DIMMER_COMMAND, ON);
-        }
-        else
-        {
-            await WriteCommand(MAIN_DIMMER_COMMAND, OFF);
-        }
-    }
-
-    public async Task SetListeningModeAsync(string value)
-    {
-        await WriteCommand(MAIN_LISTENINGMODE_COMMAND, value);
-    }
-
-    public async Task SetMainDiracAsync(int value)
-    {
-        await WriteCommand(MAIN_DIRAC_COMMAND, (value + 1).ToString());
-    }
+    public async Task DoSurroundPlusAsync() => await WritePlusCommandAsync(MAIN_TRIM_SURROUND_COMMAND);
+    public async Task DoSurroundMinusAsync() => await WriteMinusCommandAsync(MAIN_TRIM_SURROUND_COMMAND);
+    public async Task DoSubPlusAsync() => await WritePlusCommandAsync(MAIN_TRIM_SUB_COMMAND);
+    public async Task DoSubMinusAsync() => await WriteMinusCommandAsync(MAIN_TRIM_SUB_COMMAND);
+    public async Task DoCenterPlusAsync() => await WritePlusCommandAsync(MAIN_TRIM_CENTER_COMMAND);
+    public async Task DoCenterMinusAsync() => await WriteMinusCommandAsync(MAIN_TRIM_CENTER_COMMAND);
+    public async Task ToggleOnOffAsync() => await WriteSetCommandAsync(MAIN_POWER_COMMAND, _model.MainPower ? OFF : ON);
+    public async Task ToggleDimmerAsync() => await WriteSetCommandAsync(MAIN_DIMMER_COMMAND, _model.MainDimmer ? OFF : ON);
+    public async Task SetListeningModeAsync(string value) => await WriteSetCommandAsync(MAIN_LISTENINGMODE_COMMAND, value);
+    public async Task SetMainDiracAsync(int value) => await WriteSetCommandAsync(MAIN_DIRAC_COMMAND, (value + 1).ToString());
 
     private async Task ReConnectAsync()
     {
@@ -165,10 +135,7 @@ public class NadRemote : IDisposable
                 {
                     try
                     {
-                        if (_client == null)
-                        {
-                            await ReConnectAsync();
-                        }
+                        await CheckConnection();
                         var s = await _client.ReadAsync(Timeout);
                         Parse(s);
                         observer.OnNext(_model);
@@ -185,7 +152,7 @@ public class NadRemote : IDisposable
                     }
                 }
 
-                Debug.WriteLine($"Stopped the telnet listener, toke: {cancellationToken.IsCancellationRequested}");
+                Debug.WriteLine($"Stopped the telnet listener, token: {cancellationToken.IsCancellationRequested}");
 
             }, cancellationToken);
         });
@@ -219,7 +186,7 @@ public class NadRemote : IDisposable
                     break;
                 case MAIN_SOURCE_COMMAND:
                     _model.MainSource = parts[1];
-                    SetMainSourceName();
+                    SetModelMainSourceName();
                     break;
                 case MAIN_AUDIO_CODEC_COMMAND:
                     _model.MainAudioCODEC = parts[1];
@@ -277,7 +244,7 @@ public class NadRemote : IDisposable
                     break;
                 case string source when source.StartsWith(SOURCE_PREFIX_COMMAND):
                     ParseSourceName(parts);
-                    SetMainSourceName();
+                    SetModelMainSourceName();
                     break;
                 default:
                     break;
@@ -285,27 +252,21 @@ public class NadRemote : IDisposable
         }
     }
 
-    private async Task WriteCommand(string command, string value)
+    private async Task WriteCommandAync(string command)
     {
         await CheckConnection();
-        await _client.WriteLineAsync($"{command}={value}");
+        await _client.WriteAsync(command);
     }
 
-    private async Task WritePlusCommand(string speaker)
-    {
-        await CheckConnection();
-        await _client.WriteAsync($"{speaker}+{COMMAND_END}");
-    }
+    private async Task WriteSetCommandAsync(string name, string value) => await WriteCommandAync($"{name}={value}{COMMAND_END}");
 
-    private async Task WriteMinusCommand(string speaker)
-    {
-        await CheckConnection();
-        await _client.WriteAsync($"{speaker}-{COMMAND_END}");
-    }
+    private async Task WritePlusCommandAsync(string speaker) => await WriteCommandAync($"{speaker}+{COMMAND_END}");
 
-    private async Task WriteQueryAsync(string command) => await _client.WriteAsync($"{command}?{COMMAND_END}");
+    private async Task WriteMinusCommandAsync(string speaker) => await WriteCommandAync($"{speaker}-{COMMAND_END}");
 
-    private void SetMainSourceName()
+    private async Task WriteQueryCommandAsync(string name) => await WriteCommandAync($"{name}?{COMMAND_END}");
+
+    private void SetModelMainSourceName()
     {
         if (int.TryParse(_model?.MainSource, out var id))
         {

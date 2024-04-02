@@ -61,34 +61,30 @@ public class NadRemote : IDisposable
     public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {
         await CheckConnection();
-        var commands = new List<string>
-        {
-            "Main.Model?",
-            "Main.Source?",
-            "Main.Audio.CODEC?",
-            "Main.Audio.Channels?",
-            "Main.Audio.Rate?",
-            "Main.Video.ARC?",
-            "Main.ListeningMode?",
-            "Dirac1.State?",
-            "Dirac1.Name?",
-            "Dirac2.State?",
-            "Dirac2.Name?",
-            "Dirac3.State?",
-            "Dirac3.Name?",
-            "Main.Dirac?",
-            "Main.Trim.Sub?",
-            "Main.Trim.Surround?",
-            "Main.Trim.Center?",
-            "Main.Dimmer?",
-            "Main.Power?",
-            "Main.Dolby.DRC?"
-        };
+        await _client.WriteLineAsync("Main.Model?");
+        await _client.WriteLineAsync("Main.Source?");
+        await _client.WriteLineAsync("Main.Audio.CODEC?");
+        await _client.WriteLineAsync("Main.Audio.Channels?");
+        await _client.WriteLineAsync("Main.Audio.Rate?");
+        await _client.WriteLineAsync("Main.Video.ARC?");
+        await _client.WriteLineAsync("Main.ListeningMode?");
+        await _client.WriteLineAsync("Dirac1.State?");
+        await _client.WriteLineAsync("Dirac1.Name?");
+        await _client.WriteLineAsync("Dirac2.State?");
+        await _client.WriteLineAsync("Dirac2.Name?");
+        await _client.WriteLineAsync("Dirac3.State?");
+        await _client.WriteLineAsync("Dirac3.Name?");
+        await _client.WriteLineAsync("Main.Dirac?");
+        await _client.WriteLineAsync("Main.Trim.Sub?");
+        await _client.WriteLineAsync("Main.Trim.Surround?");
+        await _client.WriteLineAsync("Main.Trim.Center?");
+        await _client.WriteLineAsync("Main.Dimmer?");
+        await _client.WriteLineAsync("Main.Power?");
+        await _client.WriteLineAsync("Main.Dolby.DRC?");
         for (int i = 0; i < _sources.Length; i++) 
         {
-            commands.Add($"Source{i + 1}.Name?");
+            await _client.WriteLineAsync($"Source{i + 1}.Name?");
         }
-        await _client.WriteAsync(string.Join('\n', commands));
         Parse(await _client.ReadAsync());
         resultHandler.Invoke(_model);
     }

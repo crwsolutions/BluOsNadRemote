@@ -61,34 +61,30 @@ public class NadRemote : IDisposable
     public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {
         await CheckConnection();
-        var commands = new List<string>
-        {
-            "Main.Model?",
-            "Main.Source?",
-            "Main.Audio.CODEC?",
-            "Main.Audio.Channels?",
-            "Main.Audio.Rate?",
-            "Main.Video.ARC?",
-            "Main.ListeningMode?",
-            "Dirac1.State?",
-            "Dirac1.Name?",
-            "Dirac2.State?",
-            "Dirac2.Name?",
-            "Dirac3.State?",
-            "Dirac3.Name?",
-            "Main.Dirac?",
-            "Main.Trim.Sub?",
-            "Main.Trim.Surround?",
-            "Main.Trim.Center?",
-            "Main.Dimmer?",
-            "Main.Power?",
-            "Main.Dolby.DRC?"
-        };
+        await _client.WriteLineAsync("Main.Model?");
+        await _client.WriteLineAsync("Main.Source?");
+        await _client.WriteLineAsync("Main.Audio.CODEC?");
+        await _client.WriteLineAsync("Main.Audio.Channels?");
+        await _client.WriteLineAsync("Main.Audio.Rate?");
+        await _client.WriteLineAsync("Main.Video.ARC?");
+        await _client.WriteLineAsync("Main.ListeningMode?");
+        await _client.WriteLineAsync("Dirac1.State?");
+        await _client.WriteLineAsync("Dirac1.Name?");
+        await _client.WriteLineAsync("Dirac2.State?");
+        await _client.WriteLineAsync("Dirac2.Name?");
+        await _client.WriteLineAsync("Dirac3.State?");
+        await _client.WriteLineAsync("Dirac3.Name?");
+        await _client.WriteLineAsync("Main.Dirac?");
+        await _client.WriteLineAsync("Main.Trim.Sub?");
+        await _client.WriteLineAsync("Main.Trim.Surround?");
+        await _client.WriteLineAsync("Main.Trim.Center?");
+        await _client.WriteLineAsync("Main.Dimmer?");
+        await _client.WriteLineAsync("Main.Power?");
+        await _client.WriteLineAsync("Main.Dolby.DRC?");
         for (int i = 0; i < _sources.Length; i++) 
         {
-            commands.Add($"Source{i + 1}.Name?");
+            await _client.WriteLineAsync($"Source{i + 1}.Name?");
         }
-        await _client.WriteAsync(string.Join('\n', commands));
         Parse(await _client.ReadAsync());
         resultHandler.Invoke(_model);
     }
@@ -216,6 +212,7 @@ public class NadRemote : IDisposable
                     break;
                 case "Main.Source":
                     _model.MainSource = parts[1];
+                    SetMainSourceName();
                     break;
                 case "Main.Audio.CODEC":
                     _model.MainAudioCODEC = parts[1];
@@ -271,13 +268,25 @@ public class NadRemote : IDisposable
                 case "Main.Dolby.DRC":
                     _model.MainDolbyDRC = parts[1];
                     break;
-                default:
-                    if (parts[0] == $"Source{_model.MainSource}.Name")
-                    {
-                        _model.MainSourceName = parts[1];
-                    }
+                case string source when source.StartsWith("Source"):
                     ParseSourceName(parts);
+                    SetMainSourceName();
                     break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void SetMainSourceName()
+    {
+        if (int.TryParse(_model?.MainSource, out var id))
+        { 
+            var name = _sources[id-1];
+            if (name != null)
+            {
+                Debug.WriteLine($"Setting MainSourceName to '{name}'");
+                _model.MainSourceName = name;
             }
         }
     }

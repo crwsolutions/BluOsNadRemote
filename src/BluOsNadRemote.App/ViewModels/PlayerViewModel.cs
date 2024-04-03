@@ -125,20 +125,16 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(ShuffleModeColor))]
     private ShuffleMode _shuffleMode;
 
-    public Color ShuffleModeColor =>
-                ShuffleMode == ShuffleMode.ShuffleOff
-                ? Colors.Gray
-                : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.Black : Colors.White;
+    public Color ShuffleModeColor => GetOnOffColor(ShuffleMode == ShuffleMode.ShuffleOff);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(RepeatModeColor))]
     [NotifyPropertyChangedFor(nameof(RepeatModeSymbol))]
     private RepeatMode _repeatMode = RepeatMode.RepeatOff;
 
-    public Color RepeatModeColor =>
-                RepeatMode == RepeatMode.RepeatOff
-                ? Colors.Gray
-                : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.Black : Colors.White;
+    public Color RepeatModeColor => GetOnOffColor(RepeatMode == RepeatMode.RepeatOff);
+
+    private static Color GetOnOffColor(bool isOff) => isOff ? Colors.Gray : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.White : Colors.Black;
 
     public string RepeatModeSymbol => RepeatMode == RepeatMode.RepeatOne ? "s" : "d";
 

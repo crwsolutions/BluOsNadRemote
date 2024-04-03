@@ -62,6 +62,8 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(State))]
     private PlayerState _playerState;
 
+    partial void OnPlayerStateChanged(PlayerState value) => SetControls();
+
     [ObservableProperty]
     private string _streamFormat;
 
@@ -125,20 +127,16 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(ShuffleModeColor))]
     private ShuffleMode _shuffleMode;
 
-    public Color ShuffleModeColor =>
-                ShuffleMode == ShuffleMode.ShuffleOff
-                ? Colors.Gray
-                : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.Black : Colors.White;
+    public Color ShuffleModeColor => GetOnOffColor(ShuffleMode == ShuffleMode.ShuffleOff);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(RepeatModeColor))]
     [NotifyPropertyChangedFor(nameof(RepeatModeSymbol))]
     private RepeatMode _repeatMode = RepeatMode.RepeatOff;
 
-    public Color RepeatModeColor =>
-                RepeatMode == RepeatMode.RepeatOff
-                ? Colors.Gray
-                : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.Black : Colors.White;
+    public Color RepeatModeColor => GetOnOffColor(RepeatMode == RepeatMode.RepeatOff);
+
+    private static Color GetOnOffColor(bool isOff) => isOff ? Colors.Gray : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.White : Colors.Black;
 
     public string RepeatModeSymbol => RepeatMode == RepeatMode.RepeatOne ? "s" : "d";
 
@@ -272,36 +270,51 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         ServiceIconUri = media.ServiceIconUri;
         Quality = media.Quality;
         StreamFormat = media.StreamFormat;
-
-        SetControls(media);
+        SetActions(media.Actions);
+        PlayerState = media.PlayerState;
     }
 
-    private void SetControls(PlayerMedia media)
+    private void SetActions(IReadOnlyList<StreamingRadioAction> actions)
     {
         _backAction = null;
         _skipAction = null;
 
-        if (media.PlayerState == PlayerState.Streaming)
+        if (actions == null)
+        {
+            return;
+        }
+
+        foreach (var action in actions)
+        {
+            if (action.Action == PlayerAction.Back && action.Url != null)
+            {
+                _backAction = action.Url;
+            }
+            if (action.Action == PlayerAction.Skip && action.Url != null)
+            {
+                _skipAction = action.Url;
+            }
+        }
+    }
+
+    private void SetControls()
+    {
+        if (PlayerState == PlayerState.Streaming)
         {
             var backButtonVisibility = false;
             var skipButtonVisibility = false;
-            foreach (var action in media.Actions)
+            if (_backAction != null)
             {
-                if (action.Action == PlayerAction.Back && action.Url != null)
-                {
-                    _backAction = action.Url;
-                    backButtonVisibility = true;
-                }
-                if (action.Action == PlayerAction.Skip && action.Url != null)
-                {
-                    _skipAction = action.Url;
-                    skipButtonVisibility = true;
-                }
+                backButtonVisibility = true;
+            }
+            if (_skipAction != null)
+            {
+                skipButtonVisibility = true;
             }
             IsBackVisible = backButtonVisibility;
             IsSkipVisible = skipButtonVisibility;
         }
-        else if (media.PlayerState == PlayerState.Playing)
+        else if (PlayerState == PlayerState.Playing)
         {
             IsBackVisible = true;
             IsSkipVisible = true;
@@ -348,13 +361,13 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private async Task VolumeDownAsync() => await SetAndClampVolumeAsync(Volume - 2);
 
     [RelayCommand]
-    private async Task StopAsync() => await _bluPlayerService.BluPlayer?.Stop();
+    private async Task StopAsync() => PlayerState = await _bluPlayerService.BluPlayer?.Stop();
 
     [RelayCommand]
-    private async Task PlayAsync() => await _bluPlayerService.BluPlayer?.Play();
+    private async Task PlayAsync() => PlayerState = await _bluPlayerService.BluPlayer?.Play();
 
     [RelayCommand]
-    private async Task PauseAsync() => await _bluPlayerService.BluPlayer?.Pause();
+    private async Task PauseAsync() => PlayerState = await _bluPlayerService.BluPlayer?.Pause();
 
     [RelayCommand]
     private async Task SkipAsync()

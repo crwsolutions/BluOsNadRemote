@@ -502,6 +502,16 @@
         <Setter Property="HorizontalOptions" Value="Center" />
     </Style>
 
+    <Style x:Key="GlyphButton" TargetType="Button">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="CrwMedia"/>
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray900}}" />
+        <Setter Property="FontSize" Value="42"/>
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+
     <!--   Containers    -->
     <Style x:Key="DisplayContainer" TargetType="Border">
         <Setter Property="StrokeShape" Value="RoundRectangle 6"/>

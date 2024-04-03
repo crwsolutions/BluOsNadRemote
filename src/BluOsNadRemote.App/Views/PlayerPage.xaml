@@ -19,7 +19,7 @@
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <Grid Style="{StaticResource Body}">
             <ScrollView>
-                <Grid ColumnDefinitions="66,*" RowDefinitions="Auto, Auto, Auto, Auto, *">
+                <Grid ColumnDefinitions="58,*" RowDefinitions="Auto, Auto, Auto, Auto, *" ColumnSpacing="8">
 
                     <!-- service / song title  -->
                     <Image Source="{Binding ServiceIconUri, Mode=OneWay}" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="32" HeightRequest="32" />
@@ -29,8 +29,8 @@
                     </VerticalStackLayout>
 
                     <!-- More... -->
-                    <Button Grid.Row="1" Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" IsVisible="{Binding HasMoreMenu}"
-                            FontFamily="CrwMedia" Text="h" FontSize="42" VerticalOptions="Start" HorizontalOptions="Center" BackgroundColor="Transparent" />
+                    <Button Grid.Row="1" Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" IsVisible="{Binding HasMoreMenu}" Style="{StaticResource GlyphButton}"
+                            Text="h" VerticalOptions="Start" />
 
                     <!-- repeat/ shuffle  -->
                     <StackLayout Grid.Row="1" VerticalOptions="End" HorizontalOptions="Center" >

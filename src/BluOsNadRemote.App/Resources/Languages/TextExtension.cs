@@ -6,17 +6,11 @@ public sealed class TextExtension : IMarkupExtension<BindingBase>
     public string Name { get; set; }
 
     public BindingBase ProvideValue(IServiceProvider serviceProvider)
-    {
-        return new Binding
-        {
+        =>  new Binding { 
             Mode = BindingMode.OneWay,
             Path = $"[{Name}]",
-            Source = TextBinding.Source
+            Source = TextsViewModel.Instance
         };
-    }
 
-    object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-    {
-        return ProvideValue(serviceProvider);
-    }
+    object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }

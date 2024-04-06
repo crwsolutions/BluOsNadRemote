@@ -35,7 +35,7 @@ public sealed partial class BluPlayerService
         try
         {
             var uri = _endpointRepository.SelectedEndpoint.Uri;
-            BluPlayer = await BluPlayer.Connect(uri, _languageService.CurrentLanguage);
+            BluPlayer = await BluPlayer.Connect(uri, AppResources.Culture);
             Debug.WriteLine($"Player: {BluPlayer}");
         }
         catch (Exception exception)

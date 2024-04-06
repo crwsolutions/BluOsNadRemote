@@ -19,32 +19,24 @@ public sealed partial class LanguageService
     public const string EN_US = "en-US";
     public const string NL_NL = "nl-NL";
 
-    public void Initialize() => SetCultureAndNotifySubscribers(CurrentLanguageOverride);
+    public void Initialize() => SetCurrentCulture(LanguageOverrideName);
 
     public IObservable<CultureInfo> LanguageObservable() => _languageSubject.AsObservable();
 
     public void SetCulture(string name)
     {
-        if (string.IsNullOrEmpty(name))
-        {
-            _cultureRepository.ClearCultureOverride();
-        }
-        else
-        {
-            _cultureRepository.SetCultureOverride(name);
-        }
-
+        _cultureRepository.StoreCultureOverride(name);
         SetCultureAndNotifySubscribers(name);
     }
 
-    internal CultureInfo CurrentLanguage => _languageSubject.Value;
-
-    internal string CurrentLanguageOverride => _cultureRepository.GetCultureOverride();
+    internal string LanguageOverrideName => _cultureRepository.GetCultureOverride();
 
     private void SetCultureAndNotifySubscribers(string name)
     {
-        var cultureInfo = string.IsNullOrEmpty(name) ? _deviceCulture : new CultureInfo(name);
-        AppResources.Culture = cultureInfo;
-        _languageSubject.OnNext(cultureInfo);
+        SetCurrentCulture(name);
+        _languageSubject.OnNext(AppResources.Culture);
     }
+
+    private void SetCurrentCulture(string name) 
+        => AppResources.Culture = string.IsNullOrEmpty(name) ? _deviceCulture : new CultureInfo(name);
 }

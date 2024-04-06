@@ -9,7 +9,15 @@ public sealed partial class CultureOverrideRepository
 
     internal string GetCultureOverride() => _preferences.Get<string>(CULTURE_ID, null);
 
-    internal void SetCultureOverride(string culture) => _preferences.Set(CULTURE_ID, culture);
-
-    internal void ClearCultureOverride() => _preferences.Remove(CULTURE_ID);
+    internal void StoreCultureOverride(string name)
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            _preferences.Remove(CULTURE_ID);
+        }
+        else
+        {
+            _preferences.Set(CULTURE_ID, name);
+        }
+    }
 }

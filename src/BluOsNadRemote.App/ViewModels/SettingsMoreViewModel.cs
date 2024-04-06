@@ -18,7 +18,7 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
 
     private void SetLanguageChecks()
     {
-        switch (_languageService.CurrentLanguageOverride)
+        switch (_languageService.LanguageOverrideName)
         {
             case LanguageService.EN_US:
                 EnIsChecked = true;

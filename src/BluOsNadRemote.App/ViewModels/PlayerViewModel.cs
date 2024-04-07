@@ -469,19 +469,11 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         {
             switch (actionEntry.Key)
             {
-                case MenuAction.TrackStation:
-                    await Shell.Current.GoToAsync("..");
-                    break;
-                case MenuAction.SimilarStation:
-                    await Shell.Current.GoToAsync("..");
-                    break;
                 case MenuAction.GoToAlbum:
                     await Shell.Current.GoToAsync($"//browse?{nameof(Service)}={Service}&{nameof(AlbumID)}={AlbumID}");
                     break;
                 case MenuAction.GoToArtist:
                     await Shell.Current.GoToAsync($"//browse?{nameof(Service)}={Service}&{nameof(ArtistID)}={ArtistID}");
-                    break;
-                case MenuAction.AddToFavorites:
                     break;
                 default:
                     break;

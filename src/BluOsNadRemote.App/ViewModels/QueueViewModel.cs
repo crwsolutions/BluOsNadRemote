@@ -1,4 +1,5 @@
 ﻿using Blu4Net;
+using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
 
@@ -13,16 +14,6 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
     private bool _isGettingMore = false;
     private const int _numberOfItemsPerPage = 25;
     private IAsyncEnumerator<IReadOnlyCollection<PlayQueueSong>> _iterator;
-
-    enum MenuAction
-    {
-        TrackStation,
-        SimilarStation,
-        GoToAlbum,
-        GoToArtist,
-        AddToFavorites,
-        RemoveFromList
-    }
 
     public ObservableCollection<PlayQueueSong> Songs { get; } = [];
 

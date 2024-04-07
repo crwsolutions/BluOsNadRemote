@@ -1,4 +1,5 @@
 ﻿using BluOsNadRemote.App.Models;
+using BluOsNadRemote.App.Repositories;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;

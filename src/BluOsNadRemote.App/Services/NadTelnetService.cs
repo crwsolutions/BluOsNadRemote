@@ -1,4 +1,5 @@
 ﻿using BluOsNadRemote.App.Models;
+using BluOsNadRemote.App.Repositories;
 using Nad4Net;
 
 namespace BluOsNadRemote.App.Services;

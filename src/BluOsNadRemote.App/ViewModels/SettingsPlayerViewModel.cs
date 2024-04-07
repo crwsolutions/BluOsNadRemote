@@ -1,6 +1,6 @@
 ﻿using Blu4Net;
 using BluOsNadRemote.App.Models;
-using BluOsNadRemote.App.Services;
+using BluOsNadRemote.App.Repositories;
 using Nad4Net;
 
 namespace BluOsNadRemote.App.ViewModels;

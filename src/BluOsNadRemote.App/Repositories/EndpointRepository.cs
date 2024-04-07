@@ -1,6 +1,6 @@
 ﻿using BluOsNadRemote.App.Models;
 
-namespace BluOsNadRemote.App.Services;
+namespace BluOsNadRemote.App.Repositories;
 
 public sealed partial class EndpointRepository
 {

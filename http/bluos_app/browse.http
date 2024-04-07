@@ -129,7 +129,7 @@ x-sovi-schema-version: 34
 x-sovi-ui-schema-version: 1
 x-sovi-ui-autofill: 1
 
-###GET CONTEXT MENU VIA BROWSE
+###GET CONTEXT MENU ALBUM VIA BROWSE
 GET {{base_url}}/Browse?key=Tidal%3acontextMenu%2fAlbum%3falbumid%3d330930029%26isFavourite%3d1%26browseIsFavouritesContext%3d1
 Accept-Language: nl-NL
 User-Agent: Bluesound/4.0.3
@@ -139,6 +139,9 @@ x-sovi-ui-autofill: 1
 
 ###GET SONG INFO VIA BROWSE
 GET {{base_url}}/Browse?key=%2FSongs%3Fservice%3DTidal%26songid%3D353990799
+
+###GET CONTEXT MENU SONG VIA BROWSE
+GET {{base_url}}/Browse?key=Tidal%3AcontextMenu%2FSong%3Ffilename%3DTidal%253A353990799%26amp%3Bsongid%3DTidal%253A353990799%26amp%3Btrackstationid%3DTidal%253Aradio%253Atrack%252F353990799
 
 ###GET SONG INFO
 GET {{base_url}}/Songs?service=Tidal&songid=139297747

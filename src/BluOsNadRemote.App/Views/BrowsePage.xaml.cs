@@ -13,4 +13,17 @@ public partial class BrowsePage : BaseContentPage
         await Task.Yield(); //https://github.com/xamarin/Xamarin.Forms/issues/11549
         base.OnAppearing();
     }
+
+    //Handle device backbutton
+    protected override bool OnBackButtonPressed()
+    {
+        if (ViewModel.HasParent && ViewModel.GoBackCommand.CanExecute(null))
+        {
+            ViewModel.GoBackCommand.Execute(null);
+
+            return true;
+        }
+
+        return base.OnBackButtonPressed();
+    }
 }

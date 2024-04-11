@@ -1,0 +1,5 @@
+@base_url=http://192.168.107.241:11000
+
+###GET PRESETS
+GET {{base_url}}/Presets
+Accept-Language: nl-NL

@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "http", "http", "{D2D68F86-55A0-40D6-9067-646EF7BCABBF}"
 	ProjectSection(SolutionItems) = preProject
 		..\http\bluos_app\browse.http = ..\http\bluos_app\browse.http
+		..\http\bluos_app\presets.http = ..\http\bluos_app\presets.http
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroConfTemp", "ZeroconfTemp\ZeroConfTemp.csproj", "{DBF6D8AB-5772-48EE-ADC0-0D8FDF644859}"

@@ -105,6 +105,11 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             HasParent = _bluPlayerService.MusicContentNode.Parent != null;
             IsSearchable = _bluPlayerService.MusicContentNode.IsSearchable;
 
+            if (IsSearching)
+            {
+                IsSearching = IsSearchable;
+            }
+
             Dispose();
             
             var incomingList = new List<MusicContentCategoryViewModel>();

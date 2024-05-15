@@ -17,7 +17,7 @@ public class NadRemote : IDisposable
     private readonly string[] _sources = new string[10];
     private Client _client;
     private readonly string _host;
-    private const int Port = 23;
+    private const int PORT = 23;
 
     private const string ON = "On";
     private const string OFF = "Off";
@@ -119,7 +119,7 @@ public class NadRemote : IDisposable
 
         Dispose();
         _tokenSource = new CancellationTokenSource();
-        _client = new Client(_host, Port, _tokenSource.Token);
+        _client = new Client(new TcpByteStream(_host, PORT), _tokenSource.Token);
         Parse(await _client.ReadAsync());
     }
     private IObservable<CommandList> SetupChangeDetectionLoop()

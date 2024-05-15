@@ -54,7 +54,7 @@
 	<ItemGroup>
 	  <PackageReference Include="Blu4Net" Version="1.0.8" />
 	  <PackageReference Include="CommunityToolkit.MVVM" Version="8.2.2" />
-	  <PackageReference Include="SourceDepend" Version="0.3.0" />
+	  <PackageReference Include="SourceDepend" Version="0.4.0" />
 	</ItemGroup>
 
 	<ItemGroup>

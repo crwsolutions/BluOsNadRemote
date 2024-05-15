@@ -9,7 +9,7 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<NeutralLanguage>en-US</NeutralLanguage>
-		<MauiVersion>8.0.20</MauiVersion>
+		<MauiVersion>8.0.40</MauiVersion>
 		
 		<!-- Display name -->
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>

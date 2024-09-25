@@ -9,7 +9,10 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<NeutralLanguage>en-US</NeutralLanguage>
-		<MauiVersion>8.0.82</MauiVersion>
+		<MauiVersion>8.0.90</MauiVersion>
+		
+		<!-- Added the following line to fix problem MVVMTKCFG0003 -->
+		<WindowsSdkPackageVersion>10.0.22621.41</WindowsSdkPackageVersion>
 		
 		<!-- Display name -->
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
@@ -25,8 +28,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">33.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</TargetPlatformMinVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -53,7 +56,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Blu4Net" Version="1.0.8" />
-	  <PackageReference Include="CommunityToolkit.MVVM" Version="8.2.2" />
+	  <PackageReference Include="CommunityToolkit.MVVM" Version="8.3.2" />
 	  <PackageReference Include="SourceDepend" Version="1.0.0" />
 	</ItemGroup>
 

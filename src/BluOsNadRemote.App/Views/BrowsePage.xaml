@@ -70,7 +70,7 @@
             </Grid>
             <!-- browse -->
             <Grid Grid.Row="1" Style="{StaticResource Body}" RowDefinitions="Auto,*">
-                <CollectionView Grid.Row="1" ItemsSource="{Binding Categories, Mode=OneWay}"
+                <CollectionView Grid.Row="1" ItemsSource="{Binding Categories, Mode=OneWay}" IsVisible="{Binding CollectionIsVisible}"
 								SelectionMode="None" IsGrouped="True" 
 								ItemTemplate="{StaticResource MultilineSelector}" 
 								RemainingItemsThreshold="5" 

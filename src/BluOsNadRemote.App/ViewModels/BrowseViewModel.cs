@@ -42,6 +42,9 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(CanSearch))]
     private bool _isSearchable = false;
 
+    [ObservableProperty]
+    private bool _collectionIsVisible = true;
+
     public bool CanGoHome => !IsSearching && HasParent;
     public bool CanSearch => IsSearchable && !IsSearching;
 
@@ -131,7 +134,17 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             Categories.Clear();
             Debug.WriteLine($"**** Cleared...");
 #endif
+
+#if WINDOWS //#HACK: https://github.com/dotnet/maui/issues/18481
+            CollectionIsVisible = false;
+#endif
+
             Categories.Fuse(incomingList);
+
+#if WINDOWS //#HACK: https://github.com/dotnet/maui/issues/18481
+            CollectionIsVisible = true;
+#endif
+
 
             Title = _bluPlayerService.MusicContentNode?.ServiceName ?? AppResources.AvailableServices;
             ServiceIconUri = _bluPlayerService.MusicContentNode?.ServiceIconUri;

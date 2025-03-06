@@ -51,7 +51,7 @@
         <DataTemplate x:Key="MultilineTemplate" x:DataType="vm:MusicContentEntryViewModel">
             <contentViews:MultilineMusicContentEntry />
         </DataTemplate>
-        <controls:ItemsListViewMultilineTemplateSelector x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
+        <controls:ItemsListViewMultilineTemplateSelector x:DataType="vm:MusicContentEntryViewModel" x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
     </ContentPage.Resources>
 
     <RefreshView Command="{Binding LoadDataCommand, Mode=OneTime}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
@@ -71,7 +71,7 @@
             <!-- browse -->
             <Grid Grid.Row="1" Style="{StaticResource Body}" RowDefinitions="Auto,*">
                 <CollectionView Grid.Row="1" ItemsSource="{Binding Categories, Mode=OneWay}" IsVisible="{Binding CollectionIsVisible}"
-								SelectionMode="None" IsGrouped="True" 
+								SelectionMode="None" IsGrouped="True"
 								ItemTemplate="{StaticResource MultilineSelector}" 
 								RemainingItemsThreshold="5" 
 								RemainingItemsThresholdReachedCommand="{Binding GetMoreItemsCommand, Mode=OneTime}">

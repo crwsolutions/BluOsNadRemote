@@ -8,7 +8,7 @@
 
         <!-- Thumbnail -->
         <Image IsVisible="{Binding HasImage, Mode=OneTime}" Source="{Binding Entry.ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}" />
-        <Button IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime}" CommandParameter="{Binding Entry, Mode=OneTime}" Text="x"  Style="{DynamicResource ListItemGlyphOverlayButtonStyle}" />
+        <Button IsVisible="{Binding IsPlayableAndResolvable, Mode=OneTime}" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PlayCommand, Mode=OneTime, x:DataType='vm:BrowseViewModel'}" CommandParameter="{Binding Entry, Mode=OneTime}" Text="x"  Style="{DynamicResource ListItemGlyphOverlayButtonStyle}" />
 
         <!-- Text -->
         <Label Grid.Column="1" Text="{Binding Entry.Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" />
@@ -18,7 +18,7 @@
                 Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" 
                 Style="{DynamicResource ListItemActionSheetButtonStyle}" />
         <Grid.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}"/>
+            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime, x:DataType='vm:BrowseViewModel'}" CommandParameter="{Binding ., Mode=OneTime}" />
         </Grid.GestureRecognizers>
     </Grid>
 </ContentView>

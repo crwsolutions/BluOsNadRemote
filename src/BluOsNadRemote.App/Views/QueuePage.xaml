@@ -7,7 +7,7 @@
              x:Class="BluOsNadRemote.App.Views.QueuePage"
              x:DataType="vm:QueueViewModel"
              Title="{Binding Title}">
-    <RefreshView Command="{Binding LoadDataCommand}" IsEnabled="False"
+    <RefreshView Command="{Binding LoadDataCommand}" IsEnabled="True"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <Grid Style="{StaticResource Body}">
             <CollectionView x:Name="ItemsListView" ItemsSource="{Binding Songs}"
@@ -25,7 +25,7 @@
 
                             <!-- More... -->
                             <Button Grid.Column="1" Text="h" 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:QueueViewModel}}, Path=DisplayActionSheetCommand, Mode=OneTime, x:DataType='vm:QueueViewModel'}" CommandParameter="{Binding ., Mode=OneTime}"
                                     Style="{DynamicResource ListItemActionSheetButtonStyle}"/>
                         </Grid>
                     </DataTemplate>

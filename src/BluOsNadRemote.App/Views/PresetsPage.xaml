@@ -22,7 +22,7 @@
                             <!-- Text -->
                             <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" />
                             <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PresetsViewModel}}, Path=PresetTappedCommand, Mode=OneTime}" CommandParameter="{Binding ., Mode=OneTime}" />
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PresetsViewModel}}, Path=PresetTappedCommand, Mode=OneTime, x:DataType='vm:PresetsViewModel'}" CommandParameter="{Binding ., Mode=OneTime}" />
                             </Grid.GestureRecognizers>
                         </Grid>
                     </DataTemplate>

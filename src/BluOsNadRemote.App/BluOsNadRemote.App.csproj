@@ -10,8 +10,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Nullable>enable</Nullable>
-		<MauiStrictXamlCompilation>false</MauiStrictXamlCompilation>
-		<MauiEnableXamlCBindingWithSourceCompilation>false</MauiEnableXamlCBindingWithSourceCompilation>
+		<MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>
+		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
 
 		<!-- For: MVVMTK0041 -->
 		<LangVersion>preview</LangVersion>

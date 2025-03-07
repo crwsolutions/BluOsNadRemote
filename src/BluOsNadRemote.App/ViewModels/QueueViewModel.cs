@@ -26,7 +26,7 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
     partial void OnSelectedItemChanged(PlayQueueSong value)
     {
         Debug.WriteLine("Selected:" + value);
-        if (value != null && !IsBusy)
+        if (value != null && !IsBusy && CurrentSong != value.ID)
         {
             var t = _bluPlayerService.BluPlayer.Play(value.ID);
             var x = t.Result;

@@ -20,8 +20,22 @@
 				BackgroundColor="Transparent"
 				IsVisible="{Binding HasParent, Mode=OneWay}"
 				Command="{Binding GoBackCommand, Mode=OneTime}" />
-            <Image Grid.Column="1" Margin="10" Source="{Binding ServiceIconUri, Mode=OneWay}" IsVisible="{Binding HasParent, Mode=OneWay}" />
-            <Label Grid.Column="2" TextColor="White" FontSize="Large" Text="{Binding Title, Mode=OneWay}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" />
+            <Image Grid.Column="1" Margin="10" Source="{Binding ServiceIconUri, Mode=OneWay}" 
+       IsVisible="{Binding HasParent, Mode=OneWay}">
+                <Image.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="WinUI" Value="44" />
+                    </OnPlatform>
+                </Image.HeightRequest>
+            </Image>
+            <Label Grid.Column="2" TextColor="White" FontSize="Large" Text="{Binding Title, Mode=OneWay}" 
+       HorizontalTextAlignment="Start" VerticalTextAlignment="Center">
+                <Label.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="WinUI" Value="44" />
+                    </OnPlatform>
+                </Label.HeightRequest>
+            </Label>
             <Button Grid.Column="3"
 				WidthRequest="44" Padding="0"
 				FontFamily="CrwMedia" Text="e" FontSize="42" TextColor="White"
@@ -58,10 +72,9 @@
         <Grid RowDefinitions="auto,*">
             <!-- search -->
             <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding IsSearching, Mode=OneWay}" BackgroundColor="Black" Padding="8">
-                <SearchBar x:Name="searchBar"
-                           TextColor="White"
-						   SearchCommand="{Binding SearchCommand, Mode=OneTime}"
-						   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+                <SearchBar TextColor="White"
+                           Text="{Binding SearchParameter}"
+						   SearchCommand="{Binding SearchCommand, Mode=OneTime}" />
                 <Button Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center"
 						FontFamily="CrwMedia" Text="l"
 						FontSize="28" TextColor="White"

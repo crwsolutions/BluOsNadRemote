@@ -27,6 +27,9 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     private string _title;
 
     [ObservableProperty]
+    private string _searchParameter;
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanGoHome))]
     private bool _hasParent = false;
 
@@ -56,7 +59,6 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task LoadDataAsync()
     {
-
         try
         {
             Title = AppResources.Loading;
@@ -167,9 +169,9 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [RelayCommand]
-    private void Search(string searchTerm)
+    private void Search()
     {
-        _searchTerm = searchTerm;
+        _searchTerm = SearchParameter;
         IsBusy = true;
     }
 

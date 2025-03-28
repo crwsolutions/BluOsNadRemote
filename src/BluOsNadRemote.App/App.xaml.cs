@@ -27,13 +27,10 @@ public partial class App : Application
         InitializeComponent();
         _languageService.Initialize();
         _themeService.Initialize();
-        MainPage = new AppShell();
     }
 
-    protected override void OnStart()
-    {
-
-    }
+    protected override Window CreateWindow(IActivationState? activationState) =>
+        new(new AppShell());
 
     protected override void OnSleep()
     {

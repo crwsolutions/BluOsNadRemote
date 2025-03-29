@@ -4,6 +4,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
              xmlns:model="clr-namespace:BluOsNadRemote.App.Models"
+             xmlns:cv="clr-namespace:BluOsNadRemote.App.ContentViews"
 			 x:Class="BluOsNadRemote.App.Views.PresetsPage"
 			 x:DataType="vm:PresetsViewModel"
              Title="{Binding Title}">
@@ -14,17 +15,16 @@
             <CollectionView ItemsSource="{Binding Presets, Mode=OneWay}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="Auto,*" x:DataType="model:Favorite" Style="{StaticResource ListItemContainer}">
+                        <cv:MaterialButton Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PresetsViewModel}}, Path=PresetTappedCommand, Mode=OneTime, x:DataType='vm:PresetsViewModel'}" CommandParameter="{Binding ., Mode=OneTime, x:DataType='model:Favorite'}">
+                            <Grid ColumnDefinitions="Auto,*" x:DataType="model:Favorite" Style="{StaticResource ListItemContainer}">
 
-                            <!-- Thumbnail -->
-                            <Image Source="{Binding ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}" />
+                                <!-- Thumbnail -->
+                                <Image Source="{Binding ImageUri, Mode=OneTime}" Style="{DynamicResource ListItemImageStyle}" />
 
-                            <!-- Text -->
-                            <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" />
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PresetsViewModel}}, Path=PresetTappedCommand, Mode=OneTime, x:DataType='vm:PresetsViewModel'}" CommandParameter="{Binding ., Mode=OneTime}" />
-                            </Grid.GestureRecognizers>
-                        </Grid>
+                                <!-- Text -->
+                                <Label Grid.Column="1"  Text="{Binding Name, Mode=OneTime}" Style="{DynamicResource ListItemTextStyle}" />
+                            </Grid>
+                        </cv:MaterialButton>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

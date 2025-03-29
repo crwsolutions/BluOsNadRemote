@@ -4,7 +4,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:vm="clr-namespace:BluOsNadRemote.App.ViewModels"
 			 xmlns:controls="clr-namespace:BluOsNadRemote.App.Controls"
-			 xmlns:contentViews="clr-namespace:BluOsNadRemote.App.ContentViews"
+			 xmlns:cv="clr-namespace:BluOsNadRemote.App.ContentViews"
 			 x:Class="BluOsNadRemote.App.Views.BrowsePage"
 			 x:DataType="vm:BrowseViewModel"
 			 NavigationPage.HasNavigationBar="False"
@@ -47,11 +47,15 @@
 
     <ContentPage.Resources>
         <DataTemplate x:Key="SinglelineTemplate" x:DataType="vm:MusicContentEntryViewModel">
-            <contentViews:SinglelineMusicContentEntry />
+            <cv:MaterialButton Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime, x:DataType='vm:BrowseViewModel'}" CommandParameter="{Binding ., Mode=OneTime, x:DataType='vm:MusicContentEntryViewModel'}">
+                <cv:SinglelineMusicContentEntry />
+            </cv:MaterialButton>
         </DataTemplate>
 
         <DataTemplate x:Key="MultilineTemplate" x:DataType="vm:MusicContentEntryViewModel">
-            <contentViews:MultilineMusicContentEntry />
+            <cv:MaterialButton Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime, x:DataType='vm:BrowseViewModel'}" CommandParameter="{Binding ., Mode=OneTime, x:DataType='vm:MusicContentEntryViewModel'}">
+                <cv:MultilineMusicContentEntry />
+            </cv:MaterialButton>
         </DataTemplate>
         <controls:ItemsListViewMultilineTemplateSelector x:DataType="vm:MusicContentEntryViewModel" x:Key="MultilineSelector" Singleline="{StaticResource SinglelineTemplate}" Multiline="{StaticResource MultilineTemplate}" />
     </ContentPage.Resources>

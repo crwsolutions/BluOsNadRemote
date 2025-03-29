@@ -20,9 +20,5 @@
         <Button Grid.Column="2" Text="h" IsVisible="{Binding HasContextMenu, Mode=OneTime}"
                 Command="{Binding DisplayActionSheetCommand, Mode=OneTime}"
                 Style="{DynamicResource ListItemActionSheetButtonStyle}" />
-        
-        <Grid.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BrowseViewModel}}, Path=PresetTappedCommand, Mode=OneTime, x:DataType='vm:BrowseViewModel'}" CommandParameter="{Binding ., Mode=OneTime}" />
-        </Grid.GestureRecognizers>
     </Grid>
 </ContentView>

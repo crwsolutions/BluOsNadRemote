@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 
-namespace BluOsNadRemote.App.Views;
-internal static class ViewsExtensions
+namespace BluOsNadRemote.App;
+internal static class AppConfigurationExtensions
 {
     internal static MauiAppBuilder ConfigurePages(this MauiAppBuilder builder)
     {

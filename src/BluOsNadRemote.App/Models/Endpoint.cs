@@ -18,7 +18,7 @@ public sealed class EndPoint
 
     public string LastKnowName { get; set; }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is EndPoint endPoint)
         {

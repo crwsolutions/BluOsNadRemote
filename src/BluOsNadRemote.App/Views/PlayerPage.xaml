@@ -40,29 +40,18 @@
                             Command="{Binding ToggleShuffleCommand, Mode=OneTime}" Margin="0,18,0,0" BackgroundColor="Transparent" BorderWidth="0"/>
                     </StackLayout>
 
-                    <Image Grid.Column="1" Grid.Row="1" VerticalOptions="Start"  x:Name="AlbumImage" Source="{Binding MediaImageUri, Mode=OneWay}" Margin="0" />
+                    <Border Grid.Column="1" Grid.Row="1" StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                        <Image VerticalOptions="Start" x:Name="AlbumImage" Source="{Binding MediaImageUri, Mode=OneWay}" Margin="0" />
+                    </Border>
 
-                    <!-- Audio progress -->
-                    <Grid Grid.Column="1" Grid.Row="2" RowSpacing="4" Margin="0,3,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*" />
-                            <ColumnDefinition Width="0.5*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="4"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <ProgressBar Grid.ColumnSpan="2" HeightRequest="4" Margin="0,0,0,0" Progress="{Binding Progress, Mode=OneWay}"  />
-                        <Label Grid.Row="1" Text="{Binding Elapsed, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="0, -2,0,0" />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Length, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="0, -2,0,0" HorizontalTextAlignment="End" />
-                    </Grid>
+
 
                     <!-- Quality / Song title -->
                     <VerticalStackLayout Grid.Row="3" Margin="0,8,0,0" VerticalOptions="Center">
-                        <Image Source="{Binding QualityImageIcon, Mode=OneWay}" WidthRequest="22"  />
+                        <Image Source="{Binding QualityImageIcon, Mode=OneWay}" WidthRequest="22" />
                         <Label IsVisible="{Binding QualityKbsVisible, Mode=OneWay}" Text="{Binding QualityKbs, Mode=OneWay}" FontSize="7" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                     </VerticalStackLayout>
-                    <Label Grid.Row="3" Grid.Column="1" VerticalOptions="Center" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
+                    <Label Grid.Row="3" Grid.Column="1" VerticalOptions="End" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
 
                     <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="*,auto,*">
                         <!-- control buttons -->
@@ -76,7 +65,7 @@
 
                         <!-- state -->
                         <Border Grid.Row="1" Style="{StaticResource DisplayContainer}">
-                            <Grid RowSpacing="6" ColumnDefinitions="*,*,*" VerticalOptions="Center">
+                            <Grid ColumnDefinitions="*,*,*" RowDefinitions="auto,auto" VerticalOptions="Center">
                                 <Label Text="{Binding StreamFormat, Mode=OneWay}"/>
                                 <Label Grid.Column="1" HorizontalTextAlignment="Center"  Text="{Binding State, Mode=OneWay}"/>
                                 <Label Grid.Column="2" HorizontalTextAlignment="End" >
@@ -87,6 +76,12 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
+                                <!-- Audio progress -->
+                                <Grid Grid.Row="1" RowSpacing="3" Grid.ColumnSpan="3" Margin="0,3,0,0"  ColumnDefinitions="*, *" RowDefinitions="auto, auto" >
+                                    <ProgressBar Grid.ColumnSpan="2" Progress="{Binding Progress, Mode=OneWay}" />
+                                    <Label Grid.Row="1" Text="{Binding Elapsed, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="0, -2,0,0" />
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Length, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="0, -2,0,0" HorizontalTextAlignment="End" />
+                                </Grid>
                             </Grid>
                         </Border>
 

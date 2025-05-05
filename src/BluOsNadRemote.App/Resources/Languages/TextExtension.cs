@@ -1,6 +1,7 @@
 ﻿namespace BluOsNadRemote.App.Resources.Languages;
 
 [ContentProperty(nameof(Name))]
+[AcceptEmptyServiceProvider]
 public sealed class TextExtension : IMarkupExtension<BindingBase>
 {
     public string Name { get; set; }

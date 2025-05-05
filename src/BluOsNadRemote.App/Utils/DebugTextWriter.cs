@@ -41,7 +41,7 @@ internal class DebugTextWriter : TextWriter
         Debug.Write(value);
     }
 
-    public override void Write(char[] buffer)
+    public override void Write(char[]? buffer)
     {
         Debug.Write(buffer);
     }
@@ -71,12 +71,12 @@ internal class DebugTextWriter : TextWriter
         Debug.Write(value);
     }
 
-    public override void Write(object value)
+    public override void Write(object? value)
     {
         Debug.Write(value);
     }
 
-    public override void Write(string value)
+    public override void Write(string? value)
     {
         Debug.Write(value);
     }
@@ -91,12 +91,12 @@ internal class DebugTextWriter : TextWriter
         Debug.Write(value);
     }
 
-    public override void Write(string format, object arg0)
+    public override void Write(string format, object? arg0)
     {
         Debug.Write(string.Format(format, arg0));
     }
 
-    public override void Write(string format, params object[] arg)
+    public override void Write(string format, params object?[] arg)
     {
         Debug.Write(string.Format(format, arg));
     }
@@ -107,19 +107,19 @@ internal class DebugTextWriter : TextWriter
         Debug.Write(x);
     }
 
-    public override void Write(string format, object arg0, object arg1)
+    public override void Write(string format, object? arg0, object? arg1)
     {
         Debug.Write(string.Format(format, arg0, arg1));
     }
 
-    public override void Write(string format, object arg0, object arg1, object arg2)
+    public override void Write(string format, object? arg0, object? arg1, object? arg2)
     {
         Debug.Write(string.Format(format, arg0, arg1, arg2));
     }
 
-    public override void WriteLine()
+    public override void WriteLine(string format, params object?[] arg)
     {
-        Debug.WriteLine(string.Empty);
+        Debug.WriteLine(string.Format(format, arg));
     }
 
     public override void WriteLine(bool value)
@@ -132,7 +132,7 @@ internal class DebugTextWriter : TextWriter
         Debug.WriteLine(value);
     }
 
-    public override void WriteLine(char[] buffer)
+    public override void WriteLine(char[]? buffer)
     {
         Debug.WriteLine(buffer);
     }
@@ -162,12 +162,12 @@ internal class DebugTextWriter : TextWriter
         Debug.WriteLine(value);
     }
 
-    public override void WriteLine(object value)
+    public override void WriteLine(object? value)
     {
         Debug.WriteLine(value);
     }
 
-    public override void WriteLine(string value)
+    public override void WriteLine(string? value)
     {
         Debug.WriteLine(value);
     }
@@ -182,14 +182,9 @@ internal class DebugTextWriter : TextWriter
         Debug.WriteLine(value);
     }
 
-    public override void WriteLine(string format, object arg0)
+    public override void WriteLine(string format, object? arg0)
     {
         Debug.WriteLine(string.Format(format, arg0));
-    }
-
-    public override void WriteLine(string format, params object[] arg)
-    {
-        Debug.WriteLine(string.Format(format, arg));
     }
 
     public override void WriteLine(char[] buffer, int index, int count)
@@ -199,12 +194,12 @@ internal class DebugTextWriter : TextWriter
 
     }
 
-    public override void WriteLine(string format, object arg0, object arg1)
+    public override void WriteLine(string format, object? arg0, object? arg1)
     {
         Debug.WriteLine(string.Format(format, arg0, arg1));
     }
 
-    public override void WriteLine(string format, object arg0, object arg1, object arg2)
+    public override void WriteLine(string format, object? arg0, object? arg1, object? arg2)
     {
         Debug.WriteLine(string.Format(format, arg0, arg1, arg2));
     }

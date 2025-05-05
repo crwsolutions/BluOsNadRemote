@@ -6,7 +6,7 @@ using BluOsNadRemote.App.Services;
 namespace BluOsNadRemote.App.ViewModels;
 
 [DebuggerDisplay("MusicContentCategoryViewModel: '{Name}' {Count} Items")]
-public sealed class MusicContentCategoryViewModel : List<MusicContentEntryViewModel>
+public sealed class MusicContentCategoryViewModel : ObservableCollection<MusicContentEntryViewModel>
 {
     public MusicContentCategoryViewModel(MusicContentCategory category, BluPlayerService bluPlayerService)
     {
@@ -18,6 +18,14 @@ public sealed class MusicContentCategoryViewModel : List<MusicContentEntryViewMo
     {
         AddRange(entries.Select(e => new MusicContentEntryViewModel(e, bluPlayerService)));
         Name = hasNext ? AppResources.NumMoreItems.Interpolate(Count) : AppResources.NumItems.Interpolate(Count);
+    }
+
+    public void AddRange(IEnumerable<MusicContentEntryViewModel> items)
+    {
+        foreach (var item in items)
+        {
+            Add(item);
+        }
     }
 
     public string Name { get; }

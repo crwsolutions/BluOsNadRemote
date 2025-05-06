@@ -39,7 +39,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
-    double _progress = 0;
+    private double _progress = 0;
 
     [ObservableProperty]
     private TimeSpan _length;

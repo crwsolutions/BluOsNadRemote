@@ -64,13 +64,12 @@
 
                         <!-- state -->
                         <Border Grid.Row="1" Style="{StaticResource DisplayContainer}">
-                            <Grid ColumnDefinitions="*,auto,*" RowDefinitions="auto,auto" VerticalOptions="Center" Margin="{OnPlatform iOS='0,6,0,6'}">
+                            <Grid ColumnDefinitions="*,auto,*" RowDefinitions="auto,auto, auto" VerticalOptions="Center" Margin="{OnPlatform iOS='0,6,0,6'}">
                                 <Grid ColumnDefinitions="auto,*" ColumnSpacing="6">
                                     <cv:SpectrumAnalyzerView IsPlaying="{Binding IsPlaying, Mode=OneWay}" HeightRequest="14" WidthRequest="12" />
-                                    <Label Grid.Column="1" Text="{Binding StreamFormat, Mode=OneWay}" VerticalOptions="End" LineBreakMode="TailTruncation" />
+                                    <Label Grid.Column="1" Text="{Binding StreamFormat, Mode=OneWay}" VerticalOptions="End" LineBreakMode="TailTruncation" FontSize="12"/>
                                 </Grid>
-                                <Label Grid.Column="1" HorizontalTextAlignment="Center"  Text="{Binding State, Mode=OneWay}"/>
-                                <Label Grid.Column="2" HorizontalTextAlignment="End">
+                                <Label Grid.Column="2" HorizontalTextAlignment="End" FontSize="12">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{Binding Volume, Mode=OneWay}"/>
@@ -79,11 +78,11 @@
                                     </Label.FormattedText>
                                 </Label>
                                 <!-- Audio progress -->
-                                <Grid Grid.Row="1" RowSpacing="3" Grid.ColumnSpan="3" Margin="0,3,0,0"  ColumnDefinitions="*, *" RowDefinitions="auto, auto">
-                                    <ProgressBar Grid.ColumnSpan="2" Progress="{Binding Progress, Mode=OneWay}" Margin="{OnPlatform iOS='0,6,0,6'}" />
-                                    <Label Grid.Row="1" Text="{Binding Elapsed, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="0, -2,0,0" />
-                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Length, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="0, -2,0,0" HorizontalTextAlignment="End" />
-                                </Grid>
+                                <ProgressBar Grid.Row="1" Grid.ColumnSpan="3" Progress="{Binding Progress, Mode=OneWay}" Margin="{OnPlatform iOS='0,6,0,6'}" />
+                                    <Label Grid.Row="2" Grid.Column="0" Text="{Binding Elapsed, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" />
+                                    <Label Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="Center"  Text="{Binding State, Mode=OneWay}"/>
+                                    <Label Grid.Row="2" Grid.Column="2" Text="{Binding Length, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" HorizontalTextAlignment="End" />
+
                             </Grid>
                         </Border>
 

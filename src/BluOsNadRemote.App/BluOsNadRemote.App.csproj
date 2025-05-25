@@ -16,7 +16,7 @@
 		<!-- For: MVVMTK0041 -->
 		<LangVersion>preview</LangVersion>
 
-		<MauiVersion>9.0.60</MauiVersion>
+		<MauiVersion>9.0.70</MauiVersion>
 
 		<!-- Display name -->
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>

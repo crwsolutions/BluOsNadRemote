@@ -61,7 +61,10 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(State))]
+    [NotifyPropertyChangedFor(nameof(IsPlaying))]
     private PlayerState _playerState;
+
+    public bool IsPlaying => PlayerState == PlayerState.Streaming || PlayerState == PlayerState.Playing;
 
     partial void OnPlayerStateChanged(PlayerState value) => SetControls();
 

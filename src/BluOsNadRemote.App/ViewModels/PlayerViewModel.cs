@@ -8,8 +8,6 @@ namespace BluOsNadRemote.App.ViewModels;
 
 public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 {
-    private static readonly TimeSpan _estimateProgressTimespan = TimeSpan.FromSeconds(1);
-
     private string _skipAction;
     private string _backAction;
 
@@ -29,12 +27,8 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     {
         if (PlayerState == PlayerState.Streaming || PlayerState == PlayerState.Playing)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                // interact with UI elements
-                Elapsed = Elapsed.Add(_estimateProgressTimespan);
-                UpdateProgress();
-            });
+            Elapsed = DateTime.Now - _startTimestamp;
+            UpdateProgress();
         }
     }
 
@@ -232,8 +226,8 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
             if (_timer == null)
             {
-                _timer = Application.Current.Dispatcher.CreateTimer();
-                _timer.Interval = _estimateProgressTimespan;
+                _timer = Application.Current!.Dispatcher.CreateTimer();
+                _timer.Interval = TimeSpan.FromMilliseconds(100);
                 _timer.Tick += (s, e) => EstimateProgress();
             }
 
@@ -253,10 +247,14 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         }
     }
 
+    private DateTime _startTimestamp = DateTime.Now;
+
     private void UpdatePlayPosition(PlayPosition position)
     {
         Debug.WriteLine($"Elapsed: {position.Elapsed}, Position: {position.Length}");
 
+        _startTimestamp = DateTime.Now - position.Elapsed;
+        
         if (position.Elapsed.Ticks <= position.Length?.Ticks)
         {
             Elapsed = position.Elapsed;
@@ -279,6 +277,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private void UpdatePlayerState(PlayerState playerState)
     {
         Debug.WriteLine($"PlayerState: {playerState}");
+        _startTimestamp = DateTime.Now - Elapsed;
         IsStartVisible = playerState.ToPlayerCanBeStarted();
         PlayerState = playerState;
     }

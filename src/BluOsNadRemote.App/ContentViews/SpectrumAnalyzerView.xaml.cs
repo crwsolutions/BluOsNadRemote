@@ -3,7 +3,7 @@ namespace BluOsNadRemote.App.ContentViews;
 public partial class SpectrumAnalyzerView : ContentView
 {
     private readonly Random _random = new();
-    private readonly System.Timers.Timer _timer;
+    private readonly IDispatcherTimer _timer;
     private readonly double[] _targetHeights = [MinimumHeight, MinimumHeight, MinimumHeight];
     private readonly double[] _currentHeights = [MinimumHeight, MinimumHeight, MinimumHeight];
     private const double AnimationStep = 0.08; // Controls smoothness
@@ -26,8 +26,9 @@ public partial class SpectrumAnalyzerView : ContentView
     public SpectrumAnalyzerView()
     {
         InitializeComponent();
-        _timer = new System.Timers.Timer(50); // Slower animation
-        _timer.Elapsed += (s, e) => MainThread.BeginInvokeOnMainThread(AnimateBars);
+        _timer = Application.Current!.Dispatcher.CreateTimer();
+        _timer.Interval = TimeSpan.FromMilliseconds(50);
+        _timer.Tick += (s, e) => AnimateBars();
     }
 
     private static void OnIsPlayingChanged(BindableObject bindable, object oldValue, object newValue)

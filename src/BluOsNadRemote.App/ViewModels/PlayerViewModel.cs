@@ -44,7 +44,19 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(MuteImage))]
     [NotifyPropertyChangedFor(nameof(IsMuted))]
+    [NotifyPropertyChangedFor(nameof(VolumeSymbol))]
     int _volume = 0;
+
+    public string VolumeSymbol {
+        get 
+        {
+            if (Volume == 0) return "g";
+            if (Volume < 5) return "f";
+            if (Volume < 40) return "1";
+            if (Volume < 75) return "2";
+            return "3";
+        }
+    }
 
     partial void OnVolumeChanging(int value)
     {

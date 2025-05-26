@@ -8,18 +8,18 @@ namespace BluOsNadRemote.App.ViewModels;
 
 public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 {
-    private string _skipAction;
-    private string _backAction;
+    private string? _skipAction;
+    private string? _backAction;
 
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
 
-    private IDisposable _volumeChangesSubscriber;
-    private IDisposable _stateChangesSubscriber;
-    private IDisposable _mediaChangesSubscriber;
-    private IDisposable _positionChangesSubscriber;
-    private IDisposable _shuffleChangesSubscriber;
-    private IDisposable _repeatChangesSubscriber;
+    private IDisposable? _volumeChangesSubscriber;
+    private IDisposable? _stateChangesSubscriber;
+    private IDisposable? _mediaChangesSubscriber;
+    private IDisposable? _positionChangesSubscriber;
+    private IDisposable? _shuffleChangesSubscriber;
+    private IDisposable? _repeatChangesSubscriber;
     private int? _currentSong;
     private IDispatcherTimer _timer;
 
@@ -81,7 +81,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(QualityImageIcon))]
     [NotifyPropertyChangedFor(nameof(QualityKbs))]
     [NotifyPropertyChangedFor(nameof(QualityKbsVisible))]
-    private string _quality;
+    private string? _quality;
 
     partial void OnQualityChanged(string value)
     {
@@ -94,10 +94,11 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     public string QualityImageIcon => _qualityKbs != null || Quality == null ? $"none_{ThemePostfix}" : $"{Quality}_{ThemePostfix}";
 
-    private string ThemePostfix => Application.Current.UserAppTheme == AppTheme.Dark ? "white" : "black";
+    private string ThemePostfix => Application.Current!.UserAppTheme == AppTheme.Dark ? "white" : "black";
 
     private int? _qualityKbs;
-    public string QualityKbs => _qualityKbs != null ? $"{_qualityKbs / 1000} kb/s" : null;
+
+    public string? QualityKbs => _qualityKbs != null ? $"{_qualityKbs / 1000} kb/s" : null;
 
     public bool QualityKbsVisible => _qualityKbs != null;
 
@@ -146,7 +147,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     public Color RepeatModeColor => GetOnOffColor(RepeatMode == RepeatMode.RepeatOff);
 
-    private static Color GetOnOffColor(bool isOff) => isOff ? Colors.Gray : Application.Current.UserAppTheme == AppTheme.Dark ? Colors.White : Colors.Black;
+    private static Color GetOnOffColor(bool isOff) => isOff ? Colors.Gray : Application.Current!.UserAppTheme == AppTheme.Dark ? Colors.White : Colors.Black;
 
     public string RepeatModeSymbol => RepeatMode == RepeatMode.RepeatOne ? "s" : "d";
 

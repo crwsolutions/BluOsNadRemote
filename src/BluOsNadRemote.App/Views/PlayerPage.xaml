@@ -76,6 +76,7 @@
                                 <HorizontalStackLayout Grid.Column="2" HorizontalOptions="End" >
                                     <Label FontSize="12" Text="{Binding Volume, Mode=OneWay, StringFormat='{0} %'}" />
                                     <Label FontFamily="CrwMedia" Text="{Binding VolumeSymbol, Mode=OneWay}" FontSize="20" Margin="2,-1,0,0" />
+                                    <cv:VerticalBarView HeightRequest="10" WidthRequest="5" Percentage="{Binding Volume, Mode=OneWay}" Margin="0,4,0,0" VerticalOptions="Start" />
                                 </HorizontalStackLayout>
 
                                 <!-- Audio progress -->

@@ -107,6 +107,9 @@
 		<MauiXaml Update="ContentViews\SpectrumAnalyzerView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="ContentViews\VerticalBarView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\QueuePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

@@ -186,10 +186,6 @@
 		<ApplicationVersion>8</ApplicationVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
-		<CodesignKey>iPhone Distribution</CodesignKey>
-		<CodesignProvision></CodesignProvision>
-		<ProvisioningType>manual</ProvisioningType>
-	</PropertyGroup>
+	<Import Project="BluOsNadRemote.App.iOsDeploy.user.props" Condition="Exists('BluOsNadRemote.App.iOsDeploy.user.props')" />
 
 </Project>

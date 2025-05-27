@@ -22,7 +22,7 @@
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.BluOsNadRemote.App</ApplicationId>
+		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
 		<ApplicationIdGuid>15B7ED0A-913C-432A-9852-87459DB9A842</ApplicationIdGuid>
 
 		<!-- Versions -->

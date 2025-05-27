@@ -136,57 +136,57 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-		<ApplicationDisplayVersion>0.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-		<ApplicationDisplayVersion>0.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-		<ApplicationDisplayVersion>0.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-ios|AnyCPU'">
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-		<ApplicationDisplayVersion>0.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-maccatalyst|AnyCPU'">
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-		<ApplicationDisplayVersion>0.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-maccatalyst|AnyCPU'">
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-		<ApplicationDisplayVersion>0.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-windows10.0.19041.0|AnyCPU'">
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-		<ApplicationDisplayVersion>0.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-windows10.0.19041.0|AnyCPU'">
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 		<ApplicationId>nl.crwsolutions.bluosnadremote</ApplicationId>
-		<ApplicationDisplayVersion>0.5.0</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>0.6.0</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 	</PropertyGroup>
 
 	<Import Project="BluOsNadRemote.App.iOsDeploy.user.props" Condition="Exists('BluOsNadRemote.App.iOsDeploy.user.props')" />

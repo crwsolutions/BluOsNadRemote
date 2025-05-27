@@ -68,24 +68,27 @@
                                 
                                 <!--  stream format -->
                                 <Grid ColumnDefinitions="auto,*" ColumnSpacing="6">
-                                    <cv:SpectrumAnalyzerView IsPlaying="{Binding IsPlaying, Mode=OneWay}" HeightRequest="14" WidthRequest="12" />
+                                    <cv:SpectrumAnalyzerView IsPlaying="{Binding IsPlaying, Mode=OneWay}" HeightRequest="14" WidthRequest="12" Margin="4,0,0,0" />
                                     <Label Grid.Column="1" Text="{Binding StreamFormat, Mode=OneWay}" VerticalOptions="End" LineBreakMode="TailTruncation" FontSize="12"/>
                                 </Grid>
                                 
                                 <!-- volume -->
-                                <HorizontalStackLayout Grid.Column="2" HorizontalOptions="End" >
+                                <HorizontalStackLayout Grid.Column="2" HorizontalOptions="End" Margin="0,0,4,0" >
                                     <Label FontSize="12" Text="{Binding Volume, Mode=OneWay, StringFormat='{0} %'}" />
                                     <Label FontFamily="CrwMedia" Text="{Binding VolumeSymbol, Mode=OneWay}" FontSize="20" Margin="2,-1,0,0" />
                                     <cv:VerticalBarView HeightRequest="10" WidthRequest="5" Percentage="{Binding Volume, Mode=OneWay}" Margin="0,4,0,0" VerticalOptions="Start" />
                                 </HorizontalStackLayout>
 
                                 <!-- Audio progress -->
-                                <ProgressBar Grid.Row="1" Grid.ColumnSpan="3" Progress="{Binding Progress, Mode=OneWay}" Margin="{OnPlatform iOS='0,6,0,6'}" />
+                                <Border Grid.Row="1" Grid.ColumnSpan="3" StrokeShape="RoundRectangle 6" Margin="0,6,0,6" Background="{StaticResource Gray900}" Stroke="Transparent" Padding="{OnPlatform iOS='6,6,6,6', Android='0,6,0,6'}" StrokeThickness="0">
+                                    <Slider Grid.Row="1" Grid.ColumnSpan="3"  Minimum="0" Maximum="1" Value="{Binding Progress, Mode=TwoWay}" IsEnabled="{Binding CanSeek}" ThumbImageSource="slider_thumb.png" ThumbColor="Transparent" HeightRequest="10"
+                                                 DragStarted="OnSeekSliderDragStarted" DragCompleted="OnSeekSliderDragCompleted" Margin="{OnPlatform iOS='0,6,0,6'}" />
+                                </Border>
                                 
                                 <!-- Elapsed time and state-->
-                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding Elapsed, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" />
+                                <Label Grid.Row="2" Grid.Column="0" Text="{Binding Elapsed, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" Margin="4,0,0,0" />
                                 <Label Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="Center"  Text="{Binding State, Mode=OneWay}"/>
-                                <Label Grid.Row="2" Grid.Column="2" Text="{Binding Length, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" HorizontalTextAlignment="End" />
+                                <Label Grid.Row="2" Grid.Column="2" Text="{Binding Length, StringFormat='{}{0:mm\\:ss}', Mode=OneWay}" FontSize="12" HorizontalTextAlignment="End" Margin="0,0,4,0"/>
                             </Grid>
                         </Border>
 

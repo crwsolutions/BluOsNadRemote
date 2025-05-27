@@ -3,7 +3,7 @@
 public partial class PlayerPage : BaseContentPage
 {
     [Dependency(nameof(BindingContext))]
-    private PlayerViewModel ViewModel => BindingContext as PlayerViewModel;
+    private PlayerViewModel ViewModel => (PlayerViewModel)BindingContext;
 
     partial void PreConstruct() => InitializeComponent();
 
@@ -19,5 +19,25 @@ public partial class PlayerPage : BaseContentPage
         AlbumImage.MaximumWidthRequest = min - margin;
         AlbumImage.HeightRequest = min - margin;
         AlbumImage.MaximumHeightRequest = min - margin;
+    }
+
+    private void OnSeekSliderDragStarted(object sender, EventArgs e)
+    {
+        ViewModel.IsSeeking = true;
+    }
+
+    private async void OnSeekSliderDragCompleted(object sender, EventArgs e)
+    {
+        try
+        {
+            if (sender is Slider slider)
+            {
+                await ViewModel.SeekToPositionCommand.ExecuteAsync(slider.Value);
+            }
+        }
+        finally
+        {
+                ViewModel.IsSeeking = false;
+        }
     }
 }

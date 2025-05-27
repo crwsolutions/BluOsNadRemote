@@ -23,8 +23,11 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private int? _currentSong;
     private IDispatcherTimer _timer;
 
+    public bool IsSeeking { get; set; }
+
     internal void EstimateProgress()
     {
+        if (IsSeeking) return;
         if (PlayerState == PlayerState.Streaming || PlayerState == PlayerState.Playing)
         {
             Elapsed = DateTime.Now - _startTimestamp;
@@ -170,6 +173,20 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     public bool HasMoreMenu => ArtistID != null || AlbumID != null || TrackstationID != null;
 
+    [ObservableProperty]
+    private bool _canSeek;
+
+    [RelayCommand]
+    private async Task SeekToPositionAsync(double progress)
+    {
+        if (!CanSeek || Length.Ticks == 0)
+            return;
+        var seekTicks = (long)(progress * Length.Ticks);
+        var seekTime = new TimeSpan(seekTicks);
+        await _bluPlayerService.BluPlayer.Seek(seekTime);
+        _startTimestamp = DateTime.Now - seekTime;
+    }
+
     [RelayCommand]
     private async Task LoadDataAsync()
     {
@@ -264,10 +281,9 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     private void UpdatePlayPosition(PlayPosition position)
     {
+        if (IsSeeking) return;
         Debug.WriteLine($"Elapsed: {position.Elapsed}, Position: {position.Length}");
-
         _startTimestamp = DateTime.Now - position.Elapsed;
-        
         if (position.Elapsed.Ticks <= position.Length?.Ticks)
         {
             Elapsed = position.Elapsed;
@@ -314,6 +330,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
         SetActions(media.Actions);
         PlayerState = media.PlayerState;
+        CanSeek = media.CanSeek;
     }
 
     private void SetActions(IReadOnlyList<StreamingRadioAction> actions)

@@ -121,14 +121,6 @@
 		</MauiXaml>
 	</ItemGroup>
 
-	<PropertyGroup Label="MauiAppAccelerator">
-		<wizardVersion>v1.2.1</wizardVersion>
-		<projectType>MVVMToolkit</projectType>
-		<framework>Tabs</framework>
-		<NeutralLanguage>en</NeutralLanguage>
-		<DefaultLanguage>en</DefaultLanguage>
-	</PropertyGroup>
-
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
 		<BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
 	</ItemGroup>

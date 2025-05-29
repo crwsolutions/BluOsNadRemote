@@ -1,6 +1,7 @@
 ﻿using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Repositories;
 using Nad4Net;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BluOsNadRemote.App.Services;
 
@@ -10,6 +11,9 @@ public partial class NadTelnetService
     private readonly EndpointRepository _endpointRepository;
 
     internal NadRemote? NadRemote { get; private set; }
+
+    [MemberNotNullWhen(true, nameof(NadRemote))]
+    internal bool IsConnected => NadRemote?.IsConnected is true;
 
     internal NadTelnetConnectResult Connect()
     {

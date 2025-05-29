@@ -15,7 +15,7 @@ public class NadRemote : IDisposable
 {
     private CancellationTokenSource _tokenSource;
     private readonly string[] _sources = new string[10];
-    private Client _client;
+    private Client? _client;
     private readonly string _host;
     private const int PORT = 23;
 
@@ -70,6 +70,8 @@ public class NadRemote : IDisposable
 
         CommandChanges = SetupChangeDetectionLoop().Retry(RetryDelay).Publish().RefCount();
     }
+
+    public bool IsConnected => _client?.IsConnected is true;
 
     public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {

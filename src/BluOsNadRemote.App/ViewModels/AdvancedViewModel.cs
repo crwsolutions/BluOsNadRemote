@@ -9,11 +9,15 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     [Dependency]
     private readonly NadTelnetService _service;
 
-    private IDisposable _commandChangesSubscriber;
+    private IDisposable? _commandChangesSubscriber;
     private bool _isReceiving = false;
 
     [RelayCommand]
-    private async Task ToggleOnOffAsync() => await _service.NadRemote.ToggleOnOffAsync();
+    private async Task ToggleOnOffAsync()
+    {
+        if (_service.NadRemote != null)
+            await _service.NadRemote.ToggleOnOffAsync();
+    }
 
     [RelayCommand(AllowConcurrentExecutions = true)] //Bug: https://github.com/CommunityToolkit/dotnet/issues/150#issuecomment-1069660045
     private async Task LoadDataAsync()
@@ -25,12 +29,15 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
             var result = _service.Connect();
             if (result.IsConnected == false)
             {
-                Title = result.Message;
+                Title = result.Message!;
                 return;
             }
 
-            await _service.NadRemote.GetCommandListAsync(UpdateCommandlist);
-            _commandChangesSubscriber = _service.NadRemote.CommandChanges.Subscribe(UpdateCommandlist);
+            if (_service.NadRemote != null)
+            {
+                await _service.NadRemote.GetCommandListAsync(UpdateCommandlist);
+                _commandChangesSubscriber = _service.NadRemote.CommandChanges.Subscribe(UpdateCommandlist);
+            }
         }
         catch (InvalidOperationException exception)
         {
@@ -49,8 +56,6 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     private void UpdateCommandlist(CommandList commandList)
     {
-        //Device.BeginInvokeOnMainThread(() =>
-        //{
         _isReceiving = true;
         Title = commandList.MainModel;
         MainSource = commandList.MainSource;
@@ -74,7 +79,6 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         MainDolbyDRC = commandList.MainDolbyDRC;
         MainSourceName = commandList.MainSourceName;
         _isReceiving = false;
-        //});
     }
 
     public string[] ListeningModes => ["None", "NeuralX", "EnhancedStereo", "DolbySurround", "EARS"];
@@ -99,7 +103,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     partial void OnMainListeningModeChanging(string value)
     {
-        if (!IsBusy && !_isReceiving)
+        if (!IsBusy && !_isReceiving && _service.NadRemote != null)
         {
             _service.NadRemote.SetListeningModeAsync(value).Wait();
         }
@@ -111,9 +115,9 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     partial void OnMainDiracChanging(int value)
     {
-        if (!IsBusy && !_isReceiving)
+        if (!IsBusy && !_isReceiving && _service.NadRemote != null)
         {
-            _service.NadRemote?.SetMainDiracAsync(value).Wait();
+            _service.NadRemote.SetMainDiracAsync(value).Wait();
         }
     }
 
@@ -168,11 +172,11 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     partial void OnMainTrimSubChanging(int value)
     {
-        if (!IsBusy && !_isReceiving)
+        if (!IsBusy && !_isReceiving && _service.NadRemote != null)
         {
             if (MainTrimSub < value)
             {
-               _service.NadRemote.DoSubPlusAsync().Wait();
+                _service.NadRemote.DoSubPlusAsync().Wait();
             }
 
             if (MainTrimSub > value)
@@ -187,7 +191,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     partial void OnMainTrimSurroundChanging(int value)
     {
-        if (!IsBusy && !_isReceiving)
+        if (!IsBusy && !_isReceiving && _service.NadRemote != null)
         {
             if (MainTrimSurround < value)
             {
@@ -206,7 +210,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     partial void OnMainTrimCenterChanging(int value)
     {
-        if (!IsBusy && !_isReceiving)
+        if (!IsBusy && !_isReceiving && _service.NadRemote != null)
         {
             if (MainTrimCenter < value)
             {
@@ -226,7 +230,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     partial void OnMainDimmerChanged(bool value)
     {
         Debug.WriteLine($"Setting dimmer to {value}");
-        if (!IsBusy && !_isReceiving)
+        if (!IsBusy && !_isReceiving && _service.NadRemote != null)
         {
             _service.NadRemote.ToggleDimmerAsync().Wait();
         }

@@ -21,7 +21,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private IDisposable? _shuffleChangesSubscriber;
     private IDisposable? _repeatChangesSubscriber;
     private int? _currentSong;
-    private IDispatcherTimer _timer;
+    private IDispatcherTimer? _timer;
 
     public bool IsSeeking { get; set; }
 
@@ -66,7 +66,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         _ = SetAndClampVolumeAsync(value);
     }
 
-    public string State => AppResources.ResourceManager.GetString(PlayerState.ToString(), AppResources.Culture);
+    public string State => AppResources.ResourceManager.GetString(PlayerState.ToString(), AppResources.Culture)!;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(State))]
@@ -86,7 +86,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(QualityKbsVisible))]
     public partial string? Quality { get; set; }
 
-    partial void OnQualityChanged(string value)
+    partial void OnQualityChanged(string? value)
     {
         _qualityKbs = null;
         if (int.TryParse(value, out var kbs))
@@ -132,10 +132,10 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     public partial string Title3 { get; set; }
 
     [ObservableProperty]
-    public partial Uri MediaImageUri { get; set; }
+    public partial Uri? MediaImageUri { get; set; }
 
     [ObservableProperty]
-    public partial Uri ServiceIconUri { get; set; }
+    public partial Uri? ServiceIconUri { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShuffleModeColor))]
@@ -179,11 +179,16 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private async Task SeekToPositionAsync(double progress)
     {
         if (!CanSeek || Length.Ticks == 0)
+        {
             return;
+        }
         var seekTicks = (long)(progress * Length.Ticks);
         var seekTime = new TimeSpan(seekTicks);
-        await _bluPlayerService.BluPlayer.Seek(seekTime);
-        _startTimestamp = DateTime.Now - seekTime;
+        if (_bluPlayerService.BluPlayer != null)
+        {
+            await _bluPlayerService.BluPlayer.Seek(seekTime);
+            _startTimestamp = DateTime.Now - seekTime;
+        }
     }
 
     [RelayCommand]
@@ -381,7 +386,10 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     private async Task SetAndClampVolumeAsync(int percentage)
     {
-        await _bluPlayerService.BluPlayer.SetVolume(Math.Clamp(percentage, 0, 100));
+        if (_bluPlayerService.BluPlayer != null)
+        {
+            await _bluPlayerService.BluPlayer.SetVolume(Math.Clamp(percentage, 0, 100));
+        }
     }
 
     public void Dispose()
@@ -408,8 +416,11 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task ToggleMuteAsync()
     {
-        var isMUted = await _bluPlayerService.BluPlayer?.Mute(!IsMuted);
-        IsMuted = isMUted == 1;
+        if (_bluPlayerService.BluPlayer != null)
+        {
+            var isMuted = await _bluPlayerService.BluPlayer.Mute(!IsMuted);
+            IsMuted = isMuted == 1;
+        }
     }
 
     [RelayCommand]
@@ -419,52 +430,82 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     private async Task VolumeDownAsync() => await SetAndClampVolumeAsync(Volume - 2);
 
     [RelayCommand]
-    private async Task StopAsync() => PlayerState = await _bluPlayerService.BluPlayer?.Stop();
+    private async Task StopAsync()
+    {
+        if (_bluPlayerService.BluPlayer != null)
+        {
+            PlayerState = await _bluPlayerService.BluPlayer.Stop();
+        }
+    }
 
     [RelayCommand]
-    private async Task PlayAsync() => PlayerState = await _bluPlayerService.BluPlayer?.Play();
+    private async Task PlayAsync()
+    {
+        if (_bluPlayerService.BluPlayer != null)
+        {
+            PlayerState = await _bluPlayerService.BluPlayer.Play();
+        }
+    }
 
     [RelayCommand]
-    private async Task PauseAsync() => PlayerState = await _bluPlayerService.BluPlayer?.Pause();
+    private async Task PauseAsync()
+    {
+        if (_bluPlayerService.BluPlayer != null)
+        {
+            PlayerState = await _bluPlayerService.BluPlayer.Pause();
+        }
+    }
 
     [RelayCommand]
     private async Task SkipAsync()
     {
-        if (_skipAction == null)
+        if (_bluPlayerService.BluPlayer != null)
         {
-            await _bluPlayerService.BluPlayer?.Skip();
-        }
-        else
-        {
-            await _bluPlayerService.BluPlayer?.Action(_skipAction);
+            if (_skipAction == null)
+            {
+                await _bluPlayerService.BluPlayer.Skip();
+            }
+            else
+            {
+                await _bluPlayerService.BluPlayer.Action(_skipAction);
+            }
         }
     }
 
     [RelayCommand]
     private async Task BackAsync()
     {
-        if (_backAction == null)
+        if (_bluPlayerService.BluPlayer != null)
         {
-            await _bluPlayerService.BluPlayer?.Back();
-        }
-        else
-        {
-            await _bluPlayerService.BluPlayer?.Action(_backAction);
+            if (_backAction == null)
+            {
+                await _bluPlayerService.BluPlayer.Back();
+            }
+            else
+            {
+                await _bluPlayerService.BluPlayer.Action(_backAction);
+            }
         }
     }
 
     [RelayCommand]
     private async Task ToggleShuffleAsync()
     {
-        ShuffleMode = ShuffleMode.ToNextShuffleMode();
-        await _bluPlayerService.BluPlayer.SetShuffleMode(ShuffleMode);
+        if (_bluPlayerService.BluPlayer != null)
+        {
+            ShuffleMode = ShuffleMode.ToNextShuffleMode();
+            await _bluPlayerService.BluPlayer.SetShuffleMode(ShuffleMode);
+        }
     }
 
     [RelayCommand]
     private async Task ToggleRepeatAsync()
     {
-        RepeatMode = RepeatMode.ToNextRepeatMode();
-        await _bluPlayerService.BluPlayer.SetRepeatMode(RepeatMode);
+        if (_bluPlayerService.BluPlayer != null)
+        {
+            RepeatMode = RepeatMode.ToNextRepeatMode();
+            await _bluPlayerService.BluPlayer.SetRepeatMode(RepeatMode);
+        }
     }
 
     [RelayCommand]

@@ -10,3 +10,6 @@ dotnet_diagnostic.CA1822.severity = none
 
 # CA1826 Do not use Enumerable methods on indexable collections. Instead use the collection directly. Exclude defaults
 dotnet_code_quality.CA1826.exclude_ordefault_methods = true
+
+# IDE0305: Simplify collection initialization
+dotnet_diagnostic.IDE0305.severity = none

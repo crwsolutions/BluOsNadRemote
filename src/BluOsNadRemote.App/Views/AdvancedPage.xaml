@@ -41,10 +41,10 @@
                     </contentviews:FormItem>
 
                     <contentviews:FormItem Label="{Binding DiracLabel, Mode=OneWay}">
-                        <Picker SelectedIndex="{Binding MainDirac}" ItemsSource="{Binding Diracs}" ItemDisplayBinding="{Binding}" />
+                        <Picker SelectedIndex="{Binding MainDirac}" ItemsSource="{Binding Diracs}" ItemDisplayBinding="{Binding ., x:DataType='x:String'}" />
                     </contentviews:FormItem>
                     <contentviews:FormItem Label="{lang:Text ListeningMode}">
-                        <Picker SelectedItem="{Binding MainListeningMode}" ItemsSource="{Binding ListeningModes}" ItemDisplayBinding="{Binding}" />
+                        <Picker SelectedItem="{Binding MainListeningMode}" ItemsSource="{Binding ListeningModes}" ItemDisplayBinding="{Binding ., x:DataType='x:String'}" />
                     </contentviews:FormItem>
 
                     <contentviews:FormItem Label="{lang:Text DisplayIsDimmed}">

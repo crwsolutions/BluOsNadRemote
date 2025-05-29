@@ -12,9 +12,9 @@ public sealed partial class EndpointRepository
     private const string ENDPOINT_SELECTED = "selected";
     private const string ENDPOINTS_LENGTH = "length";
 
-    private EndPoint _selectedEndpoint;
+    private EndPoint? _selectedEndpoint;
 
-    public EndPoint SelectedEndpoint
+    public EndPoint? SelectedEndpoint
     {
         get
         {
@@ -48,7 +48,7 @@ public sealed partial class EndpointRepository
         var endpoints = new EndPoint[length];
         for (var i = 0; i < length; i++)
         {
-            endpoints[i] = GetEndPoint(i);
+            endpoints[i] = GetEndPoint(i)!;
         }
 
         return endpoints;
@@ -106,16 +106,16 @@ public sealed partial class EndpointRepository
         _preferences.Set(ENDPOINTS_LENGTH, endPoints.Length);
     }
 
-    private EndPoint GetEndPoint(int index)
+    private EndPoint? GetEndPoint(int index)
     {
-        var uri = _preferences.Get<string>(ENDPOINT_URL + index, null);
+        var uri = _preferences.Get<string?>(ENDPOINT_URL + index, null);
 
         if (uri is null)
         {
             return null;
         }
 
-        var name = _preferences.Get<string>(ENDPOINT_NAME + index, null);
+        var name = _preferences.Get<string>(ENDPOINT_NAME + index, "");
         return new EndPoint(uri, name);
     }
 

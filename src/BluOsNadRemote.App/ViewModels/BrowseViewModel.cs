@@ -24,14 +24,14 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     public string ArtistID { get; set; } // = navigation parameter
 
     [ObservableProperty]
-    private string _title;
+    public partial string Title { get; set; }
 
     [ObservableProperty]
-    private string _searchParameter;
+    public partial string SearchParameter { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanGoHome))]
-    private bool _hasParent = false;
+    public partial bool HasParent { get; set; } = false;
 
     public bool IsNotSearching => !IsSearching;
 
@@ -39,21 +39,20 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(IsNotSearching))]
     [NotifyPropertyChangedFor(nameof(CanGoHome))]
     [NotifyPropertyChangedFor(nameof(CanSearch))]
-    private bool _isSearching = false;
+    public partial bool IsSearching { get; set; } = false;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanSearch))]
-    private bool _isSearchable = false;
+    public partial bool IsSearchable { get; set; } = false;
 
     [ObservableProperty]
-    private bool _collectionIsVisible = true;
+    public partial bool CollectionIsVisible { get; set; } = true;
 
     public bool CanGoHome => !IsSearching && HasParent;
     public bool CanSearch => IsSearchable && !IsSearching;
 
     [ObservableProperty]
-    private Uri _serviceIconUri;
-
+    public partial Uri ServiceIconUri { get; set; }
     public ObservableCollection<MusicContentCategoryViewModel> Categories { get; } = [];
 
     [RelayCommand]

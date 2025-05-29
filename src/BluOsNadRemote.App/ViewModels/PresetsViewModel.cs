@@ -11,7 +11,7 @@ public partial class PresetsViewModel : BaseRefreshViewModel
     private readonly BluPlayerService _bluPlayerService;
 
     [ObservableProperty]
-    public IEnumerable<Favorite> _presets;
+    public partial IEnumerable<Favorite> Presets { get; set; }
 
     [RelayCommand]
     private async Task PresetTappedAsync(Favorite preset)

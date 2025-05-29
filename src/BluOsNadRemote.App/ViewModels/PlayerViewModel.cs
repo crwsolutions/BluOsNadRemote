@@ -36,19 +36,19 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private double _progress = 0;
+    public partial double Progress { get; set; } = 0;
 
     [ObservableProperty]
-    private TimeSpan _length;
+    public partial TimeSpan Length { get; set; }
 
     [ObservableProperty]
-    private TimeSpan _elapsed;
+    public partial TimeSpan Elapsed { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(MuteImage))]
     [NotifyPropertyChangedFor(nameof(IsMuted))]
     [NotifyPropertyChangedFor(nameof(VolumeSymbol))]
-    int _volume = 0;
+    public partial int Volume { get; set; } = 0;
 
     public string VolumeSymbol {
         get 
@@ -71,20 +71,20 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(State))]
     [NotifyPropertyChangedFor(nameof(IsPlaying))]
-    private PlayerState _playerState;
+    public partial PlayerState PlayerState { get; set; }
 
     public bool IsPlaying => PlayerState == PlayerState.Streaming || PlayerState == PlayerState.Playing;
 
     partial void OnPlayerStateChanged(PlayerState value) => SetControls();
 
     [ObservableProperty]
-    private string _streamFormat;
+    public partial string StreamFormat { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(QualityImageIcon))]
     [NotifyPropertyChangedFor(nameof(QualityKbs))]
     [NotifyPropertyChangedFor(nameof(QualityKbsVisible))]
-    private string? _quality;
+    public partial string? Quality { get; set; }
 
     partial void OnQualityChanged(string value)
     {
@@ -108,45 +108,45 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     public string MuteImage => IsMuted || Volume == 0 ? "f" : "g";
 
     [ObservableProperty]
-    private bool _isMuted;
+    public partial bool IsMuted { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsPauseVisible))]
-    private bool _isStartVisible;
+    public partial bool IsStartVisible { get; set; }
 
     [ObservableProperty]
-    private bool _isBackVisible;
+    public partial bool IsBackVisible { get; set; }
 
     [ObservableProperty]
-    private bool _isSkipVisible;
+    public partial bool IsSkipVisible { get; set; }
 
     public bool IsPauseVisible => !IsStartVisible;
 
     [ObservableProperty]
-    private string _title1;
+    public partial string Title1 { get; set; }
 
     [ObservableProperty]
-    private string _title2;
+    public partial string Title2 { get; set; }
 
     [ObservableProperty]
-    private string _title3;
+    public partial string Title3 { get; set; }
 
     [ObservableProperty]
-    private Uri _mediaImageUri;
+    public partial Uri MediaImageUri { get; set; }
 
     [ObservableProperty]
-    private Uri _serviceIconUri;
+    public partial Uri ServiceIconUri { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ShuffleModeColor))]
-    private ShuffleMode _shuffleMode;
+    public partial ShuffleMode ShuffleMode { get; set; }
 
     public Color ShuffleModeColor => GetOnOffColor(ShuffleMode == ShuffleMode.ShuffleOff);
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(RepeatModeColor))]
     [NotifyPropertyChangedFor(nameof(RepeatModeSymbol))]
-    private RepeatMode _repeatMode = RepeatMode.RepeatOff;
+    public partial RepeatMode RepeatMode { get; set; } = RepeatMode.RepeatOff;
 
     public Color RepeatModeColor => GetOnOffColor(RepeatMode == RepeatMode.RepeatOff);
 
@@ -160,21 +160,20 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasMoreMenu))]
-    private string _artistID;
+    public partial string ArtistID { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasMoreMenu))]
-
-    private string _albumID;
+    public partial string AlbumID { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasMoreMenu))]
-    private string _trackstationID;
+    public partial string TrackstationID { get; set; }
 
     public bool HasMoreMenu => ArtistID != null || AlbumID != null || TrackstationID != null;
 
     [ObservableProperty]
-    private bool _canSeek;
+    public partial bool CanSeek { get; set; }
 
     [RelayCommand]
     private async Task SeekToPositionAsync(double progress)

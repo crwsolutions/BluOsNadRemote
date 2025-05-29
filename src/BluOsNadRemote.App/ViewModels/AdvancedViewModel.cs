@@ -80,22 +80,23 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     public string[] ListeningModes => ["None", "NeuralX", "EnhancedStereo", "DolbySurround", "EARS"];
 
     [ObservableProperty]
-    private string _mainSource;
+    public partial string MainSource { get; set; }
 
     [ObservableProperty]
-    private string _mainSourceName;
+    public partial string MainSourceName { get; set; }
 
     [ObservableProperty]
-    private string _mainAudioCODEC;
+    public partial string MainAudioCODEC { get; set; }
 
     [ObservableProperty]
-    private string _mainAudioChannels;
+    public partial string MainAudioChannels { get; set; }
 
     [ObservableProperty]
-    private string _mainAudioRate;
+    public partial string MainAudioRate { get; set; }
 
     [ObservableProperty]
-    private string _mainListeningMode;
+    public partial string MainListeningMode { get; set; }
+
     partial void OnMainListeningModeChanging(string value)
     {
         if (!IsBusy && !_isReceiving)
@@ -106,7 +107,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(DiracLabel))]
-    private int _mainDirac = -1;
+    public partial int MainDirac { get; set; } = -1;
 
     partial void OnMainDiracChanging(int value)
     {
@@ -119,10 +120,11 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     public string DiracLabel => $"{AppResources.Dirac} ({MainDirac})";
 
     [ObservableProperty]
-    private string _dirac1State;
+    public partial string Dirac1State { get; set; }
 
     [ObservableProperty]
-    private string _dirac1Name;
+    public partial string Dirac1Name { get; set; }
+
     partial void OnDirac1NameChanging(string value)
     {
         if (!Diracs.Any(d => d == value))
@@ -132,10 +134,11 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private string _dirac2State;
+    public partial string Dirac2State { get; set; }
 
     [ObservableProperty]
-    private string _dirac2Name;
+    public partial string Dirac2Name { get; set; }
+
     partial void OnDirac2NameChanging(string value)
     {
         if (!Diracs.Any(d => d == value))
@@ -145,10 +148,11 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private string _dirac3State;
+    public partial string Dirac3State { get; set; }
 
     [ObservableProperty]
-    private string _dirac3Name;
+    public partial string Dirac3Name { get; set; }
+
     partial void OnDirac3NameChanging(string value)
     {
         if (!Diracs.Any(d => d == value))
@@ -160,7 +164,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     public ObservableCollection<string> Diracs { get; } = [];
 
     [ObservableProperty]
-    private int _mainTrimSub;
+    public partial int MainTrimSub { get; set; }
 
     partial void OnMainTrimSubChanging(int value)
     {
@@ -179,7 +183,8 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private int _mainTrimSurround;
+    public partial int MainTrimSurround { get; set; }
+
     partial void OnMainTrimSurroundChanging(int value)
     {
         if (!IsBusy && !_isReceiving)
@@ -197,7 +202,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private int _mainTrimCenter;
+    public partial int MainTrimCenter { get; set; }
 
     partial void OnMainTrimCenterChanging(int value)
     {
@@ -216,7 +221,8 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private bool _mainDimmer;
+    public partial bool MainDimmer { get; set; }
+
     partial void OnMainDimmerChanged(bool value)
     {
         Debug.WriteLine($"Setting dimmer to {value}");
@@ -227,17 +233,17 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private bool _mainPower;
+    public partial bool MainPower { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ARCColor))]
-    private string _mainVideoARC;
+    public partial string MainVideoARC { get; set; }
 
     private static readonly Color disabledColor = new(53, 54, 54);
     public Color ARCColor => MainVideoARC?.ToLower() == "yes" ? Colors.Green : disabledColor;
 
     [ObservableProperty]
-    private string _mainDolbyDRC;
+    public partial string MainDolbyDRC { get; set; }
 
     public void Dispose()
     {

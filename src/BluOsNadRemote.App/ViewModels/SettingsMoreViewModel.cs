@@ -38,13 +38,13 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
     internal void SetCulture(string value) => _languageService.SetCulture(value);
 
     [ObservableProperty]
-    private bool _defaultLanguageIsChecked;
+    public partial bool DefaultLanguageIsChecked { get; set; }
 
     [ObservableProperty]
-    private bool _enIsChecked;
+    public partial bool EnIsChecked { get; set; }
 
     [ObservableProperty]
-    private bool _nlIsChecked;
+    public partial bool NlIsChecked { get; set; }
 
     private void SetThemeChecks()
     {
@@ -68,11 +68,11 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
     internal void SetTheme(string value) => _themeService.SetTheme(value);
 
     [ObservableProperty]
-    private bool _defaultThemeIsChecked;
+    public partial bool DefaultThemeIsChecked { get; set; }
 
     [ObservableProperty]
-    private bool _darkIsChecked;
+    public partial bool DarkIsChecked { get; set; }
 
     [ObservableProperty]
-    private bool _lightIsChecked;
+    public partial bool LightIsChecked { get; set; }
 }

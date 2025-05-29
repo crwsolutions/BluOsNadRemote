@@ -11,11 +11,11 @@ public partial class SettingsPlayerViewModel : BaseRefreshViewModel
     private readonly EndpointRepository _endpointRepository;
 
     [ObservableProperty]
-    private string _result = "";
+    public partial string Result { get; set; } = "";
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Uri))]
-    private string _host;
+    public partial string Host { get; set; }
 
     public string Uri => $"http://{Host}:{BluEnvironment.DefaultEndpointPort}/";
 

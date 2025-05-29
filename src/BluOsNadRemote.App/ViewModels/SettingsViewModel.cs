@@ -13,13 +13,13 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     private readonly EndpointRepository _endpointRepository;
 
     [ObservableProperty]
-    private bool _isDiscovering = false;
+    public partial bool IsDiscovering { get; set; } = false;
 
     [ObservableProperty]
-    private string _result = "";
+    public partial string Result { get; set; } = "";
 
     [ObservableProperty]
-    private EndPoint _selectedItem;
+    public partial EndPoint SelectedItem { get; set; }
 
     public string Version => $"{AppInfo.Current.Name} [v{AppInfo.Current.VersionString}] build {AppInfo.Current.BuildString}";
 

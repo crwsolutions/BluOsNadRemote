@@ -3,7 +3,7 @@
 public partial class BaseRefreshViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private bool _isBusy = false;
+    public partial bool IsBusy { get; set; } = false;
 
     partial void OnIsBusyChanged(bool oldValue, bool newValue)
     {
@@ -18,5 +18,5 @@ public partial class BaseRefreshViewModel : BaseViewModel
     }
 
     [ObservableProperty]
-    private string _title;
+    public partial string Title { get; set; }
 }

@@ -18,10 +18,10 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
     public ObservableCollection<PlayQueueSong> Songs { get; } = [];
 
     [ObservableProperty]
-    private int _currentSong; // = navigation parameter
+    public partial int CurrentSong { get; set; }
 
     [ObservableProperty]
-    private PlayQueueSong _selectedItem;
+    public partial PlayQueueSong SelectedItem { get; set; }
 
     partial void OnSelectedItemChanged(PlayQueueSong value)
     {

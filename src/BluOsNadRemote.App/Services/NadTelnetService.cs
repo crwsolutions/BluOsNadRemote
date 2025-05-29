@@ -9,7 +9,7 @@ public partial class NadTelnetService
     [Dependency]
     private readonly EndpointRepository _endpointRepository;
 
-    internal NadRemote NadRemote { get; private set; }
+    internal NadRemote? NadRemote { get; private set; }
 
     internal NadTelnetConnectResult Connect()
     {

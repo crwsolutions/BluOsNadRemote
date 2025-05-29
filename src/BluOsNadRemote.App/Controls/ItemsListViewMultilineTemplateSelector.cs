@@ -2,8 +2,8 @@
 
 public class ItemsListViewMultilineTemplateSelector : DataTemplateSelector
 {
-    public DataTemplate Singleline { get; set; }
-    public DataTemplate Multiline { get; set; }
+    public DataTemplate Singleline { get; set; } = default!;
+    public DataTemplate Multiline { get; set; } = default!;
 
     protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
     {

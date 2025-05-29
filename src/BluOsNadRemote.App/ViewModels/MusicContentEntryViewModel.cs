@@ -44,6 +44,6 @@ public partial class MusicContentEntryViewModel
             return;
         }
 
-        await _bluPlayerService.BluPlayer.MusicBrowser.PlayURL(actionEntry.ActionURL);
+        await _bluPlayerService.BluPlayer!.MusicBrowser.PlayURL(actionEntry.ActionURL);
     }
 }

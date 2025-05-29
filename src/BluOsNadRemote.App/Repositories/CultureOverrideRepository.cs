@@ -7,7 +7,7 @@ public sealed partial class CultureOverrideRepository
     [Dependency]
     private readonly IPreferences _preferences;
 
-    internal string GetCultureOverride() => _preferences.Get<string>(CULTURE_ID, null);
+    internal string GetCultureOverride() => _preferences.Get(CULTURE_ID, "");
 
     internal void StoreCultureOverride(string name)
     {

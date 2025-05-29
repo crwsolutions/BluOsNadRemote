@@ -3,7 +3,7 @@
 public partial class AdvancedPage : BaseContentPage
 {
     [Dependency(nameof(BindingContext))]
-    private AdvancedViewModel ViewModel => BindingContext as AdvancedViewModel;
+    private AdvancedViewModel ViewModel => (AdvancedViewModel)BindingContext;
 
     partial void PreConstruct() => InitializeComponent();
 }

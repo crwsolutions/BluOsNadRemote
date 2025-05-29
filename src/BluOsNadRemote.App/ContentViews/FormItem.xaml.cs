@@ -11,7 +11,7 @@ public partial class FormItem : ContentView
         InitializeComponent();
     }
 
-    public string Label
+    public string? Label
     {
 
         get => GetValue(LabelProperty) as string;

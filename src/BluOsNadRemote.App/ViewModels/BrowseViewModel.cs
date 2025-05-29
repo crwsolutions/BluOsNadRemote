@@ -187,7 +187,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             {
                 _isGettingMore = true;
 
-                var node = await _bluPlayerService.MusicContentNode.ResolveNext();
+                var node = await _bluPlayerService.MusicContentNode!.ResolveNext();
 
                 Debug.WriteLine($"Loading {node.Entries.Count} more items !!!");
 
@@ -218,7 +218,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private void GoBack()
     {
-        _bluPlayerService.MusicContentNode = _bluPlayerService.MusicContentNode.Parent;
+        _bluPlayerService.MusicContentNode = _bluPlayerService.MusicContentNode!.Parent;
         IsBusy = true;
     }
 

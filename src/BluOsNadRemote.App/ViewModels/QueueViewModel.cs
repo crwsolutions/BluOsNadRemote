@@ -13,7 +13,7 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
 
     private bool _isGettingMore = false;
     private const int _numberOfItemsPerPage = 25;
-    private IAsyncEnumerator<IReadOnlyCollection<PlayQueueSong>> _iterator;
+    private IAsyncEnumerator<IReadOnlyCollection<PlayQueueSong>>? _iterator;
 
     public ObservableCollection<PlayQueueSong> Songs { get; } = [];
 
@@ -28,7 +28,7 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
         Debug.WriteLine("Selected:" + value);
         if (value != null && !IsBusy && CurrentSong != value.ID)
         {
-            var t = _bluPlayerService.BluPlayer.Play(value.ID);
+            var t = _bluPlayerService.BluPlayer!.Play(value.ID);
             var x = t.Result;
         }
     }
@@ -42,6 +42,12 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
         {
             var currentIndex = CurrentSong;
             var pageIndex = (int)(currentIndex / (double)_numberOfItemsPerPage);
+
+            if (_bluPlayerService.IsConnected is false)
+            {
+                await _noConnectionDialogService.ShowAsync();
+                return;
+            }
 
             Songs.Clear();
             var asyncPages = _bluPlayerService.BluPlayer.PlayQueue.GetSongs(_numberOfItemsPerPage);
@@ -181,7 +187,7 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
 
     private async Task RemoveFromListAsync(int id)
     {
-        await _bluPlayerService.BluPlayer.PlayQueue.Remove(id);
+        await _bluPlayerService.BluPlayer!.PlayQueue.Remove(id);
         IsBusy = true;
     }
 

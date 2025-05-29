@@ -7,7 +7,7 @@ public sealed partial class ThemeOverrideRepository
     [Dependency]
     private readonly IPreferences _preferences;
 
-    internal string GetThemeOverride() => _preferences.Get<string>(THEME_ID, null);
+    internal string GetThemeOverride() => _preferences.Get(THEME_ID, "");
 
     internal void SetThemeOverride(string theme) => _preferences.Set(THEME_ID, theme);
 

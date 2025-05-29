@@ -3,7 +3,7 @@
 public partial class SettingsPage : BaseContentPage
 {
     [Dependency(nameof(BindingContext))]
-    private SettingsViewModel ViewModel => BindingContext as SettingsViewModel;
+    private SettingsViewModel ViewModel => (SettingsViewModel)BindingContext;
 
     partial void PreConstruct() => InitializeComponent();
 }

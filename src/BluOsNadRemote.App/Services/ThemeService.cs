@@ -13,21 +13,15 @@ public sealed partial class ThemeService
 
     public void Initialize()
     {
-        switch (_themeRepository.GetThemeOverride())
+        Application.Current!.UserAppTheme = _themeRepository.GetThemeOverride() switch
         {
-            case DARK:
-                Application.Current.UserAppTheme = AppTheme.Dark;
-                break;
-            case LIGHT:
-                Application.Current.UserAppTheme = AppTheme.Light;
-                break;
-            default:
-                Application.Current.UserAppTheme = AppInfo.Current.RequestedTheme;
-                break;
-        }
+            DARK => AppTheme.Dark,
+            LIGHT => AppTheme.Light,
+            _ => AppInfo.Current.RequestedTheme,
+        };
     }
 
-    public string GetThemeOverride() => _themeRepository.GetThemeOverride();
+    public string? GetThemeOverride() => _themeRepository.GetThemeOverride();
 
     public void SetTheme(string value)
     {
@@ -47,19 +41,19 @@ public sealed partial class ThemeService
 
     private void SetDarkTheme()
     {
-        Application.Current.UserAppTheme = AppTheme.Dark;
+        Application.Current!.UserAppTheme = AppTheme.Dark;
         _themeRepository.SetThemeOverride(DARK);
     }
 
     private void SetLightTheme()
     {
-        Application.Current.UserAppTheme = AppTheme.Light;
+        Application.Current!.UserAppTheme = AppTheme.Light;
         _themeRepository.SetThemeOverride(LIGHT);
     }
 
     private void ClearTheme()
     {
-        Application.Current.UserAppTheme = AppInfo.Current.RequestedTheme;
+        Application.Current!.UserAppTheme = AppInfo.Current.RequestedTheme;
         _themeRepository.ClearThemeOverride();
     }
 }

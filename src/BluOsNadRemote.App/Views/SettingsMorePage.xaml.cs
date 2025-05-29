@@ -3,7 +3,7 @@ namespace BluOsNadRemote.App.Views;
 public partial class SettingsMorePage : ContentPage
 {
     [Dependency(nameof(BindingContext))]
-    private SettingsMoreViewModel ViewModel => BindingContext as SettingsMoreViewModel;
+    private SettingsMoreViewModel ViewModel => (SettingsMoreViewModel)BindingContext;
 
     partial void PreConstruct() => InitializeComponent();
 

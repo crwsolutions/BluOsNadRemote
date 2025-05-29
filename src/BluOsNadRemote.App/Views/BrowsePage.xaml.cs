@@ -3,7 +3,7 @@
 public partial class BrowsePage : BaseContentPage
 {
     [Dependency(nameof(BindingContext))]
-    internal BrowseViewModel ViewModel => BindingContext as BrowseViewModel;
+    internal BrowseViewModel ViewModel => (BrowseViewModel)BindingContext;    
 
     partial void PreConstruct() => InitializeComponent();
 

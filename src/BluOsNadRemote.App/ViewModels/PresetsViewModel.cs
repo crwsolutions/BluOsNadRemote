@@ -16,7 +16,7 @@ public partial class PresetsViewModel : BaseRefreshViewModel
     [RelayCommand]
     private async Task PresetTappedAsync(Favorite preset)
     {
-        await _bluPlayerService.BluPlayer.PresetList.LoadPreset(preset.Number);
+        await _bluPlayerService.BluPlayer!.PresetList.LoadPreset(preset.Number);
         await Shell.Current.GoToAsync($"//{nameof(PlayerPage)}");
     }
 

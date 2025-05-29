@@ -4,7 +4,7 @@
 [AcceptEmptyServiceProvider]
 public sealed class TextExtension : IMarkupExtension<BindingBase>
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public BindingBase ProvideValue(IServiceProvider serviceProvider)
         =>  new Binding { 

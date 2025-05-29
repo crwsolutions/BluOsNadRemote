@@ -16,16 +16,20 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     public partial bool IsDiscovering { get; set; } = false;
 
     [ObservableProperty]
-    public partial string Result { get; set; } = "";
+    public partial string? Result { get; set; } = "";
 
     [ObservableProperty]
-    public partial EndPoint SelectedItem { get; set; }
+    public partial EndPoint? SelectedItem { get; set; }
 
     public string Version => $"{AppInfo.Current.Name} [v{AppInfo.Current.VersionString}] build {AppInfo.Current.BuildString}";
 
-    partial void OnSelectedItemChanged(EndPoint value)
+    partial void OnSelectedItemChanged(EndPoint? value)
     {
-        _endpointRepository.SelectedEndpoint = value;
+        if (value is not null)
+        { 
+            _endpointRepository.SelectedEndpoint = value; //When there are items, there is always a selected item.
+        }
+        _bluPlayerService.Disconnect();
     }
 
     public override void IsLoading()

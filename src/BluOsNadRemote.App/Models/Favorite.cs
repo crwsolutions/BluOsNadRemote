@@ -1,13 +1,13 @@
 ﻿namespace BluOsNadRemote.App.Models;
 
 [DebuggerDisplay("[{Number}] {Name}")]
-public class Favorite
+public sealed class Favorite
 {
     public int Number { get; }
     public string Name { get; }
 
-    private string _imageUri;
-    public string ImageUri
+    private string? _imageUri;
+    public string? ImageUri
     {
         get
         {

@@ -67,6 +67,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
 
             if (_bluPlayerService.IsConnected == false)
             {
+                await _noConnectionDialogService.ShowAsync();
                 return;
             }
 

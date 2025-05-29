@@ -180,6 +180,9 @@
   <data name="NoConnection" xml:space="preserve">
     <value>No connection</value>
   </data>
+  <data name="NoConnectionDialogMessage" xml:space="preserve">
+    <value>No connection could be made. Either try again by swiping down, or go to the Settings menu to setup a connection</value>
+  </data>
   <data name="DiscoverNoPlayersFound" xml:space="preserve">
     <value>Discover: No players found</value>
   </data>

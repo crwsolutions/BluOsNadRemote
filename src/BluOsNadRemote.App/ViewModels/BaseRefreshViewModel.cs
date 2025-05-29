@@ -1,7 +1,12 @@
-﻿namespace BluOsNadRemote.App.ViewModels;
+﻿using BluOsNadRemote.App.Services;
+
+namespace BluOsNadRemote.App.ViewModels;
 
 public partial class BaseRefreshViewModel : BaseViewModel
 {
+    [Dependency]
+    protected readonly NoConnectionDialogService _noConnectionDialogService;
+
     [ObservableProperty]
     public partial bool IsBusy { get; set; } = false;
 

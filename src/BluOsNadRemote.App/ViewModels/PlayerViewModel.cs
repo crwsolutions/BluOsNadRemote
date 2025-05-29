@@ -204,6 +204,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             Title = result.Message;
             if (_bluPlayerService.IsConnected == false)
             {
+                await _noConnectionDialogService.ShowAsync();
                 return;
             }
 

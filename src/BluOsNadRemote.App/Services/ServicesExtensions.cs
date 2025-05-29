@@ -7,6 +7,7 @@ internal static class ServicesExtensions
         builder.Services.AddSingleton<ThemeService>();
         builder.Services.AddSingleton<BluPlayerService>();
         builder.Services.AddSingleton<NadTelnetService>();
+        builder.Services.AddSingleton<NoConnectionDialogService>();
 
         return builder;
     }

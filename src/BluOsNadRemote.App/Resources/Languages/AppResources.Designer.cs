@@ -385,6 +385,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No connection could be made. Either try again by swiping down, or go to the Settings menu to setup a connection.
+        /// </summary>
+        internal static string NoConnectionDialogMessage {
+            get {
+                return ResourceManager.GetString("NoConnectionDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not retrieve more.
         /// </summary>
         internal static string NoMore {

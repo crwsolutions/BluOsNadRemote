@@ -333,4 +333,7 @@
   <data name="Connecting" xml:space="preserve">
     <value>verbinden</value>
   </data>
+  <data name="NoConnectionDialogMessage" xml:space="preserve">
+    <value>Er kon geen verbinding worden gemaakt. Probeer het opnieuw door naar beneden te vegen, of ga naar het instellingenmenu om een verbinding in te stellen</value>
+  </data>
 </root>

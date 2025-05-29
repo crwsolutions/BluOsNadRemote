@@ -29,8 +29,9 @@ public partial class PresetsViewModel : BaseRefreshViewModel
 
             var result = await _bluPlayerService.ConnectAsync();
             Title = result.Message;
-            if (result.IsConnected == false)
+            if (_bluPlayerService.IsConnected == false)
             {
+                await _noConnectionDialogService.ShowAsync();
                 return;
             }
 

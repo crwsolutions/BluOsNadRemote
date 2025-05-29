@@ -88,7 +88,7 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private void Reset()
     {
-        _bluPlayerService.IsConnected = false;
+        _bluPlayerService.Disconnect();
         _endpointRepository.ClearEndpoints();
         Dispose();
     }

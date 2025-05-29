@@ -14,17 +14,14 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
 
-    private string _playURL;
-    private string _searchTerm;
-    private bool _isGettingMore;
-    private MusicContentNode _moreNode;
+    private string? _playURL;
+    private string? _searchTerm;
+    private bool? _isGettingMore;
+    private MusicContentNode? _moreNode;
 
-    public string Service { get; set; } // = navigation parameter
-    public string AlbumID { get; set; } // = navigation parameter
-    public string ArtistID { get; set; } // = navigation parameter
-
-    [ObservableProperty]
-    public partial string Title { get; set; }
+    public string? Service { get; set; } // = navigation parameter
+    public string? AlbumID { get; set; } // = navigation parameter
+    public string? ArtistID { get; set; } // = navigation parameter
 
     [ObservableProperty]
     public partial string SearchParameter { get; set; }
@@ -52,7 +49,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     public bool CanSearch => IsSearchable && !IsSearching;
 
     [ObservableProperty]
-    public partial Uri ServiceIconUri { get; set; }
+    public partial Uri? ServiceIconUri { get; set; }
     public ObservableCollection<MusicContentCategoryViewModel> Categories { get; } = [];
 
     [RelayCommand]
@@ -66,10 +63,11 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
             {
                 var result = await _bluPlayerService.ConnectAsync();
                 Title = result.Message;
-                if (result.IsConnected == false)
-                {
-                    return;
-                }
+            }
+
+            if (_bluPlayerService.IsConnected == false)
+            {
+                return;
             }
 
             if (_playURL != null)
@@ -177,7 +175,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [RelayCommand]
     private async Task GetMoreItemsAsync()
     {
-        if (_isGettingMore || IsBusy)
+        if (_isGettingMore is true || IsBusy)
         {
             return;
         }

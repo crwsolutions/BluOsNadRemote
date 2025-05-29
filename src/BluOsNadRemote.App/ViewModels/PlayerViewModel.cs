@@ -197,7 +197,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             // yes, so create and connect the player
             var result = await _bluPlayerService.ConnectAsync();
             Title = result.Message;
-            if (result.IsConnected == false)
+            if (_bluPlayerService.IsConnected == false)
             {
                 return;
             }

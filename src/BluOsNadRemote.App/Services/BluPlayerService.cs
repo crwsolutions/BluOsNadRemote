@@ -4,6 +4,7 @@ using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Repositories;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Utils;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace BluOsNadRemote.App.Services;
@@ -24,7 +25,10 @@ public sealed partial class BluPlayerService
         BluPlayer?.UpdateAcceptLanguage(info);
     }
 
-    public bool IsConnected { get; set; }
+    private bool _isConnected;
+
+    [MemberNotNullWhen(true, nameof(BluPlayer))]
+    public bool IsConnected => _isConnected && BluPlayer is not null;
 
     public async Task<BluPlayerConnectResult> ConnectAsync()
     {
@@ -47,7 +51,7 @@ public sealed partial class BluPlayerService
 #if DEBUG            
         BluPlayer.Log = new DebugTextWriter();
 #endif
-        IsConnected = true;
+        _isConnected = true;
 
         return new BluPlayerConnectResult(BluPlayer.ToString(), true);
     }
@@ -55,7 +59,7 @@ public sealed partial class BluPlayerService
     public void Disconnect()
     {
         BluPlayer = null;
-        IsConnected = false;
+        _isConnected = false;
     }
 
     public async Task<BluPlayerDiscoverResult> DiscoverAsync()
@@ -94,8 +98,9 @@ public sealed partial class BluPlayerService
         return new BluPlayerDiscoverResult(AppResources.DiscoverPlayersFound.Interpolate(endpoints.Length), true);
     }
 
-    public BluPlayer BluPlayer { get; private set; }
+    public BluPlayer? BluPlayer { get; private set; }
 
-    public MusicContentEntry MusicContentEntry { get; set; }
-    public MusicContentNode MusicContentNode { get; set; }
+    public MusicContentEntry? MusicContentEntry { get; set; }
+
+    public MusicContentNode? MusicContentNode { get; set; }
 }

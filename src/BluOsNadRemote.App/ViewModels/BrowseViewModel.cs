@@ -77,12 +77,12 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
                 await Shell.Current.GoToAsync($"//{nameof(PlayerPage)}");
                 return;
             }
-            else if (_searchTerm != null)
+            else if (_searchTerm is not null && _bluPlayerService.MusicContentNode is not null)
             {
                 var searchNode = await _bluPlayerService.MusicContentNode.Search(_searchTerm);
                 _bluPlayerService.MusicContentNode = searchNode;
             }
-            else if (Service != null)
+            else if (Service != null && (AlbumID is not null || ArtistID is not null))
             {
                 MusicContentNode node;
                 if (AlbumID != null)
@@ -91,7 +91,7 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
                 }
                 else
                 {
-                    node = await _bluPlayerService.BluPlayer.MusicBrowser.GetNodeArtistNode(Service, ArtistID);
+                    node = await _bluPlayerService.BluPlayer.MusicBrowser.GetNodeArtistNode(Service, ArtistID!);
                 }
                 _bluPlayerService.MusicContentNode = node;
             }

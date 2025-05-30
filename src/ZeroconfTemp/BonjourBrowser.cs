@@ -1,4 +1,5 @@
 ﻿#if __IOS__
+#pragma warning disable CA1422 // Validate platform compatibility
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ using Zeroconf;
 
 namespace ZeroConfTemp
 {
-    class BonjourBrowser
+    class BonjourBrowser : IDisposable
     {
         NSNetServiceBrowser netServiceBrowser = new NSNetServiceBrowser();
 
@@ -25,10 +26,10 @@ namespace ZeroConfTemp
 
         double netServiceResolveTimeout;
 
-        /// <summary>
-        /// Implements iOS mDNS browse and resolve
-        /// </summary>
-        /// <param name="resolveTimeout">Time limit for NSNetService.Resolve() operation</param>
+        /// <summary>  
+        /// Implements iOS mDNS browse and resolve  
+        /// </summary>  
+        /// <param name="resolveTimeout">Time limit for NSNetService.Resolve() operation</param>  
         public BonjourBrowser(TimeSpan resolveTimeout = default(TimeSpan))
         {
             netServiceBrowser.FoundDomain += Browser_FoundDomain;
@@ -42,6 +43,12 @@ namespace ZeroConfTemp
             netServiceBrowser.SearchStopped += Browser_SearchStopped;
 
             netServiceResolveTimeout = (resolveTimeout != default(TimeSpan)) ? resolveTimeout.TotalSeconds : 5D;
+        }
+
+        public void Dispose()
+        {
+            netServiceBrowser?.Stop();
+            netServiceBrowser?.Dispose();
         }
 
         private void Browser_FoundDomain(object sender, NSNetDomainEventArgs e)
@@ -177,7 +184,7 @@ namespace ZeroConfTemp
         {
             NSNetService service = e.Service;
 
-            Debug.WriteLine($"{nameof(Browser_ServiceRemoved)}: Name {service.Name} Type {service.Type} Domain {service.Domain} " + 
+            Debug.WriteLine($"{nameof(Browser_ServiceRemoved)}: Name {service.Name} Type {service.Type} Domain {service.Domain} " +
                 $"HostName {service.HostName} Port {service.Port} MoreComing {e.MoreComing.ToString()}");
 
             string serviceKey = GetNsNetServiceKey(service);
@@ -223,9 +230,9 @@ namespace ZeroConfTemp
             Debug.WriteLine($"{nameof(Browser_SearchStopped)}");
         }
 
-        //
-        // Start/Stop search NSNetService search
-        //
+        //  
+        // Start/Stop search NSNetService search  
+        //  
 
         public void StartDomainSearch()
         {
@@ -263,7 +270,7 @@ namespace ZeroConfTemp
             const string localDomain = "local.";
             int localDomainLength = localDomain.Length;
 
-            // All previous service discovery results are discarded
+            // All previous service discovery results are discarded  
 
             lock (discoveredServiceDict)
             {
@@ -292,12 +299,12 @@ namespace ZeroConfTemp
                     {
                         domain = protocol.Substring(serviceType.Length);
 
-                        //           6 = delim.Length
-                        //          /----\ 
-                        // _foo._bar._tcp. example.com.
-                        // 012345678901234 567890123456 index = [0, 26]
-                        // 123456789012345 678901234567 length = 27
-                        //   serviceType      domain
+                        //           6 = delim.Length  
+                        //          /----\   
+                        // _foo._bar._tcp. example.com.  
+                        // 012345678901234 567890123456 index = [0, 26]  
+                        // 123456789012345 678901234567 length = 27  
+                        //   serviceType      domain  
                     }
                     else
                     {
@@ -346,9 +353,9 @@ namespace ZeroConfTemp
             return serviceType;
         }
 
-        //
-        // ZeroconfHost results
-        //
+        //  
+        // ZeroconfHost results  
+        //  
 
         public IReadOnlyList<IZeroconfHost> ReturnZeroconfHostResults()
         {
@@ -375,8 +382,8 @@ namespace ZeroConfTemp
 
         void RefreshZeroconfHostDict()
         {
-            // Do not walk discoveredServiceDict[] directly
-            // If a NSNetService is in discoveredServiceDict[], it was resolved successfully before it was added
+            // Do not walk discoveredServiceDict[] directly  
+            // If a NSNetService is in discoveredServiceDict[], it was resolved successfully before it was added  
 
             List<NSNetService> nsNetServiceList = new List<NSNetService>();
             lock (discoveredServiceDict)
@@ -384,23 +391,23 @@ namespace ZeroConfTemp
                 nsNetServiceList.AddRange(discoveredServiceDict.Values);
             }
 
-            // For each NSNetService, create a ZeroconfHost record
+            // For each NSNetService, create a ZeroconfHost record  
 
             foreach (var nsNetService in nsNetServiceList)
             {
                 Debug.WriteLine($"{nameof(ReturnZeroconfHostResults)}: Name {nsNetService.Name} Type {nsNetService.Type} Domain {nsNetService.Domain} " +
                     $"HostName {nsNetService.HostName} Port {nsNetService.Port}");
 
-                // Obtain or create ZeroconfHost
+                // Obtain or create ZeroconfHost  
 
                 ZeroconfHost host = GetOrCreateZeroconfHost(nsNetService);
 
-                // Add service to ZeroconfHost record
+                // Add service to ZeroconfHost record  
 
                 Service svc = new Service();
                 svc.Name = GetNsNetServiceName(nsNetService);
                 svc.Port = (int)nsNetService.Port;
-                // svc.Ttl = is not available
+                // svc.Ttl = is not available  
 
                 NSData txtRecordData = nsNetService.GetTxtRecordData();
                 if (txtRecordData != null)
@@ -471,9 +478,9 @@ namespace ZeroConfTemp
             return host;
         }
 
-        //
-        // NsNetService utils
-        //
+        //  
+        // NsNetService utils  
+        //  
 
         string GetNsNetServiceKey(NSNetService service)
         {
@@ -556,4 +563,5 @@ namespace ZeroConfTemp
         }
     }
 }
+#pragma warning restore CA1422 // Validate platform compatibility
 #endif

@@ -13,7 +13,7 @@ namespace Nad4Net;
 
 public class NadRemote : IDisposable
 {
-    private CancellationTokenSource _tokenSource;
+    private CancellationTokenSource? _tokenSource;
     private readonly string[] _sources = new string[10];
     private Client? _client;
     private readonly string _host;
@@ -53,10 +53,10 @@ public class NadRemote : IDisposable
 
     private static readonly char[] _equalsSeparator = ['='];
 
-    public async Task<string> PingAsync()
+    public async Task<string?> PingAsync()
     {
         await ReConnectAsync();
-        if (_client.IsConnected)
+        if (_client?.IsConnected is true)
         {
             return await _client.ReadAsync();
         }
@@ -100,7 +100,7 @@ public class NadRemote : IDisposable
         {
             await WriteQueryCommandAsync($"{SOURCE_PREFIX_COMMAND}{i + 1}.Name");
         }
-        Parse(await _client.ReadAsync());
+        Parse(await _client!.ReadAsync());
         resultHandler.Invoke(_model);
     }
 
@@ -138,7 +138,7 @@ public class NadRemote : IDisposable
                     try
                     {
                         await CheckConnection();
-                        var s = await _client.ReadAsync(Timeout);
+                        var s = await _client!.ReadAsync(Timeout);
                         Parse(s);
                         observer.OnNext(_model);
                     }
@@ -170,13 +170,13 @@ public class NadRemote : IDisposable
 
     private void Parse(string s)
     {
-        var strReader = new StringReader(s);
+        using var strReader = new StringReader(s);
 #if DEBUG
         var numLines = s == string.Empty ? 0 : s.Count(c => c.Equals(COMMAND_END)) + 1;
         Debug.WriteLine($"{numLines} properties received");
 #endif
 
-        string line;
+        string? line;
         while ((line = strReader.ReadLine()) != null)
         {
             Debug.WriteLine(line);
@@ -257,7 +257,7 @@ public class NadRemote : IDisposable
     private async Task WriteCommandAync(string command)
     {
         await CheckConnection();
-        await _client.WriteAsync(command);
+        await _client!.WriteAsync(command);
     }
 
     private async Task WriteSetCommandAsync(string name, string value) => await WriteCommandAync($"{name}={value}{COMMAND_END}");

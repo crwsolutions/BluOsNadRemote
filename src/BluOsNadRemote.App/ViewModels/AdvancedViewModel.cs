@@ -84,26 +84,26 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     public string[] ListeningModes => ["None", "NeuralX", "EnhancedStereo", "DolbySurround", "EARS"];
 
     [ObservableProperty]
-    public partial string MainSource { get; set; }
+    public partial string? MainSource { get; set; }
 
     [ObservableProperty]
-    public partial string MainSourceName { get; set; }
+    public partial string? MainSourceName { get; set; }
 
     [ObservableProperty]
-    public partial string MainAudioCODEC { get; set; }
+    public partial string? MainAudioCODEC { get; set; }
 
     [ObservableProperty]
-    public partial string MainAudioChannels { get; set; }
+    public partial string? MainAudioChannels { get; set; }
 
     [ObservableProperty]
-    public partial string MainAudioRate { get; set; }
+    public partial string? MainAudioRate { get; set; }
 
     [ObservableProperty]
-    public partial string MainListeningMode { get; set; }
+    public partial string? MainListeningMode { get; set; }
 
-    partial void OnMainListeningModeChanging(string value)
+    partial void OnMainListeningModeChanging(string? value)
     {
-        if (!IsBusy && !_isReceiving && _service.NadRemote != null)
+        if (!IsBusy && !_isReceiving && _service.NadRemote != null && value is not null)
         {
             _service.NadRemote.SetListeningModeAsync(value).Wait();
         }
@@ -124,42 +124,42 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     public string DiracLabel => $"{AppResources.Dirac} ({MainDirac})";
 
     [ObservableProperty]
-    public partial string Dirac1State { get; set; }
+    public partial string? Dirac1State { get; set; }
 
     [ObservableProperty]
-    public partial string Dirac1Name { get; set; }
+    public partial string? Dirac1Name { get; set; }
 
-    partial void OnDirac1NameChanging(string value)
+    partial void OnDirac1NameChanging(string? value)
     {
-        if (!Diracs.Any(d => d == value))
+        if (!Diracs.Any(d => d == value) && value is not null)
         {
             Diracs.Add(value);
         }
     }
 
     [ObservableProperty]
-    public partial string Dirac2State { get; set; }
+    public partial string? Dirac2State { get; set; }
 
     [ObservableProperty]
-    public partial string Dirac2Name { get; set; }
+    public partial string? Dirac2Name { get; set; }
 
-    partial void OnDirac2NameChanging(string value)
+    partial void OnDirac2NameChanging(string? value)
     {
-        if (!Diracs.Any(d => d == value))
+        if (!Diracs.Any(d => d == value) && value is not null)
         {
             Diracs.Add(value);
         }
     }
 
     [ObservableProperty]
-    public partial string Dirac3State { get; set; }
+    public partial string? Dirac3State { get; set; }
 
     [ObservableProperty]
-    public partial string Dirac3Name { get; set; }
+    public partial string? Dirac3Name { get; set; }
 
-    partial void OnDirac3NameChanging(string value)
+    partial void OnDirac3NameChanging(string? value)
     {
-        if (!Diracs.Any(d => d == value))
+        if (!Diracs.Any(d => d == value) && value is not null)
         {
             Diracs.Add(value);
         }
@@ -241,13 +241,13 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ARCColor))]
-    public partial string MainVideoARC { get; set; }
+    public partial string? MainVideoARC { get; set; }
 
     private static readonly Color disabledColor = new(53, 54, 54);
     public Color ARCColor => MainVideoARC?.ToLower() == "yes" ? Colors.Green : disabledColor;
 
     [ObservableProperty]
-    public partial string MainDolbyDRC { get; set; }
+    public partial string? MainDolbyDRC { get; set; }
 
     public void Dispose()
     {

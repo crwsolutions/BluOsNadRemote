@@ -23,5 +23,5 @@ public partial class BaseRefreshViewModel : BaseViewModel
     }
 
     [ObservableProperty]
-    public partial string Title { get; set; }
+    public partial string? Title { get; set; }
 }

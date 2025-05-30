@@ -6,13 +6,11 @@ namespace BluOsNadRemote.App.Services;
 
 public class NoConnectionDialogService
 {
-    public async Task ShowAsync()
-    {
-        var snackbar = Snackbar.Make(
+    public async Task ShowAsync() => await Snackbar.Make(
             AppResources.NoConnectionDialogMessage,
             null,
-            "OK",
-            TimeSpan.FromSeconds(5),
+            AppResources.Ok,
+            TimeSpan.FromSeconds(7),
             new SnackbarOptions
             {
                 BackgroundColor = Colors.DarkOrange,
@@ -21,7 +19,5 @@ public class NoConnectionDialogService
                 CornerRadius = 8,
                 Font = Microsoft.Maui.Font.SystemFontOfSize(14),
 
-            });
-        await snackbar.Show();
-    }
+            }).Show();
 }

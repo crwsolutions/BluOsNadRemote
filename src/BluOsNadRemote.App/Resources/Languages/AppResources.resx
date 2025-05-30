@@ -336,4 +336,7 @@
   <data name="Connecting" xml:space="preserve">
     <value>connecting</value>
   </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

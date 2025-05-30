@@ -156,14 +156,14 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annuleer</value>
   </data>
-  <data name="AddToFavorites" xml:space="preserve">
-    <value>Als favoriet toevoegen</value>
+  <data name="PlaySimilarstation" xml:space="preserve">
+    <value>Speel radio</value>
   </data>
   <data name="BrowseArtist" xml:space="preserve">
     <value>Ga naar artiest</value>
   </data>
-  <data name="PlaySimilarstation" xml:space="preserve">
-    <value>Speel radio</value>
+  <data name="AddToFavorites" xml:space="preserve">
+    <value>Als favoriet toevoegen</value>
   </data>
   <data name="RemoveFromList" xml:space="preserve">
     <value>Verwijder van lijst</value>
@@ -179,6 +179,9 @@
   </data>
   <data name="NoConnection" xml:space="preserve">
     <value>Geen verbinding</value>
+  </data>
+  <data name="NoConnectionDialogMessage" xml:space="preserve">
+    <value>Er kon geen verbinding worden gemaakt. Probeer het opnieuw door naar beneden te vegen, of ga naar het instellingenmenu om een verbinding in te stellen</value>
   </data>
   <data name="DiscoverNoPlayersFound" xml:space="preserve">
     <value>Ontdekken: Geen spelers gevonden</value>
@@ -228,9 +231,6 @@
   <data name="AudioReturnChannel" xml:space="preserve">
     <value>Audio retourkanaal</value>
   </data>
-  <data name="TogglePower" xml:space="preserve">
-    <value>Aan/Uit schakelen</value>
-  </data>
   <data name="Sub" xml:space="preserve">
     <value>Sub</value>
   </data>
@@ -248,6 +248,9 @@
   </data>
   <data name="DisplayIsDimmed" xml:space="preserve">
     <value>Display is gedimd</value>
+  </data>
+  <data name="TogglePower" xml:space="preserve">
+    <value>Aan/Uit schakelen</value>
   </data>
   <data name="SettingsMoreTitle" xml:space="preserve">
     <value>Meer instellingen</value>
@@ -333,7 +336,7 @@
   <data name="Connecting" xml:space="preserve">
     <value>verbinden</value>
   </data>
-  <data name="NoConnectionDialogMessage" xml:space="preserve">
-    <value>Er kon geen verbinding worden gemaakt. Probeer het opnieuw door naar beneden te vegen, of ga naar het instellingenmenu om een verbinding in te stellen</value>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
   </data>
 </root>

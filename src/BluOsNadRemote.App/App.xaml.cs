@@ -2,7 +2,7 @@
 
 namespace BluOsNadRemote.App;
 
-public partial class App : Application
+public partial class App :  Application
 {
     [Dependency]
     private readonly AdvancedViewModel _advancedViewModel;

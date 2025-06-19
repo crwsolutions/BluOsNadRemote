@@ -16,7 +16,7 @@
 		<!-- For: MVVMTK0041 -->
 		<LangVersion>preview</LangVersion>
 
-		<MauiVersion>9.0.70</MauiVersion>
+		<MauiVersion>9.0.80</MauiVersion>
 
 		<!-- Display name -->
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
@@ -27,7 +27,7 @@
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>10</ApplicationVersion>
+		<ApplicationVersion>11</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>

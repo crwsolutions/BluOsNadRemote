@@ -50,16 +50,14 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(VolumeSymbol))]
     public partial int Volume { get; set; } = 0;
 
-    public string VolumeSymbol {
-        get 
-        {
-            if (Volume == 0) return "g";
-            if (Volume < 5) return "f";
-            if (Volume < 40) return "1";
-            if (Volume < 75) return "2";
-            return "3";
-        }
-    }
+    public string VolumeSymbol => Volume switch
+    {
+        0 => "g",
+        < 5 => "f",
+        < 40 => "1",
+        < 75 => "2",
+        _ => "3"
+    };
 
     partial void OnVolumeChanging(int value)
     {

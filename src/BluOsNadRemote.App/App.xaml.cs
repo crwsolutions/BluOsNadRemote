@@ -29,8 +29,26 @@ public partial class App : Application
         _themeService.Initialize();
     }
 
-    protected override Window CreateWindow(IActivationState? activationState) =>
-        new(new AppShell());
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+#if WINDOWS
+    const int newHeight = 900;
+    const int newWidth = 450;
+    var density = DeviceDisplay.MainDisplayInfo.Density;
+    var screenWidth = DeviceDisplay.MainDisplayInfo.Width / density;
+    var screenHeight = DeviceDisplay.MainDisplayInfo.Height / density;
+
+    return new Window(new AppShell())
+    {
+        Height = newHeight,
+        Width = newWidth,
+        X = (screenWidth / 2) - (newWidth / 2),
+        Y = (screenHeight / 2) - (newHeight / 2)
+    };
+#else
+        return new(new AppShell());
+#endif
+    }
 
     protected override void OnSleep()
     {

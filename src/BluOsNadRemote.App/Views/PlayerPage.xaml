@@ -20,29 +20,28 @@
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <Grid Style="{StaticResource Body}">
             <ScrollView>
-                <Grid ColumnDefinitions="58,*" RowDefinitions="Auto, Auto, Auto, Auto, *" ColumnSpacing="8">
+                <Grid ColumnDefinitions="58, *" RowDefinitions="Auto, auto, Auto, Auto, *" ColumnSpacing="8" >
 
                     <!-- service / song title  -->
-                    <Image Source="{Binding ServiceIconUri, Mode=OneWay}" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="32" HeightRequest="32" />
-                    <VerticalStackLayout Grid.Column="1" Margin="0,8,0,8">
-                        <Label  Text="{Binding Title2, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontSize="20" FontAttributes="Bold"   />
-                        <Label  Text="{Binding Title3, Mode=OneWay}" MaxLines="2" LineBreakMode="TailTruncation" FontSize="14" Padding="0" />
-                    </VerticalStackLayout>
+                    <Image Grid.RowSpan="2" Source="{Binding ServiceIconUri, Mode=OneWay}" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="32" HeightRequest="32" />
+                    <Label Grid.Column="1"  Text="{Binding Title2, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontSize="20" FontAttributes="Bold"   />
+                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Title3, Mode=OneWay}" MaxLines="2" LineBreakMode="TailTruncation" FontSize="14"  Margin="0,0,0,6" />
 
                     <!-- More... -->
-                    <Button Grid.Row="1" Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" IsVisible="{Binding HasMoreMenu}" Style="{StaticResource GlyphButton}"
-                            Text="h" VerticalOptions="Start" />
+                    <Grid Grid.Row="2" RowDefinitions="*, auto, auto">
+                        
+                        <Button Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" IsVisible="{Binding HasMoreMenu}" Style="{StaticResource GlyphButton}"
+                                Text="h" VerticalOptions="Start" />
 
-                    <!-- repeat/ shuffle  -->
-                    <StackLayout Grid.Row="1" VerticalOptions="End" HorizontalOptions="Center" >
-                        <Button FontFamily="CrwMedia" Text="{Binding RepeatModeSymbol, Mode=OneWay}" FontSize="30" TextColor="{Binding RepeatModeColor, Mode=OneWay}"
+                        <!-- repeat/ shuffle  -->
+                        <Button Grid.Row="1" FontFamily="CrwMedia" Text="{Binding RepeatModeSymbol, Mode=OneWay}" FontSize="30" TextColor="{Binding RepeatModeColor, Mode=OneWay}"
                             Command="{Binding ToggleRepeatCommand, Mode=OneTime}" BackgroundColor="Transparent" BorderWidth="0"/>
-                        <Button FontFamily="CrwMedia" Text="a" FontSize="30" TextColor="{Binding ShuffleModeColor, Mode=OneWay}"
+                        <Button Grid.Row="2" FontFamily="CrwMedia" Text="a" FontSize="30" TextColor="{Binding ShuffleModeColor, Mode=OneWay}"
                             Command="{Binding ToggleShuffleCommand, Mode=OneTime}" Margin="0,18,0,0" BackgroundColor="Transparent" BorderWidth="0"/>
-                    </StackLayout>
+                    </Grid>
 
-                    <Border Grid.Column="1" Grid.Row="1" StrokeShape="RoundRectangle 6" Stroke="Transparent">
-                        <Image VerticalOptions="Start" x:Name="AlbumImage" Source="{Binding MediaImageUri, Mode=OneWay}" Margin="0" />
+                    <Border Grid.Column="1" Grid.Row="2" StrokeShape="RoundRectangle 6" Stroke="Transparent">
+                        <Image x:Name="AlbumImage" Source="{Binding MediaImageUri, Mode=OneWay}" Margin="0" />
                     </Border>
 
                     <!-- Quality / Song title -->
@@ -50,9 +49,10 @@
                         <Image Source="{Binding QualityImageIcon, Mode=OneWay}" WidthRequest="22" />
                         <Label IsVisible="{Binding QualityKbsVisible, Mode=OneWay}" Text="{Binding QualityKbs, Mode=OneWay}" FontSize="7" HorizontalTextAlignment="Center" VerticalTextAlignment="End"/>
                     </VerticalStackLayout>
-                    <Label Grid.Row="3" Grid.Column="1" VerticalOptions="End" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
+                    <Label Grid.Row="3" Grid.Column="1" VerticalOptions="Center" Text="{Binding Title1, Mode=OneWay}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold" FontSize="16" />
 
-                    <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="*,auto,*">
+                    <Grid Grid.Row="4" Grid.ColumnSpan="2" RowDefinitions="*, auto, *">
+                        
                         <!-- control buttons -->
                         <Grid RowSpacing="4" ColumnDefinitions="Auto,Auto,Auto,*,Auto">
                             <Button Grid.Column="0" IsVisible="{Binding IsBackVisible, Mode=OneWay}" Command="{Binding BackCommand, Mode=OneTime}" Text="z" Style="{StaticResource CircleButton}"/>
@@ -97,7 +97,7 @@
                             <Button Command="{Binding ToggleMuteCommand, Mode=OneTime}" Text="{Binding MuteImage, Mode=OneWay}" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" Command="{Binding VolumeDownCommand, Mode=OneTime}" Text="m" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="2" Command="{Binding VolumeUpCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}"/>
-                            <Slider Grid.Column="4" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" ThumbColor="Black" />
+                            <Slider Grid.Column="4" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" ThumbColor="Black" VerticalOptions="Center" />
                         </Grid>
                     </Grid>
                 </Grid>

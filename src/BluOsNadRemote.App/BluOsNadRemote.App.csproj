@@ -16,7 +16,7 @@
 		<!-- For: MVVMTK0041 -->
 		<LangVersion>preview</LangVersion>
 
-		<MauiVersion>9.0.80</MauiVersion>
+		<MauiVersion>9.0.90</MauiVersion>
 
 		<!-- Display name -->
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
@@ -62,7 +62,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blu4Net" Version="1.0.8" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="12.1.0" />
 		<PackageReference Include="CommunityToolkit.MVVM" Version="8.4.0" />
 		<PackageReference Include="SourceDepend" Version="1.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />

@@ -4,7 +4,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
-public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
+public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable, IQueryAttributable
 {
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
@@ -30,6 +30,14 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable
             _endpointRepository.SelectedEndpoint = value; //When there are items, there is always a selected item.
         }
         _bluPlayerService.Disconnect();
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue("discover", out var value) && value?.ToString() == "true")
+        {
+            _ = DiscoverAsync();
+        }
     }
 
     public override void IsLoading()

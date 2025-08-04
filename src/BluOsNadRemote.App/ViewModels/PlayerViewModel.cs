@@ -200,6 +200,25 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             // yes, so create and connect the player
             var result = await _bluPlayerService.ConnectAsync();
             Title = result.Message;
+            if (result.HasConnections == false)
+            {
+                await Task.Delay(1000);
+
+                IsBusy = false;
+                bool answer = await Application.Current!.Windows[0].Page!.DisplayAlert(
+                    AppResources.NoConnection,
+                    AppResources.NoConnectionsDialogMessage,
+                    AppResources.Yes,
+                    AppResources.No);
+
+                if (answer)
+                {
+                    await Shell.Current.GoToAsync($"///{nameof(SettingsPage)}?discover=true");
+                }
+
+                return;
+            }
+
             if (_bluPlayerService.IsConnected == false)
             {
                 await _noConnectionDialogService.ShowAsync();

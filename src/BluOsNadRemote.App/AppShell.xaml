@@ -27,6 +27,7 @@
 			ContentTemplate="{DataTemplate views:AdvancedPage}" />
 		<ShellContent
 			Title="{lang:Text Settings}"
+            Route="SettingsPage"
 			Icon="iconsettings.png"
 			ContentTemplate="{DataTemplate views:SettingsPage}" />
 	</TabBar>

@@ -358,6 +358,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not retrieve browsers.
         /// </summary>
         internal static string NoBrowsers {
@@ -390,6 +399,24 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string NoConnectionDialogMessage {
             get {
                 return ResourceManager.GetString("NoConnectionDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No connections have been configured..
+        /// </summary>
+        internal static string NoConnections {
+            get {
+                return ResourceManager.GetString("NoConnections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No connections have been configured. Would you like to proceed to the configuration screen and discover BluOs devices?.
+        /// </summary>
+        internal static string NoConnectionsDialogMessage {
+            get {
+                return ResourceManager.GetString("NoConnectionsDialogMessage", resourceCulture);
             }
         }
         
@@ -723,6 +750,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         internal static string Unknown {
             get {
                 return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

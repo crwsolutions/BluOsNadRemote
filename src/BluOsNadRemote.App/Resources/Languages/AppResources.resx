@@ -339,4 +339,16 @@
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="NoConnections" xml:space="preserve">
+    <value>No connections have been configured.</value>
+  </data>
+  <data name="NoConnectionsDialogMessage" xml:space="preserve">
+    <value>No connections have been configured. Would you like to proceed to the configuration screen and discover BluOs devices?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
 </root>

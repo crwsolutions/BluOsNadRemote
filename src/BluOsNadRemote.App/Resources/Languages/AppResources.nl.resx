@@ -339,4 +339,16 @@
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="NoConnections" xml:space="preserve">
+    <value>Er zijn geen verbindingen geconfigureerd.</value>
+  </data>
+  <data name="NoConnectionsDialogMessage" xml:space="preserve">
+    <value>Er zijn nog geen verbindingen geconfigureerd. Wil je doorgaan naar het configuratiescherm om BluOS-apparaten te ontdekken?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
 </root>

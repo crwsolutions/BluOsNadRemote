@@ -32,9 +32,14 @@ public sealed partial class BluPlayerService
 
     public async Task<BluPlayerConnectResult> ConnectAsync()
     {
+        if (_endpointRepository.GetEndPoints().Length == 0)
+        {
+            return new BluPlayerConnectResult(AppResources.NoConnections, false, false);
+        }
+
         if (_endpointRepository.SelectedEndpoint == null)
         {
-            return new BluPlayerConnectResult(AppResources.NoConnection, false);
+            return new BluPlayerConnectResult(AppResources.NoConnection, false, true);
         }
 
         try
@@ -45,7 +50,7 @@ public sealed partial class BluPlayerService
         }
         catch (Exception exception)
         {
-            return new BluPlayerConnectResult(AppResources.CouldNotConnectResult.Interpolate(exception.Message), false);
+            return new BluPlayerConnectResult(AppResources.CouldNotConnectResult.Interpolate(exception.Message), false, true);
         }
 
 #if DEBUG            
@@ -53,7 +58,7 @@ public sealed partial class BluPlayerService
 #endif
         _isConnected = true;
 
-        return new BluPlayerConnectResult(BluPlayer.ToString(), true);
+        return new BluPlayerConnectResult(BluPlayer.ToString(), true, true);
     }
 
     public void Disconnect()

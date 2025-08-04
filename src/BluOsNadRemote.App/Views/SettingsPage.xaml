@@ -22,8 +22,8 @@
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, *, auto, *, auto" Style="{StaticResource Body}">
-            <CollectionView Grid.Row="1" x:Name="ItemsListView"
+        <Grid RowDefinitions="auto, auto, *, auto" Style="{StaticResource Body}">
+            <CollectionView x:Name="ItemsListView" MinimumHeightRequest="42"
                             EmptyView="No players configured. Discover or add a player."
                             ItemsSource="{Binding EndPoints}"
                             SelectionMode="Single"
@@ -43,18 +43,19 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Grid ColumnDefinitions="*,*" Grid.Row="2" ColumnSpacing="8" Margin="8">
+            <Grid ColumnDefinitions="*,*" Grid.Row="1" ColumnSpacing="8" Margin="12">
                 <Button Text="{lang:Text Discover}" Command="{Binding DiscoverCommand}" />
                 <Button Grid.Column="1" Text="{lang:Text Reset}" Command="{Binding ResetCommand}" />
             </Grid>            
             
-            <ScrollView Grid.Row="3" Margin="12" VerticalScrollBarVisibility="Never">
+            <ScrollView Grid.Row="2" Margin="12" VerticalScrollBarVisibility="Never">
                 <VerticalStackLayout>
                     <ActivityIndicator IsRunning="{Binding IsDiscovering, Mode=OneWay}" Color="{DynamicResource TextColor}" VerticalOptions="Center" HorizontalOptions="Center" />
                     <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
                 </VerticalStackLayout>
             </ScrollView>
-            <Border Grid.Row="4" StrokeShape="RoundRectangle 14" Padding="6" Background="Silver" Margin="24, 12,24,12" Stroke="Gray">
+            
+            <Border Grid.Row="3" StrokeShape="RoundRectangle 14" Padding="6" Background="Silver" Margin="24, 12,24,12" Stroke="Gray">
                 <Label Text="{Binding Version, Mode=OneTime}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
             </Border>
         </Grid>

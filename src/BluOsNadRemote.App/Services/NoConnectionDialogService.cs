@@ -20,4 +20,23 @@ public class NoConnectionDialogService
                 Font = Microsoft.Maui.Font.SystemFontOfSize(14),
 
             }).Show();
+
+    public async Task ShowHasNoConnectionsAsync()
+    {
+        await Task.Delay(1000);
+
+        bool answer = await Application.Current!.Windows[0].Page!.DisplayAlert(
+            AppResources.NoConnection,
+            AppResources.NoConnectionsDialogMessage,
+            AppResources.Yes,
+            AppResources.No);
+
+        if (answer)
+        {
+            HasHandledDiscover = false;
+            await Shell.Current.GoToAsync($"///{nameof(SettingsPage)}?discover=true");
+        }
+    }
+
+    public bool HasHandledDiscover { get; set; }
 }

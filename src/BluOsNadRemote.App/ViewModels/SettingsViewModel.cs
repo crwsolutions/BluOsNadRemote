@@ -34,8 +34,14 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable, IQue
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
+        if (_noConnectionDialogService.HasHandledDiscover)
+        {
+            return;
+        }
+
         if (query.TryGetValue("discover", out var value) && value?.ToString() == "true")
         {
+            _noConnectionDialogService.HasHandledDiscover = true;
             _ = DiscoverAsync();
         }
     }

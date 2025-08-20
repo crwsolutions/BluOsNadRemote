@@ -7,6 +7,18 @@ public partial class PlayerPage : BaseContentPage
 
     partial void PreConstruct() => InitializeComponent();
 
+#if IOS
+    protected override async void OnAppearing()
+    {
+        // HACK: On iOS, after navigating back, the page retains its previous scroll position
+        // and does not automatically scroll back to the top. Adding a short delay ensures layout
+        // completes before scrolling to 0.
+        await Task.Delay(50);
+
+        base.OnAppearing(); // Let the page layout start
+    }
+#endif
+
     protected override void OnSizeAllocated(double width, double height)
     {
         var min = Math.Min(width, height);

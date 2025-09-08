@@ -1,7 +1,8 @@
 ﻿using Blu4Net;
-using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Repositories;
+using BluOsNadRemote.App.Utils;
 using Nad4Net;
+using EndPoint = BluOsNadRemote.App.Models.EndPoint;
 
 namespace BluOsNadRemote.App.ViewModels;
 
@@ -17,7 +18,7 @@ public partial class SettingsPlayerViewModel : BaseRefreshViewModel
     [NotifyPropertyChangedFor(nameof(Uri))]
     public partial string Host { get; set; }
 
-    public string Uri => $"http://{Host}:{BluEnvironment.DefaultEndpointPort}/";
+    public string Uri => BluOsHost.ToUriString(Host);
 
     [RelayCommand]
     private async Task TelnetPingAsync()

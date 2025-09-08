@@ -93,7 +93,7 @@ public sealed partial class BluPlayerService
         {
             var service = services[i];
             var bluPlayer = await BluPlayer.Connect(service.IPAddress);
-            endpoints[i] = new EndPoint($"http://{service.IPAddress}:{BluEnvironment.DefaultEndpointPort}/", bluPlayer.Name);
+            endpoints[i] = new EndPoint(BluOsHost.ToUriString(service.IPAddress), bluPlayer.Name);
         }
 
         _endpointRepository.MergeEndpoints(endpoints);

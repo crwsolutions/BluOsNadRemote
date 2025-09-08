@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Reactive.Linq" Version="6.0.1" />
+    <PackageReference Include="System.Reactive.Linq" Version="6.0.2" />
 	  <PackageReference Include="Telnet" Version="0.13.1" />
   </ItemGroup>
 

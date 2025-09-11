@@ -5,8 +5,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
-[QueryProperty(nameof(CurrentSong), nameof(CurrentSong))]
-public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
+public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable, IQueryAttributable
 {
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
@@ -22,6 +21,17 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable
 
     [ObservableProperty]
     public partial PlayQueueSong SelectedItem { get; set; }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue(nameof(CurrentSong), out var currentSongValue))
+        {
+            if (int.TryParse(currentSongValue?.ToString(), out var currentSong))
+            {
+                CurrentSong = currentSong;
+            }
+        }
+    }
 
     partial void OnSelectedItemChanged(PlayQueueSong value)
     {

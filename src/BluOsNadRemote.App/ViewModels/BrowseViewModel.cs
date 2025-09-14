@@ -5,11 +5,7 @@ using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
-[QueryProperty(nameof(Service), nameof(Service))]
-[QueryProperty(nameof(AlbumID), nameof(AlbumID))]
-[QueryProperty(nameof(ArtistID), nameof(ArtistID))]
-
-public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
+public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable, IQueryAttributable
 {
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
@@ -51,6 +47,24 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable
     [ObservableProperty]
     public partial Uri? ServiceIconUri { get; set; }
     public ObservableCollection<MusicContentCategoryViewModel> Categories { get; } = [];
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue("Service", out var service))
+        {
+            Service = service?.ToString();
+        }
+        
+        if (query.TryGetValue("AlbumID", out var albumId))
+        {
+            AlbumID = albumId?.ToString();
+        }
+        
+        if (query.TryGetValue("ArtistID", out var artistId))
+        {
+            ArtistID = artistId?.ToString();
+        }
+    }
 
     [RelayCommand]
     private async Task LoadDataAsync()

@@ -220,7 +220,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             _volumeChangesSubscriber = bluPlayer.VolumeChanges.Subscribe(volume =>
             {
                 Debug.WriteLine($"Volume: {volume}%");
-                Volume = volume;
+                Volume = volume.Percentage;
             });
 
             _stateChangesSubscriber = bluPlayer.StateChanges.Subscribe(UpdatePlayerState);
@@ -249,7 +249,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
             // get the volume
             var playerVolume = await bluPlayer.GetVolume();
-            Volume = playerVolume;
+            Volume = playerVolume.Percentage;
 
             // get the current playing media
             var media = await bluPlayer.GetMedia();
@@ -259,7 +259,14 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             UpdatePlayPosition(position);
 
             ShuffleMode = await bluPlayer.GetShuffleMode();
-            RepeatMode = await bluPlayer.GetRepeatMode();
+            try
+            {
+                RepeatMode = await bluPlayer.GetRepeatMode();
+            }
+            catch (Exception)
+            {
+                RepeatMode = RepeatMode.RepeatOff;
+            }
 
             Debug.WriteLine($"Media: {media.Titles.FirstOrDefault()}");
 

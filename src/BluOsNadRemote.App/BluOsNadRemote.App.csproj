@@ -61,7 +61,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blu4Net" Version="1.0.8" />
+		<PackageReference Include="Blu4Net" Version="1.0.9" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="CommunityToolkit.MVVM" Version="8.4.0" />
 		<PackageReference Include="SourceDepend" Version="1.0.0" />

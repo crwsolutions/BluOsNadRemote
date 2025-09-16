@@ -6,7 +6,7 @@ namespace BluOsNadRemote.Blu4Net.Channel;
 public sealed class StatusResponse : ILongPollingResponse
 {
     [XmlElement("actions")]
-    public ActionsArray Actions = new ActionsArray();
+    public ActionsArray Actions = new();
 
     [XmlAttribute("etag")]
     public string ETag { get; set; }

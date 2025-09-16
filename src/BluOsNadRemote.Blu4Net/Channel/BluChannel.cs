@@ -496,16 +496,5 @@ namespace Blu4Net.Channel
             }
             return response;
         }
-
-        public async Task<XDocument> GetServices()
-        {
-            var requestUri = new UriBuilder(Endpoint)
-            {
-                Path = "Services",
-            }.Uri;
-
-            var xml = await SendRequest(requestUri, Timeout, CancellationToken.None);
-            return XDocument.Parse(xml);
-        }
     }
 }

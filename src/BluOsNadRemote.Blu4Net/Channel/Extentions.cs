@@ -1,7 +1,8 @@
-﻿using System;
+﻿using BluOsNadRemote.Blu4Net.Channel;
+using System;
 using System.Reactive.Linq;
 
-namespace Blu4Net.Channel
+namespace BluOsNadRemote.Blu4Net.Channel
 {
     public static class Extentions
     {

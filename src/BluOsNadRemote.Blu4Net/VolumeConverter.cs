@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blu4Net
+namespace BluOsNadRemote.Blu4Net
 {
     public static class VolumeConverter
     {

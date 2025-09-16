@@ -1,8 +1,8 @@
-﻿using Blu4Net.Channel;
+﻿using BluOsNadRemote.Blu4Net.Channel;
 using System;
 using System.Collections.Generic;
 
-namespace Blu4Net
+namespace BluOsNadRemote.Blu4Net
 {
     public class GroupingState
     {
@@ -20,7 +20,7 @@ namespace Blu4Net
             Role = GroupingRole.None;
             if (response.Master != null)
                 Role = GroupingRole.Slave;
-            else if ((response.Slave != null && response.Slave.Length > 0) || response.ZoneSlave != null)
+            else if (response.Slave != null && response.Slave.Length > 0 || response.ZoneSlave != null)
                 Role = GroupingRole.Master;
 
             List<GroupNode> nodes = new List<GroupNode>();

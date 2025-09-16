@@ -1,8 +1,8 @@
-﻿using Blu4Net;
-using BluOsNadRemote.App.Extensions;
+﻿using BluOsNadRemote.App.Extensions;
 using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
+using BluOsNadRemote.Blu4Net;
 
 namespace BluOsNadRemote.App.ViewModels;
 

@@ -68,7 +68,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\BluOsNadRemote.Blu4Net\Blu4Net.csproj" />
+		<ProjectReference Include="..\BluOsNadRemote.Blu4Net\BluOsNadRemote.Blu4Net.csproj" />
 		<ProjectReference Include="..\BluOsNadRemote.Nad4Net\BluOsNadRemote.Nad4Net.csproj" />
 		<ProjectReference Include="..\ZeroconfTemp\ZeroConfTemp.csproj" />
 	</ItemGroup>

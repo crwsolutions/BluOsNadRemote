@@ -1,4 +1,4 @@
-﻿namespace Blu4Net.Channel
+﻿namespace BluOsNadRemote.Blu4Net.Channel
 {
     public interface ILongPollingResponse
     {

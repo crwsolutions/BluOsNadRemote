@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BluOsNadRemote.Blu4Net;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -13,7 +14,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace Blu4Net.Channel
+namespace BluOsNadRemote.Blu4Net.Channel
 {
     // https://nadelectronics.com/wp-content/uploads/2019/09/Custom-Integration-API-v1.0.pdf
     public class BluChannel

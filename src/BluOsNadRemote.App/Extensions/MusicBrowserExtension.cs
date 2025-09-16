@@ -1,4 +1,4 @@
-﻿using Blu4Net;
+﻿using BluOsNadRemote.Blu4Net;
 
 namespace BluOsNadRemote.App.Extensions;
 

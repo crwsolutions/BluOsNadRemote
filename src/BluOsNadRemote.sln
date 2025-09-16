@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "http", "http", "{D2D68F86-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZeroConfTemp", "ZeroconfTemp\ZeroConfTemp.csproj", "{DBF6D8AB-5772-48EE-ADC0-0D8FDF644859}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blu4Net", "BluOsNadRemote.Blu4Net\Blu4Net.csproj", "{4A501754-F9DA-9E44-A4F6-B33ABCAA4EA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BluOsNadRemote.Blu4Net", "BluOsNadRemote.Blu4Net\BluOsNadRemote.Blu4Net.csproj", "{4A501754-F9DA-9E44-A4F6-B33ABCAA4EA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

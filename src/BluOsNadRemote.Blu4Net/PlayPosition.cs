@@ -1,7 +1,7 @@
-﻿using Blu4Net.Channel;
+﻿using BluOsNadRemote.Blu4Net.Channel;
 using System;
 
-namespace Blu4Net
+namespace BluOsNadRemote.Blu4Net
 {
     public class PlayPosition
     {

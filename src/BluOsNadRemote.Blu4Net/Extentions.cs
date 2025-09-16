@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace Blu4Net
+namespace BluOsNadRemote.Blu4Net
 {
     public static partial class Extentions
     {

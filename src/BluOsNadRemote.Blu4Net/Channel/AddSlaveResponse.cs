@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace Blu4Net.Channel
+namespace BluOsNadRemote.Blu4Net.Channel
 {
     [XmlRoot("addSlave")]
     public class AddSlaveResponse

@@ -4,7 +4,7 @@ using System.Net;
 using System.Reactive.Linq;
 using Zeroconf;
 
-namespace Blu4Net
+namespace BluOsNadRemote.Blu4Net
 {
     public class BluEnvironment
     {

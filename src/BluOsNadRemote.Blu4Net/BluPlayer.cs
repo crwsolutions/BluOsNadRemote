@@ -1,4 +1,4 @@
-﻿using Blu4Net.Channel;
+﻿using BluOsNadRemote.Blu4Net.Channel;
 using System;
 using System.Globalization;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace Blu4Net
+namespace BluOsNadRemote.Blu4Net
 {
     public class BluPlayer
     {
@@ -312,7 +312,7 @@ namespace Blu4Net
             return null;
         }
 
-        private static string SyncStatusKey(Channel.SyncStatusResponse r)
+        private static string SyncStatusKey(SyncStatusResponse r)
         {
             if (r == null) return string.Empty;
             var slaves = r.Slave?.Select(s => $"{s.Address}:{s.Port}").OrderBy(x => x) ?? Enumerable.Empty<string>();

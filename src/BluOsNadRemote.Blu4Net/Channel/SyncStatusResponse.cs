@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Blu4Net.Channel
+namespace BluOsNadRemote.Blu4Net.Channel
 {
     [XmlRoot("SyncStatus")]
     public class SyncStatusResponse : ILongPollingResponse

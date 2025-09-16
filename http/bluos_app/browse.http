@@ -178,3 +178,6 @@ GET {{base_url}}/Browse?key=Tidal%3AmenuGroup%2F7
 
 ###GET BROWSE TIDAL MY MUSIC > ALBUMS
 GET {{base_url}}/Browse?key=%2FAlbums%3Fservice%3DTidal%26amp%3BbrowseIsFavouritesContext%3D1%26amp%3Bcategory%3DFAVOURITES
+
+###ADD TO PLAY LIST
+GET {{base_url}}/Add?playnow=1&file=Tidal%3a308300372

@@ -1,0 +1,17 @@
+@base_url=http://192.168.107.241:11000
+
+###GET REPEAT STATUS
+GET {{base_url}}/Repeat
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1
+
+###GET SHUFFLE STATUS
+GET {{base_url}}/Shuffle
+Accept-Language: nl-NL
+User-Agent: Bluesound/4.0.3
+x-sovi-schema-version: 34
+x-sovi-ui-schema-version: 1
+x-sovi-ui-autofill: 1

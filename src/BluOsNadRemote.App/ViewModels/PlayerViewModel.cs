@@ -1,8 +1,8 @@
-﻿using Blu4Net;
-using BluOsNadRemote.App.Extensions;
+﻿using BluOsNadRemote.App.Extensions;
 using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
+using BluOsNadRemote.Blu4Net;
 
 namespace BluOsNadRemote.App.ViewModels;
 
@@ -243,32 +243,15 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
             Title = bluPlayer.ToString();
 
-            // get the state
-            var state = await bluPlayer.GetState();
-            UpdatePlayerState(state);
+            var status = await bluPlayer.GetStatus();
+            UpdatePlayerState(status.State);
+            Volume = status.Volume.Percentage;
+            UpdatePlayerMedia(status.Media);
+            UpdatePlayPosition(status.Position);
+            ShuffleMode = status.Shuffle;
+            RepeatMode = status.Repeat;
 
-            // get the volume
-            var playerVolume = await bluPlayer.GetVolume();
-            Volume = playerVolume.Percentage;
-
-            // get the current playing media
-            var media = await bluPlayer.GetMedia();
-            UpdatePlayerMedia(media);
-
-            var position = await bluPlayer.GetPosition();
-            UpdatePlayPosition(position);
-
-            ShuffleMode = await bluPlayer.GetShuffleMode();
-            try
-            {
-                RepeatMode = await bluPlayer.GetRepeatMode();
-            }
-            catch (Exception)
-            {
-                RepeatMode = RepeatMode.RepeatOff;
-            }
-
-            Debug.WriteLine($"Media: {media.Titles.FirstOrDefault()}");
+            Debug.WriteLine($"Media: {status.Media.Titles.FirstOrDefault()}");
 
             if (_timer == null)
             {
@@ -426,99 +409,175 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     }
 
     [RelayCommand]
-    private async Task ToggleMuteAsync()
-    {
-        if (_bluPlayerService.BluPlayer != null)
+        private async Task ToggleMuteAsync()
         {
-            var isMuted = await _bluPlayerService.BluPlayer.Mute(!IsMuted);
-            IsMuted = isMuted == 1;
-        }
-    }
-
-    [RelayCommand]
-    private async Task VolumeUpAsync() => await SetAndClampVolumeAsync(Volume + 2);
-
-    [RelayCommand]
-    private async Task VolumeDownAsync() => await SetAndClampVolumeAsync(Volume - 2);
-
-    [RelayCommand]
-    private async Task StopAsync()
-    {
-        if (_bluPlayerService.BluPlayer != null)
-        {
-            PlayerState = await _bluPlayerService.BluPlayer.Stop();
-        }
-    }
-
-    [RelayCommand]
-    private async Task PlayAsync()
-    {
-        if (_bluPlayerService.BluPlayer != null)
-        {
-            PlayerState = await _bluPlayerService.BluPlayer.Play();
-        }
-    }
-
-    [RelayCommand]
-    private async Task PauseAsync()
-    {
-        if (_bluPlayerService.BluPlayer != null)
-        {
-            PlayerState = await _bluPlayerService.BluPlayer.Pause();
-        }
-    }
-
-    [RelayCommand]
-    private async Task SkipAsync()
-    {
-        if (_bluPlayerService.BluPlayer != null)
-        {
-            if (_skipAction == null)
+            try
             {
-                await _bluPlayerService.BluPlayer.Skip();
+                if (_bluPlayerService.BluPlayer != null)
+                {
+                    var isMuted = await _bluPlayerService.BluPlayer.Mute(!IsMuted);
+                    IsMuted = isMuted == 1;
+                }
             }
-            else
+            catch (Exception exception)
             {
-                await _bluPlayerService.BluPlayer.Action(_skipAction);
+                Debug.WriteLine(exception);
             }
         }
-    }
 
-    [RelayCommand]
-    private async Task BackAsync()
-    {
-        if (_bluPlayerService.BluPlayer != null)
+        [RelayCommand]
+        private async Task VolumeUpAsync()
         {
-            if (_backAction == null)
+            try
             {
-                await _bluPlayerService.BluPlayer.Back();
+                await SetAndClampVolumeAsync(Volume + 2);
             }
-            else
+            catch (Exception exception)
             {
-                await _bluPlayerService.BluPlayer.Action(_backAction);
+                Debug.WriteLine(exception);
             }
         }
-    }
 
-    [RelayCommand]
-    private async Task ToggleShuffleAsync()
-    {
-        if (_bluPlayerService.BluPlayer != null)
+        [RelayCommand]
+        private async Task VolumeDownAsync()
         {
-            ShuffleMode = ShuffleMode.ToNextShuffleMode();
-            await _bluPlayerService.BluPlayer.SetShuffleMode(ShuffleMode);
+            try
+            {
+                await SetAndClampVolumeAsync(Volume - 2);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
         }
-    }
 
-    [RelayCommand]
-    private async Task ToggleRepeatAsync()
-    {
-        if (_bluPlayerService.BluPlayer != null)
+        [RelayCommand]
+        private async Task StopAsync()
         {
-            RepeatMode = RepeatMode.ToNextRepeatMode();
-            await _bluPlayerService.BluPlayer.SetRepeatMode(RepeatMode);
+            try
+            {
+                if (_bluPlayerService.BluPlayer != null)
+                {
+                    PlayerState = await _bluPlayerService.BluPlayer.Stop();
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
         }
-    }
+
+        [RelayCommand]
+        private async Task PlayAsync()
+        {
+            try
+            {
+                if (_bluPlayerService.BluPlayer != null)
+                {
+                    PlayerState = await _bluPlayerService.BluPlayer.Play();
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+        }
+
+        [RelayCommand]
+        private async Task PauseAsync()
+        {
+            try
+            {
+                if (_bluPlayerService.BluPlayer != null)
+                {
+                    PlayerState = await _bluPlayerService.BluPlayer.Pause();
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+        }
+
+        [RelayCommand]
+        private async Task SkipAsync()
+        {
+            try
+            {
+                if (_bluPlayerService.BluPlayer != null)
+                {
+                    if (_skipAction == null)
+                    {
+                        await _bluPlayerService.BluPlayer.Skip();
+                    }
+                    else
+                    {
+                        await _bluPlayerService.BluPlayer.Action(_skipAction);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+        }
+
+        [RelayCommand]
+        private async Task BackAsync()
+        {
+            try
+            {
+                if (_bluPlayerService.BluPlayer != null)
+                {
+                    if (_backAction == null)
+                    {
+                        await _bluPlayerService.BluPlayer.Back();
+                    }
+                    else
+                    {
+                        await _bluPlayerService.BluPlayer.Action(_backAction);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+        }
+
+        [RelayCommand]
+        private async Task ToggleShuffleAsync()
+        {
+            try
+            {
+                if (_bluPlayerService.BluPlayer != null)
+                {
+                    ShuffleMode = ShuffleMode.ToNextShuffleMode();
+                    await _bluPlayerService.BluPlayer.SetShuffleMode(ShuffleMode);
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+        }
+
+        [RelayCommand]
+        private async Task ToggleRepeatAsync()
+        {
+            try
+            {
+                if (_bluPlayerService.BluPlayer != null)
+                {
+                    RepeatMode = RepeatMode.ToNextRepeatMode();
+                    await _bluPlayerService.BluPlayer.SetRepeatMode(RepeatMode);
+                }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+        }
 
     [RelayCommand]
     private async Task NavigateToQueueAsync()

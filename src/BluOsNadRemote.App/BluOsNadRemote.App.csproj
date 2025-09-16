@@ -61,7 +61,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blu4Net" Version="1.0.9" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="CommunityToolkit.MVVM" Version="8.4.0" />
 		<PackageReference Include="SourceDepend" Version="1.0.0" />
@@ -69,6 +68,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\BluOsNadRemote.Blu4Net\BluOsNadRemote.Blu4Net.csproj" />
 		<ProjectReference Include="..\BluOsNadRemote.Nad4Net\BluOsNadRemote.Nad4Net.csproj" />
 		<ProjectReference Include="..\ZeroconfTemp\ZeroConfTemp.csproj" />
 	</ItemGroup>

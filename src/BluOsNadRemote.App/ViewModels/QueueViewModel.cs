@@ -1,7 +1,7 @@
-﻿using Blu4Net;
-using BluOsNadRemote.App.Models;
+﻿using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
+using BluOsNadRemote.Blu4Net;
 
 namespace BluOsNadRemote.App.ViewModels;
 
@@ -161,6 +161,11 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable, IQ
         }
 
         if (_iterator == null)
+        {
+            return;
+        }
+
+        if (Songs.Count < _numberOfItemsPerPage)  //with a short number of items RemainingItemsThresholdReachedCommand is triggered, this should prevent that
         {
             return;
         }

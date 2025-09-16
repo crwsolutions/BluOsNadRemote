@@ -1,6 +1,6 @@
-﻿using Blu4Net;
-using BluOsNadRemote.App.Repositories;
+﻿using BluOsNadRemote.App.Repositories;
 using BluOsNadRemote.App.Utils;
+using BluOsNadRemote.Blu4Net;
 using Nad4Net;
 using EndPoint = BluOsNadRemote.App.Models.EndPoint;
 

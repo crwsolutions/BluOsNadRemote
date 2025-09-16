@@ -2,6 +2,12 @@
 
 namespace BluOsNadRemote.Blu4Net.Channel
 {
+    [XmlInclude(typeof(NotificationActionResponse))]
+    [XmlInclude(typeof(BackActionResponse))]
+    [XmlInclude(typeof(SkipActionResponse))]
+    [XmlInclude(typeof(BanActionResponse))]
+    [XmlInclude(typeof(LoveActionResponse))]
+    [XmlInclude(typeof(StateResponse))]
     public class ActionResponse
     {
     }
@@ -60,18 +66,6 @@ namespace BluOsNadRemote.Blu4Net.Channel
         public override string ToString()
         {
             return $"Love: {Text}";
-        }
-    }
-
-    [XmlRoot("state")]
-    public class StateActionResponse : ActionResponse
-    {
-        [XmlText()]
-        public string Text;
-
-        public override string ToString()
-        {
-            return $"State: {Text}";
         }
     }
 }

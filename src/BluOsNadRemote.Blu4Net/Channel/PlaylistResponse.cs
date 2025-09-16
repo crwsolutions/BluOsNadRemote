@@ -14,6 +14,12 @@ namespace BluOsNadRemote.Blu4Net.Channel
         [XmlAttribute("modified")]
         public int Modified;
 
+        [XmlAttribute("shuffle")]
+        public int Shuffle;
+
+        [XmlAttribute("repeat")]
+        public int Repeat;
+
         [XmlElement("song")]
         public Song[] Songs = new Song[0];
 

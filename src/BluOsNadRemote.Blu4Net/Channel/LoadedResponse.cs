@@ -2,9 +2,13 @@
 
 namespace BluOsNadRemote.Blu4Net.Channel
 {
+
+    [XmlInclude(typeof(PlaylistLoadedResponse))]
+    [XmlInclude(typeof(StateResponse))]
     public class LoadedResponse
     {
     }
+
 
     [XmlRoot("loaded")]
     public class PlaylistLoadedResponse : LoadedResponse
@@ -18,18 +22,6 @@ namespace BluOsNadRemote.Blu4Net.Channel
         public override string ToString()
         {
             return $"{Service} {Entries}";
-        }
-    }
-
-    [XmlRoot("state")]
-    public class StreamLoadedResponse : LoadedResponse
-    {
-        [XmlText()]
-        public string State;
-
-        public override string ToString()
-        {
-            return State;
         }
     }
 }

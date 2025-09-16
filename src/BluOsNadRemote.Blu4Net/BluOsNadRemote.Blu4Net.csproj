@@ -1,16 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <TargetFramework>net9.0</TargetFramework>
-	  <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
-  </ItemGroup>
+	<!--<PropertyGroup>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+	</PropertyGroup>-->
 
-  <ItemGroup>
-    <PackageReference Include="Zeroconf" Version="3.7.16" />
-  </ItemGroup>
+	<ItemGroup>
+		<DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="9.0.9" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<XmlSerializer Include="BluOsNadRemote.Blu4Net.Channel.*Response" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="9.0.9" />
+		<PackageReference Include="Zeroconf" Version="3.7.16" />
+	</ItemGroup>
 
 </Project>

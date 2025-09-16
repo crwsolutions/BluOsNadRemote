@@ -8,7 +8,7 @@ namespace BluOsNadRemote.Blu4Net
         public string Name { get; private set; }
         public int Length { get; private set; }
 
-        public PlayQueueInfo(PlaylistStatusResponse response)
+        public PlayQueueInfo(PlaylistResponse response)
         {
             if (response == null)
                 throw new ArgumentNullException(nameof(response));

@@ -191,19 +191,19 @@ namespace BluOsNadRemote.Blu4Net.Channel
             return await SendRequest<SyncStatusResponse>("SyncStatus").ConfigureAwait(false);
         }
 
-        public Task<PlayResponse> Play()
+        public Task<StateResponse> Play()
         {
-            return SendRequest<PlayResponse>("Play");
+            return SendRequest<StateResponse>("Play");
         }
 
-        public Task<PlayResponse> Play(int seek)
+        public Task<StateResponse> Play(int seek)
         {
             if (seek < 0)
                 throw new ArgumentException(nameof(seek), "Value must be greater than zero");
 
             var parameters = HttpUtility.ParseQueryString(string.Empty);
             parameters["seek"] = seek.ToString();
-            return SendRequest<PlayResponse>("Play", parameters);
+            return SendRequest<StateResponse>("Play", parameters);
         }
 
         public Task<AddSlaveResponse> AddSlave(string address, int port, bool createStereoPair, ChannelMode slaveChannel, string groupName)
@@ -252,17 +252,17 @@ namespace BluOsNadRemote.Blu4Net.Channel
             return SendRequest<SyncStatusResponse>(zoneUngroupUrl);
         }
 
-        public Task<PlayResponse> PlayByID(int id)
+        public Task<StateResponse> PlayByID(int id)
         {
             if (id < 0)
                 throw new ArgumentException(nameof(id), "Value must be greater than zero");
 
             var parameters = HttpUtility.ParseQueryString(string.Empty);
             parameters["id"] = id.ToString();
-            return SendRequest<PlayResponse>("Play", parameters);
+            return SendRequest<StateResponse>("Play", parameters);
         }
 
-        public async Task<PlayResponse> Pause(int toggle = 0)
+        public async Task<StateResponse> Pause(int toggle = 0)
         {
             if (toggle < 0 || toggle > 1)
                 throw new ArgumentOutOfRangeException(nameof(toggle), "toggle must be 0 or 1");
@@ -273,22 +273,22 @@ namespace BluOsNadRemote.Blu4Net.Channel
                 parameters["toggle"] = toggle.ToString();
             }
 
-            return await SendRequest<PlayResponse>("Pause", parameters).ConfigureAwait(false);
+            return await SendRequest<StateResponse>("Pause", parameters).ConfigureAwait(false);
         }
 
-        public async Task<StopResponse> Stop()
+        public async Task<StateResponse> Stop()
         {
-            return await SendRequest<StopResponse>("Stop").ConfigureAwait(false);
+            return await SendRequest<StateResponse>("Stop").ConfigureAwait(false);
         }
 
-        public async Task<SkipResponse> Skip()
+        public async Task<IdResponse> Skip()
         {
-            return await SendRequest<SkipResponse>("Skip").ConfigureAwait(false);
+            return await SendRequest<IdResponse>("Skip").ConfigureAwait(false);
         }
 
-        public async Task<BackResponse> Back()
+        public async Task<IdResponse> Back()
         {
-            return await SendRequest<BackResponse>("Back").ConfigureAwait(false);
+            return await SendRequest<IdResponse>("Back").ConfigureAwait(false);
         }
 
         public async Task<VolumeResponse> GetVolume()
@@ -316,11 +316,11 @@ namespace BluOsNadRemote.Blu4Net.Channel
             return await SendRequest<VolumeResponse>("Volume", parameters).ConfigureAwait(false);
         }
 
-        public async Task<PlaylistStatusResponse> GetPlaylistStatus()
+        public async Task<PlaylistResponse> GetPlaylistStatus()
         {
             var parameters = HttpUtility.ParseQueryString(string.Empty);
             parameters["length"] = 1.ToString();
-            return await SendRequest<PlaylistStatusResponse>("Playlist", parameters).ConfigureAwait(false);
+            return await SendRequest<PlaylistResponse>("Playlist", parameters).ConfigureAwait(false);
         }
 
         private async Task<PlaylistResponse> GetPlaylist(int startIndex, int length)
@@ -365,9 +365,9 @@ namespace BluOsNadRemote.Blu4Net.Channel
             return GetPlaylist(0, int.MaxValue);
         }
 
-        public async Task<ClearResponse> Clear()
+        public async Task<PlaylistResponse> Clear()
         {
-            return await SendRequest<ClearResponse>("Clear").ConfigureAwait(false);
+            return await SendRequest<PlaylistResponse>("Clear").ConfigureAwait(false);
         }
 
         public Task<DeleteResponse> Delete(int id)
@@ -389,34 +389,34 @@ namespace BluOsNadRemote.Blu4Net.Channel
             return SendRequest<SavedResponse>("Save", parameters);
         }
 
-        public Task<ShuffleResponse> GetShuffle()
+        public Task<PlaylistResponse> GetShuffle()
         {
-            return SendRequest<ShuffleResponse>("Shuffle");
+            return SendRequest<PlaylistResponse>("Shuffle");
         }
 
-        public Task<ShuffleResponse> SetShuffle(int state = 1)
+        public Task<PlaylistResponse> SetShuffle(int state = 1)
         {
             if (state < 0 || state > 1)
                 throw new ArgumentOutOfRangeException(nameof(state), "Value must be 0 or 1");
 
             var parameters = HttpUtility.ParseQueryString(string.Empty);
             parameters["state"] = state.ToString();
-            return SendRequest<ShuffleResponse>("Shuffle", parameters);
+            return SendRequest<PlaylistResponse>("Shuffle", parameters);
         }
 
-        public Task<RepeatResponse> GetRepeat()
+        public Task<PlaylistResponse> GetRepeat()
         {
-            return SendRequest<RepeatResponse>("Repeat");
+            return SendRequest<PlaylistResponse>("Repeat");
         }
 
-        public Task<RepeatResponse> SetRepeat(int state)
+        public Task<PlaylistResponse> SetRepeat(int state)
         {
             if (state < 0 || state > 2)
                 throw new ArgumentOutOfRangeException(nameof(state), "Value must be 0, 1 or 2");
 
             var parameters = HttpUtility.ParseQueryString(string.Empty);
             parameters["state"] = state.ToString();
-            return SendRequest<RepeatResponse>("Repeat", parameters);
+            return SendRequest<PlaylistResponse>("Repeat", parameters);
         }
 
         public async Task<PresetsResponse> GetPresets()
@@ -437,7 +437,7 @@ namespace BluOsNadRemote.Blu4Net.Channel
             var types = new Dictionary<string, Type>
             {
                 { "loaded", typeof(PlaylistLoadedResponse) },
-                { "state", typeof(StreamLoadedResponse) }
+                { "state", typeof(StateResponse) }
             };
 
             return await SendRequest<LoadedResponse>("Preset", types, parameters).ConfigureAwait(false);
@@ -448,7 +448,7 @@ namespace BluOsNadRemote.Blu4Net.Channel
             var types = new Dictionary<string, Type>
             {
                 { "loaded", typeof(PlaylistLoadedResponse) },
-                { "state", typeof(StreamLoadedResponse) },
+                { "state", typeof(StateResponse) },
                 { "addsong", typeof(AddSongResponse) }
             };
 

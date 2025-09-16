@@ -43,7 +43,7 @@ public class BluPlayer
         PlayQueue = new PlayQueue(_channel, status);
         MusicBrowser = new MusicBrowser(_channel, content);
 
-        VolumeChanges = _channel.VolumeChanges
+        VolumeChanges = _channel.StatusChanges
             .SkipWhile(response => response.Decibel == status.Decibel)
             .DistinctUntilChanged(response => response.Decibel)
             .Select(response => new Volume(response));
@@ -77,7 +77,7 @@ public class BluPlayer
 
         GroupingChanges = _channel.SyncStatusChanges
             .SkipWhile(response => SyncStatusKey(response) == initialGroupingKey)
-            .DistinctUntilChanged(response => SyncStatusKey(response))
+            .DistinctUntilChanged(SyncStatusKey)
             .Select(response => new GroupingState(response));
     }
 

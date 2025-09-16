@@ -1,5 +1,4 @@
-﻿using BluOsNadRemote.Blu4Net;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -11,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace BluOsNadRemote.Blu4Net.Channel;
@@ -29,7 +27,6 @@ public class BluChannel
     public TextWriter Log { get; set; }
     public IObservable<StatusResponse> StatusChanges { get; }
     public IObservable<SyncStatusResponse> SyncStatusChanges { get; }
-    public IObservable<VolumeResponse> VolumeChanges { get; }
 
     public BluChannel(Uri endpoint, CultureInfo acceptLanguage)
     {
@@ -42,9 +39,6 @@ public class BluChannel
 
         // recommended long polling interval for SyncStatus changes is 180 seconds
         SyncStatusChanges = LongPolling<SyncStatusResponse>("SyncStatus", 180).Retry(RetryDelay).Publish().RefCount();
-
-        // recommended long polling interval for volume is not specified (use 100)
-        VolumeChanges = LongPolling<VolumeResponse>("Volume", 100).Retry(RetryDelay).Publish().RefCount();
     }
 
     private void LogMessage(string message)

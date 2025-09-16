@@ -3,12 +3,12 @@ using System;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class PlayQueueInfo
+public sealed class PlayQueueInfo
 {
     public string Name { get; private set; }
     public int Length { get; private set; }
 
-    public PlayQueueInfo(PlaylistResponse response)
+    internal PlayQueueInfo(PlaylistResponse response)
     {
         ArgumentNullException.ThrowIfNull(response);
 

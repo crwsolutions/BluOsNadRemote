@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class MusicContentEntry
+public sealed class MusicContentEntry
 {
     private readonly BluChannel _channel;
     private readonly string _key;
@@ -20,7 +20,7 @@ public class MusicContentEntry
     public string Type { get; }
     public Uri ImageUri { get; }
 
-    public MusicContentEntry(BluChannel channel, MusicContentNode node, BrowseContentResponse.Item item)
+    internal MusicContentEntry(BluChannel channel, MusicContentNode node, BrowseContentResponse.Item item)
     {
         _channel = channel ?? throw new ArgumentNullException(nameof(channel));
         Node = node ?? throw new ArgumentNullException(nameof(node));

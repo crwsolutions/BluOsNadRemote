@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class PlayQueue
+public sealed class PlayQueue
 {
     private readonly BluChannel _channel;
     public IObservable<PlayQueueInfo> Changes { get; }
 
-    public PlayQueue(BluChannel channel, StatusResponse status)
+    internal PlayQueue(BluChannel channel, StatusResponse status)
     {
         _channel = channel ?? throw new ArgumentNullException(nameof(channel));
 

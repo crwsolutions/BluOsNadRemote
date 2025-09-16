@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("state")]
-public class StateResponse
+public sealed class StateResponse
 {
     [XmlText()]
     public string State;

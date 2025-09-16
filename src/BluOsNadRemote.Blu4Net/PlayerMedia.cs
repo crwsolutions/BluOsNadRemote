@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class PlayerMedia
+public sealed class PlayerMedia
 {
     public IReadOnlyList<StreamingRadioAction> Actions { get; }
     public IReadOnlyList<string> Titles { get; }
@@ -27,7 +27,7 @@ public class PlayerMedia
     public string AlbumID { get; }
     public string TrackstationID { get; }
 
-    public PlayerMedia(StatusResponse response, Uri endpoint)
+    internal PlayerMedia(StatusResponse response, Uri endpoint)
     {
         ArgumentNullException.ThrowIfNull(response);
 

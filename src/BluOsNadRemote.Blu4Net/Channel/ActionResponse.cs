@@ -13,7 +13,7 @@ public class ActionResponse
 }
 
 [XmlRoot("response")]
-public class NotificationActionResponse : ActionResponse
+public sealed class NotificationActionResponse : ActionResponse
 {
     [XmlText]
     public string Text;
@@ -25,7 +25,7 @@ public class NotificationActionResponse : ActionResponse
 }
 
 [XmlRoot("back")]
-public class BackActionResponse : ActionResponse
+public sealed class BackActionResponse : ActionResponse
 {
     public override string ToString()
     {
@@ -34,7 +34,7 @@ public class BackActionResponse : ActionResponse
 }
 
 [XmlRoot("skip")]
-public class SkipActionResponse : ActionResponse
+public sealed class SkipActionResponse : ActionResponse
 {
     public override string ToString()
     {
@@ -43,7 +43,7 @@ public class SkipActionResponse : ActionResponse
 }
 
 [XmlRoot("ban")]
-public class BanActionResponse : ActionResponse
+public sealed class BanActionResponse : ActionResponse
 {
     [XmlText]
     public string Text;
@@ -55,7 +55,7 @@ public class BanActionResponse : ActionResponse
 }
 
 [XmlRoot("love")]
-public class LoveActionResponse : ActionResponse
+public sealed class LoveActionResponse : ActionResponse
 {
     [XmlAttribute("skip")]
     public string Skip;

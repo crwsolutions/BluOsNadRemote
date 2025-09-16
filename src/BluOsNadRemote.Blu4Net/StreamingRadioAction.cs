@@ -15,7 +15,7 @@ public sealed class StreamingRadioAction
 
     public string Url;
 
-    public StreamingRadioAction(StatusResponse.Action action, Uri endpoint)
+    internal StreamingRadioAction(StatusResponse.Action action, Uri endpoint)
     {
         IconUri = BluParser.ParseAbsoluteUri(action.Icon, endpoint);
         Action = BluParser.ParseAction(action.Name);

@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("browse")]
-public class BrowseContentResponse
+public sealed class BrowseContentResponse
 {
     [XmlAttribute("serviceName")]
     public string ServiceName;
@@ -21,7 +21,7 @@ public class BrowseContentResponse
     public Item[] Items = new Item[0];
 
     [XmlRoot("item")]
-    public class Item
+    public sealed class Item
     {
         [XmlAttribute("browseKey")]
         public string BrowseKey;
@@ -57,10 +57,10 @@ public class BrowseContentResponse
     }
 
     [XmlElement("category")]
-    public Category[] Categories = new Category[0];
+    public Category[] Categories = [];
 
     [XmlRoot("category")]
-    public class Category
+    public sealed class Category
     {
         [XmlAttribute("text")]
         public string Text;

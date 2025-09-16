@@ -18,7 +18,7 @@ public class MusicContentNode
     public IReadOnlyCollection<MusicContentEntry> Entries { get; }
     public IReadOnlyCollection<MusicContentCategory> Categories { get; }
 
-    public MusicContentNode(BluChannel channel, MusicContentNode parent, BrowseContentResponse response)
+    internal MusicContentNode(BluChannel channel, MusicContentNode parent, BrowseContentResponse response)
     {
         _channel = channel ?? throw new ArgumentNullException(nameof(channel));
         Parent = parent;

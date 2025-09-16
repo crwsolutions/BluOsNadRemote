@@ -3,7 +3,7 @@ using System;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class PlayerStatus
+public sealed class PlayerStatus
 {
     internal PlayerStatus(StatusResponse response, Uri Endpoint)
     {

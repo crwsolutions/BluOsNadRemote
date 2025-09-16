@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("presets")]
-public class PresetsResponse
+public sealed class PresetsResponse
 {
     [XmlElement("preset")]
     public Preset[] Presets = new Preset[0];
@@ -14,7 +14,7 @@ public class PresetsResponse
     }
 
     [XmlRoot("preset")]
-    public class Preset
+    public sealed class Preset
     {
         [XmlAttribute("name")]
         public string Name;

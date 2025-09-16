@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("status")]
-public class StatusResponse : ILongPollingResponse
+public sealed class StatusResponse : ILongPollingResponse
 {
     [XmlElement("actions")]
     public ActionsArray Actions = new ActionsArray();
@@ -100,14 +100,14 @@ public class StatusResponse : ILongPollingResponse
         return State;
     }
 
-    public class ActionsArray
+    public sealed class ActionsArray
     {
         [XmlElement("action")]
         public Action[] Items = new Action[0];
     }
 
     [XmlRoot("action")]
-    public class Action
+    public sealed class Action
     {
         [XmlAttribute("icon")]
         public string Icon;

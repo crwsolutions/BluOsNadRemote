@@ -3,12 +3,12 @@ using System;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class PlayPosition
+public sealed class PlayPosition
 {
     public TimeSpan Elapsed { get; private set; }
     public TimeSpan? Length { get; private set; }
 
-    public PlayPosition(StatusResponse response)
+    internal PlayPosition(StatusResponse response)
     {
         ArgumentNullException.ThrowIfNull(response);
 

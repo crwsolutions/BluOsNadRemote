@@ -2,9 +2,9 @@
 
 namespace BluOsNadRemote.Blu4Net;
 
-public static class BluParser
+internal static class BluParser
 {
-    public static Uri ParseAbsoluteUri(string value, Uri baseUri)
+    internal static Uri ParseAbsoluteUri(string value, Uri baseUri)
     {
         if (!string.IsNullOrEmpty(value) && Uri.TryCreate(value, value?.StartsWith("/") == true ? UriKind.Relative : UriKind.RelativeOrAbsolute, out var uri))
         {
@@ -17,7 +17,7 @@ public static class BluParser
         return null;
     }
 
-    public static PlayerState ParseState(string value)
+    internal static PlayerState ParseState(string value)
     {
         if (value != null)
         {
@@ -38,7 +38,7 @@ public static class BluParser
         return PlayerState.Unknown;
     }
 
-    public static PlayerAction ParseAction(string value)
+    internal static PlayerAction ParseAction(string value)
     {
         if (value != null)
         {

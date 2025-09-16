@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class MusicBrowser : MusicContentNode
+public sealed class MusicBrowser : MusicContentNode
 {
 
     private readonly BluChannel _channel;
 
-    public MusicBrowser(BluChannel channel, BrowseContentResponse response)
+    internal MusicBrowser(BluChannel channel, BrowseContentResponse response)
         : base(channel, null, response)
     {
         _channel = channel ?? throw new ArgumentNullException(nameof(channel));

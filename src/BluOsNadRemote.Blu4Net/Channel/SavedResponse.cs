@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("saved")]
-public class SavedResponse
+public sealed class SavedResponse
 {
     [XmlElement("entries")]
     public int Entries;

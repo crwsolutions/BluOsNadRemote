@@ -6,7 +6,7 @@ using Zeroconf;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class BluEnvironment
+public sealed class BluEnvironment
 {
     public static int DefaultEndpointPort = 11000;
     public static TimeSpan DefaultScanTimeout = TimeSpan.FromSeconds(5);

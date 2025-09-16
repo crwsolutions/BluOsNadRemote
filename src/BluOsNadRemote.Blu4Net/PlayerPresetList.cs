@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class PlayerPresetList
+public sealed class PlayerPresetList
 {
     private readonly BluChannel _channel;
 
     public IObservable<IReadOnlyCollection<PlayerPreset>> Changes { get; }
 
-    public PlayerPresetList(BluChannel channel, StatusResponse status)
+    internal PlayerPresetList(BluChannel channel, StatusResponse status)
     {
         _channel = channel ?? throw new ArgumentNullException(nameof(channel));
 

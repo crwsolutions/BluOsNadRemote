@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("id")]
-public class IdResponse
+public sealed class IdResponse
 {
     [XmlText()]
     public int ID;

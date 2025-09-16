@@ -3,7 +3,7 @@ using System;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class Volume
+public sealed class Volume
 {
     public double Decibel { get; }
 
@@ -11,7 +11,7 @@ public class Volume
 
     public int Percentage { get; }
 
-    public Volume(StatusResponse response)
+    internal Volume(StatusResponse response)
     {
         ArgumentNullException.ThrowIfNull(response);
 
@@ -20,7 +20,7 @@ public class Volume
         Percentage = response.Volume;
     }
 
-    public Volume(VolumeResponse response)
+    internal Volume(VolumeResponse response)
     {
         ArgumentNullException.ThrowIfNull(response);
 

@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("volume")]
-public class VolumeResponse : ILongPollingResponse
+public sealed class VolumeResponse : ILongPollingResponse
 {
     [XmlAttribute("etag")]
     public string ETag { get; set; }

@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class MusicContentCategory
+public sealed class MusicContentCategory
 {
-    public MusicContentCategory(BluChannel channel, MusicContentNode parent, BrowseContentResponse.Category response)
+    internal MusicContentCategory(BluChannel channel, MusicContentNode parent, BrowseContentResponse.Category response)
     {
         ArgumentNullException.ThrowIfNull(response);
 

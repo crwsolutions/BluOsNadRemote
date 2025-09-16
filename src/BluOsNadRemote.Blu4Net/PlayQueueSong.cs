@@ -3,7 +3,7 @@ using System;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class PlayQueueSong
+public sealed class PlayQueueSong
 {
     public int ID { get; }
     public string Artist { get; }
@@ -16,7 +16,7 @@ public class PlayQueueSong
     public string ArtistID { get; }
     public string Service { get; }
 
-    public PlayQueueSong(PlaylistResponse.Song response)
+    internal PlayQueueSong(PlaylistResponse.Song response)
     {
         ArgumentNullException.ThrowIfNull(response);
 

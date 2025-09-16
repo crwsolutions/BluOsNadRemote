@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("addsong")]
-public class AddSongResponse : LoadedResponse
+public sealed class AddSongResponse : LoadedResponse
 {
     [XmlAttribute("id")]
     public int ID;

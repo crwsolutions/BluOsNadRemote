@@ -11,7 +11,7 @@ public class LoadedResponse
 
 
 [XmlRoot("loaded")]
-public class PlaylistLoadedResponse : LoadedResponse
+public sealed class PlaylistLoadedResponse : LoadedResponse
 {
     [XmlAttribute("service")]
     public string Service;

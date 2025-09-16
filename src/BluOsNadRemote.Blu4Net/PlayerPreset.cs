@@ -3,13 +3,13 @@ using System;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class PlayerPreset
+public sealed class PlayerPreset
 {
     public int Number { get; }
     public string Name { get; }
     public Uri ImageUri { get; }
 
-    public PlayerPreset(PresetsResponse.Preset response, Uri endpoint)
+    internal PlayerPreset(PresetsResponse.Preset response, Uri endpoint)
     {
         Number = response.ID;
         Name = response.Name;

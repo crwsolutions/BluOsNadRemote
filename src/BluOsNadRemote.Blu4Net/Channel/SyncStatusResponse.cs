@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("SyncStatus")]
-public class SyncStatusResponse : ILongPollingResponse
+public sealed class SyncStatusResponse : ILongPollingResponse
 {
     [XmlAttribute("etag")]
     public string ETag { get; set; }
@@ -66,7 +66,7 @@ public class SyncStatusResponse : ILongPollingResponse
     }
 }
 
-public class Master
+public sealed class Master
 {
     [XmlAttribute("port")]
     public int Port;
@@ -77,7 +77,7 @@ public class Master
     public override string ToString() => $"{Address}:{Port}";
 }
 
-public class Slave
+public sealed class Slave
 {
     [XmlAttribute("port")]
     public int Port;
@@ -88,7 +88,7 @@ public class Slave
     public override string ToString() => $"{Address}:{Port}";
 }
 
-public class ZoneSlave
+public sealed class ZoneSlave
 {
     [XmlAttribute("id")]
     public string Address;

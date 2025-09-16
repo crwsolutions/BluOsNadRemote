@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class BluPlayer
+public sealed class BluPlayer
 {
     private readonly BluChannel _channel;
 

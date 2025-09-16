@@ -3,7 +3,7 @@
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 [XmlRoot("deleted")]
-public class DeleteResponse
+public sealed class DeleteResponse
 {
     [XmlText]
     public int ID;

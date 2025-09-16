@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BluOsNadRemote.Blu4Net;
 
-public class GroupingState
+public sealed class GroupingState
 {
     public GroupingRole Role { get; }
     public ChannelMode? ChannelMode { get; }
@@ -36,7 +36,7 @@ public class GroupingState
     }
 }
 
-public class GroupNode
+public sealed class GroupNode
 {
     public GroupingRole Role { get; }
     public Uri Endpoint { get; }

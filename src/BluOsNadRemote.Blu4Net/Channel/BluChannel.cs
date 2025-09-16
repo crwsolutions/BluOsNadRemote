@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 namespace BluOsNadRemote.Blu4Net.Channel;
 
 // https://nadelectronics.com/wp-content/uploads/2019/09/Custom-Integration-API-v1.0.pdf
-public class BluChannel
+public sealed class BluChannel
 {
 #if FILE_LOGGING
     int counter = 0;

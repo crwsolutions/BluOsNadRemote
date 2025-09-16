@@ -1,60 +1,59 @@
 ﻿using System;
 
-namespace BluOsNadRemote.Blu4Net
+namespace BluOsNadRemote.Blu4Net;
+
+public static class BluParser
 {
-    public static class BluParser
+    public static Uri ParseAbsoluteUri(string value, Uri baseUri)
     {
-        public static Uri ParseAbsoluteUri(string value, Uri baseUri)
+        if (!string.IsNullOrEmpty(value) && Uri.TryCreate(value, value?.StartsWith("/") == true ? UriKind.Relative : UriKind.RelativeOrAbsolute, out var uri))
         {
-            if (!string.IsNullOrEmpty(value) && Uri.TryCreate(value, value?.StartsWith("/") == true ? UriKind.Relative : UriKind.RelativeOrAbsolute, out var uri))
+            if (uri.IsAbsoluteUri)
             {
-                if (uri.IsAbsoluteUri)
-                {
-                    return uri;
-                }
-                return new Uri(baseUri, uri);
+                return uri;
             }
-            return null;
+            return new Uri(baseUri, uri);
         }
+        return null;
+    }
 
-        public static PlayerState ParseState(string value)
+    public static PlayerState ParseState(string value)
+    {
+        if (value != null)
         {
-            if (value != null)
+            switch (value)
             {
-                switch (value)
-                {
-                    case "stream":
-                        return PlayerState.Streaming;
-                    case "play":
-                        return PlayerState.Playing;
-                    case "pause":
-                        return PlayerState.Paused;
-                    case "stop":
-                        return PlayerState.Stopped;
-                    case "connecting":
-                        return PlayerState.Connecting;
-                }
+                case "stream":
+                    return PlayerState.Streaming;
+                case "play":
+                    return PlayerState.Playing;
+                case "pause":
+                    return PlayerState.Paused;
+                case "stop":
+                    return PlayerState.Stopped;
+                case "connecting":
+                    return PlayerState.Connecting;
             }
-            return PlayerState.Unknown;
         }
+        return PlayerState.Unknown;
+    }
 
-        public static PlayerAction ParseAction(string value)
+    public static PlayerAction ParseAction(string value)
+    {
+        if (value != null)
         {
-            if (value != null)
+            switch (value)
             {
-                switch (value)
-                {
-                    case "back":
-                        return PlayerAction.Back;
-                    case "skip":
-                        return PlayerAction.Skip;
-                    case "love":
-                        return PlayerAction.Love;
-                    case "ban":
-                        return PlayerAction.Ban;
-                }
+                case "back":
+                    return PlayerAction.Back;
+                case "skip":
+                    return PlayerAction.Skip;
+                case "love":
+                    return PlayerAction.Love;
+                case "ban":
+                    return PlayerAction.Ban;
             }
-            return PlayerAction.Unknown;
         }
+        return PlayerAction.Unknown;
     }
 }

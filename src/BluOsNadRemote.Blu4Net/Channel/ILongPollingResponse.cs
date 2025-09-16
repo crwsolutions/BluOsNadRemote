@@ -1,7 +1,6 @@
-﻿namespace BluOsNadRemote.Blu4Net.Channel
+﻿namespace BluOsNadRemote.Blu4Net.Channel;
+
+public interface ILongPollingResponse
 {
-    public interface ILongPollingResponse
-    {
-        string ETag { get; set; }
-    }
+    string ETag { get; set; }
 }

@@ -1,37 +1,36 @@
 ﻿using BluOsNadRemote.Blu4Net.Channel;
 using System;
 
-namespace BluOsNadRemote.Blu4Net
+namespace BluOsNadRemote.Blu4Net;
+
+public class Volume
 {
-    public class Volume
+    public double Decibel { get; }
+
+    public bool IsMuted { get; }
+
+    public int Percentage { get; }
+
+    public Volume(StatusResponse response)
     {
-        public double Decibel { get; }
+        ArgumentNullException.ThrowIfNull(response);
 
-        public bool IsMuted { get; }
+        Decibel = response.Decibel;
+        IsMuted = response.Volume == 0;
+        Percentage = response.Volume;
+    }
 
-        public int Percentage { get; }
+    public Volume(VolumeResponse response)
+    {
+        ArgumentNullException.ThrowIfNull(response);
 
-        public Volume(StatusResponse response)
-        {
-            ArgumentNullException.ThrowIfNull(response);
+        Decibel = response.Decibel;
+        IsMuted = response.Mute == 1;
+        Percentage = response.Volume;
+    }
 
-            Decibel = response.Decibel;
-            IsMuted = response.Volume == 0;
-            Percentage = response.Volume;
-        }
-
-        public Volume(VolumeResponse response)
-        {
-            ArgumentNullException.ThrowIfNull(response);
-
-            Decibel = response.Decibel;
-            IsMuted = response.Mute == 1;
-            Percentage = response.Volume;
-        }
-
-        public override string ToString()
-        {
-            return $"{Percentage}% {Decibel}db";
-        }
+    public override string ToString()
+    {
+        return $"{Percentage}% {Decibel}db";
     }
 }

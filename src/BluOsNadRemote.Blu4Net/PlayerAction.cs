@@ -1,11 +1,10 @@
-﻿namespace BluOsNadRemote.Blu4Net
+﻿namespace BluOsNadRemote.Blu4Net;
+
+public enum PlayerAction
 {
-    public enum PlayerAction
-    {
-        Unknown = 0,
-        Back = 1,
-        Skip = 2,
-        Love = 3,
-        Ban = 4,
-    }
+    Unknown = 0,
+    Back = 1,
+    Skip = 2,
+    Love = 3,
+    Ban = 4,
 }

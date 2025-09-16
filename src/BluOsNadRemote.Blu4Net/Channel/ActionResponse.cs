@@ -1,71 +1,70 @@
 ﻿using System.Xml.Serialization;
 
-namespace BluOsNadRemote.Blu4Net.Channel
+namespace BluOsNadRemote.Blu4Net.Channel;
+
+[XmlInclude(typeof(NotificationActionResponse))]
+[XmlInclude(typeof(BackActionResponse))]
+[XmlInclude(typeof(SkipActionResponse))]
+[XmlInclude(typeof(BanActionResponse))]
+[XmlInclude(typeof(LoveActionResponse))]
+[XmlInclude(typeof(StateResponse))]
+public class ActionResponse
 {
-    [XmlInclude(typeof(NotificationActionResponse))]
-    [XmlInclude(typeof(BackActionResponse))]
-    [XmlInclude(typeof(SkipActionResponse))]
-    [XmlInclude(typeof(BanActionResponse))]
-    [XmlInclude(typeof(LoveActionResponse))]
-    [XmlInclude(typeof(StateResponse))]
-    public class ActionResponse
+}
+
+[XmlRoot("response")]
+public class NotificationActionResponse : ActionResponse
+{
+    [XmlText]
+    public string Text;
+
+    public override string ToString()
     {
+        return $"Notification: {Text}";
     }
+}
 
-    [XmlRoot("response")]
-    public class NotificationActionResponse : ActionResponse
+[XmlRoot("back")]
+public class BackActionResponse : ActionResponse
+{
+    public override string ToString()
     {
-        [XmlText]
-        public string Text;
-
-        public override string ToString()
-        {
-            return $"Notification: {Text}";
-        }
+        return "back";
     }
+}
 
-    [XmlRoot("back")]
-    public class BackActionResponse : ActionResponse
+[XmlRoot("skip")]
+public class SkipActionResponse : ActionResponse
+{
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            return "back";
-        }
+        return "skip";
     }
+}
 
-    [XmlRoot("skip")]
-    public class SkipActionResponse : ActionResponse
+[XmlRoot("ban")]
+public class BanActionResponse : ActionResponse
+{
+    [XmlText]
+    public string Text;
+
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            return "skip";
-        }
+        return $"ban {Text}";
     }
+}
 
-    [XmlRoot("ban")]
-    public class BanActionResponse : ActionResponse
+[XmlRoot("love")]
+public class LoveActionResponse : ActionResponse
+{
+    [XmlAttribute("skip")]
+    public string Skip;
+
+    [XmlText()]
+    public string Text;
+
+    public override string ToString()
     {
-        [XmlText]
-        public string Text;
-
-        public override string ToString()
-        {
-            return $"ban {Text}";
-        }
-    }
-
-    [XmlRoot("love")]
-    public class LoveActionResponse : ActionResponse
-    {
-        [XmlAttribute("skip")]
-        public string Skip;
-
-        [XmlText()]
-        public string Text;
-
-        public override string ToString()
-        {
-            return $"Love: {Text}";
-        }
+        return $"Love: {Text}";
     }
 }

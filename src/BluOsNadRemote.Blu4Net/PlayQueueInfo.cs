@@ -1,25 +1,23 @@
 ﻿using BluOsNadRemote.Blu4Net.Channel;
 using System;
 
-namespace BluOsNadRemote.Blu4Net
+namespace BluOsNadRemote.Blu4Net;
+
+public class PlayQueueInfo
 {
-    public class PlayQueueInfo
+    public string Name { get; private set; }
+    public int Length { get; private set; }
+
+    public PlayQueueInfo(PlaylistResponse response)
     {
-        public string Name { get; private set; }
-        public int Length { get; private set; }
+        ArgumentNullException.ThrowIfNull(response);
 
-        public PlayQueueInfo(PlaylistResponse response)
-        {
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
+        Name = response.Name;
+        Length = response.Length;
+    }
 
-            Name = response.Name;
-            Length = response.Length;
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
+    public override string ToString()
+    {
+        return Name;
     }
 }

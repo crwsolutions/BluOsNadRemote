@@ -1,8 +1,7 @@
-﻿namespace BluOsNadRemote.Blu4Net
+﻿namespace BluOsNadRemote.Blu4Net;
+
+public enum ChannelMode
 {
-    public enum ChannelMode
-    {
-        Left,
-        Right
-    }
+    Left,
+    Right
 }

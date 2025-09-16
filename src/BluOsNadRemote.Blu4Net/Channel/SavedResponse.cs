@@ -1,16 +1,15 @@
 ﻿using System.Xml.Serialization;
 
-namespace BluOsNadRemote.Blu4Net.Channel
-{
-    [XmlRoot("saved")]
-    public class SavedResponse
-    {
-        [XmlElement("entries")]
-        public int Entries;
+namespace BluOsNadRemote.Blu4Net.Channel;
 
-        public override string ToString()
-        {
-            return Entries.ToString();
-        }
+[XmlRoot("saved")]
+public class SavedResponse
+{
+    [XmlElement("entries")]
+    public int Entries;
+
+    public override string ToString()
+    {
+        return Entries.ToString();
     }
 }

@@ -4,64 +4,62 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BluOsNadRemote.Blu4Net
+namespace BluOsNadRemote.Blu4Net;
+
+public class MusicContentNode
 {
-    public class MusicContentNode
+    private readonly BluChannel _channel;
+    private readonly string _searchKey;
+    private readonly string _nextKey;
+
+    public MusicContentNode Parent { get; }
+    public string ServiceName { get; }
+    public Uri ServiceIconUri { get; }
+    public IReadOnlyCollection<MusicContentEntry> Entries { get; }
+    public IReadOnlyCollection<MusicContentCategory> Categories { get; }
+
+    public MusicContentNode(BluChannel channel, MusicContentNode parent, BrowseContentResponse response)
     {
-        private readonly BluChannel _channel;
-        private readonly string _searchKey;
-        private readonly string _nextKey;
+        _channel = channel ?? throw new ArgumentNullException(nameof(channel));
+        Parent = parent;
+        ArgumentNullException.ThrowIfNull(response);
 
-        public MusicContentNode Parent { get; }
-        public string ServiceName { get; }
-        public Uri ServiceIconUri { get; }
-        public IReadOnlyCollection<MusicContentEntry> Entries { get; }
-        public IReadOnlyCollection<MusicContentCategory> Categories { get; }
+        _searchKey = response.SearchKey;
+        _nextKey = string.IsNullOrEmpty(response.NextKey) ? null : response.NextKey;
 
-        public MusicContentNode(BluChannel channel, MusicContentNode parent, BrowseContentResponse response)
-        {
-            _channel = channel ?? throw new ArgumentNullException(nameof(channel));
-            Parent = parent;
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
+        ServiceName = response.ServiceName;
+        ServiceIconUri = BluParser.ParseAbsoluteUri(response.ServiceIcon, _channel.Endpoint);
+        Entries = response.Items != null ? response.Items.Select(element => new MusicContentEntry(channel, this, element)).ToArray() : new MusicContentEntry[0];
+        Categories = response.Categories != null ? response.Categories.Select(category => new MusicContentCategory(channel, this, category)).ToArray() : new MusicContentCategory[0];
+    }
 
-            _searchKey = response.SearchKey;
-            _nextKey = string.IsNullOrEmpty(response.NextKey) ? null : response.NextKey;
+    public bool IsSearchable
+    {
+        get { return _searchKey != null; }
+    }
 
-            ServiceName = response.ServiceName;
-            ServiceIconUri = BluParser.ParseAbsoluteUri(response.ServiceIcon, _channel.Endpoint);
-            Entries = response.Items != null ? response.Items.Select(element => new MusicContentEntry(channel, this, element)).ToArray() : new MusicContentEntry[0];
-            Categories = response.Categories != null ? response.Categories.Select(category => new MusicContentCategory(channel, this, category)).ToArray() : new MusicContentCategory[0];
-        }
+    public async Task<MusicContentNode> Search(string searchTerm)
+    {
+        if (_searchKey == null)
+            throw new NotSupportedException("Musicsource is not searchable");
 
-        public bool IsSearchable
-        {
-            get { return _searchKey != null; }
-        }
+        var response = await _channel.BrowseContent(_searchKey, searchTerm).ConfigureAwait(false);
+        return new MusicContentNode(_channel, this, response);
+    }
 
-        public async Task<MusicContentNode> Search(string searchTerm)
-        {
-            if (_searchKey == null)
-                throw new NotSupportedException("Musicsource is not searchable");
+    public bool HasNext
+    {
+        get { return _nextKey != null; }
+    }
 
-            var response = await _channel.BrowseContent(_searchKey, searchTerm).ConfigureAwait(false);
-            return new MusicContentNode(_channel, this, response);
-        }
+    public async Task<MusicContentNode> ResolveNext()
+    {
+        var response = await _channel.BrowseContent(_nextKey).ConfigureAwait(false);
+        return new MusicContentNode(_channel, this, response);
+    }
 
-        public bool HasNext
-        {
-            get { return _nextKey != null; }
-        }
-
-        public async Task<MusicContentNode> ResolveNext()
-        {
-            var response = await _channel.BrowseContent(_nextKey).ConfigureAwait(false);
-            return new MusicContentNode(_channel, this, response);
-        }
-
-        public override string ToString()
-        {
-            return ServiceName;
-        }
+    public override string ToString()
+    {
+        return ServiceName;
     }
 }

@@ -1,12 +1,11 @@
-﻿namespace BluOsNadRemote.Blu4Net
+﻿namespace BluOsNadRemote.Blu4Net;
+
+public enum PlayerState
 {
-    public enum PlayerState
-    {
-        Unknown,
-        Streaming,
-        Playing,
-        Paused,
-        Stopped,
-        Connecting,
-    }
+    Unknown,
+    Streaming,
+    Playing,
+    Paused,
+    Stopped,
+    Connecting,
 }

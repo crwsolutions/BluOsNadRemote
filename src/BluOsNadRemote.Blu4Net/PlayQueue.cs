@@ -5,51 +5,50 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace BluOsNadRemote.Blu4Net
+namespace BluOsNadRemote.Blu4Net;
+
+public class PlayQueue
 {
-    public class PlayQueue
+    private readonly BluChannel _channel;
+    public IObservable<PlayQueueInfo> Changes { get; }
+
+    public PlayQueue(BluChannel channel, StatusResponse status)
     {
-        private readonly BluChannel _channel;
-        public IObservable<PlayQueueInfo> Changes { get; }
+        _channel = channel ?? throw new ArgumentNullException(nameof(channel));
 
-        public PlayQueue(BluChannel channel, StatusResponse status)
+        Changes = _channel.StatusChanges
+        .SkipWhile(response => response.PlaylistID == status.PlaylistID)
+        .DistinctUntilChanged(response => response.PlaylistID)
+        .SelectAsync(async _ => await GetInfo().ConfigureAwait(false));
+    }
+
+    public async Task<PlayQueueInfo> GetInfo()
+    {
+        var status = await _channel.GetPlaylistStatus().ConfigureAwait(false);
+        return new PlayQueueInfo(status);
+    }
+
+    public async IAsyncEnumerable<IReadOnlyCollection<PlayQueueSong>> GetSongs(int pageSize)
+    {
+        await foreach (var list in _channel.GetPlaylistPaged(pageSize).ConfigureAwait(false))
         {
-            _channel = channel ?? throw new ArgumentNullException(nameof(channel));
-
-            Changes = _channel.StatusChanges
-            .SkipWhile(response => response.PlaylistID == status.PlaylistID)
-            .DistinctUntilChanged(response => response.PlaylistID)
-            .SelectAsync(async _ => await GetInfo().ConfigureAwait(false));
+            yield return list.Songs.Select(element => new PlayQueueSong(element)).ToArray();
         }
+    }
 
-        public async Task<PlayQueueInfo> GetInfo()
-        {
-            var status = await _channel.GetPlaylistStatus().ConfigureAwait(false);
-            return new PlayQueueInfo(status);
-        }
+    public Task Clear()
+    {
+        return _channel.Clear();
+    }
 
-        public async IAsyncEnumerable<IReadOnlyCollection<PlayQueueSong>> GetSongs(int pageSize)
-        {
-            await foreach (var list in _channel.GetPlaylistPaged(pageSize).ConfigureAwait(false))
-            {
-                yield return list.Songs.Select(element => new PlayQueueSong(element)).ToArray();
-            }
-        }
+    public Task Remove(int songID)
+    {
+        return _channel.Delete(songID);
+    }
 
-        public Task Clear()
-        {
-            return _channel.Clear();
-        }
-
-        public Task Remove(int songID)
-        {
-            return _channel.Delete(songID);
-        }
-
-        public async Task<int> Save(string name)
-        {
-            var response = await _channel.Save(name).ConfigureAwait(false);
-            return response.Entries;
-        }
+    public async Task<int> Save(string name)
+    {
+        var response = await _channel.Save(name).ConfigureAwait(false);
+        return response.Entries;
     }
 }

@@ -3,15 +3,14 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace BluOsNadRemote.Blu4Net
+namespace BluOsNadRemote.Blu4Net;
+
+public static partial class Extentions
 {
-    public static partial class Extentions
+    public static IObservable<TResult> SelectAsync<T, TResult>(this IObservable<T> source, Func<T, Task<TResult>> selector)
     {
-        public static IObservable<TResult> SelectAsync<T, TResult>(this IObservable<T> source, Func<T, Task<TResult>> selector)
-        {
-            return source
-                .Select(value => Observable.FromAsync(() => selector(value)))
-                .Concat();
-        }
+        return source
+            .Select(value => Observable.FromAsync(() => selector(value)))
+            .Concat();
     }
 }

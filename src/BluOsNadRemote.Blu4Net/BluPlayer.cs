@@ -83,13 +83,9 @@ namespace BluOsNadRemote.Blu4Net
 
         public static async Task<BluPlayer> Connect(Uri endpoint, CultureInfo acceptLanguage = null)
         {
-            if (endpoint == null)
-                throw new ArgumentNullException(nameof(endpoint));
+            ArgumentNullException.ThrowIfNull(endpoint);
 
-            if (acceptLanguage == null)
-            {
-                acceptLanguage = new CultureInfo("en-US");
-            }
+            acceptLanguage ??= new CultureInfo("en-US");
 
             var channel = new BluChannel(endpoint, acceptLanguage);
             var syncStatus = await channel.GetSyncStatus().ConfigureAwait(false);
@@ -101,8 +97,7 @@ namespace BluOsNadRemote.Blu4Net
 
         public static Task<BluPlayer> Connect(IPAddress address, int port = 11000, CultureInfo acceptLanguage = null)
         {
-            if (address == null)
-                throw new ArgumentNullException(nameof(address));
+            ArgumentNullException.ThrowIfNull(address);
 
             var endpoint = new UriBuilder("http", address.ToString(), port).Uri;
             return Connect(endpoint, acceptLanguage);
@@ -110,8 +105,7 @@ namespace BluOsNadRemote.Blu4Net
 
         public static Task<BluPlayer> Connect(string host, int port = 11000, CultureInfo acceptLanguage = null)
         {
-            if (host == null)
-                throw new ArgumentNullException(nameof(host));
+            ArgumentNullException.ThrowIfNull(host);
 
             var endpoint = new UriBuilder("http", host, port).Uri;
             return Connect(endpoint, acceptLanguage);

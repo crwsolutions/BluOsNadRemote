@@ -165,6 +165,11 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable, IQ
             return;
         }
 
+        if (Songs.Count < _numberOfItemsPerPage)  //with a short number of items RemainingItemsThresholdReachedCommand is triggered, this should prevent that
+        {
+            return;
+        }
+
         try
         {
             _isGettingMore = true;

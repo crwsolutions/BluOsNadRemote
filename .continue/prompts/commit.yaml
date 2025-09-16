@@ -1,0 +1,17 @@
+name: Generate commit message
+version: 0.0.1
+schema: v1
+
+prompts:
+  - name: Commit
+    description: Generate commit message
+    prompt: |
+      @diff
+
+      Generate a commit message for the above set of changes. 
+      
+      - For single file changes, Start with the filename, followed by a brief summary (e.g., "Header.js - Added responsive design"). 
+        Do not anything else! 
+      - For multiple file changes, Begin with the main file name, followed by a summary that encompasses all changes followed by a blanc line. Then include a bullet list of all modified files with their respective summaries When determining the main file.
+      
+      - Only write concise and short messages.

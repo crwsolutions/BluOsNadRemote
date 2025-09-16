@@ -138,6 +138,12 @@ namespace BluOsNadRemote.Blu4Net
             return response.Volume;
         }
 
+        public async Task<PlayerStatus> GetStatus()
+        {
+            var response = await _channel.GetStatus().ConfigureAwait(false);
+            return new PlayerStatus(response, Endpoint);
+        }
+
         public async Task<PlayerState> GetState()
         {
             var response = await _channel.GetStatus().ConfigureAwait(false);

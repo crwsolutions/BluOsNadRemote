@@ -243,32 +243,15 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
             Title = bluPlayer.ToString();
 
-            // get the state
-            var state = await bluPlayer.GetState();
-            UpdatePlayerState(state);
+            var status = await bluPlayer.GetStatus();
+            UpdatePlayerState(status.State);
+            Volume = status.Volume.Percentage;
+            UpdatePlayerMedia(status.Media);
+            UpdatePlayPosition(status.Position);
+            ShuffleMode = status.Shuffle;
+            RepeatMode = status.Repeat;
 
-            // get the volume
-            var playerVolume = await bluPlayer.GetVolume();
-            Volume = playerVolume.Percentage;
-
-            // get the current playing media
-            var media = await bluPlayer.GetMedia();
-            UpdatePlayerMedia(media);
-
-            var position = await bluPlayer.GetPosition();
-            UpdatePlayPosition(position);
-
-            ShuffleMode = await bluPlayer.GetShuffleMode();
-            try
-            {
-                RepeatMode = await bluPlayer.GetRepeatMode();
-            }
-            catch (Exception)
-            {
-                RepeatMode = RepeatMode.RepeatOff;
-            }
-
-            Debug.WriteLine($"Media: {media.Titles.FirstOrDefault()}");
+            Debug.WriteLine($"Media: {status.Media.Titles.FirstOrDefault()}");
 
             if (_timer == null)
             {

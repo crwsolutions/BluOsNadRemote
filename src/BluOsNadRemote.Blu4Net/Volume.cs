@@ -11,10 +11,18 @@ namespace BluOsNadRemote.Blu4Net
 
         public int Percentage { get; }
 
+        public Volume(StatusResponse response)
+        {
+            ArgumentNullException.ThrowIfNull(response);
+
+            Decibel = response.Decibel;
+            IsMuted = response.Volume == 0;
+            Percentage = response.Volume;
+        }
+
         public Volume(VolumeResponse response)
         {
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
+            ArgumentNullException.ThrowIfNull(response);
 
             Decibel = response.Decibel;
             IsMuted = response.Mute == 1;

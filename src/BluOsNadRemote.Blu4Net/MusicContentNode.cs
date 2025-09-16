@@ -41,7 +41,9 @@ public class MusicContentNode
     public async Task<MusicContentNode> Search(string searchTerm)
     {
         if (_searchKey == null)
+        {
             throw new NotSupportedException("Musicsource is not searchable");
+        }
 
         var response = await _channel.BrowseContent(_searchKey, searchTerm).ConfigureAwait(false);
         return new MusicContentNode(_channel, this, response);

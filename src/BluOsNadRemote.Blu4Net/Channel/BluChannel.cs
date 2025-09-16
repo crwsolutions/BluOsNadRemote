@@ -130,7 +130,9 @@ public sealed class BluChannel
     {
         ArgumentNullException.ThrowIfNull(request);
         if (timeout < 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(timeout), "Value must be greater than zero");
+        }
 
         return Observable.Create<T>((observer, cancellationToken) =>
         {
@@ -190,7 +192,9 @@ public sealed class BluChannel
     public Task<StateResponse> Play(int seek)
     {
         if (seek < 0)
+        {
             throw new ArgumentException(nameof(seek), "Value must be greater than zero");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["seek"] = seek.ToString();
@@ -201,9 +205,14 @@ public sealed class BluChannel
     {
         ArgumentNullException.ThrowIfNull(address);
         if (address.Length == 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(address), "Value cannot be an empty string");
+        }
+
         if (port < 1 || port > 65535)
+        {
             throw new ArgumentOutOfRangeException(nameof(port), "Value must be between 1 and 65535");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["slave"] = address;
@@ -214,7 +223,9 @@ public sealed class BluChannel
             parameters["channelMode"] = slaveChannel == ChannelMode.Left ? ChannelMode.Right.ToString().ToLower() : ChannelMode.Left.ToString().ToLower();
             parameters["slaveChannelMode"] = slaveChannel.ToString().ToLower();
             if (string.IsNullOrWhiteSpace(groupName) == false)
+            {
                 parameters["group"] = groupName;
+            }
         }
 
 
@@ -225,9 +236,14 @@ public sealed class BluChannel
     {
         ArgumentNullException.ThrowIfNull(address);
         if (address.Length == 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(address), "Value cannot be an empty string");
+        }
+
         if (port < 1 || port > 65535)
+        {
             throw new ArgumentOutOfRangeException(nameof(port), "Value must be between 1 and 65535");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["slave"] = address;
@@ -244,7 +260,9 @@ public sealed class BluChannel
     public Task<StateResponse> PlayByID(int id)
     {
         if (id < 0)
+        {
             throw new ArgumentException(nameof(id), "Value must be greater than zero");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["id"] = id.ToString();
@@ -254,7 +272,9 @@ public sealed class BluChannel
     public async Task<StateResponse> Pause(int toggle = 0)
     {
         if (toggle < 0 || toggle > 1)
+        {
             throw new ArgumentOutOfRangeException(nameof(toggle), "toggle must be 0 or 1");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         if (toggle == 1)
@@ -288,7 +308,9 @@ public sealed class BluChannel
     public async Task<VolumeResponse> SetVolume(int percentage)
     {
         if (percentage < 0 || percentage > 100)
+        {
             throw new ArgumentOutOfRangeException(nameof(percentage), "Value must be between 0 and 100");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["level"] = percentage.ToString();
@@ -298,7 +320,9 @@ public sealed class BluChannel
     public async Task<VolumeResponse> Mute(int mute = 1)
     {
         if (mute < 0 || mute > 1)
+        {
             throw new ArgumentOutOfRangeException(nameof(mute), "Value must be 0 or 1");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["mute"] = mute.ToString();
@@ -315,9 +339,14 @@ public sealed class BluChannel
     private async Task<PlaylistResponse> GetPlaylist(int startIndex, int length)
     {
         if (startIndex < 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(startIndex), "Value must be greater than zero");
+        }
+
         if (length < 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(length), "Value must be greater than zero");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         if (startIndex > 0 || length != int.MaxValue)
@@ -342,7 +371,9 @@ public sealed class BluChannel
         {
             var listing = await GetPlaylist(startIndex, pageSize).ConfigureAwait(false);
             if (listing.Songs.Length == 0)
+            {
                 break;
+            }
 
             yield return listing;
             startIndex += listing.Songs.Length;
@@ -370,7 +401,9 @@ public sealed class BluChannel
     {
         ArgumentNullException.ThrowIfNull(name);
         if (name.Length == 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(name), "Value cannot be an empty string");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["name"] = name.ToString();
@@ -385,7 +418,9 @@ public sealed class BluChannel
     public Task<PlaylistResponse> SetShuffle(int state = 1)
     {
         if (state < 0 || state > 1)
+        {
             throw new ArgumentOutOfRangeException(nameof(state), "Value must be 0 or 1");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["state"] = state.ToString();
@@ -400,7 +435,9 @@ public sealed class BluChannel
     public Task<PlaylistResponse> SetRepeat(int state)
     {
         if (state < 0 || state > 2)
+        {
             throw new ArgumentOutOfRangeException(nameof(state), "Value must be 0, 1 or 2");
+        }
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["state"] = state.ToString();

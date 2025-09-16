@@ -18,19 +18,29 @@ public sealed class GroupingState
 
         Role = GroupingRole.None;
         if (response.Master != null)
+        {
             Role = GroupingRole.Slave;
+        }
         else if (response.Slave != null && response.Slave.Length > 0 || response.ZoneSlave != null)
+        {
             Role = GroupingRole.Master;
+        }
 
         List<GroupNode> nodes = new List<GroupNode>();
         if (response.Master != null)
+        {
             nodes.Add(new GroupNode(response.Master));
+        }
 
         if (response.ZoneSlave != null)
+        {
             nodes.Add(new GroupNode(response.ZoneSlave));
+        }
 
         foreach (var slave in response.Slave ?? Array.Empty<Slave>())
+        {
             nodes.Add(new GroupNode(slave));
+        }
 
         GroupNodes = nodes.AsReadOnly();
     }

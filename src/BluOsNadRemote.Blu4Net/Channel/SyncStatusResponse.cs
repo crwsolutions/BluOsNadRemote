@@ -49,8 +49,16 @@ public sealed class SyncStatusResponse : ILongPollingResponse
     {
         get
         {
-            if (string.IsNullOrEmpty(ChannelName)) return null;
-            if (Enum.TryParse<ChannelMode>(ChannelName, true, out var val)) return val;
+            if (string.IsNullOrEmpty(ChannelName))
+            {
+                return null;
+            }
+
+            if (Enum.TryParse<ChannelMode>(ChannelName, true, out var val))
+            {
+                return val;
+            }
+
             return null;
         }
     }
@@ -104,8 +112,16 @@ public sealed class ZoneSlave
     {
         get
         {
-            if (string.IsNullOrEmpty(ChannelName)) return null;
-            if (Enum.TryParse<ChannelMode>(ChannelName, true, out var val)) return val;
+            if (string.IsNullOrEmpty(ChannelName))
+            {
+                return null;
+            }
+
+            if (Enum.TryParse<ChannelMode>(ChannelName, true, out var val))
+            {
+                return val;
+            }
+
             return null;
         }
     }

@@ -46,7 +46,9 @@ public sealed class MusicContentEntry
     public async Task<MusicContentNode> ResolveContextMenu()
     {
         if (_contextMenuKey == null)
+        {
             throw new InvalidOperationException("This entry has no contextMenu");
+        }
 
         var response = await _channel.BrowseContent(_contextMenuKey).ConfigureAwait(false);
         return new MusicContentNode(_channel, Node, response);
@@ -60,7 +62,9 @@ public sealed class MusicContentEntry
     public async Task<MusicContentNode> Resolve()
     {
         if (_key == null)
+        {
             throw new InvalidOperationException("This entry is not resolvable");
+        }
 
         var response = await _channel.BrowseContent(_key).ConfigureAwait(false);
         return new MusicContentNode(_channel, Node, response);

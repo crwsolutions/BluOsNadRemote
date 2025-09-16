@@ -126,7 +126,9 @@ public sealed class BluPlayer
     public async Task<int> SetVolume(int percentage)
     {
         if (percentage < 0 || percentage > 100)
+        {
             throw new ArgumentOutOfRangeException(nameof(percentage), "Value must be between 0 and 100");
+        }
 
         var response = await _channel.SetVolume(percentage).ConfigureAwait(false);
         return response.Volume;
@@ -251,15 +253,20 @@ public sealed class BluPlayer
         ArgumentNullException.ThrowIfNull(slave);
 
         if (this == slave)
+        {
             throw new ArgumentException("Cannot add self as slave", nameof(slave));
+        }
 
         SyncStatusResponse syncStatus = await _channel.GetSyncStatus();
         if (syncStatus.Master != null)
+        {
             throw new ArgumentException("Cannot add slave to slave", nameof(slave));
+        }
 
         if (syncStatus.Slave?.Any(s => s.Address == slave.Endpoint.Host) == true)
+        {
             throw new ArgumentException($"Player '{slave.Name}' is already a slave", nameof(slave));
-
+        }
 
         return await _channel.AddSlave(slave.Endpoint.Host, slave.Endpoint.Port, createStereoPair, slaveChannel, groupName);
     }
@@ -275,7 +282,9 @@ public sealed class BluPlayer
         ArgumentNullException.ThrowIfNull(slave);
 
         if (this == slave)
+        {
             throw new ArgumentException("Cannot remove self as slave", nameof(slave));
+        }
 
         SyncStatusResponse syncStatus = await _channel.GetSyncStatus();
 
@@ -283,7 +292,9 @@ public sealed class BluPlayer
         bool isFixedGroupSlave = syncStatus.ZoneSlave?.Address == slave.Endpoint.Host == true;
 
         if (isSyncSlave == false && isFixedGroupSlave == false)
+        {
             throw new ArgumentException($"Player '{slave.Name}' is not a slave", nameof(slave));
+        }
 
         return await _channel.RemoveSlave(slave.Endpoint.Host, slave.Endpoint.Port);
     }
@@ -293,7 +304,9 @@ public sealed class BluPlayer
         SyncStatusResponse syncStatus = await _channel.GetSyncStatus();
 
         if (syncStatus.IsZoneController == false)
+        {
             throw new ArgumentException("Player is not a zone controller");
+        }
 
         await _channel.ActionURL(syncStatus.ZoneUngroupUrl);
 
@@ -312,7 +325,11 @@ public sealed class BluPlayer
 
     private static string SyncStatusKey(SyncStatusResponse r)
     {
-        if (r == null) return string.Empty;
+        if (r == null)
+        {
+            return string.Empty;
+        }
+
         var slaves = r.Slave?.Select(s => $"{s.Address}:{s.Port}").OrderBy(x => x) ?? Enumerable.Empty<string>();
         return string.Concat(
             r.IsZoneController ? "ZC" : "NZC", "|",

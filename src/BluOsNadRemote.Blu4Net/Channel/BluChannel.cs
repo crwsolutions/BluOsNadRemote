@@ -356,10 +356,7 @@ public sealed class BluChannel
         }
 
         var response = await SendRequest<PlaylistResponse>("Playlist", parameters).ConfigureAwait(false);
-        if (response.Songs == null)
-        {
-            response.Songs = new PlaylistResponse.Song[0];
-        }
+        response.Songs ??= [];
         return response;
     }
 

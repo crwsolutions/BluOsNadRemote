@@ -443,16 +443,28 @@ namespace BluOsNadRemote.Blu4Net.Channel
             return await SendRequest<LoadedResponse>("Preset", types, parameters).ConfigureAwait(false);
         }
 
-        public async Task<LoadedResponse> PlayURL(string playURL)
+        public async Task<object> PlayURL(string playURL)
         {
             var types = new Dictionary<string, Type>
             {
                 { "loaded", typeof(PlaylistLoadedResponse) },
+                { "playlist", typeof(PlaylistResponse) },
                 { "state", typeof(StateResponse) },
                 { "addsong", typeof(AddSongResponse) }
             };
 
-            return await SendRequest<LoadedResponse>(new Uri(playURL), types).ConfigureAwait(false);
+            Uri uri;
+
+            if (Uri.TryCreate(playURL, UriKind.Absolute, out var absoluteUri) && absoluteUri.Host.Length > 0)
+            {
+                uri = absoluteUri;
+            }
+            else
+            {
+                uri = new Uri(Endpoint, playURL);
+            }
+
+            return await SendRequest<object>(uri, types).ConfigureAwait(false);
         }
 
         public async Task<ActionResponse> ActionURL(string actionURL)

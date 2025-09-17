@@ -6,19 +6,20 @@
 	</PropertyGroup>
 
 	<!--<PropertyGroup>
-		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<UseXmlSerializerGenerator>On</UseXmlSerializerGenerator>
 	</PropertyGroup>-->
 
-	<ItemGroup>
+	
+	<!--<ItemGroup>
 		<DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="9.0.9" />
-	</ItemGroup>
+	</ItemGroup>-->
 	
-	<ItemGroup>
+	<!--<ItemGroup>
 		<XmlSerializer Include="BluOsNadRemote.Blu4Net.Channel.*Response" />
-	</ItemGroup>
+	</ItemGroup>-->
 	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="9.0.9" />
+		<!--<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="9.0.9" />-->
 		<PackageReference Include="Zeroconf" Version="3.7.16" />
 	</ItemGroup>
 

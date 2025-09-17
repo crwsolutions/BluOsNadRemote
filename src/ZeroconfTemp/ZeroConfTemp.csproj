@@ -8,7 +8,7 @@
     <Copyright>© Claire Novotny 2016-2022</Copyright>
     <PackageTags>zeroconf;bonjour;mdns;service;discovery;xamarin;netstandard;universal</PackageTags>
     <Product>Zeroconf</Product>
-    <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
+    <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">false</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>Zeroconf.ruleset</CodeAnalysisRuleSet>
     <SignAssembly>false</SignAssembly>
 	<SignAssembly>true</SignAssembly>

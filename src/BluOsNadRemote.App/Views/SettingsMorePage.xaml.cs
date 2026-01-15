@@ -7,15 +7,19 @@ public partial class SettingsMorePage : ContentPage
 
     partial void PreConstruct() => InitializeComponent();
 
-    private void Language_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private void Language_CheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
-        var radioButton = (RadioButton)sender;
-        ViewModel.SetCulture((string)radioButton.Value);
+        if (sender is RadioButton radioButton)
+        {
+            ViewModel.SetCulture((string)radioButton.Value);
+        }
     }
 
-    private void Theme_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private void Theme_CheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
-        var radioButton = (RadioButton)sender;
-        ViewModel.SetTheme((string)radioButton.Value);
+        if (sender is RadioButton radioButton)
+        {
+            ViewModel.SetTheme((string)radioButton.Value);
+        }
     }
 }

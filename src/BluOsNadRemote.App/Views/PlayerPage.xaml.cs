@@ -33,12 +33,12 @@ public partial class PlayerPage : BaseContentPage
         AlbumImage.MaximumHeightRequest = min - margin;
     }
 
-    private void OnSeekSliderDragStarted(object sender, EventArgs e)
+    private void OnSeekSliderDragStarted(object? sender, EventArgs e)
     {
         ViewModel.IsSeeking = true;
     }
 
-    private async void OnSeekSliderDragCompleted(object sender, EventArgs e)
+    private async void OnSeekSliderDragCompleted(object? sender, EventArgs e)
     {
         try
         {

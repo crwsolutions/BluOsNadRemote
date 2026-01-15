@@ -17,7 +17,7 @@
 		<LangVersion>preview</LangVersion>
 
 		<!-- For: XAML Source generator -->
-		<!--<MauiXamlInflator>SourceGen</MauiXamlInflator>-->
+		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
 		<MauiVersion>10.0.20</MauiVersion>
 

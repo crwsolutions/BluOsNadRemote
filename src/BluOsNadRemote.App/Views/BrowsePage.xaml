@@ -22,7 +22,7 @@
 				Command="{Binding GoBackCommand, Mode=OneTime}" />
             <Image Grid.Column="1" Margin="10" Source="{Binding ServiceIconUri, Mode=OneWay}" 
                 IsVisible="{Binding HasParent, Mode=OneWay}" MaximumHeightRequest="48" />
-            <Label Grid.Column="2" TextColor="White" FontSize="Large" Text="{Binding Title, Mode=OneWay}" 
+            <Label Grid.Column="2" TextColor="White" FontSize="22" Text="{Binding Title, Mode=OneWay}" 
                 HorizontalTextAlignment="Start" VerticalTextAlignment="Center" MaximumHeightRequest="44" />
             <Button Grid.Column="3"
 				WidthRequest="44" Padding="0"

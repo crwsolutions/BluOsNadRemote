@@ -25,7 +25,7 @@ public class NoConnectionDialogService
     {
         await Task.Delay(1000);
 
-        bool answer = await Application.Current!.Windows[0].Page!.DisplayAlert(
+        bool answer = await Application.Current!.Windows[0].Page!.DisplayAlertAsync(
             AppResources.NoConnection,
             AppResources.NoConnectionsDialogMessage,
             AppResources.Yes,

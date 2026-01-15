@@ -32,7 +32,7 @@ public partial class RemoteStepper : ContentView
         lblValue.SetBinding(Label.TextProperty, new Binding(nameof(Value), BindingMode.TwoWay, source: this));
     }
 
-    void btnPlus_Clicked(object sender, EventArgs e)
+    void btnPlus_Clicked(object? sender, EventArgs e)
     {
         if (Maximum == null)
         {
@@ -44,7 +44,7 @@ public partial class RemoteStepper : ContentView
         }
     }
 
-    void btnMinus_Clicked(object sender, EventArgs e)
+    void btnMinus_Clicked(object? sender, EventArgs e)
     {
         if ((Value - Increment) > Minimum)
         {

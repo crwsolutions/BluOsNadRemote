@@ -26,8 +26,8 @@ internal static class BorderExtensions
         border.TranslationY = adjustedY - element.Height / 2;
 
         await Task.WhenAny(
-            border.ScaleTo(maxSize / 10, 600, Easing.Linear),
-            border.FadeTo(0, 400, Easing.Linear)
+            border.ScaleToAsync(maxSize / 10, 600, Easing.Linear),
+            border.FadeToAsync(0, 400, Easing.Linear)
         );
 
         border.IsVisible = false;

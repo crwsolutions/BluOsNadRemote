@@ -33,7 +33,7 @@ public partial class MusicContentEntryViewModel
 
         var page = Shell.Current.CurrentPage;// as BrowsePage;
 
-        var action = await page.DisplayActionSheet(AppResources.Actions, AppResources.Cancel, null, options);
+        var action = await page.DisplayActionSheetAsync(AppResources.Actions, AppResources.Cancel, null, options);
 
         var actionEntry = contextMenu.Entries.FirstOrDefault(e => e.Name == action);
 

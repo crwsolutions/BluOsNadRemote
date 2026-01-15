@@ -117,7 +117,7 @@ public partial class QueueViewModel : BaseRefreshViewModel, IAsyncDisposable, IQ
 
         var page = Shell.Current.CurrentPage;
 
-        var action = await page.DisplayActionSheet(AppResources.Actions, AppResources.Cancel, null, menu.Select(e => e.Value).ToArray());
+        var action = await page.DisplayActionSheetAsync(AppResources.Actions, AppResources.Cancel, null, menu.Select(e => e.Value).ToArray());
 
         var actionEntry = menu.FirstOrDefault(e => e.Value == action);
 

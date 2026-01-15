@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>BluOsNadRemote.App</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -16,7 +16,10 @@
 		<!-- For: MVVMTK0041 -->
 		<LangVersion>preview</LangVersion>
 
-		<MauiVersion>9.0.110</MauiVersion>
+		<!-- For: XAML Source generator -->
+		<!--<MauiXamlInflator>SourceGen</MauiXamlInflator>-->
+
+		<MauiVersion>10.0.20</MauiVersion>
 
 		<!-- Display name -->
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
@@ -61,10 +64,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
 		<PackageReference Include="CommunityToolkit.MVVM" Version="8.4.0" />
 		<PackageReference Include="SourceDepend" Version="1.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+		<BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -89,40 +96,6 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>AppResources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<MauiXaml Update="ContentViews\FormItem.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="ContentViews\RemoteStepper.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="ContentViews\MultilineMusicContentEntry.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="ContentViews\SinglelineMusicContentEntry.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="ContentViews\SpectrumAnalyzerView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="ContentViews\VerticalBarView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\QueuePage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\SettingsMorePage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Views\SettingsPlayerPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
-		<BundleResource Include="Platforms\iOS\PrivacyInfo.xcprivacy" LogicalName="PrivacyInfo.xcprivacy" />
 	</ItemGroup>
 
 	<Import Project="BluOsNadRemote.App.iOsDeploy.user.props" Condition="Exists('BluOsNadRemote.App.iOsDeploy.user.props')" />

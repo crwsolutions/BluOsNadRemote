@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+    <File Path="/src/.editorconfig" />
+  </Folder>
+  <Folder Name="/Solution Items/art/" />
+  <Folder Name="/Solution Items/art/font/">
+    <File Path="/art/font/media_font.svg" />
+    <File Path="/art/font/readme.txt" />
+  </Folder>
+  <Folder Name="/Solution Items/http/">
+    <File Path="/http/bluos_app/browse.http" />
+    <File Path="/http/bluos_app/presets.http" />
+    <File Path="src/player.http" />
+  </Folder>
+  <Project Path="src/BluOsNadRemote.App/BluOsNadRemote.App.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="src/BluOsNadRemote.Blu4Net/BluOsNadRemote.Blu4Net.csproj" />
+  <Project Path="src/BluOsNadRemote.Nad4Net/BluOsNadRemote.Nad4Net.csproj" />
+  <Project Path="src/ZeroconfTemp/ZeroConfTemp.csproj" />
+  <Properties Name="ExtensibilityGlobals" Scope="PostLoad">
+    <Property Name="RESX_MoveToResources" Value="{&quot;Items&quot;:[{&quot;Extensions&quot;:&quot;.cs,.vb&quot;,&quot;Patterns&quot;:&quot;$Namespace.$File.$Key|$File.$Key|StringResourceKey.$Key|$Namespace.StringResourceKey.$Key|nameof($File.$Key), ResourceType = typeof($File)|ErrorMessageResourceType = typeof($File), ErrorMessageResourceName = nameof($File.$Key)&quot;},{&quot;Extensions&quot;:&quot;.cshtml,.vbhtml&quot;,&quot;Patterns&quot;:&quot;@$Namespace.$File.$Key|@$File.$Key|@StringResourceKey.$Key|@$Namespace.StringResourceKey.$Key&quot;},{&quot;Extensions&quot;:&quot;.cpp,.c,.hxx,.h&quot;,&quot;Patterns&quot;:&quot;$File::$Key&quot;},{&quot;Extensions&quot;:&quot;.aspx,.ascx&quot;,&quot;Patterns&quot;:&quot;&lt;%$ Resources:$File,$Key %&gt;|&lt;%= $File.$Key %&gt;|&lt;%= $Namespace.$File.$Key %&gt;&quot;},{&quot;Extensions&quot;:&quot;.xaml&quot;,&quot;Patterns&quot;:&quot;\&quot;{lang:Text $Key}\&quot;&quot;},{&quot;Extensions&quot;:&quot;.ts&quot;,&quot;Patterns&quot;:&quot;resources.$Key&quot;},{&quot;Extensions&quot;:&quot;.html&quot;,&quot;Patterns&quot;:&quot;{{ resources.$Key }}&quot;}]}" />
+  </Properties>
+</Solution>

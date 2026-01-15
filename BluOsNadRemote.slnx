@@ -1,16 +1,16 @@
 <Solution>
   <Folder Name="/Solution Items/">
+    <File Path="src/.editorconfig" />
     <File Path="README.md" />
-    <File Path="/src/.editorconfig" />
   </Folder>
   <Folder Name="/Solution Items/art/" />
   <Folder Name="/Solution Items/art/font/">
-    <File Path="/art/font/media_font.svg" />
-    <File Path="/art/font/readme.txt" />
+    <File Path="art/font/media_font.svg" />
+    <File Path="art/font/readme.txt" />
   </Folder>
   <Folder Name="/Solution Items/http/">
-    <File Path="/http/bluos_app/browse.http" />
-    <File Path="/http/bluos_app/presets.http" />
+    <File Path="http/bluos_app/browse.http" />
+    <File Path="http/bluos_app/presets.http" />
     <File Path="src/player.http" />
   </Folder>
   <Project Path="src/BluOsNadRemote.App/BluOsNadRemote.App.csproj">

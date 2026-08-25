@@ -1,54 +1,131 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml;
 
 namespace BluOsNadRemote.Blu4Net.Channel;
 
-[XmlRoot("browse")]
 public sealed class BrowseContentResponse
 {
-    [XmlAttribute("serviceName")]
     public string ServiceName;
 
-    [XmlAttribute("serviceIcon")]
     public string ServiceIcon;
 
-    [XmlAttribute("searchKey")]
     public string SearchKey;
 
-    [XmlAttribute("nextKey")]
     public string NextKey;
 
-    [XmlElement("item")]
     public Item[] Items = new Item[0];
 
-    [XmlRoot("item")]
+    public Category[] Categories = [];
+
+    internal static BrowseContentResponse Read(XmlReader reader)
+    {
+        if (reader.LocalName == "error")
+        {
+            // /Browse can return an <error> root (with <message>/<detail> children). The old
+            // attribute-based deserializer returned null here (null-reference risk in the
+            // callers); the parser intentionally returns an object with empty collections.
+            reader.Skip();
+            return new BrowseContentResponse();
+        }
+
+        reader.ReadRoot("browse");
+        var response = new BrowseContentResponse
+        {
+            ServiceName = reader.Attr("serviceName"),
+            ServiceIcon = reader.Attr("serviceIcon"),
+            SearchKey = reader.Attr("searchKey"),
+            NextKey = reader.Attr("nextKey"),
+        };
+
+        var items = new List<Item>();
+        var categories = new List<Category>();
+
+        while (reader.Read())
+        {
+            if (reader.NodeType != XmlNodeType.Element)
+            {
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    break;
+                }
+                continue;
+            }
+
+            if (reader.LocalName == "item")
+            {
+                items.Add(Item.Read(reader));
+            }
+            else if (reader.LocalName == "category")
+            {
+                categories.Add(Category.Read(reader));
+            }
+            else
+            {
+                reader.Skip();
+            }
+        }
+
+        response.Items = items.ToArray();
+        response.Categories = categories.ToArray();
+        return response;
+    }
+
     public sealed class Item
     {
-        [XmlAttribute("browseKey")]
         public string BrowseKey;
 
-        [XmlAttribute("type")]
         public string Type;
 
-        [XmlAttribute("text")]
         public string Text;
 
-        [XmlAttribute("text2")]
         public string Text2;
 
-        [XmlAttribute("contextMenuKey")]
         public string ContextMenuKey;
 
-        [XmlAttribute("playURL")]
         public string PlayURL;
 
-        [XmlAttribute("autoplayURL")]
         public string AutoplayURL;
 
-        [XmlAttribute("actionURL")]
         public string ActionURL;
 
-        [XmlAttribute("image")]
         public string Image;
+
+        internal static Item Read(XmlReader reader)
+        {
+            var item = new Item
+            {
+                BrowseKey = reader.Attr("browseKey"),
+                Type = reader.Attr("type"),
+                Text = reader.Attr("text"),
+                Text2 = reader.Attr("text2"),
+                ContextMenuKey = reader.Attr("contextMenuKey"),
+                PlayURL = reader.Attr("playURL"),
+                AutoplayURL = reader.Attr("autoplayURL"),
+                ActionURL = reader.Attr("actionURL"),
+                Image = reader.Attr("image"),
+            };
+
+            if (reader.IsEmptyElement)
+            {
+                return item;
+            }
+
+            // skip nested content, e.g. a <contextMenu> element (withContextMenuItems=1)
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    break;
+                }
+
+                if (reader.NodeType == XmlNodeType.Element)
+                {
+                    reader.Skip();
+                }
+            }
+
+            return item;
+        }
 
         public override string ToString()
         {
@@ -56,20 +133,53 @@ public sealed class BrowseContentResponse
         }
     }
 
-    [XmlElement("category")]
-    public Category[] Categories = [];
-
-    [XmlRoot("category")]
     public sealed class Category
     {
-        [XmlAttribute("text")]
         public string Text;
 
-        [XmlElement("item")]
         public Item[] Items = new Item[0];
 
-        [XmlAttribute("nextKey")]
         public string NextKey;
+
+        internal static Category Read(XmlReader reader)
+        {
+            var category = new Category
+            {
+                Text = reader.Attr("text"),
+                NextKey = reader.Attr("nextKey"),
+            };
+
+            if (reader.IsEmptyElement)
+            {
+                return category;
+            }
+
+            var items = new List<Item>();
+
+            while (reader.Read())
+            {
+                if (reader.NodeType != XmlNodeType.Element)
+                {
+                    if (reader.NodeType == XmlNodeType.EndElement)
+                    {
+                        break;
+                    }
+                    continue;
+                }
+
+                if (reader.LocalName == "item")
+                {
+                    items.Add(Item.Read(reader));
+                }
+                else
+                {
+                    reader.Skip();
+                }
+            }
+
+            category.Items = items.ToArray();
+            return category;
+        }
 
         public override string ToString()
         {

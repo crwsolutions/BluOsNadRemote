@@ -1,18 +1,25 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
 
 namespace BluOsNadRemote.Blu4Net.Channel;
 
-[XmlRoot("addsong")]
 public sealed class AddSongResponse : LoadedResponse
 {
-    [XmlAttribute("id")]
     public int ID;
 
-    [XmlAttribute("count")]
     public int Count;
 
-    [XmlAttribute("length")]
     public int Length;
+
+    new internal static AddSongResponse Read(XmlReader reader)
+    {
+        reader.ReadRoot("addsong");
+        return new AddSongResponse
+        {
+            ID = reader.AttrInt("id"),
+            Count = reader.AttrInt("count"),
+            Length = reader.AttrInt("length"),
+        };
+    }
 
     public override string ToString()
     {

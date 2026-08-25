@@ -1,0 +1,22 @@
+<status etag="a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6">
+    <album>21</album>
+    <canSeek>0</canSeek>
+    <db>-43.1</db>
+    <image>/Artwork?service=Tidal&amp;albumid=443573</image>
+    <name>Rolling in the Deep</name>
+    <pid>2031</pid>
+    <prid>7</prid>
+    <repeat>0</repeat>
+    <service>Tidal</service>
+    <shuffle>1</shuffle>
+    <song></song>
+    <state>stream</state>
+    <streamFormat>FLAC</streamFormat>
+    <streamUrl>Tidal:radio%3A%2F%2F443573</streamUrl>
+    <title1>Rolling in the Deep</title1>
+    <title2>Adele</title2>
+    <title3>21</title3>
+    <totlen>0</totlen>
+    <volume>27</volume>
+    <secs>0</secs>
+</status>

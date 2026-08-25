@@ -1,99 +1,215 @@
-﻿using System.Xml.Serialization;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace BluOsNadRemote.Blu4Net.Channel;
 
-[XmlRoot("status")]
 public sealed class StatusResponse : ILongPollingResponse
 {
-    [XmlElement("actions")]
     public ActionsArray Actions = new();
 
-    [XmlAttribute("etag")]
     public string ETag { get; set; }
 
-    [XmlElement("state")]
     public string State;
 
-    [XmlElement("streamFormat")]
     public string StreamFormat;
 
-    [XmlElement("quality")]
     public string Quality;
 
-    [XmlElement("volume")]
     public int Volume;
 
-    [XmlElement("canSeek")]
     public int CanSeek;
 
-    [XmlElement("db")]
     public double Decibel;
 
-    [XmlElement("image")]
     public string Image;
 
-    [XmlElement("service")]
     public string Service;
 
-    [XmlElement("artist")]
     public string Artist;
 
-    [XmlElement("artistid")]
     public string ArtistID;
 
-    [XmlElement("album")]
     public string Album;
 
-    [XmlElement("albumid")]
     public string AlbumID;
 
-    [XmlElement("title1")]
     public string Title1;
 
-    [XmlElement("title2")]
     public string Title2;
 
-    [XmlElement("title3")]
     public string Title3;
 
-    [XmlElement("song")]
     public int? Song; // can be empty
 
-    [XmlElement("songid")]
     public string SongID;
 
-    [XmlElement("trackstationid")]
     public string TrackstationID;
 
-    [XmlElement("totlen")]
     public double TotalLength;
 
-    [XmlElement("secs")]
     public int Seconds;
 
-    [XmlElement("shuffle")]
     public int Shuffle;
 
-    [XmlElement("repeat")]
     public int Repeat;
 
-    [XmlElement("pid")]
     public string PlaylistID;
 
-    [XmlElement("prid")]
     public string PresetsID;
 
-    [XmlElement("is_preset")]
     public string IsPreset;
 
-    [XmlElement("preset_name")]
     public string PresetName;
 
-    [XmlElement("streamUrl")]
     public string StreamUrl;
 
-    [XmlElement("serviceIcon")]
     public string ServiceIcon;
+
+    internal static StatusResponse Read(XmlReader reader)
+    {
+        reader.ReadRoot("status");
+        var response = new StatusResponse
+        {
+            ETag = reader.Attr("etag"),
+        };
+
+        // ReadText/ReadInt/ReadDouble/ActionsArray.Read leave the reader on the handled
+        // element's EndElement, so Read() must not be called again for that iteration —
+        // otherwise the next sibling element gets skipped (only occurs in minified XML, where
+        // there is no whitespace node between the EndElement and the next sibling).
+        var handled = false;
+        while (true)
+        {
+            if (!handled)
+            {
+                if (!reader.Read())
+                {
+                    break;
+                }
+            }
+            handled = false;
+
+            if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "status")
+            {
+                break;
+            }
+
+            if (reader.NodeType != XmlNodeType.Element)
+            {
+                continue;
+            }
+
+            if (TryReadKnownElement(reader, response))
+            {
+                handled = true;
+            }
+            else
+            {
+                // undocumented elements may be present and are ignored. Skip() leaves the reader
+                // positioned on the next sibling element, so we must not Read() again this pass.
+                reader.Skip();
+                handled = true;
+            }
+        }
+
+        return response;
+    }
+
+    private static bool TryReadKnownElement(XmlReader reader, StatusResponse response)
+    {
+        switch (reader.LocalName)
+        {
+            case "actions":
+                response.Actions = ActionsArray.Read(reader);
+                return true;
+            case "state":
+                response.State = reader.ReadText();
+                return true;
+            case "streamFormat":
+                response.StreamFormat = reader.ReadText();
+                return true;
+            case "quality":
+                response.Quality = reader.ReadText();
+                return true;
+            case "volume":
+                response.Volume = reader.ReadInt();
+                return true;
+            case "canSeek":
+                response.CanSeek = reader.ReadInt();
+                return true;
+            case "db":
+                response.Decibel = reader.ReadDouble();
+                return true;
+            case "image":
+                response.Image = reader.ReadText();
+                return true;
+            case "service":
+                response.Service = reader.ReadText();
+                return true;
+            case "artist":
+                response.Artist = reader.ReadText();
+                return true;
+            case "artistid":
+                response.ArtistID = reader.ReadText();
+                return true;
+            case "album":
+                response.Album = reader.ReadText();
+                return true;
+            case "albumid":
+                response.AlbumID = reader.ReadText();
+                return true;
+            case "title1":
+                response.Title1 = reader.ReadText();
+                return true;
+            case "title2":
+                response.Title2 = reader.ReadText();
+                return true;
+            case "title3":
+                response.Title3 = reader.ReadText();
+                return true;
+            case "song":
+                response.Song = reader.ReadIntOrNullOrThrow();
+                return true;
+            case "songid":
+                response.SongID = reader.ReadText();
+                return true;
+            case "trackstationid":
+                response.TrackstationID = reader.ReadText();
+                return true;
+            case "totlen":
+                response.TotalLength = reader.ReadDouble();
+                return true;
+            case "secs":
+                response.Seconds = reader.ReadInt();
+                return true;
+            case "shuffle":
+                response.Shuffle = reader.ReadInt();
+                return true;
+            case "repeat":
+                response.Repeat = reader.ReadInt();
+                return true;
+            case "pid":
+                response.PlaylistID = reader.ReadText();
+                return true;
+            case "prid":
+                response.PresetsID = reader.ReadText();
+                return true;
+            case "is_preset":
+                response.IsPreset = reader.ReadText();
+                return true;
+            case "preset_name":
+                response.PresetName = reader.ReadText();
+                return true;
+            case "streamUrl":
+                response.StreamUrl = reader.ReadText();
+                return true;
+            case "serviceIcon":
+                response.ServiceIcon = reader.ReadText();
+                return true;
+            default:
+                return false;
+        }
+    }
 
     public override string ToString()
     {
@@ -102,27 +218,68 @@ public sealed class StatusResponse : ILongPollingResponse
 
     public sealed class ActionsArray
     {
-        [XmlElement("action")]
         public Action[] Items = new Action[0];
+
+        internal static ActionsArray Read(XmlReader reader)
+        {
+            var actions = new List<Action>();
+
+            if (reader.IsEmptyElement)
+            {
+                return new ActionsArray();
+            }
+
+            while (reader.Read())
+            {
+                if (reader.NodeType != XmlNodeType.Element)
+                {
+                    if (reader.NodeType == XmlNodeType.EndElement)
+                    {
+                        break;
+                    }
+                    continue;
+                }
+
+                if (reader.LocalName == "action")
+                {
+                    actions.Add(Action.Read(reader));
+                }
+                else
+                {
+                    reader.Skip();
+                }
+            }
+
+            return new ActionsArray
+            {
+                Items = actions.ToArray(),
+            };
+        }
     }
 
-    [XmlRoot("action")]
     public sealed class Action
     {
-        [XmlAttribute("icon")]
         public string Icon;
 
-        [XmlAttribute("name")]
         public string Name;
 
-        [XmlAttribute("notification")]
         public string Notification;
 
-        [XmlAttribute("text")]
         public string Text;
 
-        [XmlAttribute("url")]
         public string Url;
+
+        internal static Action Read(XmlReader reader)
+        {
+            return new Action
+            {
+                Icon = reader.Attr("icon"),
+                Name = reader.Attr("name"),
+                Notification = reader.Attr("notification"),
+                Text = reader.Attr("text"),
+                Url = reader.Attr("url"),
+            };
+        }
 
         public override string ToString()
         {

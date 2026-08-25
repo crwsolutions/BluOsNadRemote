@@ -1,0 +1,14 @@
+<playlist name="Calm Piano" modified="0" length="160" shuffle="1" repeat="0" id="1054">
+    <song albumid="61483452" service="Deezer" artistid="6396188" songid="Deezer:487381362" id="25">
+        <title>2002</title>
+        <art>Anne-Marie</art>
+        <alb>2002</alb>
+        <fn>Deezer:487381362</fn>
+    </song>
+    <song albumid="19926770" service="Tidal" artistid="1297273" songid="Tidal:139297747" id="26" trackstationid="Tidal:radio:track/139297747" similarstationid="Tidal:radio:1297273">
+        <title>Some Track</title>
+        <art>Some Artist</art>
+        <alb>Some Album</alb>
+        <fn>Tidal:139297747</fn>
+    </song>
+</playlist>

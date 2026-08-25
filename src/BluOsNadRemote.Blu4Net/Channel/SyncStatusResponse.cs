@@ -1,50 +1,37 @@
 ﻿using System;
-using System.Xml.Serialization;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace BluOsNadRemote.Blu4Net.Channel;
 
-[XmlRoot("SyncStatus")]
 public sealed class SyncStatusResponse : ILongPollingResponse
 {
-    [XmlAttribute("etag")]
     public string ETag { get; set; }
 
-    [XmlAttribute("modelName")]
     public string ModelName;
 
-    [XmlAttribute("name")]
     public string Name;
 
-    [XmlAttribute("brand")]
     public string Brand;
 
-    [XmlAttribute("volume")]
     public int Volume;
 
-    [XmlAttribute("db")]
     public double Decibel;
 
-    [XmlAttribute("mac")]
     public string MAC;
 
     // Properties for when the player is in sync group
-    [XmlElement("slave")]
     public Slave[] Slave = new Slave[0];
 
-    [XmlElement("master")]
     public Master Master;
 
     // Properties for when the player is part of a zone
-    [XmlAttribute("zoneController")]
     public bool IsZoneController;
 
-    [XmlAttribute("zone")]
     public string ZoneName;
 
-    [XmlAttribute("zoneUngroup")]
     public string ZoneUngroupUrl;
 
-    [XmlIgnore]
     public ChannelMode? ChannelMode
     {
         get
@@ -62,11 +49,62 @@ public sealed class SyncStatusResponse : ILongPollingResponse
             return null;
         }
     }
-    [XmlAttribute("channelName")]
     public string ChannelName;
 
-    [XmlElement("zoneSlave")]
     public ZoneSlave ZoneSlave;
+
+    internal static SyncStatusResponse Read(XmlReader reader)
+    {
+        reader.ReadRoot("SyncStatus");
+        var response = new SyncStatusResponse
+        {
+            ETag = reader.Attr("etag"),
+            ModelName = reader.Attr("modelName"),
+            Name = reader.Attr("name"),
+            Brand = reader.Attr("brand"),
+            Volume = reader.AttrInt("volume"),
+            Decibel = reader.AttrDouble("db"),
+            MAC = reader.Attr("mac"),
+            IsZoneController = reader.AttrBool("zoneController"),
+            ZoneName = reader.Attr("zone"),
+            ZoneUngroupUrl = reader.Attr("zoneUngroup"),
+            ChannelName = reader.Attr("channelName"),
+        };
+
+        var slaves = new List<Slave>();
+
+        while (reader.Read())
+        {
+            if (reader.NodeType != XmlNodeType.Element)
+            {
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    break;
+                }
+                continue;
+            }
+
+            if (reader.LocalName == "slave")
+            {
+                slaves.Add(BluOsNadRemote.Blu4Net.Channel.Slave.Read(reader));
+            }
+            else if (reader.LocalName == "master")
+            {
+                response.Master = Master.Read(reader);
+            }
+            else if (reader.LocalName == "zoneSlave")
+            {
+                response.ZoneSlave = ZoneSlave.Read(reader);
+            }
+            else
+            {
+                reader.Skip();
+            }
+        }
+
+        response.Slave = slaves.ToArray();
+        return response;
+    }
 
     public override string ToString()
     {
@@ -76,38 +114,55 @@ public sealed class SyncStatusResponse : ILongPollingResponse
 
 public sealed class Master
 {
-    [XmlAttribute("port")]
     public int Port;
 
-    [XmlText]
     public string Address;
+
+    internal static Master Read(XmlReader reader)
+    {
+        var master = new Master
+        {
+            Port = reader.AttrInt("port"),
+        };
+
+        if (reader.IsEmptyElement)
+        {
+            return master;
+        }
+
+        master.Address = reader.ReadText();
+        return master;
+    }
 
     public override string ToString() => $"{Address}:{Port}";
 }
 
 public sealed class Slave
 {
-    [XmlAttribute("port")]
     public int Port;
 
-    [XmlAttribute("id")]
     public string Address;
+
+    internal static Slave Read(XmlReader reader)
+    {
+        return new Slave
+        {
+            Port = reader.AttrInt("port"),
+            Address = reader.Attr("id"),
+        };
+    }
 
     public override string ToString() => $"{Address}:{Port}";
 }
 
 public sealed class ZoneSlave
 {
-    [XmlAttribute("id")]
     public string Address;
 
-    [XmlAttribute("port")]
     public int Port;
 
-    [XmlAttribute("zoneSlave")]
     public bool IsZoneSlave;
 
-    [XmlIgnore]
     public ChannelMode? ChannelMode
     {
         get
@@ -125,17 +180,27 @@ public sealed class ZoneSlave
             return null;
         }
     }
-    [XmlAttribute("channelName")]
     public string ChannelName;
 
-    [XmlAttribute("name")]
     public string Name;
 
-    [XmlAttribute("model")]
     public string Model;
 
-    [XmlAttribute("modelName")]
     public string ModelName;
+
+    internal static ZoneSlave Read(XmlReader reader)
+    {
+        return new ZoneSlave
+        {
+            Address = reader.Attr("id"),
+            Port = reader.AttrInt("port"),
+            IsZoneSlave = reader.AttrBool("zoneSlave"),
+            ChannelName = reader.Attr("channelName"),
+            Name = reader.Attr("name"),
+            Model = reader.Attr("model"),
+            ModelName = reader.Attr("modelName"),
+        };
+    }
 
     public override string ToString() => $"{Name} ({Address}:{Port})";
 }

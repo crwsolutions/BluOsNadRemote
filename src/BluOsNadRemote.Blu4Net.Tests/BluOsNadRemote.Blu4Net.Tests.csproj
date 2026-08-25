@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="coverlet.collector" Version="6.0.4" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+		<PackageReference Include="xunit.v3" Version="3.2.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BluOsNadRemote.Blu4Net\BluOsNadRemote.Blu4Net.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+</Project>

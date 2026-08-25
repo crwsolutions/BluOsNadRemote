@@ -1,0 +1,7 @@
+<SyncStatus icon="/images/players/P300_nt.png" volume="4" modelName="PULSE" name="PULSE-0278" model="P300" brand="Bluesound" etag="23" outlevel="-62.9" schemaVersion="25" initialized="true" group="PULSE-0278 + 2" syncStat="23" id="192.168.1.100:11000" mac="90:56:82:9F:02:78" db="-76">
+
+    <master port="11000">192.168.1.100</master>
+
+    <slave port="11000" id="192.168.1.153"/>
+    <slave port="11000" id="192.168.1.234"/>
+</SyncStatus>

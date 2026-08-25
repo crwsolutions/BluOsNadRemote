@@ -1,0 +1,5 @@
+<error>
+    <message>Invalid key</message>
+    <detail>key value 'foobar' is not recognized</detail>
+    <detail>hint: check the browseKey</detail>
+</error>

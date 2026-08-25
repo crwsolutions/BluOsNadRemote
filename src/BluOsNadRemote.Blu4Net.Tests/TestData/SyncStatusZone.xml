@@ -1,0 +1,3 @@
+<SyncStatus etag="100" volume="-1" name="Living Room Zone Controller" brand="NAD" db="-40.5" channelName="Left" zone="Living Room" zoneController="true" zoneUngroup="/ZoneUngroup?zone=Living%20Room" id="192.168.1.50:11000">
+    <zoneSlave id="192.168.1.51" port="11001" zoneSlave="true" channelName="Right" name="Living Room Right" model="C700" modelName="C 700"/>
+</SyncStatus>

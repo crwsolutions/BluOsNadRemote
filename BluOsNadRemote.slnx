@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="src/.editorconfig" />
+    <File Path="docs/BluOS-Custom-Integration-API_v1.7.md" />
     <File Path="global.json" />
     <File Path="README.md" />
   </Folder>

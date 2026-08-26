@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -72,6 +72,15 @@ public sealed class BluChannel
 
         using var reader = XmlReader.Create(new StringReader(xml));
         reader.MoveToContent();
+
+        if (reader.LocalName == "error")
+        {
+            // The player can answer any endpoint with an <error> root (e.g.
+            // <error service="Airable"><message>Login to use favourites</message></error>);
+            // surface it as a BluChannelException with the player-provided message.
+            throw BluChannelException.ParseError(reader);
+        }
+
         return deserialize(reader);
     }
 
@@ -439,6 +448,10 @@ public sealed class BluChannel
             "playlist" => PlaylistResponse.Read(reader),
             "state" => StateResponse.Read(reader),
             "addsong" => AddSongResponse.Read(reader),
+            // /SetPreset (context menu "Add preset") answers with the updated preset list
+            "presets" => PresetsResponse.Read(reader),
+            // /AddFavourite and /DeleteFavourite answer with <favourite> (e.g. "deleted")
+            "favourite" => FavouriteResponse.Read(reader),
             _ => throw new InvalidOperationException($"Encountered invalid xml root element <{reader.LocalName}>")
         };
 

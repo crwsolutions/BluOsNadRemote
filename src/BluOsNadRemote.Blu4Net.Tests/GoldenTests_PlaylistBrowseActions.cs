@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using BluOsNadRemote.Blu4Net.Channel;
 using Xunit;
 
@@ -111,6 +111,26 @@ public class PlaylistPresetsTests
         Assert.Equal("Radio 10 80's Hits", last.Name);
         Assert.Equal("TuneIn:s74982", last.Url);
         Assert.Equal("http://cdn-profiles.tunein.com/s74982/images/logog.png?t=638939129170000000", last.Image);
+    }
+
+    [Fact]
+    public void Read_SetPresetSuccessResponse_PresetsRootParsed()
+    {
+        // exact response shape seen when the context-menu "Add preset" action succeeds (/SetPreset):
+        // the player answers with the updated <presets> list (accepted by the PlayURL dispatch).
+        using var reader = Fixture.CreateReader("""
+            <?xml version="1.0" encoding="UTF-8"?>
+            <presets prid="1">
+              <preset id="1" name="98.9 | NPO Radio 1" url="TuneIn:s17523" image="https://cdn-radiotime-logos.tunein.com/s17523q.png"></preset>
+              <preset id="5" name="NPO FunX" url="TuneIn:s48069" image="http://cdn-profiles.tunein.com/s48069/images/logog.jpg?t=638608562420000000"></preset>
+            </presets>
+            """);
+
+        var response = PresetsResponse.Read(reader);
+
+        Assert.Equal(2, response.Presets.Length);
+        Assert.Equal("NPO FunX", response.Presets[1].Name);
+        Assert.Equal("TuneIn:s48069", response.Presets[1].Url);
     }
 }
 
@@ -344,5 +364,84 @@ public class ActionResponseTests
     {
         using var reader = Fixture.CreateReader("<state>stream</state>");
         Assert.Throws<InvalidOperationException>(() => ActionResponse.Read(reader));
+    }
+}
+
+public class BluChannelExceptionTests
+{
+    [Fact]
+    public void ParseError_LoginToUseFavourites_UsesMessageElement()
+    {
+        // exact response seen for the "Add favourite" radio-station context-menu action
+        using var reader = Fixture.CreateReader("""
+            <?xml version="1.0" encoding="UTF-8"?>
+            <error service="Airable"><message>Login to use favourites</message></error>
+            """);
+
+        var error = BluChannelException.ParseError(reader);
+
+        Assert.Equal("Login to use favourites", error.Message);
+    }
+
+    [Fact]
+    public void ParseError_MessageAndDetails_MessageElementWins()
+    {
+        using var reader = Fixture.CreateReader("""
+            <error>
+                <message>Invalid key</message>
+                <detail>key value 'foobar' is not recognized</detail>
+                <detail>hint: check the browseKey</detail>
+            </error>
+            """);
+
+        var error = BluChannelException.ParseError(reader);
+
+        Assert.Equal("Invalid key", error.Message);
+    }
+
+    [Fact]
+    public void ParseError_WithoutMessageElement_FallsBack()
+    {
+        using var reader = Fixture.CreateReader("<error/>");
+
+        var error = BluChannelException.ParseError(reader);
+
+        Assert.Equal("The player returned an error", error.Message);
+    }
+}
+
+public class FavouriteResponseTests
+{
+    [Fact]
+    public void Read_DeleteFavouriteSuccess_ParsedWithoutError()
+    {
+        // exact response seen for the context-menu "Remove favorite" action (/DeleteFavourite);
+        // accepted by the PlayURL dispatch so the action succeeds silently.
+        using var reader = Fixture.CreateReader("""
+            <?xml version="1.0" encoding="UTF-8"?>
+            <favourite service="TuneIn">deleted</favourite>
+            """);
+
+        var response = FavouriteResponse.Read(reader);
+
+        Assert.Equal("TuneIn", response.Service);
+        Assert.Equal("deleted", response.Text);
+    }
+}
+
+public class NotificationActionResponseTests
+{
+    [Fact]
+    public void Read_ResponseRoot_TextParsed()
+    {
+        using var reader = Fixture.CreateReader("""
+            <?xml version="1.0" encoding="UTF-8"?>
+            <response>Track added to queue</response>
+            """);
+
+        var response = NotificationActionResponse.Read(reader);
+
+        Assert.Equal("Track added to queue", response.Text);
+        Assert.Equal("Notification: Track added to queue", response.ToString());
     }
 }

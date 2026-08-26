@@ -1,4 +1,5 @@
-﻿using BluOsNadRemote.App.Resources.Languages;
+using BluOsNadRemote.App.Extensions;
+using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
 using BluOsNadRemote.Blu4Net;
 
@@ -44,6 +45,16 @@ public partial class MusicContentEntryViewModel
             return;
         }
 
-        await _bluPlayerService.BluPlayer!.MusicBrowser.PlayURL(actionEntry.ActionURL);
+        try
+        {
+            await _bluPlayerService.BluPlayer!.MusicBrowser.PlayURL(actionEntry.ActionURL);
+        }
+        catch (Exception exception)
+        {
+            // The player can reject the action (e.g. "Login to use favourites");
+            // show the message instead of crashing.
+            Debug.WriteLine(exception);
+            await Shell.Current.CurrentPage.DisplayAlertAsync("Alert", AppResources.PlayerActionFailed.Interpolate(exception.Message), "OK");
+        }
     }
 }

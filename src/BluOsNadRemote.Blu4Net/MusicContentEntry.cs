@@ -1,4 +1,4 @@
-﻿using BluOsNadRemote.Blu4Net.Channel;
+using BluOsNadRemote.Blu4Net.Channel;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,7 +51,7 @@ public sealed class MusicContentEntry
         }
 
         var response = await _channel.BrowseContent(_contextMenuKey).ConfigureAwait(false);
-        return new MusicContentNode(_channel, Node, response);
+        return new MusicContentNode(_channel, Node, response, _contextMenuKey);
     }
 
     public bool IsResolvable
@@ -67,7 +67,7 @@ public sealed class MusicContentEntry
         }
 
         var response = await _channel.BrowseContent(_key).ConfigureAwait(false);
-        return new MusicContentNode(_channel, Node, response);
+        return new MusicContentNode(_channel, Node, response, _key);
     }
 
     public override string ToString()

@@ -1,4 +1,4 @@
-﻿using BluOsNadRemote.Blu4Net.Channel;
+using BluOsNadRemote.Blu4Net.Channel;
 using System;
 using System.Threading.Tasks;
 
@@ -18,7 +18,7 @@ public sealed class MusicBrowser : MusicContentNode
     public async Task<MusicContentNode> BrowseContent(string key)
     {
         var content = await _channel.BrowseContent(key).ConfigureAwait(false);
-        return new MusicContentNode(_channel, this, content);
+        return new MusicContentNode(_channel, this, content, key);
     }
 
     public Task PlayURL(string playURL)

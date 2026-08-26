@@ -55,6 +55,32 @@ public partial class MusicContentEntryViewModel
             // show the message instead of crashing.
             Debug.WriteLine(exception);
             await Shell.Current.CurrentPage.DisplayAlertAsync("Alert", AppResources.PlayerActionFailed.Interpolate(exception.Message), "OK");
+            return;
+        }
+
+        // The action can change the player state (e.g. added/removed a favourite);
+        // re-resolve the currently shown node so the list is up to date.
+        var node = _bluPlayerService.MusicContentNode;
+        if (node == null)
+        {
+            return;
+        }
+
+        try
+        {
+            _bluPlayerService.MusicContentNode = await node.RefreshAsync();
+        }
+        catch (Exception exception)
+        {
+            // The action itself succeeded; a failed refresh is not worth an alert.
+            Debug.WriteLine(exception);
+            return;
+        }
+
+        if (Shell.Current.CurrentPage?.BindingContext is BaseRefreshViewModel viewModel)
+        {
+            // Same mechanism as GoBack: setting IsBusy triggers the RefreshView command.
+            viewModel.IsBusy = true;
         }
     }
 }

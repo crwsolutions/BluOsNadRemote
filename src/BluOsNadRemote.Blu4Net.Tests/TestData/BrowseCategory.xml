@@ -1,0 +1,6 @@
+<browse sid="16" serviceName="Deezer" serviceIcon="/Sources/images/DeezerIcon.png" searchKey="Deezer:Search" type="albums">
+    <category text="Z" nextKey="Deezer:Albums?start=30">
+        <item text="Essonne History X" contextMenuKey="Deezer:contextMenu/Album?albumid=693798541" playURL="/Add?service=Deezer&amp;albumid=693798541&amp;playnow=1" image="/Artwork?service=Deezer&amp;albumid=693798541" browseKey="Deezer:Album?artist=Ziak&amp;album=Essonne%20History%20X&amp;albumid=693798541" text2="Ziak" type="album"/>
+    </category>
+    <item browseKey="/Albums?service=Deezer&amp;genre=0&amp;category=toplist" text="Popular Albums" type="link"/>
+</browse>

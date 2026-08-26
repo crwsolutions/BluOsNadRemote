@@ -1,0 +1,22 @@
+<status etag="b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7">
+    <canSeek>0</canSeek>
+    <db>-40.5</db>
+    <name>Slacker Radio</name>
+    <service>Slacker</service>
+    <shuffle>0</shuffle>
+    <song></song>
+    <state>stream</state>
+    <streamFormat>MP3 128 kb/s</streamFormat>
+    <streamUrl>Slacker:radio%3A%2F%2F123456</streamUrl>
+    <title1>Some Song</title1>
+    <title2>Some Artist</title2>
+    <title3>Slacker Radio</title3>
+    <volume>15</volume>
+    <secs>12</secs>
+    <actions>
+        <action name="back"/>
+        <action name="skip" url="/Action?service=Slacker&amp;skip=4799148"/>
+        <action icon="/images/loveban/love.png" name="love" notification="Track marked as favorite" state="-1" text="Love" url="/Action?service=Slacker&amp;love=4799148"/>
+        <action icon="/images/loveban/ban.png" name="ban" notification="Track banned from this station" state="-1" text="Ban" url="/Action?service=Slacker&amp;ban=4799148"/>
+    </actions>
+</status>

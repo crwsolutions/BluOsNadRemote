@@ -5,21 +5,11 @@
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
-	<!--<PropertyGroup>
-		<UseXmlSerializerGenerator>On</UseXmlSerializerGenerator>
-	</PropertyGroup>-->
-
-	
-	<!--<ItemGroup>
-		<DotNetCliToolReference Include="Microsoft.XmlSerializer.Generator" Version="9.0.9" />
-	</ItemGroup>-->
-	
-	<!--<ItemGroup>
-		<XmlSerializer Include="BluOsNadRemote.Blu4Net.Channel.*Response" />
-	</ItemGroup>-->
-	
 	<ItemGroup>
-		<!--<PackageReference Include="Microsoft.XmlSerializer.Generator" Version="9.0.9" />-->
+		<InternalsVisibleTo Include="BluOsNadRemote.Blu4Net.Tests" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Zeroconf" Version="3.7.16" />
 	</ItemGroup>
 

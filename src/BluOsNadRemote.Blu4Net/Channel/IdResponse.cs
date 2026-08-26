@@ -1,12 +1,19 @@
-﻿using System.Xml.Serialization;
+﻿using System.Xml;
 
 namespace BluOsNadRemote.Blu4Net.Channel;
 
-[XmlRoot("id")]
 public sealed class IdResponse
 {
-    [XmlText()]
     public int ID;
+
+    internal static IdResponse Read(XmlReader reader)
+    {
+        reader.ReadRoot("id");
+        return new IdResponse
+        {
+            ID = reader.ReadInt(),
+        };
+    }
 
     public override string ToString()
     {

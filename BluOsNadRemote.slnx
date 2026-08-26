@@ -1,6 +1,8 @@
-<Solution>
+﻿<Solution>
   <Folder Name="/Solution Items/">
     <File Path="src/.editorconfig" />
+    <File Path="docs/BluOS-Custom-Integration-API_v1.7.md" />
+    <File Path="global.json" />
     <File Path="README.md" />
   </Folder>
   <Folder Name="/Solution Items/art/" />
@@ -12,6 +14,9 @@
     <File Path="http/bluos_app/browse.http" />
     <File Path="http/bluos_app/presets.http" />
     <File Path="src/player.http" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/BluOsNadRemote.Blu4Net.Tests/BluOsNadRemote.Blu4Net.Tests.csproj" />
   </Folder>
   <Project Path="src/BluOsNadRemote.App/BluOsNadRemote.App.csproj">
     <Deploy />

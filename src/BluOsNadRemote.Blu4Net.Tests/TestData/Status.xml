@@ -1,0 +1,37 @@
+<status etag="4e266c9fbfba6d13d1a4d6ff4bd2e1e6">
+    <album>÷ (Deluxe)</album>
+    <albumid>39197</albumid>
+    <artist>Ed Sheeran</artist>
+    <artistid>1701</artistid>
+    <canMovePlayback>true</canMovePlayback>
+    <canSeek>1</canSeek>
+    <cursor>159</cursor>
+    <db>-50</db>
+    <fn>Deezer:142986206</fn>
+    <image>/Artwork?service=Deezer&amp;songid=Deezer%3A142986206</image>
+    <indexing>0</indexing>
+    <mid>187</mid>
+    <mode>1</mode>
+    <name>Perfect</name>
+    <notifyurl>/Notifications?id=1</notifyurl>
+    <pid>1054</pid>
+    <prid>0</prid>
+    <quality>320000</quality>
+    <repeat>2</repeat>
+    <service>Deezer</service>
+    <serviceIcon>/Sources/images/DeezerIcon.png</serviceIcon>
+    <shuffle>0</shuffle>
+    <sid>8</sid>
+    <sleep/>
+    <song>19</song>
+    <songid>Deezer:142986206</songid>
+    <state>pause</state>
+    <streamFormat>MP3 320 kb/s</streamFormat>
+    <syncStat>5</syncStat>
+    <title1>Perfect</title1>
+    <title2>Ed Sheeran</title2>
+    <title3>÷ (Deluxe)</title3>
+    <totlen>263</totlen>
+    <volume>4</volume>
+    <secs>35</secs>
+</status>

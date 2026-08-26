@@ -1,0 +1,7 @@
+<browse sid="16" serviceName="TuneIn" serviceIcon="/Sources/images/TuneInIcon.png" searchKey="TuneIn:Search" type="menu">
+    <item browseKey="TuneIn:genre/1" text="Music" type="link"/>
+    <item browseKey="TuneIn:genre/2" text="Talk" type="link"/>
+    <item>
+    </item>
+    <item browseKey="TuneIn:genre/3" text="News" type="link"/>
+</browse>

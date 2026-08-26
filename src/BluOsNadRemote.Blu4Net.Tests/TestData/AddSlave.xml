@@ -1,0 +1,4 @@
+<addSlave>
+    <slave port="11000" id="192.168.1.153"/>
+    <slave port="11000" id="192.168.1.120"/>
+</addSlave>

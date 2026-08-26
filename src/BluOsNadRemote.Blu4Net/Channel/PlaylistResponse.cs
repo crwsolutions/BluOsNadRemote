@@ -1,27 +1,60 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml;
 
 namespace BluOsNadRemote.Blu4Net.Channel;
 
-[XmlRoot("playlist")]
 public class PlaylistResponse
 {
-    [XmlAttribute("name")]
     public string Name;
 
-    [XmlAttribute("length")]
     public int Length;
 
-    [XmlAttribute("modified")]
     public int Modified;
 
-    [XmlAttribute("shuffle")]
     public int Shuffle;
 
-    [XmlAttribute("repeat")]
     public int Repeat;
 
-    [XmlElement("song")]
     public Song[] Songs = new Song[0];
+
+    internal static PlaylistResponse Read(XmlReader reader)
+    {
+        reader.ReadRoot("playlist");
+        var response = new PlaylistResponse
+        {
+            Name = reader.Attr("name"),
+            Length = reader.AttrInt("length"),
+            Modified = reader.AttrInt("modified"),
+            Shuffle = reader.AttrInt("shuffle"),
+            Repeat = reader.AttrInt("repeat"),
+        };
+
+        var songs = new List<Song>();
+
+        while (reader.Read())
+        {
+            if (reader.NodeType != XmlNodeType.Element)
+            {
+                if (reader.NodeType == XmlNodeType.EndElement)
+                {
+                    break;
+                }
+                continue;
+            }
+
+            if (reader.LocalName == "song")
+            {
+                songs.Add(Song.Read(reader));
+            }
+            else
+            {
+                reader.Skip();
+            }
+        }
+
+        response.Songs = songs.ToArray();
+        return response;
+    }
 
     public override string ToString()
     {
@@ -29,38 +62,77 @@ public class PlaylistResponse
     }
 
 
-    [XmlRoot("song")]
     public class Song
     {
-        [XmlAttribute("id")]
         public int ID;
 
-        [XmlAttribute("trackstationid")]
         public string TrackstationID;
 
-        [XmlAttribute("songid")]
         public string SongID;
 
-        [XmlAttribute("similarstationid")]
         public string SimilarstationID;
 
-        [XmlAttribute("albumid")]
         public string AlbumID;
 
-        [XmlAttribute("artistid")]
         public string ArtistID;
 
-        [XmlAttribute("service")]
         public string Service;
 
-        [XmlElement("title")]
         public string Title;
 
-        [XmlElement("art")]
         public string Artist;
 
-        [XmlElement("alb")]
         public string Album;
+
+        internal static Song Read(XmlReader reader)
+        {
+            var song = new Song
+            {
+                ID = reader.AttrInt("id"),
+                TrackstationID = reader.Attr("trackstationid"),
+                SongID = reader.Attr("songid"),
+                SimilarstationID = reader.Attr("similarstationid"),
+                AlbumID = reader.Attr("albumid"),
+                ArtistID = reader.Attr("artistid"),
+                Service = reader.Attr("service"),
+            };
+
+            if (reader.IsEmptyElement)
+            {
+                return song;
+            }
+
+            while (reader.Read())
+            {
+                if (reader.NodeType != XmlNodeType.Element)
+                {
+                    if (reader.NodeType == XmlNodeType.EndElement)
+                    {
+                        break;
+                    }
+                    continue;
+                }
+
+                if (reader.LocalName == "title")
+                {
+                    song.Title = reader.ReadText();
+                }
+                else if (reader.LocalName == "art")
+                {
+                    song.Artist = reader.ReadText();
+                }
+                else if (reader.LocalName == "alb")
+                {
+                    song.Album = reader.ReadText();
+                }
+                else
+                {
+                    reader.Skip();
+                }
+            }
+
+            return song;
+        }
 
         public override string ToString()
         {

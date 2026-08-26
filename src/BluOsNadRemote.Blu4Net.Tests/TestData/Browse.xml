@@ -1,0 +1,8 @@
+<browse sid="16" type="menu">
+    <item image="/images/ci_myplaylists.png" browseKey="playlists" text="Playlists" type="link"/>
+    <item image="/images/LibraryIcon.png" browseKey="LocalMusic:" text="Library" type="link"/>
+    <item image="/images/InputIcon.png" text="Optical Input" playURL="/Play?url=Capture%3Ahw%3A1%2C0%2F1%2F25%2F2%2Finput1" inputType="spdif" type="audio"/>
+    <item image="/Sources/images/TuneInIcon.png" browseKey="TuneIn:" text="TuneIn" type="link"/>
+    <item image="/Sources/images/SlackerIcon.png" browseKey="Slacker:" text="Slacker" type="link"/>
+    <item image="/Sources/images/TidalIcon.png" browseKey="Tidal:" text="TIDAL" type="link"/>
+</browse>

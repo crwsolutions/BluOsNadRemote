@@ -1,16 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace BluOsNadRemote.Blu4Net.Channel;
 
@@ -35,10 +33,10 @@ public sealed class BluChannel
         AcceptLanguage = acceptLanguage ?? throw new ArgumentNullException(nameof(acceptLanguage));
 
         // recommended long polling interval for Status is 100 seconds
-        StatusChanges = LongPolling<StatusResponse>("Status", 100).Retry(RetryDelay).Publish().RefCount();
+        StatusChanges = LongPolling(StatusResponse.Read, "Status", 100).Retry(RetryDelay).Publish().RefCount();
 
         // recommended long polling interval for SyncStatus changes is 180 seconds
-        SyncStatusChanges = LongPolling<SyncStatusResponse>("SyncStatus", 180).Retry(RetryDelay).Publish().RefCount();
+        SyncStatusChanges = LongPolling(SyncStatusResponse.Read, "SyncStatus", 180).Retry(RetryDelay).Publish().RefCount();
     }
 
     private void LogMessage(string message)
@@ -68,37 +66,32 @@ public sealed class BluChannel
         return xml;
     }
 
-    private async Task<T> SendRequest<T>(Uri requestUri, IDictionary<string, Type> derivedTypes, TimeSpan timeout, CancellationToken cancellationToken)
+    private async Task<T> SendRequest<T>(Func<XmlReader, T> deserialize, Uri requestUri, TimeSpan timeout, CancellationToken cancellationToken)
     {
         var xml = await SendRequest(requestUri, timeout, cancellationToken);
-
-        if (derivedTypes == null)
-        {
-            return (T)new XmlSerializer(typeof(T)).Deserialize(new StringReader(xml));
-        }
 
         using var reader = XmlReader.Create(new StringReader(xml));
         reader.MoveToContent();
 
-        foreach (var item in derivedTypes)
+        if (reader.LocalName == "error")
         {
-            if (reader.Name == item.Key)
-            {
-                return (T)new XmlSerializer(item.Value).Deserialize(new StringReader(xml));
-            }
+            // The player can answer any endpoint with an <error> root (e.g.
+            // <error service="Airable"><message>Login to use favourites</message></error>);
+            // surface it as a BluChannelException with the player-provided message.
+            throw BluChannelException.ParseError(reader);
         }
 
-        throw new Exception($"Encountered invalid xml: {xml}");
+        return deserialize(reader);
     }
 
-    private Task<T> SendRequest<T>(Uri requestUri, IDictionary<string, Type> derivedTypes)
+    private Task<T> SendRequest<T>(Func<XmlReader, T> deserialize, Uri requestUri)
     {
         ArgumentNullException.ThrowIfNull(requestUri);
 
-        return SendRequest<T>(requestUri, derivedTypes, Timeout, CancellationToken.None);
+        return SendRequest(deserialize, requestUri, Timeout, CancellationToken.None);
     }
 
-    private async Task<T> SendRequest<T>(string request, NameValueCollection parameters, IDictionary<string, Type> derivedTypes, TimeSpan timeout, CancellationToken cancellationToken)
+    private async Task<T> SendRequest<T>(Func<XmlReader, T> deserialize, string request, NameValueCollection parameters, TimeSpan timeout, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -108,25 +101,20 @@ public sealed class BluChannel
             Query = parameters != null && parameters.Count > 0 ? parameters.ToString() : null,
         }.Uri;
 
-        return await SendRequest<T>(requestUri, derivedTypes, timeout, cancellationToken).ConfigureAwait(false);
+        return await SendRequest(deserialize, requestUri, timeout, cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<T> SendRequest<T>(string request, NameValueCollection parameters, TimeSpan timeout, CancellationToken cancellationToken)
+    private async Task<T> SendRequest<T>(Func<XmlReader, T> deserialize, string request, NameValueCollection parameters, CancellationToken cancellationToken)
     {
-        return await SendRequest<T>(request, parameters, null, timeout, cancellationToken).ConfigureAwait(false);
+        return await SendRequest(deserialize, request, parameters, Timeout, cancellationToken).ConfigureAwait(false);
     }
 
-    private Task<T> SendRequest<T>(string request, NameValueCollection parameters = null)
+    private Task<T> SendRequest<T>(Func<XmlReader, T> deserialize, string request, NameValueCollection parameters = null)
     {
-        return SendRequest<T>(request, parameters, Timeout, CancellationToken.None);
+        return SendRequest(deserialize, request, parameters, Timeout, CancellationToken.None);
     }
 
-    private Task<T> SendRequest<T>(string request, IDictionary<string, Type> derivedTypes, NameValueCollection parameters = null)
-    {
-        return SendRequest<T>(request, parameters, derivedTypes, Timeout, CancellationToken.None);
-    }
-
-    private IObservable<T> LongPolling<T>(string request, int timeout) where T : ILongPollingResponse
+    private IObservable<T> LongPolling<T>(Func<XmlReader, T> deserialize, string request, int timeout) where T : ILongPollingResponse
     {
         ArgumentNullException.ThrowIfNull(request);
         if (timeout < 0)
@@ -149,7 +137,7 @@ public sealed class BluChannel
                     }
                     try
                     {
-                        var response = await SendRequest<T>(request, parameters, TimeSpan.FromSeconds(1.5 * timeout), cancellationToken).ConfigureAwait(false);
+                        var response = await SendRequest(deserialize, request, parameters, TimeSpan.FromSeconds(1.5 * timeout), cancellationToken).ConfigureAwait(false);
 
                         if (longPollingTag != null)
                         {
@@ -176,17 +164,17 @@ public sealed class BluChannel
 
     public async Task<StatusResponse> GetStatus()
     {
-        return await SendRequest<StatusResponse>("Status").ConfigureAwait(false);
+        return await SendRequest(StatusResponse.Read, "Status").ConfigureAwait(false);
     }
 
     public async Task<SyncStatusResponse> GetSyncStatus()
     {
-        return await SendRequest<SyncStatusResponse>("SyncStatus").ConfigureAwait(false);
+        return await SendRequest(SyncStatusResponse.Read, "SyncStatus").ConfigureAwait(false);
     }
 
     public Task<StateResponse> Play()
     {
-        return SendRequest<StateResponse>("Play");
+        return SendRequest(StateResponse.Read, "Play");
     }
 
     public Task<StateResponse> Play(int seek)
@@ -198,7 +186,7 @@ public sealed class BluChannel
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["seek"] = seek.ToString();
-        return SendRequest<StateResponse>("Play", parameters);
+        return SendRequest(StateResponse.Read, "Play", parameters);
     }
 
     public Task<AddSlaveResponse> AddSlave(string address, int port, bool createStereoPair, ChannelMode slaveChannel, string groupName)
@@ -229,7 +217,7 @@ public sealed class BluChannel
         }
 
 
-        return SendRequest<AddSlaveResponse>("AddSlave", parameters);
+        return SendRequest(AddSlaveResponse.Read, "AddSlave", parameters);
     }
 
     public Task<SyncStatusResponse> RemoveSlave(string address, int port)
@@ -249,12 +237,12 @@ public sealed class BluChannel
         parameters["slave"] = address;
         parameters["port"] = port.ToString();
 
-        return SendRequest<SyncStatusResponse>("RemoveSlave", parameters);
+        return SendRequest(SyncStatusResponse.Read, "RemoveSlave", parameters);
     }
 
     public Task<SyncStatusResponse> ZoneUngroup(string zoneUngroupUrl)
     {
-        return SendRequest<SyncStatusResponse>(zoneUngroupUrl);
+        return SendRequest(SyncStatusResponse.Read, zoneUngroupUrl);
     }
 
     public Task<StateResponse> PlayByID(int id)
@@ -266,7 +254,7 @@ public sealed class BluChannel
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["id"] = id.ToString();
-        return SendRequest<StateResponse>("Play", parameters);
+        return SendRequest(StateResponse.Read, "Play", parameters);
     }
 
     public async Task<StateResponse> Pause(int toggle = 0)
@@ -282,27 +270,27 @@ public sealed class BluChannel
             parameters["toggle"] = toggle.ToString();
         }
 
-        return await SendRequest<StateResponse>("Pause", parameters).ConfigureAwait(false);
+        return await SendRequest(StateResponse.Read, "Pause", parameters).ConfigureAwait(false);
     }
 
     public async Task<StateResponse> Stop()
     {
-        return await SendRequest<StateResponse>("Stop").ConfigureAwait(false);
+        return await SendRequest(StateResponse.Read, "Stop").ConfigureAwait(false);
     }
 
     public async Task<IdResponse> Skip()
     {
-        return await SendRequest<IdResponse>("Skip").ConfigureAwait(false);
+        return await SendRequest(IdResponse.Read, "Skip").ConfigureAwait(false);
     }
 
     public async Task<IdResponse> Back()
     {
-        return await SendRequest<IdResponse>("Back").ConfigureAwait(false);
+        return await SendRequest(IdResponse.Read, "Back").ConfigureAwait(false);
     }
 
     public async Task<VolumeResponse> GetVolume()
     {
-        return await SendRequest<VolumeResponse>("Volume").ConfigureAwait(false);
+        return await SendRequest(VolumeResponse.Read, "Volume").ConfigureAwait(false);
     }
 
     public async Task<VolumeResponse> SetVolume(int percentage)
@@ -314,7 +302,7 @@ public sealed class BluChannel
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["level"] = percentage.ToString();
-        return await SendRequest<VolumeResponse>("Volume", parameters).ConfigureAwait(false);
+        return await SendRequest(VolumeResponse.Read, "Volume", parameters).ConfigureAwait(false);
     }
 
     public async Task<VolumeResponse> Mute(int mute = 1)
@@ -326,14 +314,14 @@ public sealed class BluChannel
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["mute"] = mute.ToString();
-        return await SendRequest<VolumeResponse>("Volume", parameters).ConfigureAwait(false);
+        return await SendRequest(VolumeResponse.Read, "Volume", parameters).ConfigureAwait(false);
     }
 
     public async Task<PlaylistResponse> GetPlaylistStatus()
     {
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["length"] = 1.ToString();
-        return await SendRequest<PlaylistResponse>("Playlist", parameters).ConfigureAwait(false);
+        return await SendRequest(PlaylistResponse.Read, "Playlist", parameters).ConfigureAwait(false);
     }
 
     private async Task<PlaylistResponse> GetPlaylist(int startIndex, int length)
@@ -355,9 +343,7 @@ public sealed class BluChannel
             parameters["end"] = (startIndex + length - 1).ToString();
         }
 
-        var response = await SendRequest<PlaylistResponse>("Playlist", parameters).ConfigureAwait(false);
-        response.Songs ??= [];
-        return response;
+        return await SendRequest(PlaylistResponse.Read, "Playlist", parameters).ConfigureAwait(false);
     }
 
     public async IAsyncEnumerable<PlaylistResponse> GetPlaylistPaged(int pageSize)
@@ -384,14 +370,14 @@ public sealed class BluChannel
 
     public async Task<PlaylistResponse> Clear()
     {
-        return await SendRequest<PlaylistResponse>("Clear").ConfigureAwait(false);
+        return await SendRequest(PlaylistResponse.Read, "Clear").ConfigureAwait(false);
     }
 
     public Task<DeleteResponse> Delete(int id)
     {
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["id"] = id.ToString();
-        return SendRequest<DeleteResponse>("Delete", parameters);
+        return SendRequest(DeleteResponse.Read, "Delete", parameters);
     }
 
     public Task<SavedResponse> Save(string name)
@@ -404,12 +390,12 @@ public sealed class BluChannel
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["name"] = name.ToString();
-        return SendRequest<SavedResponse>("Save", parameters);
+        return SendRequest(SavedResponse.Read, "Save", parameters);
     }
 
     public Task<PlaylistResponse> GetShuffle()
     {
-        return SendRequest<PlaylistResponse>("Shuffle");
+        return SendRequest(PlaylistResponse.Read, "Shuffle");
     }
 
     public Task<PlaylistResponse> SetShuffle(int state = 1)
@@ -421,12 +407,12 @@ public sealed class BluChannel
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["state"] = state.ToString();
-        return SendRequest<PlaylistResponse>("Shuffle", parameters);
+        return SendRequest(PlaylistResponse.Read, "Shuffle", parameters);
     }
 
     public Task<PlaylistResponse> GetRepeat()
     {
-        return SendRequest<PlaylistResponse>("Repeat");
+        return SendRequest(PlaylistResponse.Read, "Repeat");
     }
 
     public Task<PlaylistResponse> SetRepeat(int state)
@@ -438,17 +424,12 @@ public sealed class BluChannel
 
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["state"] = state.ToString();
-        return SendRequest<PlaylistResponse>("Repeat", parameters);
+        return SendRequest(PlaylistResponse.Read, "Repeat", parameters);
     }
 
-    public async Task<PresetsResponse> GetPresets()
+    public Task<PresetsResponse> GetPresets()
     {
-        var response = await SendRequest<PresetsResponse>("Presets").ConfigureAwait(false);
-        if (response.Presets == null)
-        {
-            response.Presets = new PresetsResponse.Preset[0];
-        }
-        return response;
+        return SendRequest(PresetsResponse.Read, "Presets");
     }
 
     public async Task<LoadedResponse> LoadPreset(int id)
@@ -456,23 +437,22 @@ public sealed class BluChannel
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         parameters["id"] = id.ToString();
 
-        var types = new Dictionary<string, Type>
-        {
-            { "loaded", typeof(PlaylistLoadedResponse) },
-            { "state", typeof(StateResponse) }
-        };
-
-        return await SendRequest<LoadedResponse>("Preset", types, parameters).ConfigureAwait(false);
+        return await SendRequest(LoadedResponse.Read, "Preset", parameters).ConfigureAwait(false);
     }
 
     public async Task<object> PlayURL(string playURL)
     {
-        var types = new Dictionary<string, Type>
+        static object ReadPlayURL(XmlReader reader) => reader.LocalName switch
         {
-            { "loaded", typeof(PlaylistLoadedResponse) },
-            { "playlist", typeof(PlaylistResponse) },
-            { "state", typeof(StateResponse) },
-            { "addsong", typeof(AddSongResponse) }
+            "loaded" => PlaylistLoadedResponse.Read(reader),
+            "playlist" => PlaylistResponse.Read(reader),
+            "state" => StateResponse.Read(reader),
+            "addsong" => AddSongResponse.Read(reader),
+            // /SetPreset (context menu "Add preset") answers with the updated preset list
+            "presets" => PresetsResponse.Read(reader),
+            // /AddFavourite and /DeleteFavourite answer with <favourite> (e.g. "deleted")
+            "favourite" => FavouriteResponse.Read(reader),
+            _ => throw new InvalidOperationException($"Encountered invalid xml root element <{reader.LocalName}>")
         };
 
         Uri uri;
@@ -486,27 +466,15 @@ public sealed class BluChannel
             uri = new Uri(Endpoint, playURL);
         }
 
-        return await SendRequest<object>(uri, types).ConfigureAwait(false);
+        return await SendRequest(ReadPlayURL, uri).ConfigureAwait(false);
     }
 
-    public async Task<ActionResponse> ActionURL(string actionURL)
+    public Task<ActionResponse> ActionURL(string actionURL)
     {
-        var parts = actionURL.Split(new char[] { '?' });
-        var parameters = HttpUtility.ParseQueryString(parts[1]);
-
-        var types = new Dictionary<string, Type>
-        {
-            { "response", typeof(NotificationActionResponse) },
-            { "back", typeof(BackActionResponse) },
-            { "skip", typeof(SkipActionResponse) },
-            { "love", typeof(LoveActionResponse) },
-            { "ban", typeof(BanActionResponse) }
-        };
-
-        return await SendRequest<ActionResponse>(new Uri(actionURL), types).ConfigureAwait(false);
+        return SendRequest(ActionResponse.Read, new Uri(actionURL));
     }
 
-    public async Task<BrowseContentResponse> BrowseContent(string key = null, string query = null)
+    public Task<BrowseContentResponse> BrowseContent(string key = null, string query = null)
     {
         var parameters = HttpUtility.ParseQueryString(string.Empty);
         if (key != null)
@@ -519,16 +487,6 @@ public sealed class BluChannel
             }
         }
 
-        var response = await SendRequest<BrowseContentResponse>("Browse", parameters).ConfigureAwait(false);
-        if (response.Items == null)
-        {
-            response.Items = new BrowseContentResponse.Item[0];
-        }
-        else
-        {
-            // note: TuneIn returns an empty <item></item> element  
-            response.Items = response.Items.Where(element => element.Text != null).ToArray();
-        }
-        return response;
+        return SendRequest(BrowseContentResponse.Read, "Browse", parameters);
     }
 }

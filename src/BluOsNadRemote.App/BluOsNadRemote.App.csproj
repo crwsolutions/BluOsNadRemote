@@ -19,8 +19,7 @@
 		<!-- For: XAML Source generator -->
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
-		<!-- Enable Material 3 design on Android -->
-		<UseMaterial3>true</UseMaterial3>
+		<MauiVersion>10.0.20</MauiVersion>
 
 		<!-- Display name -->
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>

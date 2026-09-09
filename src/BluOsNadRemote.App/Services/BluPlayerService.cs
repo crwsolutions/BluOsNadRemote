@@ -69,38 +69,19 @@ public sealed partial class BluPlayerService
 
     public async Task<BluPlayerDiscoverResult> DiscoverAsync()
     {
-        var timeout = TimeSpan.FromSeconds(5);
-        var protocol = "_musc._tcp.local.";
-        var services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
+        var endpoints = await BluEnvironment.ResolveEndpointsAsync(AppResources.Culture);
 
-        if (services == null || services.Count == 0)
-        {
-            services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
-        }
-
-        if (services == null || services.Count == 0)
-        {
-            services = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(protocol, timeout);
-        }
-
-        if (services == null || services.Count == 0)
+        if (endpoints.Count == 0)
         {
             return new BluPlayerDiscoverResult(AppResources.DiscoverNoPlayersFound, false);
         }
 
-        var endpoints = new EndPoint[services.Count];
-        for (var i = 0; i < services.Count; i++)
-        {
-            var service = services[i];
-            var bluPlayer = await BluPlayer.Connect(service.IPAddress);
-            endpoints[i] = new EndPoint(BluOsHost.ToUriString(service.IPAddress), bluPlayer.Name);
-        }
-
-        _endpointRepository.MergeEndpoints(endpoints);
+        _endpointRepository.MergeEndpoints(
+            [.. endpoints.Select(endpoint => new EndPoint(endpoint.Uri, endpoint.Name))]);
 
         var connectResult = await ConnectAsync();
 
-        return new BluPlayerDiscoverResult(AppResources.DiscoverPlayersFound.Interpolate(endpoints.Length), true);
+        return new BluPlayerDiscoverResult(AppResources.DiscoverPlayersFound.Interpolate(endpoints.Count), true);
     }
 
     public BluPlayer? BluPlayer { get; private set; }

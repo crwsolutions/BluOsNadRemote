@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage xmlns:views="clr-namespace:BluOsNadRemote.App.Views"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -81,7 +81,7 @@
 
                                 <!-- Audio progress -->
                                 <Border Grid.Row="1" Grid.ColumnSpan="3" StrokeShape="RoundRectangle 6" Margin="0,6,0,6" Background="{StaticResource Gray900}" Stroke="Transparent" Padding="{OnPlatform iOS='6,6,6,6', Android='0,6,0,6'}" StrokeThickness="0">
-                                    <Slider Grid.Row="1" Grid.ColumnSpan="3"  Minimum="0" Maximum="1" Value="{Binding Progress, Mode=TwoWay}" IsEnabled="{Binding CanSeek}" ThumbImageSource="slider_thumb.png" ThumbColor="Transparent" HeightRequest="10"
+                                    <Slider Grid.Row="1" Grid.ColumnSpan="3"  Minimum="0" Maximum="1" Value="{Binding Progress, Mode=TwoWay}" IsEnabled="{Binding CanSeek}" ThumbImageSource="slider_thumb.png" ThumbColor="Transparent" HeightRequest="{OnPlatform Android=20, Default=10}"
                                                  DragStarted="OnSeekSliderDragStarted" DragCompleted="OnSeekSliderDragCompleted" Margin="{OnPlatform iOS='0,6,0,6'}" />
                                 </Border>
                                 
@@ -97,7 +97,7 @@
                             <Button Command="{Binding ToggleMuteCommand, Mode=OneTime}" Text="{Binding MuteImage, Mode=OneWay}" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" Command="{Binding VolumeDownCommand, Mode=OneTime}" Text="m" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="2" Command="{Binding VolumeUpCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}"/>
-                            <Slider Grid.Column="4" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" ThumbColor="Black" VerticalOptions="Center" />
+                            <Slider Grid.Column="4" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" ThumbColor="Black" VerticalOptions="Center" HeightRequest="{OnPlatform Android=20, Default=-1}" />
                         </Grid>
                     </Grid>
                 </Grid>

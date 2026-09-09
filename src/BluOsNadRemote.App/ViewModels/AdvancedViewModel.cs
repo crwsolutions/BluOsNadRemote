@@ -1,5 +1,6 @@
 ﻿using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
+using Nad4Net;
 using Nad4Net.Model;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -11,25 +12,87 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
 
     private IDisposable? _commandChangesSubscriber;
     private bool _isReceiving = false;
+    private bool _isLoading = false;
+    private bool _disposed = false;
 
     [RelayCommand]
     private async Task ToggleOnOffAsync()
     {
-        if (_service.NadRemote != null)
+        if (_service.NadRemote is null)
+        {
+            return;
+        }
+
+        try
+        {
             await _service.NadRemote.ToggleOnOffAsync();
+        }
+        catch (Exception exception)
+        {
+            HandleControlFailure(exception);
+        }
     }
 
-    [RelayCommand(AllowConcurrentExecutions = true)] //Bug: https://github.com/CommunityToolkit/dotnet/issues/150#issuecomment-1069660045
+    /// <summary>
+    /// Runs a telnet control command from a synchronous property-changed handler without
+    /// ever surfacing a raw exception to the UI.
+    /// </summary>
+    private void RunCommand(Func<Task> command)
+    {
+        if (_service.NadRemote is null)
+        {
+            return;
+        }
+
+        try
+        {
+            command().Wait();
+        }
+        catch (Exception exception)
+        {
+            HandleControlFailure(exception);
+        }
+    }
+
+    /// <summary>
+    /// A failed control command (silent disconnect, unreachable NAD) must not surface as a
+    /// raw "technical error": show the friendly "could not connect" title instead. A swipe
+    /// refresh reconnects.
+    /// </summary>
+    private void HandleControlFailure(Exception exception)
+    {
+        Debug.WriteLine($"NAD control command failed: {exception}");
+        Title = AppResources.NoConnect;
+    }
+
+    [RelayCommand(AllowConcurrentExecutions = true)] // RefreshView sets IsBusy via the TwoWay binding before the command runs, so IsBusy can't be used as the guard; _isLoading is.
     private async Task LoadDataAsync()
     {
+        if (_isLoading)
+        {
+            return;
+        }
+
+        _isLoading = true;
+        _disposed = false;
+        IsBusy = true;
         Title = AppResources.Loading;
 
         try
         {
-            var result = _service.Connect();
+            // Drop any subscription to a previous connection first, so the old change-detection
+            // loop cannot push stale data into the new load.
+            _commandChangesSubscriber?.Dispose();
+            _commandChangesSubscriber = null;
+
+            var result = await _service.ConnectAsync();
             if (result.IsConnected == false)
             {
-                Title = result.Message!;
+                Title = AppResources.NoConnect;
+                await _noConnectionDialogService.ShowAsync(
+                    result.Reason == NadConnectReason.NoEndpoint
+                        ? AppResources.NoEndpointMessage
+                        : string.Format(AppResources.CouldNotConnectResult, result.Host ?? string.Empty));
                 return;
             }
 
@@ -39,23 +102,30 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
                 _commandChangesSubscriber = _service.NadRemote.CommandChanges.Subscribe(UpdateCommandlist);
             }
         }
-        catch (InvalidOperationException exception)
+        catch (OperationCanceledException)
         {
-            Title = AppResources.NoConnect;
-            Debug.WriteLine(exception);
+            Debug.WriteLine("LoadDataAsync was cancelled");
         }
         catch (Exception exception)
         {
-            Title = exception.Message;
+            Title = AppResources.NoConnect;
+            await _noConnectionDialogService.ShowAsync();
+            Debug.WriteLine(exception);
         }
         finally
         {
+            _isLoading = false;
             IsBusy = false;
         }
     }
 
     private void UpdateCommandlist(CommandList commandList)
     {
+        if (_disposed)
+        {
+            return;
+        }
+
         _isReceiving = true;
         Title = commandList.MainModel;
         MainSource = commandList.MainSource;
@@ -105,7 +175,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     {
         if (!IsBusy && !_isReceiving && _service.NadRemote != null && value is not null)
         {
-            _service.NadRemote.SetListeningModeAsync(value).Wait();
+            RunCommand(() => _service.NadRemote.SetListeningModeAsync(value));
         }
     }
 
@@ -117,7 +187,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
     {
         if (!IsBusy && !_isReceiving && _service.NadRemote != null)
         {
-            _service.NadRemote.SetMainDiracAsync(value).Wait();
+            RunCommand(() => _service.NadRemote.SetMainDiracAsync(value));
         }
     }
 
@@ -176,12 +246,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimSub < value)
             {
-                _service.NadRemote.DoSubPlusAsync().Wait();
+                RunCommand(() => _service.NadRemote.DoSubPlusAsync());
             }
 
             if (MainTrimSub > value)
             {
-                _service.NadRemote.DoSubMinusAsync().Wait();
+                RunCommand(() => _service.NadRemote.DoSubMinusAsync());
             }
         }
     }
@@ -195,12 +265,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimSurround < value)
             {
-                _service.NadRemote.DoSurroundPlusAsync().Wait();
+                RunCommand(() => _service.NadRemote.DoSurroundPlusAsync());
             }
 
             if (MainTrimSurround > value)
             {
-                _service.NadRemote.DoSurroundMinusAsync().Wait();
+                RunCommand(() => _service.NadRemote.DoSurroundMinusAsync());
             }
         }
     }
@@ -214,12 +284,12 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         {
             if (MainTrimCenter < value)
             {
-                _service.NadRemote.DoCenterPlusAsync().Wait();
+                RunCommand(() => _service.NadRemote.DoCenterPlusAsync());
             }
 
             if (MainTrimCenter > value)
             {
-                _service.NadRemote.DoCenterMinusAsync().Wait();
+                RunCommand(() => _service.NadRemote.DoCenterMinusAsync());
             }
         }
     }
@@ -232,7 +302,7 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         Debug.WriteLine($"Setting dimmer to {value}");
         if (!IsBusy && !_isReceiving && _service.NadRemote != null)
         {
-            _service.NadRemote.ToggleDimmerAsync().Wait();
+            RunCommand(() => _service.NadRemote.ToggleDimmerAsync());
         }
     }
 
@@ -254,11 +324,13 @@ public partial class AdvancedViewModel : BaseRefreshViewModel, IDisposable
         try
         {
             Debug.WriteLine("Disposing telnet shizzle");
+            _disposed = true;
             _commandChangesSubscriber?.Dispose();
             _commandChangesSubscriber = null;
             _service.Disconnect();
             MainDirac = -1;
             IsBusy = false;
+            _isLoading = false;
             _isReceiving = false;
         }
         catch { };

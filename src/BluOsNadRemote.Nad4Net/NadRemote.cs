@@ -5,9 +5,12 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using BclTcpClient = System.Net.Sockets.TcpClient;
+using TelnetTcpClient = PrimS.Telnet.TcpClient;
 
 namespace Nad4Net;
 
@@ -17,6 +20,9 @@ public class NadRemote : IDisposable
     private readonly string[] _sources = new string[10];
     private Client? _client;
     private readonly string _host;
+    private readonly object _lock = new();
+    private readonly SemaphoreSlim _connectGate = new(1, 1);
+    private volatile bool _disposed = false;
     private const int PORT = 23;
 
     private const string ON = "On";
@@ -44,38 +50,50 @@ public class NadRemote : IDisposable
     private const string SOURCE_PREFIX_COMMAND = "Source";
     private const char COMMAND_END = '\n';
 
-    private TimeSpan Timeout { get; } = TimeSpan.FromSeconds(30);
-    private TimeSpan RetryDelay { get; } = TimeSpan.FromSeconds(5);
+    /// <summary>Max time to wait for the TCP connect + telnet handshake.</summary>
+    private static readonly TimeSpan ConnectTimeout = TimeSpan.FromSeconds(3);
+    /// <summary>Max time to wait for a single read of the change-detection loop.</summary>
+    private static readonly TimeSpan ReadTimeout = TimeSpan.FromSeconds(30);
+    /// <summary>Delay before the change-detection loop retries after a connection loss.</summary>
+    private static readonly TimeSpan RetryDelay = TimeSpan.FromSeconds(5);
     public IObservable<CommandList> CommandChanges { get; }
 
     private readonly CommandList _model = new();
+    private string? _initialRead;
     public Uri Endpoint { get; }
 
     private static readonly char[] _equalsSeparator = ['='];
-
-    public async Task<string?> PingAsync()
-    {
-        await ReConnectAsync();
-        if (_client?.IsConnected is true)
-        {
-            return await _client.ReadAsync();
-        }
-        return null;
-    }
 
     public NadRemote(Uri endpoint)
     {
         Endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
         _host = endpoint.Host;
 
-        CommandChanges = SetupChangeDetectionLoop().Retry(RetryDelay).Publish().RefCount();
+        CommandChanges = SetupChangeDetectionLoop().Publish().RefCount();
     }
 
     public bool IsConnected => _client?.IsConnected is true;
 
+    /// <summary>
+    /// Establishes the telnet connection within a bounded timeout.
+    /// Throws <see cref="NadConnectException"/> when the endpoint cannot be reached.
+    /// </summary>
+    public Task ConnectAsync(TimeSpan? timeout = null, CancellationToken ct = default)
+    {
+        return EnsureConnectedAsync(timeout ?? ConnectTimeout, ct);
+    }
+
+    public async Task<string?> PingAsync(TimeSpan? timeout = null, CancellationToken ct = default)
+    {
+        await EnsureConnectedAsync(timeout ?? ConnectTimeout, ct);
+        // The initial handshake read (done while connecting) is the proof that the
+        // connection works; returning it avoids an extra blocking read.
+        return _client?.IsConnected is true ? _initialRead : null;
+    }
+
     public async Task GetCommandListAsync(Action<CommandList> resultHandler)
     {
-        await CheckConnection();
+        await EnsureConnectedAsync(ConnectTimeout);
         await WriteQueryCommandAsync(MAIN_MODEL_COMMAND);
         await WriteQueryCommandAsync(MAIN_SOURCE_COMMAND);
         await WriteQueryCommandAsync(MAIN_AUDIO_CODEC_COMMAND);
@@ -100,7 +118,7 @@ public class NadRemote : IDisposable
         {
             await WriteQueryCommandAsync($"{SOURCE_PREFIX_COMMAND}{i + 1}.Name");
         }
-        Parse(await _client!.ReadAsync());
+        Parse(await _client!.ReadAsync(ReadTimeout));
         resultHandler.Invoke(_model);
     }
 
@@ -115,15 +133,162 @@ public class NadRemote : IDisposable
     public async Task SetListeningModeAsync(string value) => await WriteSetCommandAsync(MAIN_LISTENINGMODE_COMMAND, value);
     public async Task SetMainDiracAsync(int value) => await WriteSetCommandAsync(MAIN_DIRAC_COMMAND, (value + 1).ToString());
 
-    private async Task ReConnectAsync()
+    /// <summary>
+    /// Connects when not connected yet, or reconnects when the previous connection was lost.
+    /// Only one connect attempt runs at a time. Throws <see cref="NadConnectException"/>
+    /// when the endpoint cannot be reached within the timeout.
+    /// </summary>
+    private async Task EnsureConnectedAsync(TimeSpan timeout, CancellationToken ct = default)
     {
-        Debug.WriteLine("(Re-)connecting the telnet connection");
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(NadRemote));
+        }
 
-        Dispose();
-        _tokenSource = new CancellationTokenSource();
-        _client = new Client(new TcpByteStream(_host, PORT), _tokenSource.Token);
-        Parse(await _client.ReadAsync());
+        lock (_lock)
+        {
+            if (_client is { IsConnected: true })
+            {
+                return;
+            }
+        }
+
+        await _connectGate.WaitAsync(ct);
+        try
+        {
+            lock (_lock)
+            {
+                // Another caller may have connected while we were waiting for the gate.
+                if (_client is { IsConnected: true })
+                {
+                    return;
+                }
+            }
+
+            await ConnectFreshAsync(timeout, ct);
+        }
+        finally
+        {
+            _connectGate.Release();
+        }
     }
+
+    /// <summary>
+    /// Disposes any previous connection and opens a new one. The TCP connect itself is bounded
+    /// by the timeout (the underlying Telnet library's <c>TcpByteStream(string, int)</c> connects
+    /// synchronously with no timeout, so we connect first and hand the socket over).
+    /// </summary>
+    private async Task ConnectFreshAsync(TimeSpan timeout, CancellationToken ct)
+    {
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(NadRemote));
+        }
+
+        Debug.WriteLine($"(Re-)connecting the telnet connection to {_host}:{PORT}");
+        ct.ThrowIfCancellationRequested();
+
+        lock (_lock)
+        {
+            DisposeLocked();
+            _tokenSource = new CancellationTokenSource();
+            _initialRead = null;
+        }
+
+        // Bounds the TCP connect (the library's TcpByteStream(string,int) would otherwise
+        // block with no timeout). Linked to our token so a Dispose() also aborts it.
+        using var connectionCts = CancellationTokenSource.CreateLinkedTokenSource(ct, _tokenSource!.Token);
+        connectionCts.CancelAfter(timeout);
+
+        var tcp = new BclTcpClient();
+        bool handedOff = false;
+        try
+        {
+            // Connect ourselves (bounded) and hand the connected socket to the library.
+            // From the point of wrapping, the wrapper owns the socket (handedOff=true).
+            await tcp.ConnectAsync(_host, PORT, connectionCts.Token);
+
+            lock (_lock)
+            {
+                if (_tokenSource is null || _disposed)
+                {
+                    // We were disposed while connecting; bail (the finally closes the socket).
+                    return;
+                }
+
+                _client = new Client(new TcpByteStream(new TelnetTcpClient(tcp)), timeout, _tokenSource.Token);
+                handedOff = true;
+            }
+
+            // Best-effort initial read: a NAD usually sends a greeting, but a missing banner
+            // must not be treated as "not connected" — the TCP connect above is the proof.
+            try
+            {
+                var initial = await _client!.ReadAsync(timeout);
+                _initialRead = initial;
+                Parse(initial);
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+                throw; // the caller cancelled (e.g. the page went away)
+            }
+            catch (OperationCanceledException)
+            {
+                // Our own token was cancelled by a Dispose() while connecting; not a failure
+                // the caller needs to see (it is going away).
+                Debug.WriteLine("Initial read cancelled (disposing); connection was up");
+            }
+            catch (Exception readError)
+            {
+                // The connection dropped during the handshake; treat it as a failed connect
+                // so the caller gets the friendly message.
+                throw new NadConnectException(_host, TranslateConnectFailure(readError), readError);
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw; // caller cancelled
+        }
+        catch (NadConnectException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            // Timeout (our CancelAfter), socket refused, negotiation failure, ...: normalize
+            // to a friendly NadConnectException for the UI.
+            throw new NadConnectException(_host, TranslateConnectFailure(ex), ex);
+        }
+        finally
+        {
+            // Only close our socket if the library never took ownership of it.
+            if (!handedOff)
+            {
+                tcp.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Maps a raw socket/telnet failure to a friendly <see cref="NadConnectReason"/>.
+    /// </summary>
+    private static NadConnectReason TranslateConnectFailure(Exception ex)
+    {
+        if (ex is OperationCanceledException)
+        {
+            return NadConnectReason.Timeout;
+        }
+
+        return ex is SocketException or IOException
+            ? NadConnectReason.Unreachable
+            : NadConnectReason.Negotiation;
+    }
+
+    /// <summary>
+    /// Reads from the connection until it is cancelled or disposed, reconnecting after the
+    /// retry delay when the connection is lost (e.g. the NAD goes to sleep or the router
+    /// drops it). A quiet NAD produces an empty read, which is ignored.
+    /// </summary>
     private IObservable<CommandList> SetupChangeDetectionLoop()
     {
         return Observable.Create<CommandList>((observer, cancellationToken) =>
@@ -131,40 +296,95 @@ public class NadRemote : IDisposable
             return Task.Run(async () =>
             {
                 Debug.WriteLine("Starting new telnet listener");
-                await CheckConnection();
-
-                while (!cancellationToken.IsCancellationRequested)
+                try
                 {
-                    try
+                    while (!cancellationToken.IsCancellationRequested && !_disposed)
                     {
-                        await CheckConnection();
-                        var s = await _client!.ReadAsync(Timeout);
-                        Parse(s);
-                        observer.OnNext(_model);
+                        try
+                        {
+                            await EnsureConnectedAsync(ConnectTimeout, cancellationToken);
+                            await ConsumeReadsAsync(observer, cancellationToken);
+                        }
+                        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                            break;
+                        }
+                        catch (Exception error)
+                        {
+                            // Connect failed (NadConnectException) or the connection was lost
+                            // mid-read: back off and try again so the loop self-heals.
+                            Debug.WriteLine($"Telnet connection lost, retrying in {RetryDelay.TotalSeconds}s: {error}");
+                            if (!await WaitRetryDelayAsync(cancellationToken))
+                            {
+                                break;
+                            }
+                        }
                     }
-                    catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-                    {
-                        observer.OnCompleted();
-                        break;
-                    }
-                    catch (Exception error)
-                    {
-                        observer.OnError(error);
-                        break;
-                    }
+                }
+                finally
+                {
+                    observer.OnCompleted();
                 }
 
                 Debug.WriteLine($"Stopped the telnet listener, token: {cancellationToken.IsCancellationRequested}");
-
             }, cancellationToken);
         });
     }
 
-    private async Task CheckConnection()
+    /// <summary>
+    /// Reads data until the connection is lost, the loop is cancelled, or the remote is
+    /// disposed. <see cref="Client.ReadAsync(TimeSpan)"/> returns an empty string when the
+    /// NAD is quiet, so a silent NAD does not disturb the loop; only real data is parsed.
+    /// </summary>
+    private async Task ConsumeReadsAsync(IObserver<CommandList> observer, CancellationToken cancellationToken)
     {
-        if (_client == null || !_client.IsConnected)
+        while (!cancellationToken.IsCancellationRequested && !_disposed)
         {
-            await ReConnectAsync();
+            var client = _client;
+            if (client is null)
+            {
+                // Disposed between reads.
+                break;
+            }
+
+            string s;
+            try
+            {
+                s = await client.ReadAsync(ReadTimeout);
+            }
+            catch (OperationCanceledException) when (_disposed || cancellationToken.IsCancellationRequested)
+            {
+                // We were disposed (which cancels the client's token) or the caller cancelled.
+                break;
+            }
+            // Any other exception is a lost connection; let it propagate so the outer loop
+            // reconnects.
+
+            if (s.Length > 0)
+            {
+                Parse(s);
+                observer.OnNext(_model);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Waits the retry delay, returning false when the wait was cancelled/disposed.
+    /// </summary>
+    private async Task<bool> WaitRetryDelayAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(RetryDelay, cancellationToken);
+            return !_disposed;
+        }
+        catch (OperationCanceledException)
+        {
+            return false;
         }
     }
 
@@ -181,6 +401,12 @@ public class NadRemote : IDisposable
         {
             Debug.WriteLine(line);
             var parts = line.Split(_equalsSeparator);
+            if (parts.Length < 2 || string.IsNullOrEmpty(parts[1]))
+            {
+                Debug.WriteLine($"Skipping malformed line: {line}");
+                continue;
+            }
+
             switch (parts[0])
             {
                 case MAIN_MODEL_COMMAND:
@@ -206,7 +432,10 @@ public class NadRemote : IDisposable
                     _model.MainListeningMode = parts[1];
                     break;
                 case MAIN_DIRAC_COMMAND:
-                    _model.MainDirac = int.Parse(parts[1]) - 1;
+                    if (int.TryParse(parts[1], out var dirac))
+                    {
+                        _model.MainDirac = dirac - 1;
+                    }
                     break;
                 case DIRAC1_STATE_COMMAND:
                     _model.Dirac1State = parts[1];
@@ -227,13 +456,22 @@ public class NadRemote : IDisposable
                     _model.Dirac3Name = parts[1];
                     break;
                 case MAIN_TRIM_SUB_COMMAND:
-                    _model.MainTrimSub = int.Parse(parts[1]);
+                    if (int.TryParse(parts[1], out var sub))
+                    {
+                        _model.MainTrimSub = sub;
+                    }
                     break;
                 case MAIN_TRIM_SURROUND_COMMAND:
-                    _model.MainTrimSurround = int.Parse(parts[1]);
+                    if (int.TryParse(parts[1], out var surround))
+                    {
+                        _model.MainTrimSurround = surround;
+                    }
                     break;
                 case MAIN_TRIM_CENTER_COMMAND:
-                    _model.MainTrimCenter = int.Parse(parts[1]);
+                    if (int.TryParse(parts[1], out var center))
+                    {
+                        _model.MainTrimCenter = center;
+                    }
                     break;
                 case MAIN_DIMMER_COMMAND:
                     _model.MainDimmer = parts[1] == ON;
@@ -256,8 +494,23 @@ public class NadRemote : IDisposable
 
     private async Task WriteCommandAync(string command)
     {
-        await CheckConnection();
-        await _client!.WriteAsync(command);
+        await EnsureConnectedAsync(ConnectTimeout);
+        try
+        {
+            await _client!.WriteAsync(command);
+        }
+        catch (Exception ex) when (ex is IOException or SocketException or InvalidOperationException or ObjectDisposedException)
+        {
+            // The connection died since EnsureConnectedAsync (e.g. the NAD went to sleep).
+            // Force a fresh connection and retry the command once.
+            Debug.WriteLine($"Write failed, reconnecting and retrying: {ex}");
+            lock (_lock)
+            {
+                DisposeLocked();
+            }
+            await EnsureConnectedAsync(ConnectTimeout);
+            await _client!.WriteAsync(command);
+        }
     }
 
     private async Task WriteSetCommandAsync(string name, string value) => await WriteCommandAync($"{name}={value}{COMMAND_END}");
@@ -297,7 +550,27 @@ public class NadRemote : IDisposable
 
     public void Dispose()
     {
+        _disposed = true;
+
+        lock (_lock)
+        {
+            DisposeLocked();
+        }
+
+        // Note: _connectGate is deliberately not disposed — a waiter may still be inside
+        // WaitAsync and disposing it underneath them would throw ObjectDisposedException.
+        // It is tiny and is garbage-collected with the NadRemote.
+    }
+
+    /// <summary>Must be called while holding <see cref="_lock"/>.</summary>
+    private void DisposeLocked()
+    {
+        // Cancel (not just dispose) so in-flight connect/read tokens fire their cancellation
+        // handlers; a disposed CTS would leave linked tokens in a state that skips
+        // cancellation callbacks. The CTS object is replaced on the next connect.
         _tokenSource?.Cancel();
+        _tokenSource?.Dispose();
+        _tokenSource = null;
         _client?.Dispose();
         _client = null;
     }

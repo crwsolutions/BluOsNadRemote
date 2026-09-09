@@ -421,6 +421,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No endpoint is configured. Go to the Settings menu to set up a connection.
+        /// </summary>
+        internal static string NoEndpointMessage {
+            get {
+                return ResourceManager.GetString("NoEndpointMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not retrieve more.
         /// </summary>
         internal static string NoMore {

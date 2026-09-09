@@ -183,6 +183,9 @@
   <data name="NoConnectionDialogMessage" xml:space="preserve">
     <value>Er kon geen verbinding worden gemaakt. Probeer het opnieuw door naar beneden te vegen, of ga naar het instellingenmenu om een verbinding in te stellen</value>
   </data>
+  <data name="NoEndpointMessage" xml:space="preserve">
+    <value>Er is geen eindpunt ingesteld. Ga naar het instellingenmenu om een verbinding in te stellen</value>
+  </data>
   <data name="DiscoverNoPlayersFound" xml:space="preserve">
     <value>Ontdekken: Geen spelers gevonden</value>
   </data>

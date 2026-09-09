@@ -6,8 +6,8 @@ namespace BluOsNadRemote.App.Services;
 
 public class NoConnectionDialogService
 {
-    public async Task ShowAsync() => await Snackbar.Make(
-            AppResources.NoConnectionDialogMessage,
+    public async Task ShowAsync(string? message = null) => await Snackbar.Make(
+            message ?? AppResources.NoConnectionDialogMessage,
             null,
             AppResources.Ok,
             TimeSpan.FromSeconds(7),

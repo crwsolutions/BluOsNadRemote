@@ -28,13 +28,19 @@ public partial class SettingsPlayerViewModel : BaseRefreshViewModel
             Result = string.Empty;
             IsBusy = true;
             var uri = new Uri(Uri);
-            var nadRemote = new NadRemote(uri);
+            using var nadRemote = new NadRemote(uri);
             var result = await nadRemote.PingAsync();
             Result = $"Success {DateTime.Now}: {result}";
         }
+        catch (NadConnectException ex)
+        {
+            Result = $"Failed {DateTime.Now}: {ex.Message}";
+            Debug.WriteLine(ex);
+        }
         catch (Exception ex)
         {
-            Result = $"Failed {DateTime.Now}: {ex}";
+            Result = $"Failed {DateTime.Now}: {ex.Message}";
+            Debug.WriteLine(ex);
         }
         finally
         {

@@ -15,18 +15,33 @@ public partial class NadTelnetService
     [MemberNotNullWhen(true, nameof(NadRemote))]
     internal bool IsConnected => NadRemote?.IsConnected is true;
 
-    internal NadTelnetConnectResult Connect()
+    internal async Task<NadTelnetConnectResult> ConnectAsync()
     {
         Disconnect();
 
         if (_endpointRepository.SelectedEndpoint == null)
         {
-            return new NadTelnetConnectResult("There is no endpoint. Go to settings");
+            return NadTelnetConnectResult.NoEndpoint;
         }
 
-        NadRemote = new(_endpointRepository.SelectedEndpoint.Uri);
+        var remote = new NadRemote(_endpointRepository.SelectedEndpoint.Uri);
+        NadRemote = remote;
 
-        return NadTelnetConnectResult.Connected;
+        try
+        {
+            await remote.ConnectAsync();
+            return NadTelnetConnectResult.Connected;
+        }
+        catch (NadConnectException exception)
+        {
+            Disconnect();
+            return NadTelnetConnectResult.Failed(exception.Reason, exception.Host);
+        }
+        catch (OperationCanceledException)
+        {
+            Disconnect();
+            return NadTelnetConnectResult.Failed(NadConnectReason.Timeout, remote.Endpoint.Host);
+        }
     }
 
     internal void Disconnect()

@@ -1,7 +1,8 @@
-﻿using BluOsNadRemote.App.Extensions;
+using BluOsNadRemote.App.Extensions;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
 using BluOsNadRemote.Blu4Net;
+using BluOsNadRemote.Blu4Net.Channel;
 
 namespace BluOsNadRemote.App.ViewModels;
 
@@ -98,15 +99,20 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable, IQuery
             }
             else if (Service != null && (AlbumID is not null || ArtistID is not null))
             {
+                // The hand-built "/Albums?service=..&albumid=.." browse key is deprecated by the
+                // firmware (HTTP 400 + empty body); the player-provided
+                // "{service}:MG/{service}-Album?albumid=.." key (via /Browse) is used instead.
                 MusicContentNode node;
+                Debug.WriteLine($"BrowseViewModel: navigating to album/artist: Service={Service}, AlbumID={AlbumID}, ArtistID={ArtistID}");
                 if (AlbumID != null)
                 {
-                    node = await _bluPlayerService.BluPlayer.MusicBrowser.GetNodeAlbumNode(Service, AlbumID);
+                    node = await _bluPlayerService.BluPlayer.MusicBrowser.GetAlbumNode(Service, AlbumID);
                 }
                 else
                 {
-                    node = await _bluPlayerService.BluPlayer.MusicBrowser.GetNodeArtistNode(Service, ArtistID!);
+                    node = await _bluPlayerService.BluPlayer.MusicBrowser.GetArtistNode(Service, ArtistID);
                 }
+                Debug.WriteLine($"BrowseViewModel: resolved to '{node.ServiceName}' with {node.Entries.Count} entries");
                 _bluPlayerService.MusicContentNode = node;
             }
             else if (_bluPlayerService.MusicContentEntry?.IsResolvable == true)
@@ -165,9 +171,16 @@ public partial class BrowseViewModel : BaseRefreshViewModel, IDisposable, IQuery
         }
         catch (Exception exception)
         {
-            Title = AppResources.NoBrowsers;
-            _bluPlayerService.Disconnect();
             Debug.WriteLine(exception);
+
+            Title = AppResources.NoBrowsers;
+
+            // A BluChannelException means the player did answer (an <error> root or an empty
+            // body); that is a content issue, so keep the (still working) connection.
+            if (exception is not BluChannelException)
+            {
+                _bluPlayerService.Disconnect();
+            }
         }
         finally
         {

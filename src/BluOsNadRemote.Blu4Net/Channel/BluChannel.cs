@@ -57,6 +57,14 @@ public sealed class BluChannel
         using var response = await client.GetAsync(requestUri, cancellationToken).ConfigureAwait(false);
         var xml = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+        if (string.IsNullOrWhiteSpace(xml))
+        {
+            // The firmware can answer with an empty body (e.g. a deprecated browse key
+            // returns HTTP 400 and nothing else); an empty body is not valid XML and would
+            // otherwise surface as an XmlException. Surface it as a BluChannelException.
+            throw new BluChannelException($"The player returned an empty response (HTTP {(int)response.StatusCode} {response.StatusCode})");
+        }
+
         LogMessage(xml);
 
 #if FILE_LOGGING

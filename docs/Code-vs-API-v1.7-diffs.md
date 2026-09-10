@@ -1,4 +1,4 @@
-﻿# Code vs. BluOS Custom Integration API v1.7 — verschillen
+# Code vs. BluOS Custom Integration API v1.7 — verschillen
 
 - Referentie: `docs/BluOS-Custom-Integration-API_v1.7.md` (v1.7, 2025-04-09)
 - Onderwerp: `src/BluOsNadRemote.Blu4Net` (handgeschreven `XmlReader`-deserializers na de migratie van 2026-08-25)
@@ -132,6 +132,11 @@ Geen — alle gelezen attributen van `browse`/`item`/`category` staan in de doc.
 Foutrespons (root `<error>` met `<message>`/`<detail>`):
 - Oude `XmlSerializer`: `null` → NullReferenceException-risico in `BrowseContent`.
 - Nieuwe parser: object met lege `Items`/`Categories`-arrays (getest: `Read_ErrorRoot_ReturnsEmptyResponse`).
+
+### Firmware-afdwinging: hand-opgebouwde legacy browseKeys gedeprecateerd (2026-09-10)
+- De handmatig opgebouwde second-level keys `/Albums?service=…&albumid=…`, `/Artists?service=…&artistid=…` (én `/Songs?…`) worden door de firmware afgekeurd: **HTTP 400 + lege body**. De lege body gaf eerst `XmlException: Root element is missing` in `BluChannel.SendRequest`; die gooit nu een `BluChannelException` met de HTTP status ("The player returned an empty response (HTTP 400 Bad Request)").
+- Oorspronkelijke vervanger (afgekeurd): een zoek-flow via `searchKey` + `nextKey`-paginering met id-matching. Die faalt bij populaire zoektermen: het zoekresultaat is gerangschikt op relevantie en beperkt (max. ~180 items); het gespeelde album stond daar bijv. voor "Shape of You" níét in.
+- Huidige oplossing: `MusicBrowser.GetAlbumNode` / `GetArtistNode` browsen via het gedocumenteerde `/Browse`-endpoint met de key in het speler-eigen formaat dat de speler zelf op album/artist-items levert: `Tidal:MG/Tidal-Album?albumid=…` resp. `Tidal:MG/Tidal-Artist?artistid=…`. Een onbekende id levert een geldige maar lege `<browse>` (geen uitzondering). De niet-gebruikte `/Albums`/`/Artists`-direct endpoints (ondocumenteerd) worden niet gebruikt.
 
 ## 9. /AddSlave, /RemoveSlave (doc 8.1–8.4)
 

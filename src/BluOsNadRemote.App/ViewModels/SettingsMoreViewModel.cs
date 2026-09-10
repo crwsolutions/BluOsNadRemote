@@ -1,4 +1,5 @@
-﻿using BluOsNadRemote.App.Services;
+﻿using BluOsNadRemote.App.Repositories;
+using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
 
@@ -10,11 +11,20 @@ public sealed partial class SettingsMoreViewModel : BaseViewModel
     [Dependency]
     private readonly ThemeService _themeService;
 
+    [Dependency]
+    private readonly VolumeDisplayRepository _volumeDisplayRepository;
+
     partial void PostConstruct()
     {
         SetLanguageChecks();
         SetThemeChecks();
+        ShowDecibel = _volumeDisplayRepository.GetShowDecibel();
     }
+
+    [ObservableProperty]
+    public partial bool ShowDecibel { get; set; }
+
+    partial void OnShowDecibelChanged(bool value) => _volumeDisplayRepository.SetShowDecibel(value);
 
     private void SetLanguageChecks()
     {

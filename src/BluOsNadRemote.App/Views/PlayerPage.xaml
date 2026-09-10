@@ -74,7 +74,7 @@
                                 
                                 <!-- volume -->
                                 <HorizontalStackLayout Grid.Column="2" HorizontalOptions="End" >
-                                    <Label FontSize="12" Text="{Binding Volume, Mode=OneWay, StringFormat='{0} %'}" />
+                                    <Label FontSize="12" Text="{Binding VolumeDisplay, Mode=OneWay}" />
                                     <Label FontFamily="CrwMedia" Text="{Binding VolumeSymbol, Mode=OneWay}" FontSize="20" Margin="0,-1,0,0" />
                                 </HorizontalStackLayout>
 

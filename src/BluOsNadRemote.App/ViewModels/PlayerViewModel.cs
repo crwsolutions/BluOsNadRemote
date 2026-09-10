@@ -1,5 +1,6 @@
 ﻿using BluOsNadRemote.App.Extensions;
 using BluOsNadRemote.App.Models;
+using BluOsNadRemote.App.Repositories;
 using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
 using BluOsNadRemote.Blu4Net;
@@ -13,6 +14,9 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
 
     [Dependency]
     private readonly BluPlayerService _bluPlayerService;
+
+    [Dependency]
+    private readonly VolumeDisplayRepository _volumeDisplayRepository;
 
     private IDisposable? _volumeChangesSubscriber;
     private IDisposable? _stateChangesSubscriber;
@@ -48,7 +52,24 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     [NotifyPropertyChangedFor(nameof(MuteImage))]
     [NotifyPropertyChangedFor(nameof(IsMuted))]
     [NotifyPropertyChangedFor(nameof(VolumeSymbol))]
+    [NotifyPropertyChangedFor(nameof(VolumeDisplay))]
     public partial int Volume { get; set; } = 0;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VolumeDisplay))]
+    public partial double VolumeDecibel { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(VolumeDisplay))]
+    public partial bool ShowDecibel { get; set; }
+
+    /// <summary>
+    /// The volume as it should be presented to the user: a decibel value when the
+    /// "show decibels" preference is enabled, otherwise a percentage.
+    /// </summary>
+    public string VolumeDisplay => ShowDecibel
+        ? $"{VolumeDecibel.ToString(AppResources.Culture)} dB"
+        : $"{Volume} %";
 
     public string VolumeSymbol => Volume switch
     {
@@ -58,7 +79,6 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
         < 75 => "2",
         _ => "3"
     };
-
     partial void OnVolumeChanging(int value)
     {
         _ = SetAndClampVolumeAsync(value);
@@ -194,6 +214,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
     {
         Title = AppResources.Loading;
         PlayerState = PlayerState.Unknown;
+        ShowDecibel = _volumeDisplayRepository.GetShowDecibel();
 
         try
         {
@@ -221,6 +242,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             {
                 Debug.WriteLine($"Volume: {volume}%");
                 Volume = volume.Percentage;
+                VolumeDecibel = volume.Decibel;
             });
 
             _stateChangesSubscriber = bluPlayer.StateChanges.Subscribe(UpdatePlayerState);
@@ -246,6 +268,7 @@ public partial class PlayerViewModel : BaseRefreshViewModel, IDisposable
             var status = await bluPlayer.GetStatus();
             UpdatePlayerState(status.State);
             Volume = status.Volume.Percentage;
+            VolumeDecibel = status.Volume.Decibel;
             UpdatePlayerMedia(status.Media);
             UpdatePlayPosition(status.Position);
             ShuffleMode = status.Shuffle;

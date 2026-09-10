@@ -12,6 +12,7 @@ internal static class RepositoriesExtensions
         builder.Services.AddSingleton<EndpointRepository>();
         builder.Services.AddSingleton<CultureOverrideRepository>();
         builder.Services.AddSingleton<ThemeOverrideRepository>();
+        builder.Services.AddSingleton<VolumeDisplayRepository>();
 
         return builder;
     }

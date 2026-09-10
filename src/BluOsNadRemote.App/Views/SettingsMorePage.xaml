@@ -6,7 +6,7 @@
              x:Class="BluOsNadRemote.App.Views.SettingsMorePage"
              x:DataType="vm:SettingsMoreViewModel"
              Title="{lang:Text SettingsMoreTitle}">
-    <Grid Style="{StaticResource Body}" RowDefinitions="auto,auto">
+    <Grid Style="{StaticResource Body}" RowDefinitions="auto,auto,auto">
         <StackLayout>
             <Label Text="{lang:Text OverrideLanguage}" Style="{StaticResource FormHeader}" />
             <Label Text="{lang:Text OverrideLanguageIntro}" Style="{StaticResource FormIntro}" />
@@ -24,6 +24,13 @@
             <RadioButton Content="{lang:Text DarkThemeLabel}" Value="{Binding DARK, Mode=OneTime}" IsChecked="{Binding DarkIsChecked}" CheckedChanged="Theme_CheckedChanged" />
             <RadioButton Content="{lang:Text LightThemeLabel}" Value="{Binding LIGHT, Mode=OneTime}" IsChecked="{Binding LightIsChecked}" CheckedChanged="Theme_CheckedChanged" />
 
+        </StackLayout>
+        <StackLayout Grid.Row="2">
+            <BoxView Style="{StaticResource FormSeparator}"/>
+            <Grid ColumnDefinitions="*,auto" Margin="12,0,12,0">
+                <Label Text="{lang:Text ShowDecibel}" VerticalOptions="Center" HorizontalOptions="Start"/>
+                <Switch Grid.Column="1" IsToggled="{Binding ShowDecibel}" HorizontalOptions="End" VerticalOptions="Center"/>
+            </Grid>
         </StackLayout>
     </Grid>
 </ContentPage>

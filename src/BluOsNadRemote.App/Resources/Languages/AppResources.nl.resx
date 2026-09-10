@@ -321,6 +321,9 @@
   <data name="LightThemeLabel" xml:space="preserve">
     <value>Lichte thema</value>
   </data>
+  <data name="ShowDecibel" xml:space="preserve">
+    <value>Decibels tonen</value>
+  </data>
   <data name="Unknown" xml:space="preserve">
     <value>onbekend</value>
   </data>

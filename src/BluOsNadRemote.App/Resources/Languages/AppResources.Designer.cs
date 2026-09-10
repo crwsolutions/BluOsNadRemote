@@ -709,6 +709,15 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show decibels.
+        /// </summary>
+        internal static string ShowDecibel {
+            get {
+                return ResourceManager.GetString("ShowDecibel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Source.
         /// </summary>
         internal static string Source {

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage xmlns:views="clr-namespace:BluOsNadRemote.App.Views"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -7,7 +7,7 @@
              xmlns:model="clr-namespace:BluOsNadRemote.App.Models"
 			 x:Class="BluOsNadRemote.App.Views.SettingsPage"
 			 x:DataType="vm:SettingsViewModel">
-    
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding NavigateToAddCommand, Mode=OneTime}">
             <ToolbarItem.IconImageSource>
@@ -20,7 +20,7 @@
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
-    
+
     <ContentPage.Content>
         <Grid RowDefinitions="auto, auto, *, auto" Style="{StaticResource Body}">
             <CollectionView x:Name="ItemsListView" MinimumHeightRequest="42"
@@ -29,15 +29,42 @@
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedItem}"
                             Margin="0,8,0,0">
+
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Style="{StaticResource DeviceContainer}">
-                            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Margin="8,0,8,0" x:DataType="model:EndPoint">
-                                <StackLayout VerticalOptions="Center">
-                                    <Label Text="{Binding LastKnowName, Mode=OneTime}" Style="{StaticResource ListItemTitleTextStyle}" />
-                                    <Label Text="{Binding Uri, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
-                                </StackLayout>
-                            </Grid>
+                    <DataTemplate x:DataType="model:EndPoint">
+                        <Border StrokeShape="RoundRectangle 6" Style="{StaticResource DeviceContainer}" Padding="0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal" />
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{StaticResource NadAccent}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <SwipeView Padding="0">
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItemView MinimumWidthRequest="80"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SettingsViewModel}}, Path=DeleteCommand, Mode=OneTime, x:DataType='vm:SettingsViewModel'}"
+                                                       CommandParameter="{Binding .}">
+                                            <Border StrokeShape="RoundRectangle 6" Background="Red">
+                                                <Label Text="l" FontFamily="CrwMedia" TextColor="White"
+                                                       VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="32" />
+                                            </Border>
+                                        </SwipeItemView>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Margin="16,8" x:DataType="model:EndPoint">
+                                    <StackLayout VerticalOptions="Center">
+                                        <Label Text="{Binding LastKnowName, Mode=OneTime}" Style="{StaticResource ListItemTitleTextStyle}" />
+                                        <Label Text="{Binding Uri, Mode=OneTime}" Style="{StaticResource ListItemSubTextStyle}" />
+                                    </StackLayout>
+                                </Grid>
+                            </SwipeView>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -46,15 +73,15 @@
             <Grid ColumnDefinitions="*,*" Grid.Row="1" ColumnSpacing="8" Margin="12">
                 <Button Text="{lang:Text Discover}" Command="{Binding DiscoverCommand}" />
                 <Button Grid.Column="1" Text="{lang:Text Reset}" Command="{Binding ResetCommand}" />
-            </Grid>            
-            
+            </Grid>
+
             <ScrollView Grid.Row="2" Margin="12" VerticalScrollBarVisibility="Never">
                 <VerticalStackLayout>
                     <ActivityIndicator IsRunning="{Binding IsDiscovering, Mode=OneWay}" Color="{DynamicResource TextColor}" VerticalOptions="Center" HorizontalOptions="Center" />
                     <Label VerticalTextAlignment="Start" Text="{Binding Result, Mode=OneWay}" />
                 </VerticalStackLayout>
             </ScrollView>
-            
+
             <Border Grid.Row="3" StrokeShape="RoundRectangle 14" Padding="6" Background="Silver" Margin="24, 12,24,12" Stroke="Gray">
                 <Label Text="{Binding Version, Mode=OneTime}" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
             </Border>

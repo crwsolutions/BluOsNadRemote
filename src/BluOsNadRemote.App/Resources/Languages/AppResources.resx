@@ -360,4 +360,13 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="DeletePlayer" xml:space="preserve">
+    <value>Delete player</value>
+  </data>
+  <data name="DeletePlayerConfirmTitle" xml:space="preserve">
+    <value>Delete player</value>
+  </data>
+  <data name="DeletePlayerConfirmMessage" xml:space="preserve">
+    <value>Are you sure you want to delete {0}?</value>
+  </data>
 </root>

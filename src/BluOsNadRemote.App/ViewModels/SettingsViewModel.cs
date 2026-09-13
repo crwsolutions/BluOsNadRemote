@@ -1,5 +1,7 @@
-﻿using BluOsNadRemote.App.Models;
+using BluOsNadRemote.App.Extensions;
+using BluOsNadRemote.App.Models;
 using BluOsNadRemote.App.Repositories;
+using BluOsNadRemote.App.Resources.Languages;
 using BluOsNadRemote.App.Services;
 
 namespace BluOsNadRemote.App.ViewModels;
@@ -50,6 +52,8 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable, IQue
     {
         try
         {
+            EndPoints.Clear();
+
             var endPoints = _endpointRepository.GetEndPoints();
             if (endPoints is null || endPoints.Length == 0)
             {
@@ -76,19 +80,52 @@ public partial class SettingsViewModel : BaseRefreshViewModel, IDisposable, IQue
     [RelayCommand]
     private async Task NavigateToMoreAsync() => await Shell.Current.GoToAsync(nameof(SettingsMorePage));
 
+    [RelayCommand]
+    private async Task DeleteAsync(EndPoint? endpoint)
+    {
+        if (endpoint is null)
+        {
+            return;
+        }
+
+        var confirmed = await Shell.Current.CurrentPage.DisplayAlertAsync(
+            AppResources.DeletePlayerConfirmTitle,
+            AppResources.DeletePlayerConfirmMessage.Interpolate(endpoint.LastKnowName),
+            AppResources.Yes,
+            AppResources.No);
+
+        if (confirmed is false)
+        {
+            return;
+        }
+
+        _bluPlayerService.Disconnect();
+        _endpointRepository.RemoveEndPoint(endpoint);
+        IsLoading();
+    }
 
     [RelayCommand]
     private async Task DiscoverAsync()
     {
         try
         {
-            Reset();
+            // Disconnect only; the stored endpoints are kept and merged by the discovery, so
+            // players that are not on the network right now are not lost.
+            _bluPlayerService.Disconnect();
             IsDiscovering = true;
             var discoverResult = await _bluPlayerService.DiscoverAsync();
             Debug.WriteLine(discoverResult.Message);
             Result = discoverResult.Message;
             if (discoverResult.HasDiscovered)
             {
+                // Fall back to the first endpoint if the previously selected one is no longer available.
+                if (_endpointRepository.SelectedEndpoint is not null
+                    && _endpointRepository.GetEndPoints().FirstOrDefault(e => e.Uri == _endpointRepository.SelectedEndpoint!.Uri) is null)
+                {
+                    _endpointRepository.SelectedEndpoint = _endpointRepository.GetEndPoints()[0];
+                }
+
+                // Rebuild the list (old + new, merged) and reconnect with the (possibly new) selection.
                 IsLoading();
                 _ = await _bluPlayerService.ConnectAsync();
             }

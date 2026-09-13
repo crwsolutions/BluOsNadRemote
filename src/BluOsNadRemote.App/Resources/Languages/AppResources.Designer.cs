@@ -241,6 +241,33 @@ namespace BluOsNadRemote.App.Resources.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete player.
+        /// </summary>
+        internal static string DeletePlayer {
+            get {
+                return ResourceManager.GetString("DeletePlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete {0}?.
+        /// </summary>
+        internal static string DeletePlayerConfirmMessage {
+            get {
+                return ResourceManager.GetString("DeletePlayerConfirmMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete player.
+        /// </summary>
+        internal static string DeletePlayerConfirmTitle {
+            get {
+                return ResourceManager.GetString("DeletePlayerConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dirac.
         /// </summary>
         internal static string Dirac {

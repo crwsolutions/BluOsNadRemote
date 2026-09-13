@@ -1,4 +1,4 @@
-﻿using BluOsNadRemote.App.Models;
+using BluOsNadRemote.App.Models;
 
 namespace BluOsNadRemote.App.Repositories;
 
@@ -117,6 +117,45 @@ public sealed partial class EndpointRepository
 
         var name = _preferences.Get<string>(ENDPOINT_NAME + index, "");
         return new EndPoint(uri, name);
+    }
+
+    public void RemoveEndPoint(EndPoint endpoint)
+    {
+        if (endpoint is null)
+        {
+            return;
+        }
+
+        var oldEndpoints = GetEndPoints();
+        if (oldEndpoints.Length == 0)
+        {
+            return;
+        }
+
+        var newEndpoints = oldEndpoints.Where(e => !e.Equals(endpoint)).ToArray();
+
+        // Removing the last endpoint clears the list and the selection.
+        if (newEndpoints.Length == 0)
+        {
+            ClearEndpoints();
+            return;
+        }
+
+        var selected = _preferences.Get(ENDPOINT_SELECTED, 0);
+        var selectedStillPresent = newEndpoints.Any(e => e.Equals(oldEndpoints[selected]));
+
+        SetEndPoints(newEndpoints);
+
+        if (selectedStillPresent)
+        {
+            // The selected endpoint survived; it may have moved index if an endpoint before it was removed.
+            var newIndex = Array.IndexOf(newEndpoints, oldEndpoints[selected]);
+            UpdateSelecteEndpoint(newIndex);
+        }
+        else
+        {
+            UpdateSelecteEndpoint(0);
+        }
     }
 
     internal void ClearEndpoints()

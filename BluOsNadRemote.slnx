@@ -22,5 +22,4 @@
   <Project Path="src/BluOsNadRemote.Blu4Net.Tests/BluOsNadRemote.Blu4Net.Tests.csproj" />
   <Project Path="src/BluOsNadRemote.Blu4Net/BluOsNadRemote.Blu4Net.csproj" />
   <Project Path="src/BluOsNadRemote.Nad4Net/BluOsNadRemote.Nad4Net.csproj" />
-  <Project Path="src/ZeroconfTemp/ZeroConfTemp.csproj" />
 </Solution>

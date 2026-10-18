@@ -124,14 +124,11 @@ public static class LsdpDiscoverer
     /// Returns the exact bytes of the LSDP query packet for the BluOS Player class:
     /// header (06 "LSDP" 01) + query message (05 51 01 00 01).
     /// </summary>
-    internal static byte[] BuildQueryPacket()
-    {
-        return
+    internal static byte[] BuildQueryPacket() =>
         [
-            (byte)HeaderLength, Magic[0], Magic[1], Magic[2], Magic[3], ProtocolVersion,
-            0x05, (byte)QueryMessageType, 0x01, 0x00, 0x01
+            HeaderLength, Magic[0], Magic[1], Magic[2], Magic[3], ProtocolVersion,
+            0x05, QueryMessageType, 0x01, 0x00, 0x01
         ];
-    }
 
     /// <summary>
     /// Parses one LSDP datagram and returns the BluOS Player hosts it announces.
@@ -225,14 +222,25 @@ public static class LsdpDiscoverer
                 continue; // No usable subnet mask; the limited broadcast still covers this interface.
             }
 
-            var subnet = UnicastToInteger(unicast.Address) & mask;
-            var key = subnet.ToString();
-            if (!subnets.Contains(key))
+            var unicastBytes = unicast.Address.GetAddressBytes();
+            var maskBytes = GetMaskBytes(mask);
+            // Subnet broadcast: for each octet, keep the unicast value where the mask
+            // bit is set, use 255 where it is not. No carry propagation — the host
+            // portion simply becomes all-ones.
+            var broadcastBytes = new byte[4];
+            for (var i = 0; i < 4; i++)
             {
-                subnets.Add(key);
-                var broadcast = new IPAddress(subnet | ~mask);
-                destinations.Add(new IPEndPoint(broadcast, LsdpPort));
+                broadcastBytes[i] = (byte)((unicastBytes[i] & maskBytes[i]) | (byte)~maskBytes[i]);
             }
+
+            var subnetKey = $"{unicastBytes[0]}.{unicastBytes[1]}.{unicastBytes[2]}";
+            if (subnets.Contains(subnetKey))
+            {
+                continue;
+            }
+
+            subnets.Add(subnetKey);
+            destinations.Add(new IPEndPoint(new IPAddress(broadcastBytes), LsdpPort));
         }
 
         // The limited broadcast is delivered by the OS over the default interface; it
@@ -258,7 +266,7 @@ public static class LsdpDiscoverer
             return null;
         }
 
-        var nodeId = Encoding.ASCII.GetString(block.Slice(cursor, nodeIdentifierLength));
+        var nodeId = FormatNodeId(block.Slice(cursor, nodeIdentifierLength));
         cursor += nodeIdentifierLength;
         var addressLength = block[cursor++];
         if (addressLength != 4 || cursor + addressLength > block.Length)
@@ -324,5 +332,44 @@ public static class LsdpDiscoverer
     {
         var bytes = address.GetAddressBytes();
         return (uint)((bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3]);
+    }
+
+    private static byte[] GetMaskBytes(uint mask) =>
+        [
+            (byte)(mask >> 24),
+            (byte)(mask >> 16),
+            (byte)(mask >> 8),
+            (byte)mask
+        ];
+
+    /// <summary>
+    /// Formats a raw Node ID. Firmware may send it as a printable ASCII string
+    /// (e.g. "90:56:82:B0:3E:12") or as raw bytes (e.g. a 6-byte MAC). Printable
+    /// strings are returned as-is; binary data is rendered as colon-separated hex.
+    /// </summary>
+    private static string FormatNodeId(ReadOnlySpan<byte> nodeId)
+    {
+        var isPrintable = true;
+        for (var i = 0; i < nodeId.Length; i++)
+        {
+            if (nodeId[i] < 0x20 || nodeId[i] > 0x7E)
+            {
+                isPrintable = false;
+                break;
+            }
+        }
+
+        if (isPrintable)
+        {
+            return Encoding.ASCII.GetString(nodeId);
+        }
+
+        var parts = new string[nodeId.Length];
+        for (var i = 0; i < nodeId.Length; i++)
+        {
+            parts[i] = nodeId[i].ToString("X2");
+        }
+
+        return string.Join(":", parts);
     }
 }

@@ -94,14 +94,16 @@
 2. **`System.Reactive` PackageReference** in `Blu4Net.csproj`: `ZeroconfTemp` leverde `System.Reactive 5.0.0` transitief; na verwijdering moet `Blu4Net` dit zelf refereren (zelfde versie → geen behavioral verandering).
 3. **`Parse` is public** i.p.v. internal: `InternalsVisibleTo` dekt alleen internal members van `Blu4Net`; een public parse-methode is ook een nette, geteste API voor latere tooling.
 
-### Socket-path herziening na eerste handmatige test (Android, 2026-09-13)
+### Socket-path herziening na eerste handmatige test (Android emulator, 2026-09-13)
 
-Colin kon met de eerste versie geen spelers vinden op een fysiek Android-apparaat (2× `SocketException` in de debug window). mDNS/Zeroconf werkte op hetzelfde apparaat met dezelfde rechten, dus geen permissions-probleem. Twee echte bugs, beide gefixt en geverifieerd:
+Colin kon met de eerste versie geen spelers vinden. mDNS/Zeroconf werkte op hetzelfde apparaat met dezelfde rechten, dus geen permissions-probleem. Twee bugs, beide gefixt en geverifieerd:
 
 1. **Socket liep op een ephemeral poort** — de belangrijkste bug. Spec §13.1: LSDP gebruikt "all UDP broadcast packets **to and from** port 11430"; firmware stuurt Announce-responses *naar* 11430. `new UdpClient()` bindt op een willekeurige poort → response werd nooit ontvangen → 0 spelers. Fix: socket bindt op `0.0.0.0:11430` (wildcard-bind is op Android veilig; per-interface-bind was het bekende probleem). Query wordt ook vanaf 11430 gestuurd, dus unicast-responses komen ook goed terug.
 2. **Per-interface `Bind`** — de oorspronkelijke implementatie boonde per interface op het interface-IP (`EADDRNOTAVAIL`/`EACCES` op Android). Fix: één socket, queries naar de directed broadcast per subnet **en** `255.255.255.255` (limited broadcast als fallback wanneer prefix/mask ontbreekt — op Android Wi-Fi is `PrefixLength` vaak 0; de mask wordt nu liever uit `IPv4Mask` gelezen).
-3. **Diagnostics:** `[LsdpDiscoverer]`-Debug-lijnen per interface/mask, per query-send, per ontvangen datagram (met afzender + byte count) en `SocketError`-codes bij falen, zodat de volgende handmatige test direct de oorzaak toont.
-4. **Verificatie:** build 0 warnings; 81/81 unit tests; lokale end-to-end simulatie (nep-speler stuurt Announce naar poort 11430) → speler ontdekt en geparst (E2E PASS).
+3. **Subnet-broadcast-berekening was verkeerd** — `new IPAddress(uint)` interpreteert de uint als host-byte order, waardoor `subnet | ~mask` en `subnet + ~mask` beide onzinnige adressen leverden (bijv. `255.107.168.192` in plaats van `192.168.107.255`). Op een `/24`-netwerk leek het per toeval correct omdat de byte-order van de uint en de interpretatie van `IPAddress(uint)` elkaar deels annuleerden, maar op `/16`- of `/20`-netwerken was het fout. Fix: byte-voor-byte berekening: `broadcast[i] = (unicast[i] & mask[i]) | ~mask[i]` — geen carry, geen uint-byte-order afhankelijkheid. Geverifieerd voor `/8`, `/16`, `/20`, `/24` en edge-cases.
+4. **Diagnostics:** `[LsdpDiscoverer]`-Debug-lijnen per interface/mask, per query-send, per ontvangen datagram (met afzender + byte count) en `SocketError`-codes bij falen.
+5. **NodeId-format:** firmware stuurt de MAC als 6 ruwe bytes (niet ASCII). `FormatNodeId` herkent printable-ASCII (zoals-is) vs. binair (hex met dubbele punten), dus de log toont nu `90:56:82:B0:3E:12` in plaats van `?V??>`.
+6. **Verificatie:** build 0 warnings; 81/81 unit tests; **live test op fysieke hardware**: PC op hetzelfde netwerk als player (`192.168.107.x`), `DiscoverAsync(15s)` → 1 host gevonden (`NodeId=90:56:82:B0:3E:12 Address=192.168.107.228`), `BluPlayer.Connect` bevestigt dezelfde MAC en naam (`PULSE M-Zolder`, Bluesound).
 
 ## Handoff notes
 

@@ -12,7 +12,10 @@ public static class MauiProgram
         MauiApp
             .CreateBuilder()
             .UseMauiApp<App>()
-            .UseMauiCommunityToolkit()
+            .UseMauiCommunityToolkit(options =>
+            {
+                options.SetShouldEnableSnackbarOnWindows(true);
+            })
             .ConfigurePreferences()
             .ConfigureRepositories()
             .ConfigureServices()

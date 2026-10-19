@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Zeroconf;
 
 namespace BluOsNadRemote.Blu4Net;
 
 public sealed class BluEnvironment
 {
-    public const string EndpointProtocol = "_musc._tcp.local.";
-
     public static int DefaultEndpointPort = 11000;
     public static TimeSpan DefaultScanTimeout = TimeSpan.FromSeconds(5);
     private const int MaxScanAttempts = 3;
@@ -21,20 +18,20 @@ public sealed class BluEnvironment
     public sealed record Endpoint(Uri Uri, string Name);
 
     /// <summary>
-    /// Scans the local network for BluOS players. While a scan finds nothing it is
-    /// repeated up to <see cref="MaxScanAttempts"/> times. Each discovered host is
-    /// verified with a connection attempt, so the returned endpoints are reachable
-    /// and carry the player name.
+    /// Scans the local network for BluOS players using LSDP (Lenbrook Service
+    /// Discovery Protocol). While a scan finds nothing it is repeated up to
+    /// <see cref="MaxScanAttempts"/> times. Each discovered host is verified with a
+    /// connection attempt, so the returned endpoints are reachable and carry the
+    /// player name.
     /// </summary>
     /// <param name="acceptLanguage">The preferred language of the player responses.</param>
     public static async Task<IReadOnlyList<Endpoint>> ResolveEndpointsAsync(CultureInfo acceptLanguage = null)
     {
-        var hosts = new List<IZeroconfHost>();
+        var hosts = new List<LsdpDiscoverer.LsdpHost>();
 
         for (var attempt = 0; attempt < MaxScanAttempts && hosts.Count == 0; attempt++)
         {
-            var found = await ZeroConfTemp.ZeroconfResolver.ResolveAsync(EndpointProtocol, DefaultScanTimeout).ConfigureAwait(false);
-            hosts = [.. found.Where(host => !string.IsNullOrWhiteSpace(host.IPAddress))];
+            hosts = [.. await LsdpDiscoverer.DiscoverAsync(DefaultScanTimeout).ConfigureAwait(false)];
         }
 
         var endpoints = new List<Endpoint>();
@@ -55,8 +52,8 @@ public sealed class BluEnvironment
         return endpoints;
     }
 
-    private static Uri GetEndpoint(IZeroconfHost host)
+    private static Uri GetEndpoint(LsdpDiscoverer.LsdpHost host)
     {
-        return new UriBuilder("http", host.IPAddress, DefaultEndpointPort).Uri;
+        return new UriBuilder("http", host.Address.ToString(), DefaultEndpointPort).Uri;
     }
 }

@@ -145,16 +145,15 @@ src/
 ├── BluOsNadRemote.Blu4Net/       # BluOS protocol library (plain .NET 10, no MAUI)
 │   ├── Channel/                  # Hand-written XmlReader parsers for each SOVI response
 │   ├── BluPlayer.cs              # Player connection, status, actions (HTTP + long polling)
+│   ├── BluEnvironment.cs         # LSDP network discovery (LsdpDiscoverer) + endpoint resolution
 │   └── MusicBrowser.cs           # Browse/presets/queue content
 │
 ├── BluOsNadRemote.Blu4Net.Tests/ # xUnit v3 tests (golden tests over TestData/*.xml)
 │
-├── BluOsNadRemote.Nad4Net/       # NAD Txxx telnet (RS232) library (plain .NET 10, no MAUI)
+└── BluOsNadRemote.Nad4Net/       # NAD Txxx telnet (RS232) library (plain .NET 10, no MAUI)
 │   ├── NadRemote.cs              # Telnet client: connect, command changes, command send
 │   ├── Model/                    # Command list model
 │   └── Extensions/
-│
-└── ZeroconfTemp/                 # Local copy of Zeroconf (iOS-specific variant required by Blu4Net)
 
 art/font/                         # CrwMedia glyph font design source (media_font.svg + readme)
 docs/                             # BluOS Custom Integration API v1.7 reference + code-vs-API diffs
@@ -190,7 +189,7 @@ src/player.http                   # .http file for player endpoint testing
 - Connection failures surface as `NadConnectException` with a reason; the app layer (`NadTelnetService`) maps them to user-friendly results (see `AdvancedViewModel` / settings ping UX)
 
 ### Connection State and UX
-- `EndpointRepository` stores discovered BluOS endpoints (zeroconf via `ZeroconfTemp`) and the user-selected one
+- `EndpointRepository` stores discovered BluOS endpoints (LSDP discovery via `LsdpDiscoverer` in `Blu4Net`) and the user-selected one
 - Services return typed connect-result POCOs (e.g., `BluPlayerConnectResult`, `NadTelnetConnectResult`) instead of throwing into the UI layer
 - `NoConnectionDialogService` centralizes "no connection" snackbars/alerts — reuse it for connection failures
 - All connection logic must be resilient to app sleep/resume (`App.OnSleep()` disconnects everything)

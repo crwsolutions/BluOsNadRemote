@@ -29,9 +29,9 @@
 
                     <!-- More... -->
                     <Grid Grid.Row="2" RowDefinitions="*, auto, auto">
-                        
-                        <Button Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" IsVisible="{Binding HasMoreMenu}" Style="{StaticResource GlyphButton}"
-                                Text="h" VerticalOptions="Start" />
+
+                        <Button Command="{Binding DisplayActionSheetCommand, Mode=OneTime}" IsVisible="{Binding HasMoreMenu}" FontFamily="CrwMedia" BackgroundColor="Transparent" BorderWidth="0"
+                                Text="h" VerticalOptions="Start" FontSize="30" />
 
                         <!-- repeat/ shuffle  -->
                         <Button Grid.Row="1" FontFamily="CrwMedia" Text="{Binding RepeatModeSymbol, Mode=OneWay}" FontSize="30" TextColor="{Binding RepeatModeColor, Mode=OneWay}"

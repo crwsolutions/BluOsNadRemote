@@ -96,7 +96,7 @@
                             <Button Command="{Binding ToggleMuteCommand, Mode=OneTime}" Text="{Binding MuteImage, Mode=OneWay}" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="1" Command="{Binding VolumeDownCommand, Mode=OneTime}" Text="m" Style="{StaticResource CircleButton}"/>
                             <Button Grid.Column="2" Command="{Binding VolumeUpCommand, Mode=OneTime}" Text="n" Style="{StaticResource CircleButton}"/>
-                            <Slider Grid.Column="4" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" ThumbColor="Black" VerticalOptions="Center" />
+                            <Slider Grid.Column="4" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" ThumbColor="Black" VerticalOptions="Center" Margin="{OnPlatform iOS='12,0,12,0'}" />
                         </Grid>
                     </Grid>
                 </Grid>

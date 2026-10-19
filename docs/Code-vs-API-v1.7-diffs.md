@@ -159,7 +159,6 @@ Foutrespons (root `<error>` met `<message>`/`<detail>`):
 | 11.1 / 11.2 | Direct input (`inputIndex`, `inputTypeIndex`, `/RadioBrowse?service=Capture`) |
 | 12.1 | Bluetooth-modi (`/audiomodes?bluetoothAutoplay=…`) |
 | 7.1 | `/Browse` met `withContextMenuItems=1` (parser kan het wél parsen: `contextMenu` wordt geskippt) |
-| 13.1 | Lenbrook Service Discovery (LSDP) — code gebruikt mDNS via `Zeroconf` |
 
 ## 11. Extra response-type in de code (niet in CI-doc v1.7)
 

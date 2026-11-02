@@ -19,8 +19,6 @@
 		<!-- For: XAML Source generator -->
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
-		<MauiVersion>10.0.20</MauiVersion>
-
 		<!-- Display name -->
 		<ApplicationTitle>BluOS NAD</ApplicationTitle>
 

@@ -4,6 +4,7 @@
     <File Path="docs/BluOS-Custom-Integration-API_v1.7.md" />
     <File Path="README.md" />
     <File Path="AGENTS.md" />
+    <File Path="global.json" />    
   </Folder>
   <Folder Name="/Solution Items/art/" />
   <Folder Name="/Solution Items/art/font/">
